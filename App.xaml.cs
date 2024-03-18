@@ -13,5 +13,11 @@ namespace 小科狗配置
   /// </summary>
   public partial class App : Application
   {
+    public new void Exit()
+    {
+      this.MainWindow.Close();
+      Application.Current.Shutdown();
+    }
   }
+
 }
