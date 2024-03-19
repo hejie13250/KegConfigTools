@@ -1,495 +1,441 @@
-﻿<Window
-  x:Class="小科狗配置.MainWindow"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:小科狗配置"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  Title="小科狗输入法方案配置"
-  Width="800"
-  Height="1212"
-  ResizeMode="CanMinimize"
-  mc:Ignorable="d">
+﻿<Window x:Class="小科狗配置.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:小科狗配置"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="小科狗输入法方案配置"
+        Width="800"
+        Height="1212"
+        ResizeMode="CanMinimize"
+        mc:Ignorable="d">
 
   <Grid>
     <Grid>
-      <Label
-        x:Name="label123"
-        Width="NaN"
-        Height="24"
-        Margin="10,9,0,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        Content="输入方案：" />
-      <ComboBox
-        x:Name="comboBox"
-        Width="139"
-        Margin="85,10,0,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        SelectionChanged="ComboBox_SelectionChanged" />
-      <Button
-        x:Name="reload_button"
-        Width="80"
-        Height="21"
-        Margin="229,10,0,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        Click="Reload_button_Click"
-        Content="重新载入" />
-      <Button
-        x:Name="default_button"
-        Width="80"
-        Height="21"
-        Margin="314,10,0,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        Click="Default_button_Click"
-        Content="加载模板"
-        IsEnabled="False" />
-      <Button
-        x:Name="apply_button"
-        Width="80"
-        Height="21"
-        Margin="399,10,0,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        Click="Apply_button_Click"
-        Content="应用" />
-      <Button
-        x:Name="ok_button"
-        Width="80"
-        Height="21"
-        Margin="484,10,0,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        Click="OK_button_Click"
-        Content="确认" />
-    </Grid>
-    <TabControl
-      x:Name="tabControl"
-      Width="{Binding ActualWidth, ElementName=Grid_1, Mode=OneWay}"
-      Height="{Binding ActualHeight, ElementName=Grid_1, Mode=OneWay}"
-                Margin="10,40,10,0"
-                VerticalAlignment="Top"
-      BorderBrush="#FF8A8A8A">
-      <TabItem Header="候选框设置" TabIndex="3000">
-        <Grid Width="763" Background="#FFE5E5E5">
-          <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
-            <Grid Height="634" Background="#FFE5E5E5">
-
-              <GroupBox
-                x:Name="groupBox9"
-                Width="410"
-                Height="277"
-                Margin="10,346,0,0"
+      <Label x:Name="label123"
+             Width="NaN"
+             Height="24"
+             Margin="10,9,0,0"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Top"
+             Content="输入方案：" />
+      <ComboBox x:Name="comboBox"
+                Width="139"
+                Margin="85,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="字体和渲𣑱">
+                SelectionChanged="ComboBox_SelectionChanged" />
+      <Button x:Name="reload_button"
+              Width="80"
+              Height="21"
+              Margin="229,10,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Click="Reload_button_Click"
+              Content="重新载入" />
+      <Button x:Name="default_button"
+              Width="80"
+              Height="21"
+              Margin="314,10,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Click="Default_button_Click"
+              Content="加载模板"
+              IsEnabled="False" />
+      <Button x:Name="apply_button"
+              Width="80"
+              Height="21"
+              Margin="399,10,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Click="Apply_button_Click"
+              Content="应用" />
+      <Button x:Name="ok_button"
+              Width="80"
+              Height="21"
+              Margin="484,10,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Click="OK_button_Click"
+              Content="确认" />
+    </Grid>
+    <TabControl x:Name="tabControl"
+                Width="{Binding ActualWidth, ElementName=Grid_1, Mode=OneWay}"
+                Height="{Binding ActualHeight, ElementName=Grid_1, Mode=OneWay}"
+                Margin="10,40,10,0"
+                VerticalAlignment="Top"
+                BorderBrush="#FF8A8A8A">
+      <TabItem Header="候选框设置"
+               TabIndex="3000">
+        <Grid Width="763"
+              Background="#FFE5E5E5">
+          <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Visible">
+            <Grid Height="634"
+                  Background="#FFE5E5E5">
+
+              <GroupBox x:Name="groupBox9"
+                        Width="410"
+                        Height="277"
+                        Margin="10,346,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="字体和渲𣑱">
                 <Grid>
-                  <Label
-                    x:Name="label23"
-                    Height="26"
-                    Margin="5,163,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选框字体名称：" />
-                  <TextBox
-                    x:Name="textBox_Copy145"
-                    Width="234"
-                    Margin="127,168,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="霞鹜文楷 GB 屏幕阅读版 R"
-                    TextWrapping="NoWrap"
-                    ToolTip="若创建指定字体对象失败，就采用plane0字体，还失败则采用黑体" />
-                  <Label
-                    x:Name="label23_Copy"
-                    Height="26"
-                    Margin="5,186,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="D2D回退字体集：" />
-                  <TextBox
-                    x:Name="textBox_Copy10"
-                    Width="266"
-                    Margin="127,190,0,0"
-                    HorizontalAlignment="Left"
-                    Text="Segoe UI Emoji+小科狗字体+黑体+plane2+plane13+全宋体-1+全宋体-2+全宋体-3+全宋体-F+全宋体-X+全宋体(调和)+plane0"
-                    TextWrapping="Wrap"
-                    ToolTip="注:回退字体集也就是后备字体集。字体名间请用+连接,排在前面的字体优先填补回退映射空位" />
+                  <Label x:Name="label23"
+                         Height="26"
+                         Margin="5,163,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选框字体名称：" />
+                  <TextBox x:Name="textBox_Copy145"
+                           Width="234"
+                           Margin="127,168,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="霞鹜文楷 GB 屏幕阅读版 R"
+                           TextWrapping="NoWrap"
+                           ToolTip="若创建指定字体对象失败，就采用plane0字体，还失败则采用黑体" />
+                  <Label x:Name="label23_Copy"
+                         Height="26"
+                         Margin="5,186,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="D2D回退字体集：" />
+                  <TextBox x:Name="textBox_Copy10"
+                           Width="266"
+                           Margin="127,190,0,0"
+                           HorizontalAlignment="Left"
+                           Text="Segoe UI Emoji+小科狗字体+黑体+plane2+plane13+全宋体-1+全宋体-2+全宋体-3+全宋体-F+全宋体-X+全宋体(调和)+plane0"
+                           TextWrapping="Wrap"
+                           ToolTip="注:回退字体集也就是后备字体集。字体名间请用+连接,排在前面的字体优先填补回退映射空位" />
 
 
-                  <StackPanel
-                    Margin="117,11,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFE5E5E5"
-                    Orientation="Horizontal">
-                    <RadioButton
-                      x:Name="radioButton9"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="Direct2D"
-                      IsChecked="True" />
-                    <RadioButton
-                      x:Name="radioButton10"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="GDI"
-                      IsChecked="False" />
-                    <RadioButton
-                      x:Name="radioButton11"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="GDI+"
-                      IsChecked="False" />
+                  <StackPanel Margin="117,11,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Background="#FFE5E5E5"
+                              Orientation="Horizontal">
+                    <RadioButton x:Name="radioButton9"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="Direct2D"
+                                 IsChecked="True" />
+                    <RadioButton x:Name="radioButton10"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="GDI"
+                                 IsChecked="False" />
+                    <RadioButton x:Name="radioButton11"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="GDI+"
+                                 IsChecked="False" />
 
                   </StackPanel>
-                  <Label
-                    x:Name="label23_Copy1"
-                    Height="26"
-                    Margin="7,33,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="D2D字体加粗权值：" />
-                  <local:NumericUpDown
-                    x:Name="nud14"
-                    Width="62"
-                    Height="18"
-                    Margin="129,37,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="10"
-                    MinValue="1"
-                    TabIndex="3105"
-                    Value="0" />
-                  <CheckBox
-                    x:Name="checkBox_Copy314"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="128,103,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="斜体" />
+                  <Label x:Name="label23_Copy1"
+                         Height="26"
+                         Margin="7,33,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="D2D字体加粗权值：" />
+                  <local:NumericUpDown x:Name="nud14"
+                                       Width="62"
+                                       Height="18"
+                                       Margin="128,37,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="10"
+                                       MinValue="1"
+                                       TabIndex="3105"
+                                       Value="0" />
+                  <CheckBox x:Name="checkBox_Copy314"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="127,103,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="斜体" />
 
 
 
 
-                  <StackPanel
-                    Margin="117,58,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFE5E5E5"
-                    Orientation="Horizontal">
-                    <RadioButton
-                      x:Name="radioButton6"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      VerticalAlignment="Top"
-                      Content="正体"
-                      IsChecked="True" />
-                    <RadioButton
-                      x:Name="radioButton7"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      VerticalAlignment="Top"
-                      Content="斜体"
-                      IsChecked="False" />
+                  <StackPanel Margin="117,58,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Background="#FFE5E5E5"
+                              Orientation="Horizontal">
+                    <RadioButton x:Name="radioButton6"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 VerticalAlignment="Top"
+                                 Content="正体"
+                                 IsChecked="True" />
+                    <RadioButton x:Name="radioButton7"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 VerticalAlignment="Top"
+                                 Content="斜体"
+                                 IsChecked="False" />
                   </StackPanel>
-                  <Label
-                    x:Name="label23_Copy2"
-                    Height="26"
-                    Margin="5,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选窗口绘制模式：" />
-                  <Label
-                    x:Name="label23_Copy4"
-                    Height="26"
-                    Margin="7,55,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="D2D字体样式：" />
-                  <Label
-                    x:Name="label23_Copy11"
-                    Height="26"
-                    Margin="7,76,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="GDI字体加粗权值：" />
-                  <local:NumericUpDown
-                    x:Name="nud14_Copy"
-                    Width="62"
-                    Height="18"
-                    Margin="129,80,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="1000"
-                    MinValue="0"
-                    TabIndex="3105"
-                    Value="100" />
-                  <Label
-                    x:Name="label23_Copy3"
-                    Height="26"
-                    Margin="7,97,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="GDI字体样式：" />
-                  <StackPanel
-                    Margin="117,121,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFE5E5E5"
-                    Orientation="Horizontal">
-                    <CheckBox
-                      x:Name="checkBox14"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="常规"
-                      IsChecked="True"
-                      Visibility="Collapsed" />
-                    <CheckBox
-                      x:Name="checkBox15"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="粗体"
-                      IsChecked="False" />
-                    <CheckBox
-                      x:Name="checkBox16"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="斜体"
-                      IsChecked="False" />
-                    <CheckBox
-                      x:Name="checkBox17"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="粗斜体"
-                      IsChecked="False" />
+                  <Label x:Name="label23_Copy2"
+                         Height="26"
+                         Margin="5,10,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选窗口绘制模式：" />
+                  <Label x:Name="label23_Copy4"
+                         Height="26"
+                         Margin="7,55,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="D2D字体样式：" />
+                  <Label x:Name="label23_Copy11"
+                         Height="26"
+                         Margin="7,76,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="GDI字体加粗权值：" />
+                  <local:NumericUpDown x:Name="nud14_Copy"
+                                       Width="62"
+                                       Height="18"
+                                       Margin="128,80,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="1000"
+                                       MinValue="0"
+                                       TabIndex="3105"
+                                       Value="100" />
+                  <Label x:Name="label23_Copy3"
+                         Height="26"
+                         Margin="7,97,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="GDI字体样式：" />
+                  <StackPanel Margin="117,121,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Background="#FFE5E5E5"
+                              Orientation="Horizontal">
+                    <CheckBox x:Name="checkBox14"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="常规"
+                              IsChecked="True"
+                              Visibility="Collapsed" />
+                    <CheckBox x:Name="checkBox15"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="粗体"
+                              IsChecked="False" />
+                    <CheckBox x:Name="checkBox16"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="斜体"
+                              IsChecked="False" />
+                    <CheckBox x:Name="checkBox17"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="粗斜体"
+                              IsChecked="False" />
                   </StackPanel>
-                  <Label
-                    x:Name="label23_Copy12"
-                    Height="26"
-                    Margin="6,120,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="GDI+字体样式：" />
-                  <StackPanel
-                    Margin="117,144,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFE5E5E5"
-                    Orientation="Horizontal">
-                    <CheckBox
-                      x:Name="checkBox18"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="无"
-                      IsChecked="True"
-                      Visibility="Collapsed" />
-                    <CheckBox
-                      x:Name="checkBox19"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="下划线"
-                      IsChecked="False" />
-                    <CheckBox
-                      x:Name="checkBox20"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="删除线"
-                      IsChecked="False" />
+                  <Label x:Name="label23_Copy12"
+                         Height="26"
+                         Margin="6,120,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="GDI+字体样式：" />
+                  <StackPanel Margin="117,144,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Background="#FFE5E5E5"
+                              Orientation="Horizontal">
+                    <CheckBox x:Name="checkBox18"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="无"
+                              IsChecked="True"
+                              Visibility="Collapsed" />
+                    <CheckBox x:Name="checkBox19"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="下划线"
+                              IsChecked="False" />
+                    <CheckBox x:Name="checkBox20"
+                              Height="16"
+                              Margin="10,5,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Content="删除线"
+                              IsChecked="False" />
 
                   </StackPanel>
-                  <Label
-                    x:Name="label23_Copy13"
-                    Height="26"
-                    Margin="6,143,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="GDI+字体加线：" />
-                  <Button
-                    x:Name="button3_Copy"
-                    Height="17"
-                    Margin="366,168,5,0"
-                    Padding="1,-5,1,1"
-                    VerticalAlignment="Top"
-                    Click="Button3_Copy_Click"
-                    Content="..." />
+                  <Label x:Name="label23_Copy13"
+                         Height="26"
+                         Margin="6,143,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="GDI+字体加线：" />
+                  <Button x:Name="button3_Copy"
+                          Height="17"
+                          Margin="366,168,5,0"
+                          Padding="1,-5,1,1"
+                          VerticalAlignment="Top"
+                          Click="Button3_Copy_Click"
+                          Content="..." />
                 </Grid>
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox9_Copy"
-                Height="277"
-                Margin="425,346,9,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="候选框样式">
+              <GroupBox x:Name="groupBox9_Copy"
+                        Height="277"
+                        Margin="425,346,9,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="候选框样式">
                 <Grid>
-                  <Label
-                    x:Name="label3"
-                    Height="26"
-                    Margin="5,5,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选个数：" />
+                  <Label x:Name="label3"
+                         Height="26"
+                         Margin="5,5,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选个数：" />
 
-                  <local:NumericUpDown
-                    x:Name="nud15"
-                    Width="62"
-                    Margin="122,9,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="26"
-                    MinValue="1"
-                    TabIndex="3105"
-                    Value="5" />
-                  <Label
-                    x:Name="label23_Copy5"
-                    Height="26"
-                    Margin="5,27,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选的横向偏离：" />
+                  <local:NumericUpDown x:Name="nud15"
+                                       Width="62"
+                                       Margin="122,9,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="26"
+                                       MinValue="1"
+                                       TabIndex="3105"
+                                       Value="5" />
+                  <Label x:Name="label23_Copy5"
+                         Height="26"
+                         Margin="5,27,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选的横向偏离：" />
 
 
-                  <StackPanel
-                    Margin="110,78,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFE5E5E5"
-                    Orientation="Horizontal">
-                    <RadioButton
-                      x:Name="radioButton8"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="单行"
-                      IsChecked="True" />
-                    <RadioButton
-                      x:Name="radioButton12"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="双行"
-                      IsChecked="False" />
-                    <RadioButton
-                      x:Name="radioButton13"
-                      Height="16"
-                      Margin="10,5,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="竖向"
-                      IsChecked="True" />
+                  <StackPanel Margin="110,78,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Background="#FFE5E5E5"
+                              Orientation="Horizontal">
+                    <RadioButton x:Name="radioButton8"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="单行"
+                                 IsChecked="True" />
+                    <RadioButton x:Name="radioButton12"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="双行"
+                                 IsChecked="False" />
+                    <RadioButton x:Name="radioButton13"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="竖向"
+                                 IsChecked="True" />
                   </StackPanel>
-                  <CheckBox
-                    x:Name="checkBox_Copy38"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,101,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="单行隐藏编码" />
-                  <Label
-                    x:Name="label23_Copy7"
-                    Height="26"
-                    Margin="5,75,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="窗口排列模式：" />
-                  <local:NumericUpDown
-                    x:Name="nud16"
-                    Width="62"
-                    Margin="122,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="10000"
-                    MinValue="0"
-                    TabIndex="3105"
-                    Value="0" />
-                  <Label
-                    x:Name="label23_Copy10"
-                    Height="26"
-                    Margin="5,49,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选高度宽度间距：" />
-                  <local:NumericUpDown
-                    x:Name="nud17"
-                    Width="62"
-                    Margin="122,53,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="10000"
-                    MinValue="0"
-                    TabIndex="3105"
-                    Value="0" />
-                  <local:NumericUpDown
-                    x:Name="nud18"
-                    Width="62"
-                    Margin="190,53,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="10000"
-                    MinValue="0"
-                    TabIndex="3105"
-                    Value="0" />
-                  <CheckBox
-                    x:Name="checkBox_Copy45"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,123,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="上下排列锁定" />
-                  <CheckBox
-                    x:Name="checkBox_Copy46"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="122,123,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="锁定后贴近光标" />
-                  <CheckBox
-                    x:Name="checkBox_Copy44"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,146,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="使用嵌入模式"
-                    IsChecked="True" />
-                  <ComboBox
-                    x:Name="comboBox1"
-                    Width="147"
-                    Margin="122,142,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    SelectedIndex="1">
+                  <CheckBox x:Name="checkBox_Copy38"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,101,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="单行隐藏编码" />
+                  <Label x:Name="label23_Copy7"
+                         Height="26"
+                         Margin="5,75,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="窗口排列模式：" />
+                  <local:NumericUpDown x:Name="nud16"
+                                       Width="62"
+                                       Margin="122,31,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="10000"
+                                       MinValue="0"
+                                       TabIndex="3105"
+                                       Value="0" />
+                  <Label x:Name="label23_Copy10"
+                         Height="26"
+                         Margin="5,49,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选高度宽度间距：" />
+                  <local:NumericUpDown x:Name="nud17"
+                                       Width="62"
+                                       Margin="122,53,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="10000"
+                                       MinValue="0"
+                                       TabIndex="3105"
+                                       Value="0" />
+                  <local:NumericUpDown x:Name="nud18"
+                                       Width="62"
+                                       Margin="190,53,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="10000"
+                                       MinValue="0"
+                                       TabIndex="3105"
+                                       Value="0" />
+                  <CheckBox x:Name="checkBox_Copy45"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,123,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="上下排列锁定" />
+                  <CheckBox x:Name="checkBox_Copy46"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="122,123,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="锁定后贴近光标" />
+                  <CheckBox x:Name="checkBox_Copy44"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,146,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="使用嵌入模式"
+                            IsChecked="True" />
+                  <ComboBox x:Name="comboBox1"
+                            Width="147"
+                            Margin="122,142,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            SelectedIndex="1">
                     <ComboBoxItem Content="编码" />
                     <ComboBoxItem Content="选中候选" />
                     <ComboBoxItem Content="编码和选中候选" />
@@ -498,35 +444,31 @@
                     <ComboBoxItem Content="隐藏候选窗口" />
 
                   </ComboBox>
-                  <Label
-                    x:Name="label23_Copy6"
-                    Height="26"
-                    Margin="5,166,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码表标签：" />
-                  <TextBox
-                    x:Name="textBox_Copy15"
-                    Width="147"
-                    Margin="122,169,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="🐅️"
-                    TextWrapping="NoWrap" />
-                  <Label
-                    x:Name="label23_Copy8"
-                    Height="26"
-                    Margin="5,189,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="标签显示模式：" />
-                  <ComboBox
-                    x:Name="comboBox1_Copy"
-                    Width="147"
-                    Margin="122,191,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    SelectedIndex="2">
+                  <Label x:Name="label23_Copy6"
+                         Height="26"
+                         Margin="5,166,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="码表标签：" />
+                  <TextBox x:Name="textBox_Copy15"
+                           Width="147"
+                           Margin="122,169,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="🐅️"
+                           TextWrapping="NoWrap" />
+                  <Label x:Name="label23_Copy8"
+                         Height="26"
+                         Margin="5,189,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="标签显示模式：" />
+                  <ComboBox x:Name="comboBox1_Copy"
+                            Width="147"
+                            Margin="122,191,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            SelectedIndex="2">
                     <ComboBoxItem Content="不显示" />
                     <ComboBoxItem Content="显示状态" />
                     <ComboBoxItem Content="显示码表标签" />
@@ -535,129 +477,118 @@
                     <ComboBoxItem Content="显示翻页信息" />
 
                   </ComboBox>
-                  <CheckBox
-                    x:Name="checkBox_Copy39"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,215,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码表标签左对齐" />
-                  <CheckBox
-                    x:Name="checkBox_Copy40"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,236,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="窗口大小自动调整"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy41"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="122,101,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="选中背景色与候选窗等宽"
-                    IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy39"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,215,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="码表标签左对齐" />
+                  <CheckBox x:Name="checkBox_Copy40"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,236,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="窗口大小自动调整"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy41"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="122,101,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="选中背景色与候选窗等宽"
+                            IsChecked="True" />
                 </Grid>
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox_Copy"
-                Height="336"
-                Margin="10,10,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="候选框配色"
-                TabIndex="3100">
+              <GroupBox x:Name="groupBox_Copy"
+                        Height="336"
+                        Margin="10,10,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="候选框配色"
+                        TabIndex="3100">
                 <Grid>
 
-                  <Label
-                    x:Name="label23_Copy9"
-                    Height="26"
-                    Margin="6,72,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选窗边框线宽度：" />
+                  <Label x:Name="label23_Copy9"
+                         Height="26"
+                         Margin="6,73,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选窗边框线宽度：" />
 
-                  <CheckBox
-                    x:Name="checkBox_Copy42"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,11,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="显示背景图"
-                    TabIndex="3101" />
-                  <CheckBox
-                    x:Name="hxc_checkBox"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,32,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Click="Hxc_checkBox_Click"
-                    Content="候选窗圆角"
-                    IsChecked="True"
-                    TabIndex="3102" />
-                  <CheckBox
-                    x:Name="hxcbj_checkBox"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="9,55,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Click="Hxcbj_checkBox_Click"
-                    Content="选中项背景圆角"
-                    IsChecked="True"
-                    TabIndex="3104" />
+                  <CheckBox x:Name="checkBox_Copy42"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,11,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="显示背景图"
+                            TabIndex="3101" />
+                  <CheckBox x:Name="hxc_checkBox"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,32,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="Hxc_checkBox_Click"
+                            Content="候选窗圆角"
+                            IsChecked="True"
+                            TabIndex="3102" />
+                  <CheckBox x:Name="hxcbj_checkBox"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,55,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="Hxcbj_checkBox_Click"
+                            Content="选中项背景圆角"
+                            IsChecked="True"
+                            TabIndex="3104" />
 
 
 
 
-                  <local:NumericUpDown
-                    x:Name="nud11"
-                    Width="50"
-                    Height="18"
-                    Margin="131,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    IsEnabled="{Binding IsChecked, ElementName=hxc_checkBox}"
-                    MaxValue="50"
-                    MinValue="1"
-                    TabIndex="3103"
-                    ValueChanged="Nud11_ValueChanged"
-                    Value="15" />
+                  <local:NumericUpDown x:Name="nud11"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="131,31,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       IsEnabled="{Binding IsChecked, ElementName=hxc_checkBox}"
+                                       MaxValue="50"
+                                       MinValue="1"
+                                       TabIndex="3103"
+                                       ValueChanged="Nud11_ValueChanged"
+                                       Value="15" />
 
-                  <local:NumericUpDown
-                    x:Name="nud12"
-                    Width="50"
-                    Height="18"
-                    Margin="131,54,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    IsEnabled="{Binding IsChecked, ElementName=hxcbj_checkBox}"
-                    MaxValue="50"
-                    MinValue="1"
-                    TabIndex="3105"
-                    ToolTip=""
-                    ValueChanged="Nud11_ValueChanged"
-                    Value="10" />
+                  <local:NumericUpDown x:Name="nud12"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="131,54,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       IsEnabled="{Binding IsChecked, ElementName=hxcbj_checkBox}"
+                                       MaxValue="50"
+                                       MinValue="1"
+                                       TabIndex="3105"
+                                       ToolTip=""
+                                       ValueChanged="Nud11_ValueChanged"
+                                       Value="10" />
 
-                  <local:NumericUpDown
-                    x:Name="nud13"
-                    Width="50"
-                    Height="18"
-                    Margin="131,77,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="5"
-                    MinValue="0"
-                    TabIndex="3106"
-                    ToolTip=""
-                    ValueChanged="Nud11_ValueChanged"
-                    Value="2" />
+                  <local:NumericUpDown x:Name="nud13"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="131,77,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="5"
+                                       MinValue="0"
+                                       TabIndex="3106"
+                                       ToolTip=""
+                                       ValueChanged="Nud11_ValueChanged"
+                                       Value="2" />
 
 
 
@@ -667,487 +598,449 @@
 
 
 
-                  <Label
-                    x:Name="color_label_01"
-                    Height="26"
-                    Margin="6,94,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="嵌入下划线色：" />
-                  <Label
-                    x:Name="color_label_02"
-                    Height="26"
-                    Margin="6,117,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="光标色：" />
-                  <Label
-                    x:Name="color_label_04"
-                    Height="26"
-                    Margin="6,163,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选窗口边框色：" />
-                  <Label
-                    x:Name="color_label_05"
-                    Height="26"
-                    Margin="6,186,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选窗背景底色：" />
-                  <Label
-                    x:Name="color_label_06"
-                    Height="26"
-                    Margin="6,209,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选选中背景色：" />
-                  <Label
-                    x:Name="color_label_07"
-                    Height="26"
-                    Margin="6,232,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选选中字体色：" />
-                  <Label
-                    x:Name="color_label_03"
-                    Height="26"
-                    Margin="6,140,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="分隔线色：" />
-                  <Label
-                    x:Name="color_label_08"
-                    Height="26"
-                    Margin="6,255,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码字体色：" />
-                  <Label
-                    x:Name="color_checkBox_09"
-                    x:Uid="String1"
-                    Height="26"
-                    Margin="6,280,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选字体色："
-                    TabIndex="3115" />
+                  <Label x:Name="color_label_01"
+                         Height="26"
+                         Margin="6,96,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="嵌入下划线色：" />
+                  <Label x:Name="color_label_02"
+                         Height="26"
+                         Margin="6,119,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="光标色：" />
+                  <Label x:Name="color_label_04"
+                         Height="26"
+                         Margin="6,165,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选窗口边框色：" />
+                  <CheckBox x:Name="hxcds_checkBox"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,193,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="hxcds_checkBox_Click"
+                            Content="背景底色："
+                            ToolTip="选中后使用对话框背景色"
+                            TabIndex="3104" />
+                  <Label x:Name="color_label_06"
+                         Height="26"
+                         Margin="6,211,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选选中背景色：" />
+                  <Label x:Name="color_label_07"
+                         Height="26"
+                         Margin="6,234,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选选中字体色：" />
+                  <Label x:Name="color_label_03"
+                         Height="26"
+                         Margin="6,0,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Content="分隔线色：" />
+                  <Label x:Name="color_label_08"
+                         Height="26"
+                         Margin="6,257,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码字体色：" />
+                  <Label x:Name="color_checkBox_09"
+                         x:Uid="String1"
+                         Height="26"
+                         Margin="6,280,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选字体色："
+                         TabIndex="3115" />
 
 
 
 
-                  <Label
-                    x:Name="color_label_1"
-                    Width="50"
-                    Height="18"
-                    Margin="131,100,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFFF0000"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3107"
-                    Tag="" />
-                  <Label
-                    x:Name="color_label_2"
-                    Width="50"
-                    Height="18"
-                    Margin="131,123,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FF0066CC"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3105"
-                    Tag="" />
-                  <Label
-                    x:Name="color_label_3"
-                    Width="50"
-                    Height="18"
-                    Margin="131,146,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFDAF692"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3109" />
-                  <Label
-                    x:Name="color_label_4"
-                    Width="50"
-                    Height="18"
-                    Margin="131,169,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FF222222"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3104"
-                    Tag="" />
-                  <Label
-                    x:Name="color_label_5"
-                    Width="50"
-                    Height="18"
-                    Margin="131,192,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FF0066CC"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3111"
-                    Tag="" />
-                  <Label
-                    x:Name="color_label_6"
-                    Width="50"
-                    Height="18"
-                    Margin="131,215,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FF66ED0D"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3112" />
-                  <Label
-                    x:Name="color_label_7"
-                    Width="50"
-                    Height="18"
-                    Margin="131,238,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FF333333"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3113"
-                    Tag="" />
+                  <Label x:Name="color_label_1"
+                         Width="50"
+                         Height="18"
+                         Margin="131,100,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FFFF0000"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3107"
+                         Tag="" />
+                  <Label x:Name="color_label_2"
+                         Width="50"
+                         Height="18"
+                         Margin="131,123,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF0066CC"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3105"
+                         Tag="" />
+                  <Label x:Name="color_label_3"
+                         Width="50"
+                         Height="18"
+                         Margin="131,146,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FFDAF692"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3109" />
+                  <Label x:Name="color_label_4"
+                         Width="50"
+                         Height="18"
+                         Margin="131,169,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF222222"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3104"
+                         Tag="" />
+                  <Label x:Name="color_label_5"
+                         Width="50"
+                         Height="18"
+                         Margin="131,192,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF0066CC"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3111"
+                         Tag="" />
+                  <Label x:Name="color_label_6"
+                         Width="50"
+                         Height="18"
+                         Margin="131,215,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF66ED0D"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3112" />
+                  <Label x:Name="color_label_7"
+                         Width="50"
+                         Height="18"
+                         Margin="131,238,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF333333"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3113"
+                         Tag="" />
 
 
-                  <Label
-                    x:Name="color_label_8"
-                    Width="50"
-                    Height="18"
-                    Margin="131,261,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FF9ACFFF"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3114"
-                    Tag="" />
-                  <Label
-                    x:Name="color_label_9"
-                    Width="50"
-                    Height="18"
-                    Margin="131,284,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFE6CFD8"
-                    BorderBrush="Black"
-                    BorderThickness="1,1,1,1"
-                    Content=""
-                    MouseEnter="Color_label_MouseEnter"
-                    MouseLeave="Color_label_MouseLeave"
-                    MouseUp="Color_label_MouseUp"
-                    TabIndex="3116"
-                    Tag="" />
+                  <Label x:Name="color_label_8"
+                         Width="50"
+                         Height="18"
+                         Margin="131,261,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF9ACFFF"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3114"
+                         Tag="" />
+                  <Label x:Name="color_label_9"
+                         Width="50"
+                         Height="18"
+                         Margin="131,284,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FFE6CFD8"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3116"
+                         Tag="" />
 
-                  <Grid
-                    Width="403"
-                    Height="292"
-                    Margin="311,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top">
-                    <Button
-                      x:Name="button3"
-                      Width="127"
-                      Height="23"
-                      Margin="6,0,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="应用" />
+                  <Grid Width="403"
+                        Height="292"
+                        Margin="311,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    <Button x:Name="button3"
+                            Width="127"
+                            Height="23"
+                            Margin="6,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="应用" />
 
-                    <ListBox
-                      x:Name="colorSchemeListBox"
-                      Width="127"
-                      Height="150"
-                      Margin="6,90,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      d:ItemsSource="{d:SampleData ItemCount=5}"
-                      MouseDoubleClick="ColorSchemeListBox_MouseDoubleClick"
-                      SelectionChanged="ColorSchemeListBox_SelectionChanged">
+                    <ListBox x:Name="colorSchemeListBox"
+                             Width="127"
+                             Height="150"
+                             Margin="6,90,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             d:ItemsSource="{d:SampleData ItemCount=5}"
+                             MouseDoubleClick="ColorSchemeListBox_MouseDoubleClick"
+                             SelectionChanged="ColorSchemeListBox_SelectionChanged">
 
                       <ListBox.ContextMenu>
                         <ContextMenu x:Name="listBoxContextMenu">
-                          <MenuItem Click="MenuItem_Click_1" Header="新建" />
-                          <MenuItem Click="MenuItem_Click_2" Header="修改" />
-                          <MenuItem Click="MenuItem_Click_3" Header="删除" />
+                          <MenuItem Click="MenuItem_Click_1"
+                                    Header="新建" />
+                          <MenuItem Click="MenuItem_Click_2"
+                                    Header="修改" />
+                          <MenuItem Click="MenuItem_Click_3"
+                                    Header="删除" />
                         </ContextMenu>
                       </ListBox.ContextMenu>
                     </ListBox>
-                    <Canvas
-                      x:Name="canvas"
-                      Width="255"
-                      Height="255"
-                      Margin="138,0,10,37"
-                      MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
-                      MouseWheel="Hue_slider_MouseWheel">
+                    <Canvas x:Name="canvas"
+                            Width="255"
+                            Height="255"
+                            Margin="138,0,10,37"
+                            MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                            MouseWheel="Hue_slider_MouseWheel">
                       <Canvas.Background>
                         <ImageBrush ImageSource="{Binding Bitmap}" />
                       </Canvas.Background>
-                      <Thumb
-                        x:Name="thumb"
-                        Canvas.Left="0"
-                        Canvas.Top="0"
-                        Width="12"
-                        Height="12"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        BorderThickness="2"
-                        DragDelta="Thumb_DragDelta"
-                        MouseWheel="Hue_slider_MouseWheel">
+                      <Thumb x:Name="thumb"
+                             Canvas.Left="0"
+                             Canvas.Top="0"
+                             Width="12"
+                             Height="12"
+                             Background="Transparent"
+                             BorderBrush="Black"
+                             BorderThickness="2"
+                             DragDelta="Thumb_DragDelta"
+                             MouseWheel="Hue_slider_MouseWheel">
                         <Thumb.Template>
                           <ControlTemplate TargetType="Thumb">
-                            <Border
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}"
-                              CornerRadius="10"
-                              SnapsToDevicePixels="True" />
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="10"
+                                    SnapsToDevicePixels="True" />
                           </ControlTemplate>
                         </Thumb.Template>
                       </Thumb>
                     </Canvas>
-                    <Label
-                      x:Name="color_label_10"
-                      Width="22"
-                      Height="46"
-                      Margin="6,245,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Background="Red"
-                      BorderBrush="Black"
-                      BorderThickness="1,1,1,1"
-                      Content=""
-                      MouseEnter="Color_label_MouseEnter"
-                      MouseLeave="Color_label_MouseLeave"
-                      MouseUp="Color_label_MouseUp"
-                      TabIndex="3115"
-                      Tag="" />
+                    <Label x:Name="color_label_10"
+                           Width="22"
+                           Height="46"
+                           Margin="6,245,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Background="Red"
+                           BorderBrush="Black"
+                           BorderThickness="1,1,1,1"
+                           Content=""
+                           MouseEnter="Color_label_MouseEnter"
+                           MouseLeave="Color_label_MouseLeave"
+                           MouseUp="Color_label_MouseUp"
+                           TabIndex="3115"
+                           Tag="" />
 
-                    <Label
-                      x:Name="color_label_content"
-                      Height="23"
-                      Margin="33,245,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content=""
-                      Foreground="Red" />
-                    <TextBox
-                      x:Name="color_textBox_0"
-                      Width="100"
-                      Height="18"
-                      Margin="33,273,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      IsReadOnly="True"
-                      Text="(255, 255, 255)"
-                      TextWrapping="NoWrap" />
-                    <Slider
-                      x:Name="hue_slider"
-                      Width="255"
-                      Height="18"
-                      Margin="138,273,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      IsSnapToTickEnabled="True"
-                      LargeChange="1"
-                      Maximum="360"
-                      Minimum="0"
-                      MouseWheel="Hue_slider_MouseWheel"
-                      SmallChange="1"
-                      TickFrequency="1"
-                      ValueChanged="Hue_slider_ValueChanged"
-                      Value="0" />
-                    <Button
-                      x:Name="saveButton"
-                      Width="127"
-                      Height="20"
-                      Margin="6,42,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Click="SaveButton_Click"
-                      Content="保存配色" />
-                    <TextBox
-                      x:Name="color_scheme_name_textBox"
-                      Width="127"
-                      Height="18"
-                      Margin="6,67,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      RenderTransformOrigin="0.688,3.108"
-                      Text=""
-                      TextWrapping="NoWrap" />
+                    <Label x:Name="color_label_content"
+                           Height="23"
+                           Margin="33,245,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content=""
+                           Foreground="Red" />
+                    <TextBox x:Name="color_textBox_0"
+                             Width="100"
+                             Height="18"
+                             Margin="33,273,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             IsReadOnly="True"
+                             Text="(255, 255, 255)"
+                             TextWrapping="NoWrap" />
+                    <Slider x:Name="hue_slider"
+                            Width="255"
+                            Height="18"
+                            Margin="138,273,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            IsSnapToTickEnabled="True"
+                            LargeChange="1"
+                            Maximum="360"
+                            Minimum="0"
+                            MouseWheel="Hue_slider_MouseWheel"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            ValueChanged="Hue_slider_ValueChanged"
+                            Value="0" />
+                    <Button x:Name="saveButton"
+                            Width="127"
+                            Height="20"
+                            Margin="6,42,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="SaveButton_Click"
+                            Content="保存配色" />
+                    <TextBox x:Name="color_scheme_name_textBox"
+                             Width="127"
+                             Height="18"
+                             Margin="6,67,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             RenderTransformOrigin="0.688,3.108"
+                             Text=""
+                             TextWrapping="NoWrap" />
                   </Grid>
 
 
 
-                  <Grid
-                    Width="120"
-                    Height="200"
-                    Margin="186,101,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="#FFF">
-                    <Label
-                      x:Name="label4_Copy"
-                      Width="NaN"
-                      Height="24"
-                      Margin="-3,3,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="小科狗" />
-                    <Label
-                      x:Name="hxz_label_xhx"
-                      Width="15"
-                      Height="2"
-                      Margin="26,23,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      BorderBrush="Red"
-                      BorderThickness="2"
-                      Content="" />
-                    <Border
-                      x:Name="hxk_border"
-                      Width="98"
-                      Margin="18,27,0,21"
-                      HorizontalAlignment="Left"
-                      Background="#FF222222"
-                      BorderBrush="#FF66ED0D"
-                      BorderThickness="{Binding ElementName=nud13, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                      CornerRadius="{Binding ElementName=nud11, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label
-                      x:Name="hxz_label_0"
-                      Height="26"
-                      Margin="26,26,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="mg"
-                      Foreground="#FF9ACFFF" />
-                    <Label
-                      x:Name="hxz_label_gb"
-                      Width="2"
-                      Height="14"
-                      Margin="52,33,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      BorderBrush="#FF0066CC"
-                      BorderThickness="2"
-                      Content="" />
-                    <Label
-                      x:Name="hxz_label_fgx"
-                      Width="88"
-                      Height="1"
-                      Margin="23,49,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      BorderBrush="#FF66ED0D"
-                      BorderThickness="0,1,0,0"
-                      Content="" />
-                    <Border
-                      x:Name="hxz_border"
-                      Height="22"
-                      Margin="22,92,8,86"
-                      Background="#FF66ED0D"
-                      CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label
-                      x:Name="hxz_label_1"
-                      Height="26"
-                      Margin="22,50,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="1. 光"
-                      Foreground="#FFFFFF" />
-                    <Label
-                      x:Name="hxz_label_2"
-                      Height="26"
-                      Margin="22,70,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="2. 周 d"
-                      Foreground="#FFFFFF" />
-                    <Label
-                      x:Name="hxz_label_3"
-                      Height="26"
-                      Margin="22,90,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="3. 狗 j"
-                      Foreground="#FFFFFF" />
-                    <Label
-                      x:Name="hxz_label_4"
-                      Height="26"
-                      Margin="22,110,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="4. 硅 g"
-                      Foreground="#FFFFFF" />
-                    <Label
-                      x:Name="hxz_label_5"
-                      Height="26"
-                      Margin="22,130,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="5. 冉 t"
-                      Foreground="#FFFFFF" />
-                    <Label
-                      x:Name="hxz_label_6"
-                      Height="26"
-                      Margin="22,150,0,0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Content="6. 磋 u"
-                      Foreground="#FFFFFF" />
+                  <Grid Width="120"
+                        Height="200"
+                        Margin="186,101,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#FFF">
+                    <Label x:Name="label4_Copy"
+                           Width="NaN"
+                           Height="24"
+                           Margin="-3,3,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="小科狗" />
+                    <Label x:Name="hxz_label_xhx"
+                           Width="15"
+                           Height="2"
+                           Margin="26,23,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           BorderBrush="Red"
+                           BorderThickness="2"
+                           Content="" />
+                    <Border x:Name="hxk_border"
+                            Width="98"
+                            Margin="18,27,0,21"
+                            HorizontalAlignment="Left"
+                            Background="#FF222222"
+                            BorderBrush="#FF66ED0D"
+                            BorderThickness="{Binding ElementName=nud13, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                            CornerRadius="{Binding ElementName=nud11, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label x:Name="hxz_label_0"
+                           Height="26"
+                           Margin="26,26,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="mg"
+                           Foreground="#FF9ACFFF" />
+                    <Label x:Name="hxz_label_gb"
+                           Width="2"
+                           Height="14"
+                           Margin="52,33,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           BorderBrush="#FF0066CC"
+                           BorderThickness="2"
+                           Content="" />
+                    <Label x:Name="hxz_label_fgx"
+                           Width="88"
+                           Height="1"
+                           Margin="23,49,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           BorderBrush="#FF66ED0D"
+                           BorderThickness="0,1,0,0"
+                           Content="" />
+                    <Border x:Name="hxz_border"
+                            Height="22"
+                            Margin="22,92,8,86"
+                            Background="#FF66ED0D"
+                            CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label x:Name="hxz_label_1"
+                           Height="26"
+                           Margin="22,50,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="1. 光"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_2"
+                           Height="26"
+                           Margin="22,70,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="2. 周 d"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_3"
+                           Height="26"
+                           Margin="22,90,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="3. 狗 j"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_4"
+                           Height="26"
+                           Margin="22,110,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="4. 硅 g"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_5"
+                           Height="26"
+                           Margin="22,130,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="5. 冉 t"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_6"
+                           Height="26"
+                           Margin="22,150,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="6. 磋 u"
+                           Foreground="#FFFFFF" />
 
                   </Grid>
-                  <TextBox
-                    x:Name="textBox_Copy24"
-                    Width="120"
-                    Margin="186,7,0,219"
-                    HorizontalAlignment="Left"
-                    Text="&lt;0=(154, 207, 255)&gt;&lt;1=(230, 227, 216)&gt;&lt;2=(230, 227, 216)&gt;&lt;3=(230, 227, 216)&gt;&lt;4=(230, 227, 216)&gt;&lt;5=(230, 227, 216)&gt;&lt;6=(230, 227, 216)&gt;&lt;7=(230, 227, 216)&gt;&lt;8=(230, 227, 216)&gt;&lt;9=(230, 227, 216)&gt;&lt;10=(230, 227, 216)&gt;&lt;11=(0,0,0)&gt;&lt;12=(0,0,0)&gt;&lt;13=(0,0,0)&gt;&lt;14=(0,0,0)&gt;&lt;15=(0,0,0)&gt;&lt;16=(0,0,0)&gt;&lt;17=(0,0,0)&gt;&lt;18=(0,0,0)&gt;&lt;19=(0,0,0)&gt;&lt;20=(0,0,0)&gt;&lt;21=(0,0,0)&gt;&lt;22=(0,0,0)&gt;&lt;23=(0,0,0)&gt;&lt;24=(0,0,0)&gt;&lt;25=(0,0,0)&gt;&lt;26=(0,0,0)&gt;&#xD;&#xA;"
-                    TextWrapping="Wrap"
-                    Visibility="Collapsed" />
+                  <TextBox x:Name="textBox_Copy24"
+                           Width="120"
+                           Margin="186,7,0,219"
+                           HorizontalAlignment="Left"
+                           Text="&lt;0=(154, 207, 255)&gt;&lt;1=(230, 227, 216)&gt;&lt;2=(230, 227, 216)&gt;&lt;3=(230, 227, 216)&gt;&lt;4=(230, 227, 216)&gt;&lt;5=(230, 227, 216)&gt;&lt;6=(230, 227, 216)&gt;&lt;7=(230, 227, 216)&gt;&lt;8=(230, 227, 216)&gt;&lt;9=(230, 227, 216)&gt;&lt;10=(230, 227, 216)&gt;&lt;11=(0,0,0)&gt;&lt;12=(0,0,0)&gt;&lt;13=(0,0,0)&gt;&lt;14=(0,0,0)&gt;&lt;15=(0,0,0)&gt;&lt;16=(0,0,0)&gt;&lt;17=(0,0,0)&gt;&lt;18=(0,0,0)&gt;&lt;19=(0,0,0)&gt;&lt;20=(0,0,0)&gt;&lt;21=(0,0,0)&gt;&lt;22=(0,0,0)&gt;&lt;23=(0,0,0)&gt;&lt;24=(0,0,0)&gt;&lt;25=(0,0,0)&gt;&lt;26=(0,0,0)&gt;&#xD;&#xA;"
+                           TextWrapping="Wrap"
+                           Visibility="Collapsed" />
 
 
 
@@ -1164,1100 +1057,971 @@
         </Grid>
       </TabItem>
       <TabItem Header="方案设置">
-        <Grid Width="763" Background="#FFE5E5E5">
-          <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
-            <Grid Height="1130" Background="#FFE5E5E5">
-              <GroupBox
-                x:Name="groupBox1"
-                Width="366"
-                Height="219"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="码表设置">
-                <Grid>
-                  <Label
-                    x:Name="label122"
-                    Margin="6,5,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="大键盘码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy677"
-                    Width="215"
-                    Margin="129,9,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="abcdefghijklmnopqrstuvwxyz" />
-                  <Label
-                    x:Name="label122_Copy"
-                    Margin="6,27,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="小键盘码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy5"
-                    Width="215"
-                    Margin="129,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="" />
-                  <Label
-                    x:Name="label122_Copy1"
-                    Margin="6,49,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="大小键盘万能码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy6"
-                    Width="215"
-                    Margin="129,53,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="" />
-                  <Label
-                    x:Name="label122_Copy2"
-                    Margin="6,71,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="非编码大键盘码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy7"
-                    Width="215"
-                    Margin="129,75,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="" />
-                  <Label
-                    x:Name="label122_Copy3"
-                    Margin="6,93,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="非编码小键盘码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy8"
-                    Width="215"
-                    Margin="129,97,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="" />
-                  <Label
-                    x:Name="label122_Copy4"
-                    Margin="6,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="最大码长：" />
-                  <local:NumericUpDown
-                    x:Name="nud1"
-                    Width="60"
-                    Height="18"
-                    Margin="129,118,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="1000"
-                    MinValue="0"
-                    ToolTip="0-1000"
-                    Value="5" />
-                  <TextBox
-                    x:Name="textBox125"
-                    Width="215"
-                    Margin="129,141,0,8"
-                    HorizontalAlignment="Left"
-                    Text="a𠃌b女c火d口e木f一g土h八i丶j亻k水l艹m⼤n十o日p镸q目rㄡs讠t㇒u𰀁v⼔w宀x𥝌y⺌z金"
-                    TextWrapping="Wrap" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy55"
-                    Height="16"
-                    Margin="10,141,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="键首字根码表" />
-                </Grid>
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox2"
-                Height="182"
-                Margin="381,233,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="顶功设置">
-
-                <Grid>
-                  <Label
-                    x:Name="label1"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="顶功小集码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy675"
-                    Width="224"
-                    Margin="109,14,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top" />
-                  <RadioButton
-                    x:Name="radioButton454"
-                    Margin="109,38,107,106"
-                    Content="大集连小集码元顶屏"
-                    IsChecked="True" />
-                  <RadioButton
-                    x:Name="radioButton455"
-                    Margin="109,59,83,85"
-                    Content="小集码元接大集码元顶屏"
-                    IsChecked="False" />
-                  <RadioButton
-                    x:Name="radioButton456"
-                    Margin="109,80,35,64"
-                    Content="小集接大集或大集接小集码元顶屏" />
-                  <Label
-                    x:Name="label1_Copy"
-                    Margin="10,34,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="顶功规则：" />
-                </Grid>
-
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox3"
-                Height="219"
-                Margin="381,10,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="标点设置">
-                <Grid>
-                  <CheckBox
-                    x:Name="checkBox_Copy31"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="关联中文标点"
-                    IsChecked="True" />
-                  <Label
-                    x:Name="label8"
-                    Height="26"
-                    Margin="10,23,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="大键盘中文标点和按下Shift后的中文标点：" />
-                  <TextBox
-                    x:Name="textBox_Copy68"
-                    Width="334"
-                    Height="66"
-                    Margin="0,49,0,84"
-                    HorizontalAlignment="Center"
-                    Text="&lt;`=~&gt;&lt;1=1&gt;&lt;2=2&gt;&lt;3=3&gt;&lt;4=4&gt;&lt;5=5&gt;&lt;6=6&gt;&lt;7=7&gt;&lt;8=8&gt;&lt;9=9&gt;&lt;0=0&gt;&lt;-=-&gt;&lt;===&gt;&lt;[=[&gt;&lt;]=]&gt;&lt;;=；&gt;&lt;'=‘’&gt;&lt;\=\&gt;&lt;,=，&gt;&lt;.=。&gt;&lt;/=、&gt;"
-                    TextWrapping="Wrap"
-                    ToolTip="中英书名号分别用+[]+ 和-[]-替代" />
-                  <TextBox
-                    x:Name="textBox_Copy69"
-                    Width="334"
-                    Height="66"
-                    Margin="0,121,0,10"
-                    HorizontalAlignment="Center"
-                    Text="&lt;`=~&gt;&lt;1=！&gt;&lt;2=@&gt;&lt;3=#&gt;&lt;4=￥&gt;&lt;5=%&gt;&lt;6=……&gt;&lt;7=&amp;&gt;&lt;8=*&gt;&lt;9=（&gt;&lt;0=）&gt;&lt;-=——&gt;&lt;==+&gt;&lt;[={&gt;&lt;]=}&gt;&lt;;=：&gt;&lt;'=“”&gt;&lt;\=|&gt;&lt;,=+[&gt;&lt;.=]+&gt;&lt;/=？&gt;"
-                    TextWrapping="Wrap"
-                    ToolTip="中英书名号分别用+[]+ 和-[]-替代" />
-                </Grid>
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox4"
-                Width="366"
-                Height="182"
-                Margin="10,233,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="动作设置">
-                <Grid>
-                  <CheckBox
-                    x:Name="checkBox_Copy34"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="显示键首字根" />
-                  <CheckBox
-                    x:Name="checkBox_Copy18"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="上屏后隐藏候选窗"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy19"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,52,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="超过码长时清屏" />
-                  <CheckBox
-                    x:Name="checkBox_Copy20"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,73,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="无候选时清屏" />
-                  <CheckBox
-                    x:Name="checkBox_Copy21"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,94,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="最大码长无候选清屏" />
-                  <CheckBox
-                    x:Name="checkBox_Copy22"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="无候选空格上屏编码" />
-                  <CheckBox
-                    x:Name="checkBox_Copy23"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="10,136,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Shift上屏编码"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy24"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Shift+字母键进入临时英文"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy25"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Space上屏临时英文" />
-                  <CheckBox
-                    x:Name="checkBox_Copy26"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,52,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Enter上屏编码" />
-                  <CheckBox
-                    x:Name="checkBox_Copy27"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,73,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Enter上屏首字母大写" />
-                  <CheckBox
-                    x:Name="checkBox_Copy28"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,94,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Backspace删除前上屏所有"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy29"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="数字后上屏。转 *" />
-                  <CheckBox
-                    x:Name="checkBox_Copy30"
-                    x:Uid="String1"
-                    Height="16"
-                    Margin="171,136,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="过渡态按1上屏1"
-                    IsChecked="True" />
-                </Grid>
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox5"
-                Height="184"
-                Margin="566,421,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="翻页按键">
-                <Grid>
-                  <Label
-                    x:Name="label12"
-                    Height="26"
-                    Margin="5,5,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="上翻页大键盘符号：" />
-                  <TextBox
-                    x:Name="textBox_Copy21"
-                    Width="30"
-                    Margin="123,9,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="-["
-                    TextWrapping="NoWrap" />
-                  <Label
-                    x:Name="label12_Copy"
-                    Height="26"
-                    Margin="5,27,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="下翻页大键盘符号：" />
-                  <TextBox
-                    x:Name="textBox_Copy2"
-                    Width="30"
-                    Margin="123,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="=]"
-                    TextWrapping="NoWrap" />
-                  <Label
-                    x:Name="label12_Copy1"
-                    Height="26"
-                    Margin="5,49,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="上翻页小键盘符号：" />
-                  <TextBox
-                    x:Name="textBox_Copy3"
-                    Width="30"
-                    Margin="123,53,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="+"
-                    TextWrapping="NoWrap" />
-                  <Label
-                    x:Name="label12_Copy2"
-                    Height="26"
-                    Margin="5,71,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="下翻页小键盘符号：" />
-                  <TextBox
-                    x:Name="textBox_Copy4"
-                    Width="30"
-                    Margin="123,75,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="-"
-                    TextWrapping="NoWrap" />
-                </Grid>
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox6"
-                Width="366"
-                Height="184"
-                Margin="10,421,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="上屏设置">
-                <Grid>
-                  <Label
-                    x:Name="label6"
-                    Height="26"
-                    Margin="6,6,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选快键字符：" />
-                  <TextBox
-                    x:Name="textBox_Copy66"
-                    Width="236"
-                    Margin="108,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=sp&gt;&lt;2=;&gt;&lt;3='&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="左Shift用ls、右Shift用rs、左ctrl用lc、右ctrl用rc、空格键用sp、回车键用en、Tab键用ta以及CapsLock键用ca代替" />
-                  <Label
-                    x:Name="label7"
-                    Height="26"
-                    Margin="6,28,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选序号：" />
-                  <TextBox
-                    x:Name="textBox_Copy67"
-                    Width="236"
-                    Height="95"
-                    Margin="108,32,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=¹sp&gt;&lt;2=²sp&gt;&lt;3=³sp&gt;&lt;4=⁴sp&gt;&lt;5=⁵sp&gt;&lt;6=⁶sp&gt;&lt;7=⁷sp &gt;&lt;8=⁸sp &gt;&lt;9=⁹sp&gt;&lt;10=¹⁰sp&gt;"
-                    TextWrapping="Wrap"
-                    ToolTip="空格用sp代替,Tab用ta代替" />
-
-                  <CheckBox
-                    x:Name="checkBox1_Copy111"
-                    Height="16"
-                    Margin="10,55,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码长顶屏" />
-                  <local:NumericUpDown
-                    x:Name="nud4"
-                    Width="50"
-                    Height="18"
-                    Margin="108,138,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="9"
-                    MinValue="1"
-                    ToolTip="唯一上屏最小码长大于 0"
-                    Value="4" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy5"
-                    Height="16"
-                    Margin="10,139,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="唯一上屏" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy6"
-                    Height="16"
-                    Margin="10,97,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="标点顶屏" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy7"
-                    Height="16"
-                    Margin="10,76,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="数字顶屏" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy8"
-                    Height="16"
-                    Margin="10,118,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="引导键顶屏" />
-
-                </Grid>
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox7"
-                Width="180"
-                Height="184"
-                Margin="381,421,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="中英切换">
-                <Grid>
-                  <CheckBox
-                    x:Name="checkBox_Copy11"
-                    Height="16"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="中英切换要显示提示"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy12"
-                    Height="16"
-                    Margin="10,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="中英切换上屏编码"
-                    IsChecked="True"
-                    ToolTip="此项要取消Shift上屏编码串" />
-                  <CheckBox
-                    x:Name="checkBox_Copy13"
-                    Height="16"
-                    Margin="10,52,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用左Shift键"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy14"
-                    Height="16"
-                    Margin="10,73,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用右Shift键"
-                    IsChecked="True" />
-                  <CheckBox
-                    x:Name="checkBox_Copy15"
-                    Height="16"
-                    Margin="10,94,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用左Ctrl键" />
-                  <CheckBox
-                    x:Name="checkBox_Copy16"
-                    Height="16"
-                    Margin="10,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用右Ctrl键" />
-                  <CheckBox
-                    x:Name="checkBox_Copy17"
-                    Height="16"
-                    Margin="10,136,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用Ctrl+Space键" />
-                </Grid>
-              </GroupBox>
-              <GroupBox
-                x:Name="groupBox8"
-                Width="180"
-                Height="54"
-                Margin="381,776,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="重复上屏">
-                <Grid>
-                  <Label
-                    x:Name="label2"
-                    Height="26"
-                    Margin="5,5,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="重复上屏码元：" />
-                  <TextBox
-                    x:Name="textBox_Copy1"
-                    Width="30"
-                    Margin="104,9,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="0"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                </Grid>
-              </GroupBox>
-
-              <GroupBox
-                x:Name="groupBox10"
-                Width="366"
-                Height="220"
-                Margin="10,610,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="词语联想">
-                <Grid>
-                  <CheckBox
-                    x:Name="checkBox_Copy4"
-                    Height="16"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="词语联想" />
-                  <GroupBox
-                    x:Name="groupBox15"
-                    Width="174"
-                    Height="92"
-                    Margin="170,4,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    BorderBrush="#FF8A8A8A"
-                    Header="联想模式">
-                    <StackPanel Background="#FFE5E5E5" Orientation="Vertical">
-                      <RadioButton
-                        x:Name="radioButton"
-                        Height="16"
+        <Grid Width="763"
+              Background="#FFE5E5E5">
+          <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Visible">
+            <Grid Height="1130"
+                  Background="#FFE5E5E5">
+              <GroupBox x:Name="groupBox1"
+                        Width="366"
+                        Height="219"
                         Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        Content="仅单字上屏联想" />
-                      <RadioButton
-                        x:Name="radioButton1"
-                        Height="16"
-                        Margin="10,5,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="仅词上屏联想"
-                        IsChecked="False" />
-                      <RadioButton
-                        x:Name="radioButton2"
-                        Height="16"
-                        Margin="10,5,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="单字和词上屏皆联想"
-                        IsChecked="True" />
-                    </StackPanel>
-                  </GroupBox>
-                  <GroupBox
-                    x:Name="groupBox15_Copy"
-                    Width="174"
-                    Height="92"
-                    Margin="170,99,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    BorderBrush="#FF8A8A8A"
-                    Header="联想检索范围">
-                    <StackPanel Background="#FFE5E5E5" Orientation="Vertical">
-                      <RadioButton
-                        x:Name="radioButton3"
-                        Height="16"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="只检索 key=1#*" />
-                      <RadioButton
-                        x:Name="radioButton4"
-                        Height="16"
-                        Margin="10,5,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="不检索 key=1#*"
-                        IsChecked="False" />
-                      <RadioButton
-                        x:Name="radioButton5"
-                        Height="16"
-                        Margin="10,5,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="检索除 key=0#* 外所有"
-                        IsChecked="True" />
-                    </StackPanel>
-                  </GroupBox>
-                  <CheckBox
-                    x:Name="checkBox_Copy5"
-                    Height="16"
-                    Margin="10,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="显示全部词语" />
-                  <CheckBox
-                    x:Name="checkBox_Copy6"
-                    Height="16"
-                    Margin="10,52,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="匹配首位" />
-                  <CheckBox
-                    x:Name="checkBox_Copy7"
-                    Height="16"
-                    Margin="10,73,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="标点顶屏" />
-                  <CheckBox
-                    x:Name="checkBox_Copy8"
-                    Height="16"
-                    Margin="10,94,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="精准匹配"
-                    ToolTip="上屏词条精准匹配key=1*的值进行词语联想吗？该项仅对词语联想检索范围=1时有效" />
-                  <CheckBox
-                    x:Name="checkBox_Copy9"
-                    Height="16"
-                    Margin="10,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="模糊联想"
-                    ToolTip="精准匹配key=1*的值时要词语模糊联想吗？该项仅对词语联想检索范围=1时有效" />
-                  <CheckBox
-                    x:Name="checkBox_Copy10"
-                    Height="16"
-                    Margin="10,136,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="Ctrl键清除联想" />
+                        BorderBrush="#FF8A8A8A"
+                        Header="码表设置">
+                <Grid>
+                  <Label x:Name="label122"
+                         Margin="6,5,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="大键盘码元：" />
+                  <TextBox x:Name="textBox_Copy677"
+                           Width="215"
+                           Margin="129,9,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="abcdefghijklmnopqrstuvwxyz" />
+                  <Label x:Name="label122_Copy"
+                         Margin="6,27,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="小键盘码元：" />
+                  <TextBox x:Name="textBox_Copy5"
+                           Width="215"
+                           Margin="129,31,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="" />
+                  <Label x:Name="label122_Copy1"
+                         Margin="6,49,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="大小键盘万能码元：" />
+                  <TextBox x:Name="textBox_Copy6"
+                           Width="215"
+                           Margin="129,53,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="" />
+                  <Label x:Name="label122_Copy2"
+                         Margin="6,71,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="非编码大键盘码元：" />
+                  <TextBox x:Name="textBox_Copy7"
+                           Width="215"
+                           Margin="129,75,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="" />
+                  <Label x:Name="label122_Copy3"
+                         Margin="6,93,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="非编码小键盘码元：" />
+                  <TextBox x:Name="textBox_Copy8"
+                           Width="215"
+                           Margin="129,97,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="" />
+                  <Label x:Name="label122_Copy4"
+                         Margin="6,115,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="最大码长：" />
+                  <local:NumericUpDown x:Name="nud1"
+                                       Width="60"
+                                       Height="18"
+                                       Margin="129,118,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="1000"
+                                       MinValue="0"
+                                       ToolTip="0-1000"
+                                       Value="5" />
+                  <TextBox x:Name="textBox125"
+                           Width="215"
+                           Margin="129,141,0,8"
+                           HorizontalAlignment="Left"
+                           Text="a𠃌b女c火d口e木f一g土h八i丶j亻k水l艹m⼤n十o日p镸q目rㄡs讠t㇒u𰀁v⼔w宀x𥝌y⺌z金"
+                           TextWrapping="Wrap" />
+                  <CheckBox x:Name="checkBox1_Copy55"
+                            Height="16"
+                            Margin="10,141,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="键首字根码表" />
                 </Grid>
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox11"
-                Height="56"
-                Margin="566,776,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="自动造词">
+              <GroupBox x:Name="groupBox2"
+                        Height="182"
+                        Margin="381,233,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="顶功设置">
+
                 <Grid>
-                  <CheckBox
-                    x:Name="checkBox_Copy3"
-                    Height="16"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用ESC键自动造词吗"
-                    ToolTip="中文态打出编码按返回键,然后打一些字，再按返回键（窗口隐藏），编码与这些字符自动成词" />
+                  <Label x:Name="label1"
+                         Margin="10,10,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="顶功小集码元：" />
+                  <TextBox x:Name="textBox_Copy675"
+                           Width="224"
+                           Margin="109,14,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top" />
+                  <RadioButton x:Name="radioButton454"
+                               Margin="109,38,107,106"
+                               Content="大集连小集码元顶屏"
+                               IsChecked="True" />
+                  <RadioButton x:Name="radioButton455"
+                               Margin="109,59,83,85"
+                               Content="小集码元接大集码元顶屏"
+                               IsChecked="False" />
+                  <RadioButton x:Name="radioButton456"
+                               Margin="109,80,35,64"
+                               Content="小集接大集或大集接小集码元顶屏" />
+                  <Label x:Name="label1_Copy"
+                         Margin="10,34,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="顶功规则：" />
+                </Grid>
+
+              </GroupBox>
+              <GroupBox x:Name="groupBox3"
+                        Height="219"
+                        Margin="381,10,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="标点设置">
+                <Grid>
+                  <CheckBox x:Name="checkBox_Copy31"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="关联中文标点"
+                            IsChecked="True" />
+                  <Label x:Name="label8"
+                         Height="26"
+                         Margin="10,23,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="大键盘中文标点和按下Shift后的中文标点：" />
+                  <TextBox x:Name="textBox_Copy68"
+                           Width="334"
+                           Height="66"
+                           Margin="0,49,0,84"
+                           HorizontalAlignment="Center"
+                           Text="&lt;`=~&gt;&lt;1=1&gt;&lt;2=2&gt;&lt;3=3&gt;&lt;4=4&gt;&lt;5=5&gt;&lt;6=6&gt;&lt;7=7&gt;&lt;8=8&gt;&lt;9=9&gt;&lt;0=0&gt;&lt;-=-&gt;&lt;===&gt;&lt;[=[&gt;&lt;]=]&gt;&lt;;=；&gt;&lt;'=‘’&gt;&lt;\=\&gt;&lt;,=，&gt;&lt;.=。&gt;&lt;/=、&gt;"
+                           TextWrapping="Wrap"
+                           ToolTip="中英书名号分别用+[]+ 和-[]-替代" />
+                  <TextBox x:Name="textBox_Copy69"
+                           Width="334"
+                           Height="66"
+                           Margin="0,121,0,10"
+                           HorizontalAlignment="Center"
+                           Text="&lt;`=~&gt;&lt;1=！&gt;&lt;2=@&gt;&lt;3=#&gt;&lt;4=￥&gt;&lt;5=%&gt;&lt;6=……&gt;&lt;7=&amp;&gt;&lt;8=*&gt;&lt;9=（&gt;&lt;0=）&gt;&lt;-=——&gt;&lt;==+&gt;&lt;[={&gt;&lt;]=}&gt;&lt;;=：&gt;&lt;'=“”&gt;&lt;\=|&gt;&lt;,=+[&gt;&lt;.=]+&gt;&lt;/=？&gt;"
+                           TextWrapping="Wrap"
+                           ToolTip="中英书名号分别用+[]+ 和-[]-替代" />
                 </Grid>
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox12"
-                Height="285"
-                Margin="381,835,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="引导码表检索">
+              <GroupBox x:Name="groupBox4"
+                        Width="366"
+                        Height="182"
+                        Margin="10,233,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="动作设置">
                 <Grid>
-                  <Label
-                    x:Name="label4"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码表引导快键0：" />
-                  <Label
-                    x:Name="label4_Copy1"
-                    Margin="10,36,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名0：" />
-                  <Label
-                    x:Name="label4_Copy2"
-                    Margin="10,62,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名1：" />
-                  <TextBox
-                    x:Name="textBox_Copy"
-                    Width="30"
-                    Margin="116,14,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="`"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy9"
-                    Width="253"
-                    Height="21"
-                    Margin="80,38,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy11"
-                    Width="253"
-                    Height="21"
-                    Margin="80,64,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <Label
-                    x:Name="label4_Copy3"
-                    Margin="10,89,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码表引导快键1：" />
-                  <Label
-                    x:Name="label4_Copy4"
-                    Margin="10,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名0：" />
-                  <Label
-                    x:Name="label4_Copy5"
-                    Margin="10,141,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名1：" />
-                  <TextBox
-                    x:Name="textBox_Copy12"
-                    Width="30"
-                    Margin="116,93,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="["
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy13"
-                    Width="253"
-                    Height="21"
-                    Margin="80,117,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy14"
-                    Width="253"
-                    Height="21"
-                    Margin="80,143,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <Label
-                    x:Name="label4_Copy6"
-                    Margin="10,168,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码表引导快键2：" />
-                  <Label
-                    x:Name="label4_Copy7"
-                    Margin="10,194,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名0：" />
-                  <Label
-                    x:Name="label4_Copy8"
-                    Margin="10,220,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名1：" />
-                  <TextBox
-                    x:Name="textBox_Copy16"
-                    Width="30"
-                    Margin="116,172,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="]"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy17"
-                    Width="253"
-                    Height="21"
-                    Margin="80,196,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy18"
-                    Width="253"
-                    Height="21"
-                    Margin="80,222,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <CheckBox x:Name="checkBox_Copy34"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="显示键首字根" />
+                  <CheckBox x:Name="checkBox_Copy18"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,31,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="上屏后隐藏候选窗"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy19"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,52,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="超过码长时清屏" />
+                  <CheckBox x:Name="checkBox_Copy20"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,73,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="无候选时清屏" />
+                  <CheckBox x:Name="checkBox_Copy21"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,94,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="最大码长无候选清屏" />
+                  <CheckBox x:Name="checkBox_Copy22"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,115,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="无候选空格上屏编码" />
+                  <CheckBox x:Name="checkBox_Copy23"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="10,136,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Shift上屏编码"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy24"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Shift+字母键进入临时英文"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy25"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,31,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Space上屏临时英文" />
+                  <CheckBox x:Name="checkBox_Copy26"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,52,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Enter上屏编码" />
+                  <CheckBox x:Name="checkBox_Copy27"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,73,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Enter上屏首字母大写" />
+                  <CheckBox x:Name="checkBox_Copy28"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,94,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Backspace删除前上屏所有"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy29"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,115,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="数字后上屏。转 *" />
+                  <CheckBox x:Name="checkBox_Copy30"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="171,136,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="过渡态按1上屏1"
+                            IsChecked="True" />
+                </Grid>
+              </GroupBox>
+              <GroupBox x:Name="groupBox5"
+                        Height="184"
+                        Margin="566,421,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="翻页按键">
+                <Grid>
+                  <Label x:Name="label12"
+                         Height="26"
+                         Margin="5,5,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="上翻页大键盘符号：" />
+                  <TextBox x:Name="textBox_Copy21"
+                           Width="30"
+                           Margin="123,9,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="-["
+                           TextWrapping="NoWrap" />
+                  <Label x:Name="label12_Copy"
+                         Height="26"
+                         Margin="5,27,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="下翻页大键盘符号：" />
+                  <TextBox x:Name="textBox_Copy2"
+                           Width="30"
+                           Margin="123,31,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="=]"
+                           TextWrapping="NoWrap" />
+                  <Label x:Name="label12_Copy1"
+                         Height="26"
+                         Margin="5,49,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="上翻页小键盘符号：" />
+                  <TextBox x:Name="textBox_Copy3"
+                           Width="30"
+                           Margin="123,53,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="+"
+                           TextWrapping="NoWrap" />
+                  <Label x:Name="label12_Copy2"
+                         Height="26"
+                         Margin="5,71,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="下翻页小键盘符号：" />
+                  <TextBox x:Name="textBox_Copy4"
+                           Width="30"
+                           Margin="123,75,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="-"
+                           TextWrapping="NoWrap" />
+                </Grid>
+              </GroupBox>
+              <GroupBox x:Name="groupBox6"
+                        Width="366"
+                        Height="184"
+                        Margin="10,421,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="上屏设置">
+                <Grid>
+                  <Label x:Name="label6"
+                         Height="26"
+                         Margin="6,6,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选快键字符：" />
+                  <TextBox x:Name="textBox_Copy66"
+                           Width="236"
+                           Margin="108,10,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=sp&gt;&lt;2=;&gt;&lt;3='&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="左Shift用ls、右Shift用rs、左ctrl用lc、右ctrl用rc、空格键用sp、回车键用en、Tab键用ta以及CapsLock键用ca代替" />
+                  <Label x:Name="label7"
+                         Height="26"
+                         Margin="6,28,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选序号：" />
+                  <TextBox x:Name="textBox_Copy67"
+                           Width="236"
+                           Height="95"
+                           Margin="108,32,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=¹sp&gt;&lt;2=²sp&gt;&lt;3=³sp&gt;&lt;4=⁴sp&gt;&lt;5=⁵sp&gt;&lt;6=⁶sp&gt;&lt;7=⁷sp &gt;&lt;8=⁸sp &gt;&lt;9=⁹sp&gt;&lt;10=¹⁰sp&gt;"
+                           TextWrapping="Wrap"
+                           ToolTip="空格用sp代替,Tab用ta代替" />
+
+                  <CheckBox x:Name="checkBox1_Copy111"
+                            Height="16"
+                            Margin="10,55,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="码长顶屏" />
+                  <local:NumericUpDown x:Name="nud4"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="108,138,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="9"
+                                       MinValue="1"
+                                       ToolTip="唯一上屏最小码长大于 0"
+                                       Value="4" />
+                  <CheckBox x:Name="checkBox1_Copy5"
+                            Height="16"
+                            Margin="10,139,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="唯一上屏" />
+                  <CheckBox x:Name="checkBox1_Copy6"
+                            Height="16"
+                            Margin="10,97,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="标点顶屏" />
+                  <CheckBox x:Name="checkBox1_Copy7"
+                            Height="16"
+                            Margin="10,76,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="数字顶屏" />
+                  <CheckBox x:Name="checkBox1_Copy8"
+                            Height="16"
+                            Margin="10,118,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="引导键顶屏" />
 
                 </Grid>
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox13"
-                Width="366"
-                Height="285"
-                Margin="10,835,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="临时码表检索">
+              <GroupBox x:Name="groupBox7"
+                        Width="180"
+                        Height="184"
+                        Margin="381,421,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="中英切换">
                 <Grid>
-                  <Label
-                    x:Name="label4_Copy9"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="码表临时快键：" />
-                  <Label
-                    x:Name="label4_Copy10"
-                    Margin="10,36,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="编码名：" />
-                  <TextBox
-                    x:Name="textBox_Copy19"
-                    Width="30"
-                    Margin="116,14,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="\"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy20"
-                    Width="241"
-                    Height="21"
-                    Margin="92,38,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="&lt;1=\&gt;&lt;2=[重复]{[s]}&gt;"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy22"
-                    Width="241"
-                    Height="21"
-                    Margin="92,64,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="👉"
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <TextBox
-                    x:Name="textBox_Copy23"
-                    Width="241"
-                    Height="21"
-                    Margin="92,90,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Text="2."
-                    TextWrapping="NoWrap"
-                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
-                  <Label
-                    x:Name="label4_Copy11"
-                    Margin="10,62,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="主码表标识：" />
-                  <Label
-                    x:Name="label4_Copy12"
-                    Margin="10,89,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="副码表标识：" />
-                  <CheckBox
-                    x:Name="checkBox_Copy32"
-                    Height="16"
-                    Margin="10,119,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="无临时快键时，也要显示主码表标识"
-                    IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy11"
+                            Height="16"
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="中英切换要显示提示"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy12"
+                            Height="16"
+                            Margin="10,31,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="中英切换上屏编码"
+                            IsChecked="True"
+                            ToolTip="此项要取消Shift上屏编码串" />
+                  <CheckBox x:Name="checkBox_Copy13"
+                            Height="16"
+                            Margin="10,52,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用左Shift键"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy14"
+                            Height="16"
+                            Margin="10,73,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用右Shift键"
+                            IsChecked="True" />
+                  <CheckBox x:Name="checkBox_Copy15"
+                            Height="16"
+                            Margin="10,94,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用左Ctrl键" />
+                  <CheckBox x:Name="checkBox_Copy16"
+                            Height="16"
+                            Margin="10,115,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用右Ctrl键" />
+                  <CheckBox x:Name="checkBox_Copy17"
+                            Height="16"
+                            Margin="10,136,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用Ctrl+Space键" />
                 </Grid>
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox14"
-                Height="161"
-                Margin="381,610,10,0"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="码表调频与检索">
+              <GroupBox x:Name="groupBox8"
+                        Width="180"
+                        Height="54"
+                        Margin="381,776,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="重复上屏">
                 <Grid>
-                  <CheckBox
-                    x:Name="checkBox_Copy"
-                    Height="16"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="逐码提示检索"
-                    IsChecked="True"
-                    ToolTip="用来控制检索数据库的" />
-                  <CheckBox
-                    x:Name="checkBox"
-                    Height="16"
-                    Margin="10,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="显示逐码提示"
-                    IsChecked="True"
-                    ToolTip="英文就不要了，用来候选窗口显示的" />
-                  <CheckBox
-                    x:Name="checkBox1"
-                    Height="16"
-                    Margin="10,52,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="显示反查提示"
-                    IsChecked="True"
-                    ToolTip="是否要显示反查提示" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy"
-                    Height="16"
-                    Margin="10,73,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用单字模式"
-                    ToolTip="是否要启用单字模式" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy1"
-                    Height="16"
-                    Margin="10,94,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="上屏增加调频权重" />
+                  <Label x:Name="label2"
+                         Height="26"
+                         Margin="5,5,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="重复上屏码元：" />
+                  <TextBox x:Name="textBox_Copy1"
+                           Width="30"
+                           Margin="104,9,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="0"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                </Grid>
+              </GroupBox>
 
-                  <local:NumericUpDown
-                    x:Name="nud2"
-                    Width="53"
-                    Height="18"
-                    Margin="131,93,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="100"
-                    MinValue="0"
-                    ToolTip="0-1000"
-                    Value="100" />
-                  <CheckBox
-                    x:Name="checkBox_Copy1"
-                    Height="16"
-                    Margin="10,115,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="调频权重一次到顶"
-                    IsChecked="False"
-                    ToolTip="是否启用上屏自动增加调频权重直接到顶" />
-                  <CheckBox
-                    x:Name="checkBox_Copy2"
-                    Height="16"
-                    Margin="189,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选词按码长优先排序"
-                    IsChecked="True"
-                    ToolTip="候选词条是否要按码长短优先排序" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy2"
-                    Height="16"
-                    Margin="189,31,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="候选词按调频权重排序"
-                    ToolTip="候选词条要按调频权重检索排序" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy3"
-                    Height="16"
-                    Margin="189,52,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="启用双检索模式"
-                    ToolTip="双检索要有相应格式的码表支持，格式如：key=hao，value=好&gt;#你#我#我们#，用第一次上屏的“你”或“我”+编码“hao”检索出“好”，也可用连续两次单字上屏组成的“我们”+编码“hao”检索出“好”" />
-                  <CheckBox
-                    x:Name="checkBox1_Copy4"
-                    Height="16"
-                    Margin="189,73,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="双检索完整编码"
-                    IsChecked="True" />
-                  <Label
-                    x:Name="label"
-                    Height="26"
-                    Margin="189,89,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="双检索历史重数：" />
-                  <local:NumericUpDown
-                    x:Name="nud3"
-                    Width="44"
-                    Height="18"
-                    Margin="289,93,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    MaxValue="9"
-                    MinValue="0"
-                    ToolTip="注:=1时,先双检索前二次上屏组成的,再双检索最后一次上屏的,最后补空检索,不同重数检索逻辑以此类推"
-                    Value="1" />
+              <GroupBox x:Name="groupBox10"
+                        Width="366"
+                        Height="220"
+                        Margin="10,610,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="词语联想">
+                <Grid>
+                  <CheckBox x:Name="checkBox_Copy4"
+                            Height="16"
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="词语联想" />
+                  <GroupBox x:Name="groupBox15"
+                            Width="174"
+                            Height="92"
+                            Margin="170,4,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            BorderBrush="#FF8A8A8A"
+                            Header="联想模式">
+                    <StackPanel Background="#FFE5E5E5"
+                                Orientation="Vertical">
+                      <RadioButton x:Name="radioButton"
+                                   Height="16"
+                                   Margin="10,10,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="仅单字上屏联想" />
+                      <RadioButton x:Name="radioButton1"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="仅词上屏联想"
+                                   IsChecked="False" />
+                      <RadioButton x:Name="radioButton2"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="单字和词上屏皆联想"
+                                   IsChecked="True" />
+                    </StackPanel>
+                  </GroupBox>
+                  <GroupBox x:Name="groupBox15_Copy"
+                            Width="174"
+                            Height="92"
+                            Margin="170,99,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            BorderBrush="#FF8A8A8A"
+                            Header="联想检索范围">
+                    <StackPanel Background="#FFE5E5E5"
+                                Orientation="Vertical">
+                      <RadioButton x:Name="radioButton3"
+                                   Height="16"
+                                   Margin="10,10,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="只检索 key=1#*" />
+                      <RadioButton x:Name="radioButton4"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="不检索 key=1#*"
+                                   IsChecked="False" />
+                      <RadioButton x:Name="radioButton5"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Content="检索除 key=0#* 外所有"
+                                   IsChecked="True" />
+                    </StackPanel>
+                  </GroupBox>
+                  <CheckBox x:Name="checkBox_Copy5"
+                            Height="16"
+                            Margin="10,31,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="显示全部词语" />
+                  <CheckBox x:Name="checkBox_Copy6"
+                            Height="16"
+                            Margin="10,52,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="匹配首位" />
+                  <CheckBox x:Name="checkBox_Copy7"
+                            Height="16"
+                            Margin="10,73,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="标点顶屏" />
+                  <CheckBox x:Name="checkBox_Copy8"
+                            Height="16"
+                            Margin="10,94,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="精准匹配"
+                            ToolTip="上屏词条精准匹配key=1*的值进行词语联想吗？该项仅对词语联想检索范围=1时有效" />
+                  <CheckBox x:Name="checkBox_Copy9"
+                            Height="16"
+                            Margin="10,115,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="模糊联想"
+                            ToolTip="精准匹配key=1*的值时要词语模糊联想吗？该项仅对词语联想检索范围=1时有效" />
+                  <CheckBox x:Name="checkBox_Copy10"
+                            Height="16"
+                            Margin="10,136,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="Ctrl键清除联想" />
+                </Grid>
+              </GroupBox>
+              <GroupBox x:Name="groupBox11"
+                        Height="56"
+                        Margin="566,776,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="自动造词">
+                <Grid>
+                  <CheckBox x:Name="checkBox_Copy3"
+                            Height="16"
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用ESC键自动造词吗"
+                            ToolTip="中文态打出编码按返回键,然后打一些字，再按返回键（窗口隐藏），编码与这些字符自动成词" />
+                </Grid>
+              </GroupBox>
+              <GroupBox x:Name="groupBox12"
+                        Height="285"
+                        Margin="381,835,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="引导码表检索">
+                <Grid>
+                  <Label x:Name="label4"
+                         Margin="10,10,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="码表引导快键0：" />
+                  <Label x:Name="label4_Copy1"
+                         Margin="10,36,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名0：" />
+                  <Label x:Name="label4_Copy2"
+                         Margin="10,62,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名1：" />
+                  <TextBox x:Name="textBox_Copy"
+                           Width="30"
+                           Margin="116,14,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="`"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy9"
+                           Width="253"
+                           Height="21"
+                           Margin="80,38,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy11"
+                           Width="253"
+                           Height="21"
+                           Margin="80,64,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <Label x:Name="label4_Copy3"
+                         Margin="10,89,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="码表引导快键1：" />
+                  <Label x:Name="label4_Copy4"
+                         Margin="10,115,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名0：" />
+                  <Label x:Name="label4_Copy5"
+                         Margin="10,141,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名1：" />
+                  <TextBox x:Name="textBox_Copy12"
+                           Width="30"
+                           Margin="116,93,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="["
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy13"
+                           Width="253"
+                           Height="21"
+                           Margin="80,117,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy14"
+                           Width="253"
+                           Height="21"
+                           Margin="80,143,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <Label x:Name="label4_Copy6"
+                         Margin="10,168,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="码表引导快键2：" />
+                  <Label x:Name="label4_Copy7"
+                         Margin="10,194,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名0：" />
+                  <Label x:Name="label4_Copy8"
+                         Margin="10,220,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名1：" />
+                  <TextBox x:Name="textBox_Copy16"
+                           Width="30"
+                           Margin="116,172,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="]"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy17"
+                           Width="253"
+                           Height="21"
+                           Margin="80,196,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy18"
+                           Width="253"
+                           Height="21"
+                           Margin="80,222,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+
+                </Grid>
+              </GroupBox>
+              <GroupBox x:Name="groupBox13"
+                        Width="366"
+                        Height="285"
+                        Margin="10,835,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="临时码表检索">
+                <Grid>
+                  <Label x:Name="label4_Copy9"
+                         Margin="10,10,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="码表临时快键：" />
+                  <Label x:Name="label4_Copy10"
+                         Margin="10,36,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码名：" />
+                  <TextBox x:Name="textBox_Copy19"
+                           Width="30"
+                           Margin="116,14,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="\"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy20"
+                           Width="241"
+                           Height="21"
+                           Margin="92,38,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="&lt;1=\&gt;&lt;2=[重复]{[s]}&gt;"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy22"
+                           Width="241"
+                           Height="21"
+                           Margin="92,64,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="👉"
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <TextBox x:Name="textBox_Copy23"
+                           Width="241"
+                           Height="21"
+                           Margin="92,90,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Text="2."
+                           TextWrapping="NoWrap"
+                           ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+                  <Label x:Name="label4_Copy11"
+                         Margin="10,62,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="主码表标识：" />
+                  <Label x:Name="label4_Copy12"
+                         Margin="10,89,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="副码表标识：" />
+                  <CheckBox x:Name="checkBox_Copy32"
+                            Height="16"
+                            Margin="10,119,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="无临时快键时，也要显示主码表标识"
+                            IsChecked="True" />
+                </Grid>
+              </GroupBox>
+              <GroupBox x:Name="groupBox14"
+                        Height="161"
+                        Margin="381,610,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="码表调频与检索">
+                <Grid>
+                  <CheckBox x:Name="checkBox_Copy"
+                            Height="16"
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="逐码提示检索"
+                            IsChecked="True"
+                            ToolTip="用来控制检索数据库的" />
+                  <CheckBox x:Name="checkBox"
+                            Height="16"
+                            Margin="10,31,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="显示逐码提示"
+                            IsChecked="True"
+                            ToolTip="英文就不要了，用来候选窗口显示的" />
+                  <CheckBox x:Name="checkBox1"
+                            Height="16"
+                            Margin="10,52,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="显示反查提示"
+                            IsChecked="True"
+                            ToolTip="是否要显示反查提示" />
+                  <CheckBox x:Name="checkBox1_Copy"
+                            Height="16"
+                            Margin="10,73,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用单字模式"
+                            ToolTip="是否要启用单字模式" />
+                  <CheckBox x:Name="checkBox1_Copy1"
+                            Height="16"
+                            Margin="10,94,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="上屏增加调频权重" />
+
+                  <local:NumericUpDown x:Name="nud2"
+                                       Width="53"
+                                       Height="18"
+                                       Margin="131,93,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="100"
+                                       MinValue="0"
+                                       ToolTip="0-1000"
+                                       Value="100" />
+                  <CheckBox x:Name="checkBox_Copy1"
+                            Height="16"
+                            Margin="10,115,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="调频权重一次到顶"
+                            IsChecked="False"
+                            ToolTip="是否启用上屏自动增加调频权重直接到顶" />
+                  <CheckBox x:Name="checkBox_Copy2"
+                            Height="16"
+                            Margin="189,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="候选词按码长优先排序"
+                            IsChecked="True"
+                            ToolTip="候选词条是否要按码长短优先排序" />
+                  <CheckBox x:Name="checkBox1_Copy2"
+                            Height="16"
+                            Margin="189,31,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="候选词按调频权重排序"
+                            ToolTip="候选词条要按调频权重检索排序" />
+                  <CheckBox x:Name="checkBox1_Copy3"
+                            Height="16"
+                            Margin="189,52,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="启用双检索模式"
+                            ToolTip="双检索要有相应格式的码表支持，格式如：key=hao，value=好&gt;#你#我#我们#，用第一次上屏的“你”或“我”+编码“hao”检索出“好”，也可用连续两次单字上屏组成的“我们”+编码“hao”检索出“好”" />
+                  <CheckBox x:Name="checkBox1_Copy4"
+                            Height="16"
+                            Margin="189,73,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="双检索完整编码"
+                            IsChecked="True" />
+                  <Label x:Name="label"
+                         Height="26"
+                         Margin="189,89,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="双检索历史重数：" />
+                  <local:NumericUpDown x:Name="nud3"
+                                       Width="44"
+                                       Height="18"
+                                       Margin="289,93,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="9"
+                                       MinValue="0"
+                                       ToolTip="注:=1时,先双检索前二次上屏组成的,再双检索最后一次上屏的,最后补空检索,不同重数检索逻辑以此类推"
+                                       Value="1" />
 
                 </Grid>
 
@@ -2267,79 +2031,75 @@
         </Grid>
       </TabItem>
       <TabItem Header="全局设置">
-        <Grid Width="763" Background="#FFE5E5E5">
-          <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
-            <StackPanel Background="#FFE5E5E5" Orientation="Vertical">
-              <GroupBox
-                x:Name="groupBox20"
-                Width="726"
-                Height="213"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                BorderBrush="#FF8A8A8A"
-                Header="说明">
-                <Label
-                  x:Name="label322"
-                  Width="164"
-                  Height="35"
-                  Margin="140,0,0,0"
-                  HorizontalAlignment="Left"
-                  Content="还没做！"
-                  FontSize="20" />
+        <Grid Width="763"
+              Background="#FFE5E5E5">
+          <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Visible">
+            <StackPanel Background="#FFE5E5E5"
+                        Orientation="Vertical">
+              <GroupBox x:Name="groupBox20"
+                        Width="726"
+                        Height="213"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        BorderBrush="#FF8A8A8A"
+                        Header="说明">
+                <Label x:Name="label322"
+                       Width="164"
+                       Height="35"
+                       Margin="140,0,0,0"
+                       HorizontalAlignment="Left"
+                       Content="还没做！"
+                       FontSize="20" />
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox21"
-                Width="726"
-                Height="40"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="状态栏">
+              <GroupBox x:Name="groupBox21"
+                        Width="726"
+                        Height="40"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="状态栏">
                 <Grid />
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox22"
-                Width="726"
-                Height="40"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="在线查找设置">
+              <GroupBox x:Name="groupBox22"
+                        Width="726"
+                        Height="40"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="在线查找设置">
                 <Grid />
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox23"
-                Width="726"
-                Height="40"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="快捷键设置">
+              <GroupBox x:Name="groupBox23"
+                        Width="726"
+                        Height="40"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="快捷键设置">
                 <Grid />
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox24"
-                Width="726"
-                Height="40"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="自动关机设置">
+              <GroupBox x:Name="groupBox24"
+                        Width="726"
+                        Height="40"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="自动关机设置">
                 <Grid />
               </GroupBox>
-              <GroupBox
-                x:Name="groupBox25"
-                Width="726"
-                Height="40"
-                Margin="10,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                BorderBrush="#FF8A8A8A"
-                Header="应用自启设置">
+              <GroupBox x:Name="groupBox25"
+                        Width="726"
+                        Height="40"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="应用自启设置">
                 <Grid />
               </GroupBox>
 

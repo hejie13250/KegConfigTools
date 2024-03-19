@@ -306,7 +306,20 @@ namespace 小科狗配置
           case "候选窗口边框色": color_label_4.Background = RGBStringToColor(value); hxk_border.BorderBrush = RGBStringToColor(value); break;
           case "候选选中色": color_label_6.Background = RGBStringToColor(value); hxz_border.Background = RGBStringToColor(value); break;
           case "候选选中字体色": color_label_7.Background = RGBStringToColor(value); hxz_label_3.Foreground = RGBStringToColor(value); ; break;
-          case "背景底色": color_label_5.Background = RGBStringToColor(value); hxk_border.Background = RGBStringToColor(value); break;
+          case "背景底色": 
+            if(value == ""){
+              hxcds_checkBox.IsChecked = true;
+              color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+              hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            }
+            else
+            {
+              hxcds_checkBox.IsChecked= false;
+              color_label_5.Background = RGBStringToColor(value);
+              hxk_border.Background = RGBStringToColor(value);
+            }
+            break;
+
           case "候选字体色串": SetLabelColor(value); break;
           case "关联中文标点吗？": checkBox_Copy31.IsChecked = IsTrueOrFalse(value); break;
           case "大键盘中文标点串": textBox_Copy68.Text = value; break;
@@ -447,8 +460,10 @@ namespace 小科狗配置
     private SolidColorBrush RGBStringToColor(String rgbString)
     {
       //候选窗背景色为空时设为对话框背景色
-      if (rgbString == "")
-        return new SolidColorBrush(Color.FromRgb(105, 105, 105));
+      if (rgbString == ""){
+        hxcds_checkBox.IsChecked= true;
+        return new SolidColorBrush(Color.FromArgb(0,0, 0, 0));
+      }
       // 去掉字符串两边的括号并将逗号分隔的字符串转换为整型数组
       string[] rgbValues = rgbString.Trim('(', ')').Split(',');
       if (rgbValues.Length != 3)
@@ -584,7 +599,7 @@ namespace 小科狗配置
       ReplaceConfig("候选窗口边框色", HexToRgb(color_label_4.Background.ToString()));
       ReplaceConfig("候选选中色", HexToRgb(color_label_6.Background.ToString()));
       ReplaceConfig("候选选中字体色", HexToRgb(color_label_7.Background.ToString()));
-      ReplaceConfig("背景底色", HexToRgb(color_label_5.Background.ToString()));
+      ReplaceConfig("背景底色", 取背景底色());
       ReplaceConfig("候选字体色串", textBox_Copy24.Text);
       ReplaceConfig("关联中文标点吗？", 要或不要((bool)checkBox_Copy31.IsChecked));
       ReplaceConfig("大键盘中文标点串", textBox_Copy68.Text);
@@ -651,6 +666,12 @@ namespace 小科狗配置
       ReplaceConfig("码表引导快键2", textBox_Copy16.Text);
       ReplaceConfig("码表引导快键2编码名0", textBox_Copy17.Text);
       ReplaceConfig("码表引导快键2编码名1", textBox_Copy18.Text);
+    }
+
+    private String 取背景底色(){
+      if (hxcds_checkBox.IsChecked == true)
+        return "";
+      else return $"({HexToRgb(color_label_5.Background.ToString())})";
     }
 
     private String 取候选窗口绘制模式()
@@ -1183,6 +1204,21 @@ namespace 小科狗配置
       }
     }
 
+    private void hxcds_checkBox_Click(object sender, RoutedEventArgs e)
+    {
+      if (hxcds_checkBox.IsChecked == true)
+      {
+        color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+        hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+      }
+      else
+      {
+        color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+        hxk_border.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+      }
+    }
+
+
     // 配色列表双击事件
     private void ColorSchemeListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
@@ -1196,16 +1232,39 @@ namespace 小科狗配置
         nud12.Value = colorScheme.选中项圆角;
         nud13.Value = colorScheme.边框线宽;
         color_label_1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.下划线色));
+        hxz_label_0.BorderBrush = color_label_1.Background;
         color_label_2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.光标色));
+        hxz_label_gb.BorderBrush = color_label_2.Background;
         color_label_3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.分隔线色));
+        hxz_label_fgx.BorderBrush = color_label_3.Background;
         color_label_4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.窗口边框色));
-        color_label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.窗背景底色));
+        hxk_border.BorderBrush = color_label_4.Background;
+        if (colorScheme.窗背景底色 == "")
+        {
+          hxcds_checkBox.IsChecked = true;
+          color_label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00000000"));
+        }
+        else
+        {
+          hxcds_checkBox.IsChecked = false;
+          color_label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.窗背景底色));
+        }
         color_label_6.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.选中背景色));
+        hxz_border.Background = color_label_6.Background;
         color_label_7.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.选中字体色));
+        hxz_label_3.Foreground = color_label_7.Background;
         color_label_8.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.编码字体色));
+        hxz_label_0.Foreground = color_label_8.Background;
         color_label_9.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.候选字色));
+        hxz_label_1.Foreground = color_label_9.Background;
+        hxz_label_2.Foreground = color_label_9.Background;
+        hxz_label_4.Foreground = color_label_9.Background;
+        hxz_label_5.Foreground = color_label_9.Background;
+        hxz_label_6.Foreground = color_label_9.Background;
+
       }
     }
+
 
     // 配色列表选中项改变事件
     private void ColorSchemeListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1296,7 +1355,7 @@ namespace 小科狗配置
         光标色 = RemoveChars(color_label_2.Background.ToString(), 2),
         分隔线色 = RemoveChars(color_label_3.Background.ToString(), 2),
         窗口边框色 = RemoveChars(color_label_4.Background.ToString(), 2),
-        窗背景底色 = RemoveChars(color_label_5.Background.ToString(), 2),
+        窗背景底色 = hxcds_checkBox.IsChecked ==true ? "" : RemoveChars(color_label_5.Background.ToString(), 2),
         选中背景色 = RemoveChars(color_label_6.Background.ToString(), 2),
         选中字体色 = RemoveChars(color_label_7.Background.ToString(), 2),
         编码字体色 = RemoveChars(color_label_8.Background.ToString(), 2),
@@ -1361,6 +1420,7 @@ namespace 小科狗配置
       return null;
     }
     #endregion
+
 
   }
 }
