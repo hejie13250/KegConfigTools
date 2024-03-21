@@ -26,7 +26,13 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 using Brush = System.Drawing.Brush;
-
+using Button = System.Windows.Controls.Button;
+using Clipboard = System.Windows.Clipboard;
+using static 小科狗配置.MainWindow;
+using System.Threading;
+using System.Windows.Shapes;
+using Path = System.IO.Path;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace 小科狗配置
 {
@@ -88,12 +94,12 @@ namespace 小科狗配置
     readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     readonly string dbPath;
 
-    public class Config{
-      public string Name { get; set; }
-      public string Value { get; set; }
-    }
-    readonly List<Config> configs= new();
+    readonly List<string> configs = new();
+    string bgString;
     string currentConfig;
+    //string modifiedConfig;
+    //List<string> currentConfigList = new();
+    //List<string> modifiedConfigList = new();
 
     public MainWindow()
     {
@@ -130,6 +136,27 @@ namespace 小科狗配置
       return version.ToString().Substring(0,3);
     }
 
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    const int WM_USER = 0x0400; // 根据Windows API定义
+    const uint KWM_RESETPIPLE = (uint)WM_USER + 200;
+    const uint KWM_RESET = (uint)WM_USER + 201;
+    const uint KWM_SET0 = (uint)WM_USER + 202;
+    const uint KWM_GETSET = (uint)WM_USER + 203;
+    const uint KWM_INSERT = (uint)WM_USER + 204;
+    const uint KWM_UPBASE = (uint)WM_USER + 205;
+    const uint KWM_SAVEBASE = (uint)WM_USER + 206;
+    const uint KWM_GETDATAPATH = (uint)WM_USER + 207;
+    const uint KWM_GETDEF = (uint)WM_USER + 208;
+    const uint KWM_SET2ALL = (uint)WM_USER + 209;
+    const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;
+    const uint KWM_UPQJSET = (uint)WM_USER + 211;
+
+
 
     #region 读写db
     // 从 db 读取表名到 ComboBox
@@ -147,21 +174,18 @@ namespace 小科狗配置
         {
           var labelName = reader.GetString(0);
           comboBox.Items.Add(labelName);
-          Config config= new() { 
-          Name= labelName,
-          Value= GetConfig(labelName)
-          };
-          configs.Add(config);
+          configs.Add(labelName);
         }
       }
       catch (Exception ex)
       {
         MessageBox.Show($"Error loading table names: {ex.Message}");
       }
+      connection.Close();
     }
 
     // 从指定表 labelName 内读取 key 列为"配置"时 value 的值
-    private String GetConfig(String labelName)
+    private string GetConfig(string labelName)
     {
       using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
       string query = $"SELECT value FROM {labelName} WHERE key = '配置'";
@@ -174,11 +198,13 @@ namespace 小科狗配置
         if (reader.Read()) result = reader["value"].ToString();
         else result = null;
       }
+      connection.Close();
       return result;
     }
 
+    // 保存配置到数据库
     // 更新指定表 labelName 内 key 列为 "配置" 时 value 列的值为 value
-    private void WriteConfig(String labelName, String value)
+    private void SaveConfig(string labelName, String value)
     {
       string connectionString = $"Data Source={dbPath};Version=3;";
       using SQLiteConnection connection = new (connectionString);
@@ -187,65 +213,166 @@ namespace 小科狗配置
       using SQLiteCommand command = new (updateQuery, connection);
       command.Parameters.AddWithValue("@Value", value);
       int rowsAffected = command.ExecuteNonQuery();
+      connection.Close();
     }
 
     #endregion
 
     #region 顶部控件事件
+    private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
+    {
+      comboBox.Focus();
+    }
 
     // 切换方案
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
-      currentConfig = GetConfig(labelName);
-      GetConfigValueInToControls();
+      //var labelName = comboBox.SelectedValue as string;
+      //currentConfig = GetConfig(labelName);
+      //currentConfig = Regex.Replace(currentConfig, $"《", $"\n《");
+      //GetCurrentConfigValue();
+      GetSet();
+    }
+
+
+    // 更新配置的值到 UI
+    private void GetSet()
+    {
+      try{
+        var labelName = comboBox.SelectedValue as string;
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        // 将 码表名称 写入剪切板
+        Clipboard.SetText(labelName);
+        Thread.Sleep(200);
+        // 调用 KWM_GETSET 消息接口 -> 读剪切板 码表名称 然后获取配置并写入剪切板
+        SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        // 从剪切板读取配置进行修改
+        currentConfig = Clipboard.GetText();
+         Clipboard.Clear();
+        GetCurrentConfigValue();
+        //GetControlsValue();
+      }
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
     }
 
     // 重新载入
     private void Reload_button_Click(object sender, RoutedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
-      foreach (var config in configs) {
-        if(config.Name == labelName) {
-          currentConfig = config.Value;
-          break;
-        }
+      if (comboBox.SelectedIndex < 0)
+      {
+        MessageBox.Show("您没有选择任何方案！");
+        return;
       }
+      GetSet();
+      //foreach (var config in configs)
+      //{
+      //  if (config == labelName)
+      //  {
+      //    currentConfig = config;
+      //    break;
+      //  }
+      //}
+
     }
 
-    // 恢复默认
+    // 设置默认方案
+    private void Button2_Click(object sender, RoutedEventArgs e)
+    {
+      if (comboBox.SelectedIndex < 0)
+      {
+        MessageBox.Show("您没有选择任何方案！");
+        return;
+      }
+      try
+      {
+        var labelName = comboBox.SelectedValue as string;
+        Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
+        Thread.Sleep(200);
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        SendMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
+      }
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
+    }
+
+    // 加载默认模板
     private void Default_button_Click(object sender, RoutedEventArgs e)
     {
+      if (comboBox.SelectedIndex < 0)
+      {
+        MessageBox.Show("您没有选择任何方案！");
+        return;
+      }
+      var labelName = comboBox.SelectedValue as string;
+      IntPtr hWnd = FindWindow("CKegServer_0", null);
+      SendMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
+      var str = Clipboard.GetText();
+      Clipboard.Clear();
+      currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
+      GetCurrentConfigValue();
+    }
 
+
+
+    // 更新配置到内存
+    private void UpdataConfig()
+    {
+      if (comboBox.SelectedIndex < 0)
+      {
+        MessageBox.Show("您没有选择任何方案！");
+        return;
+      }
+
+      var labelName = comboBox.SelectedValue as string;
+      GetControlsValue();
+      //string config = $"方案：<{labelName}>配置 \n";
+      //for (int i = 0; i < currentConfigList.Count;)
+      //{
+      //if (currentConfigList[i] != modifiedConfigList[i])
+      //  config += modifiedConfigList[i] + "\n";
+      //config += modifiedConfigList[i] + "\n";
+      //i++;
+      //}
+      //Clipboard.SetText(modifiedConfig);
+      Clipboard.SetText(currentConfig);
+
+      try
+      {
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        //Clipboard.SetText(config);  // 将修改后的配置写入剪切板
+        Thread.Sleep(200);
+        SendMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
+        //currentConfig = modifiedConfig;
+      }
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
     }
 
     // 应用
     private void Apply_button_Click(object sender, RoutedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
-      GetControlsValueIntoCurrentConfig();
-      WriteConfig(labelName, currentConfig);
+      UpdataConfig();
     }
 
     //确认
     private void OK_button_Click(object sender, RoutedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
-      GetControlsValueIntoCurrentConfig();
-      WriteConfig(labelName, currentConfig);
+      UpdataConfig();
       this.Visibility = Visibility.Visible;
     }
     #endregion
 
+
     #region 读取配置各项值到控件
     // 读取配置各项值到控件
-    private void GetConfigValueInToControls()
+    private void GetCurrentConfigValue()
     {
-      string pattern = "《(.*?)=(.*?)》";
+      string pattern = "《(.*=?.*)=(.*)》";
+
       MatchCollection matches = Regex.Matches(currentConfig, pattern);
-      // 输出匹配结果
+      //currentConfigList.Clear();
       foreach (Match match in matches)
       {
+        //currentConfigList.Add(match.Value);
         var value = match.Groups[2].Value;
         switch (match.Groups[1].Value)
         {
@@ -272,9 +399,10 @@ namespace 小科狗配置
           case "候选窗口绘制模式": 候选窗口绘制模式(value); break;
           case "GDI字体加粗权值": nud14_Copy.Value = int.Parse(value); break;
           case "GDI字体要倾斜吗？": checkBox_Copy314.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体要粗体吗？": checkBox15.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体要斜体吗？": checkBox16.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体要粗体斜体吗？": checkBox17.IsChecked = IsTrueOrFalse(value); break;
+          case "GDI+字体样式": GDIp字体样式(value); break;
+          //case "GDI+字体要粗体吗？": checkBox15.IsChecked = IsTrueOrFalse(value); break;
+          //case "GDI+字体要斜体吗？": checkBox16.IsChecked = IsTrueOrFalse(value); break;
+          //case "GDI+字体要粗体斜体吗？": checkBox17.IsChecked = IsTrueOrFalse(value); break;
           case "GDI+字体要下划线吗？": checkBox19.IsChecked = IsTrueOrFalse(value); break;
           case "GDI+字体要删除线吗？": checkBox20.IsChecked = IsTrueOrFalse(value); break;
           case "D2D字体加粗权值": nud14.Value = int.Parse(value); break;
@@ -306,20 +434,7 @@ namespace 小科狗配置
           case "候选窗口边框色": color_label_4.Background = RGBStringToColor(value); hxk_border.BorderBrush = RGBStringToColor(value); break;
           case "候选选中色": color_label_6.Background = RGBStringToColor(value); hxz_border.Background = RGBStringToColor(value); break;
           case "候选选中字体色": color_label_7.Background = RGBStringToColor(value); hxz_label_3.Foreground = RGBStringToColor(value); ; break;
-          case "背景底色": 
-            if(value == ""){
-              hxcds_checkBox.IsChecked = true;
-              color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-              hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-            }
-            else
-            {
-              hxcds_checkBox.IsChecked= false;
-              color_label_5.Background = RGBStringToColor(value);
-              hxk_border.Background = RGBStringToColor(value);
-            }
-            break;
-
+          case "背景底色": 背景底色(value); break;
           case "候选字体色串": SetLabelColor(value); break;
           case "关联中文标点吗？": checkBox_Copy31.IsChecked = IsTrueOrFalse(value); break;
           case "大键盘中文标点串": textBox_Copy68.Text = value; break;
@@ -330,8 +445,8 @@ namespace 小科狗配置
           case "词语联想要显示词语全部吗？": checkBox_Copy5.IsChecked = IsTrueOrFalse(value); break;
           case "词语联想只是匹配首位吗？": checkBox_Copy6.IsChecked = IsTrueOrFalse(value); break;
           case "词语联想时标点顶屏要起作用吗？": checkBox_Copy7.IsChecked = IsTrueOrFalse(value); break;
-          case "上屏词条精准匹配key": checkBox_Copy8.IsChecked = IsTrueOrFalse(value); break;
-          case "精准匹配key": checkBox_Copy9.IsChecked = IsTrueOrFalse(value); break;
+          case "上屏词条精准匹配key=1*的值进行词语联想吗？": checkBox_Copy8.IsChecked = IsTrueOrFalse(value); break;
+          case "精准匹配key=1*的值时要词语模糊联想吗？": checkBox_Copy9.IsChecked = IsTrueOrFalse(value); break;
           case "要开启Ctrl键清联想吗？": checkBox_Copy10.IsChecked = IsTrueOrFalse(value); break;
           case "要显示键首字根吗？": checkBox_Copy34.IsChecked = IsTrueOrFalse(value); break;
           case "上屏后候选窗口要立即消失吗？": checkBox_Copy18.IsChecked = IsTrueOrFalse(value); break;
@@ -390,12 +505,28 @@ namespace 小科狗配置
       }
     }
 
-    private bool IsTrueOrFalse(String value) {
+    private void 背景底色(string value)
+    {
+      if (value == "")
+      {
+        hxcds_checkBox.IsChecked = true;
+        color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+        hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+      }
+      else
+      {
+        hxcds_checkBox.IsChecked = false;
+        color_label_5.Background = RGBStringToColor(value);
+        hxk_border.Background = RGBStringToColor(value);
+      }
+    }
+
+private bool IsTrueOrFalse(string value) {
       if(value == "不要" || value == "不是") return false;
       else return true;
     }
 
-    private void 顶功规则(String value)
+    private void 顶功规则(string value)
     {
       switch (value) {
         case "1":
@@ -407,7 +538,7 @@ namespace 小科狗配置
       }
     }
 
-    private void 候选窗口绘制模式(String value)
+    private void 候选窗口绘制模式(string value)
     {
       switch (value)
       {
@@ -420,7 +551,7 @@ namespace 小科狗配置
       }
     }
 
-    private void D2D字体样式(String value)
+    private void D2D字体样式(string value)
     {
       switch (value)
       {
@@ -430,20 +561,33 @@ namespace 小科狗配置
           radioButton7.IsChecked = true; break;
       }
     }
-
-    private void 候选窗口候选排列方向模式(String value)
+    private void GDIp字体样式(string value)
     {
       switch (value)
       {
         case "0":
-          radioButton8.IsChecked = true; break;
+          radioButton14.IsChecked = true; break;
         case "1":
-          radioButton12.IsChecked = true; break;
+          radioButton15.IsChecked = true; break;
         case "2":
+          radioButton16.IsChecked = true; break;
+        case "3":
+          radioButton17.IsChecked = true; break;
+      }
+    }
+    private void 候选窗口候选排列方向模式(string value)
+    {
+      switch (value)
+      {
+        case "1":
+          radioButton8.IsChecked = true; break;
+        case "2":
+          radioButton12.IsChecked = true; break;
+        case "3":
           radioButton13.IsChecked = true; break;
       }
     }
-    private void 编码或候选嵌入模式(String value)
+    private void 编码或候选嵌入模式(string value)
     {
       comboBox1.SelectedIndex = value switch
       {
@@ -457,7 +601,7 @@ namespace 小科狗配置
     }
 
     // RGB字符串转换成Color
-    private SolidColorBrush RGBStringToColor(String rgbString)
+    private SolidColorBrush RGBStringToColor(string rgbString)
     {
       //候选窗背景色为空时设为对话框背景色
       if (rgbString == ""){
@@ -478,9 +622,8 @@ namespace 小科狗配置
       return new SolidColorBrush(Color.FromRgb(r, g, b));
     }
 
-    private void SetLabelColor(String str)
+    private void SetLabelColor(string str)
     {
-      textBox_Copy24.Text = str;
       string pattern = "<(.*?)=(.*?)>";
       MatchCollection matches2 = Regex.Matches(str, pattern);
 
@@ -505,7 +648,7 @@ namespace 小科狗配置
       HXZ_TextBoxText();
     }
 
-    private void 词语联想上屏字符串长度(String value)
+    private void 词语联想上屏字符串长度(string value)
     {
       switch (value)
       {
@@ -517,7 +660,7 @@ namespace 小科狗配置
           radioButton2.IsChecked = true; break;
       }
     }
-    private void 词语联想检索范围(String value)
+    private void 词语联想检索范围(string value)
     {
       switch (value)
       {
@@ -533,15 +676,18 @@ namespace 小科狗配置
     #endregion
 
     #region 读取控件属性值
-    // 正则替换 currentConfig
-    private void ReplaceConfig(String key, String value)
+    // 正则替换 modifiedConfig
+    private void ReplaceConfig(string key, string value)
     {
-      currentConfig = Regex.Replace(currentConfig, $"《{key}=(.*?)》", $"《{key}={value}》");
+      //modifiedConfig = Regex.Replace(modifiedConfig, $"《{key}.*?》", $"《{key}{value}》");
+      currentConfig = Regex.Replace(currentConfig, $"《{key}=.*?》", $"《{key}={value}》");
+
     }
 
     // 读取控件属性值
-    private void GetControlsValueIntoCurrentConfig()
+    private void GetControlsValue()
     {
+      //modifiedConfig = currentConfig;
       ReplaceConfig("大键盘码元", textBox_Copy677.Text);
       ReplaceConfig("小键盘码元", textBox_Copy5.Text);
       ReplaceConfig("大小键盘万能码元", textBox_Copy6.Text);
@@ -565,9 +711,10 @@ namespace 小科狗配置
       ReplaceConfig("候选窗口绘制模式", 取候选窗口绘制模式());
       ReplaceConfig("GDI字体加粗权值", nud14_Copy.Value.ToString());
       ReplaceConfig("GDI字体要倾斜吗？", 要或不要((bool)checkBox_Copy314.IsChecked));
-      ReplaceConfig("GDI+字体要粗体吗？", 要或不要((bool)checkBox15.IsChecked));
-      ReplaceConfig("GDI+字体要斜体吗？", 要或不要((bool)checkBox16.IsChecked));
-      ReplaceConfig("GDI+字体要粗体斜体吗？", 要或不要((bool)checkBox17.IsChecked));
+      ReplaceConfig("GDI+字体样式", 取GDIp字体样式());
+      //ReplaceConfig("GDI+字体要粗体吗？", 要或不要((bool)checkBox15.IsChecked));
+      //ReplaceConfig("GDI+字体要斜体吗？", 要或不要((bool)checkBox16.IsChecked));
+      //ReplaceConfig("GDI+字体要粗体斜体吗？", 要或不要((bool)checkBox17.IsChecked));
       ReplaceConfig("GDI+字体要下划线吗？", 要或不要((bool)checkBox19.IsChecked));
       ReplaceConfig("GDI+字体要删除线吗？", 要或不要((bool)checkBox20.IsChecked));
       ReplaceConfig("D2D字体加粗权值", nud14.Value.ToString());
@@ -600,7 +747,7 @@ namespace 小科狗配置
       ReplaceConfig("候选选中色", HexToRgb(color_label_6.Background.ToString()));
       ReplaceConfig("候选选中字体色", HexToRgb(color_label_7.Background.ToString()));
       ReplaceConfig("背景底色", 取背景底色());
-      ReplaceConfig("候选字体色串", textBox_Copy24.Text);
+      ReplaceConfig("候选字体色串", bgString);
       ReplaceConfig("关联中文标点吗？", 要或不要((bool)checkBox_Copy31.IsChecked));
       ReplaceConfig("大键盘中文标点串", textBox_Copy68.Text);
       ReplaceConfig("大键盘按下Shift的中文标点串", textBox_Copy69.Text);
@@ -610,8 +757,8 @@ namespace 小科狗配置
       ReplaceConfig("词语联想要显示词语全部吗？", 要或不要((bool)checkBox_Copy5.IsChecked));
       ReplaceConfig("词语联想只是匹配首位吗？", 是或不是((bool)checkBox_Copy6.IsChecked));
       ReplaceConfig("词语联想时标点顶屏要起作用吗？", 要或不要((bool)checkBox_Copy7.IsChecked));
-      ReplaceConfig("上屏词条精准匹配key", 要或不要((bool)checkBox_Copy8.IsChecked));
-      ReplaceConfig("精准匹配key", 要或不要((bool)checkBox_Copy9.IsChecked));
+      ReplaceConfig("上屏词条精准匹配key=1*的值进行词语联想吗？", 要或不要((bool)checkBox_Copy8.IsChecked));
+      ReplaceConfig("精准匹配key=1*的值时要词语模糊联想吗？", 要或不要((bool)checkBox_Copy9.IsChecked));
       ReplaceConfig("要开启Ctrl键清联想吗？", 要或不要((bool)checkBox_Copy10.IsChecked));
       ReplaceConfig("要显示键首字根吗？", 要或不要((bool)checkBox_Copy34.IsChecked));
       ReplaceConfig("上屏后候选窗口要立即消失吗？", 要或不要((bool)checkBox_Copy18.IsChecked));
@@ -666,60 +813,78 @@ namespace 小科狗配置
       ReplaceConfig("码表引导快键2", textBox_Copy16.Text);
       ReplaceConfig("码表引导快键2编码名0", textBox_Copy17.Text);
       ReplaceConfig("码表引导快键2编码名1", textBox_Copy18.Text);
+
+      string pattern = "《.*?=.*?》";
+      //MatchCollection matches = Regex.Matches(modifiedConfig, pattern);
+      MatchCollection matches = Regex.Matches(currentConfig, pattern);
+
+      //modifiedConfigList.Clear();
+      //foreach (Match match in matches)
+      //  modifiedConfigList.Add(match.Value);
     }
 
-    private String 取背景底色(){
+    private string 取背景底色(){
       if (hxcds_checkBox.IsChecked == true)
         return "";
-      else return $"({HexToRgb(color_label_5.Background.ToString())})";
+      else return HexToRgb(color_label_5.Background.ToString());
     }
 
-    private String 取候选窗口绘制模式()
+    private string 取候选窗口绘制模式()
     {
-      if (radioButton9.IsChecked == true) return "2";
       if (radioButton10.IsChecked == true) return "0";
-      else return "0";
+      if (radioButton11.IsChecked == true) return "1";
+      //if (radioButton9.IsChecked == true) return "2";
+      return "2";
     }
 
-    private String 取D2D字体样式()
+    private string 取D2D字体样式()
     {
-      if (radioButton6.IsChecked == true) return "0";
-      else return "1";
+      //if (radioButton6.IsChecked == true) return "0";
+      if (radioButton7.IsChecked == true) return "1";
+      return "0";
     }
-
-    private String 取候选窗口候选排列方向模式()
+    private string 取GDIp字体样式()
     {
-      if (radioButton8.IsChecked == true) return "0";
-      if (radioButton12.IsChecked == true) return "1";
-      else return "2";
+      if (radioButton14.IsChecked == true) return "0";
+      if (radioButton15.IsChecked == true) return "1";
+      if (radioButton16.IsChecked == true) return "2";
+      return "3";
+    }
+    private string 取候选窗口候选排列方向模式()
+    {
+      if (radioButton8.IsChecked == true) return "1";
+      if (radioButton12.IsChecked == true) return "2";
+      //if (radioButton13.IsChecked == true) return "3";
+      return "3";
     }
 
-    private String 取词语联想上屏字符串长度()
+    private string 取词语联想上屏字符串长度()
     {
       if (radioButton.IsChecked == true) return "1";
       if (radioButton1.IsChecked == true) return "2";
-      else return "3";
+      //if (radioButton1.IsChecked == true) return "3";
+      return "3";
     }
-    private String 取词语联想检索范围()
+    private string 取词语联想检索范围()
     {
       if (radioButton3.IsChecked == true) return "1";
       if (radioButton4.IsChecked == true) return "2";
       else return "3";
     }
 
-    private String 取顶功规则()
+    private string 取顶功规则()
     {
       if (radioButton454.IsChecked == true) return "0";
       if (radioButton455.IsChecked == true) return "1";
-      else return "2";
+      return "2";
     }
 
-    private String 是或不是(bool b){
+    private string 是或不是(bool b){
       if (b == true) return "是";
       else return "不是";
     }
 
-    private String 要或不要(bool b)
+    private string 要或不要(bool b)
     {
       if (b == true) return "要";
       else return "不要";
@@ -995,12 +1160,11 @@ namespace 小科狗配置
     private void HXZ_TextBoxText()
     {
       string rgb1 = HexToRgb(color_label_8.Background.ToString());
-      string rgb2 = HexToRgb(color_label_8.Background.ToString());
+      string rgb2 = HexToRgb(color_label_9.Background.ToString());
 
-      string str = $"<0={rgb1}>";
+      bgString = $"<0={rgb1}>";
       for (int i = 1; i <= 26; i++)
-        str += $"<{i}={rgb2}>";
-      textBox_Copy24.Text = str;
+        bgString += $"<{i}={rgb2}>";
     }
 
     // 颜色转换 HSVToRGB
@@ -1061,21 +1225,16 @@ namespace 小科狗配置
       // 预期rgb字符串格式如 "255, 128, 0"
       string[] rgbValues = rgb.Trim().Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-      if (rgbValues.Length != 3)
-      {
-        throw new ArgumentException("Invalid RGB string format. Expecting a string like '255, 255, 255'.");
-      }
-
       if (!byte.TryParse(rgbValues[0], out byte r) || !byte.TryParse(rgbValues[1], out byte g) || !byte.TryParse(rgbValues[2], out byte b))
       {
-        throw new FormatException("RGB values must be integers between 0 and 255.");
+        throw new FormatException("RGB 取值：0-255");
       }
 
       // 将字节转换为十六进制字符串，并去掉前导零
       return $"{r:X2}{g:X2}{b:X2}";
     }
 
-    // 颜色转换 HexToRgb
+    // 颜色转换 HexToRgb：(255, 255, 255)
     public static string HexToRgb(string hex)
     {
       // 预期hex字符串格式如 "FF8000" 或 "#FF8000"
@@ -1091,7 +1250,7 @@ namespace 小科狗配置
         g = Convert.ToByte(hex.Substring(4, 2), 16);
         b = Convert.ToByte(hex.Substring(6, 2), 16);
       }
-      return $"{r}, {g}, {b}";
+      return $"({r}, {g}, {b})";
     }
 
     // 显示颜色的 label 鼠标放开事件
@@ -1151,7 +1310,7 @@ namespace 小科狗配置
       color_label_10.Background = label.Background;
       var hex = RemoveChars(label.Background.ToString(), 2);
       var rgb = HexToRgb(hex);
-      color_textBox_0.Text = $"({rgb})";
+      color_textBox_0.Text = rgb;
     }
 
     // 显示颜色的 label 鼠标离开事件
@@ -1204,20 +1363,19 @@ namespace 小科狗配置
       }
     }
 
-    private void hxcds_checkBox_Click(object sender, RoutedEventArgs e)
+    private void Hxcds_checkBox_Click(object sender, RoutedEventArgs e)
     {
-      if (hxcds_checkBox.IsChecked == true)
-      {
-        color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-        hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-      }
-      else
+      if (hxcds_checkBox.IsChecked == false)
       {
         color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
         hxk_border.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
       }
+      else
+      {
+        color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+        hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+      }
     }
-
 
     // 配色列表双击事件
     private void ColorSchemeListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1264,7 +1422,6 @@ namespace 小科狗配置
 
       }
     }
-
 
     // 配色列表选中项改变事件
     private void ColorSchemeListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1395,7 +1552,6 @@ namespace 小科狗配置
       File.WriteAllText(filePath, json);
     }
 
-
     private void Button3_Copy_Click(object sender, RoutedEventArgs e)
     {
       var selectedFontName = SelectFontName();
@@ -1419,6 +1575,7 @@ namespace 小科狗配置
       // 如果用户取消了对话框，则可能返回null或默认值
       return null;
     }
+
     #endregion
 
 

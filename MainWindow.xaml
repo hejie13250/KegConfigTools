@@ -18,46 +18,52 @@
              Margin="10,9,0,0"
              HorizontalAlignment="Left"
              VerticalAlignment="Top"
-             Content="输入方案：" />
+             Content="方案：" />
       <ComboBox x:Name="comboBox"
-                Width="139"
-                Margin="85,10,0,0"
+                Width="90"
+                Margin="61,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                MouseEnter="ComboBox_MouseEnter"
                 SelectionChanged="ComboBox_SelectionChanged" />
       <Button x:Name="reload_button"
               Width="80"
               Height="21"
-              Margin="229,10,0,0"
+              Margin="156,10,0,0"
               HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Click="Reload_button_Click"
-              Content="重新载入" />
+              Content="载入配置" />
       <Button x:Name="default_button"
               Width="80"
               Height="21"
-              Margin="314,10,0,0"
+              Margin="241,10,0,0"
               HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Click="Default_button_Click"
-              Content="加载模板"
-              IsEnabled="False" />
+              Content="加载模板" />
       <Button x:Name="apply_button"
               Width="80"
               Height="21"
-              Margin="399,10,0,0"
+              Margin="625,10,0,0"
               HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Click="Apply_button_Click"
               Content="应用" />
       <Button x:Name="ok_button"
-              Width="80"
               Height="21"
-              Margin="484,10,0,0"
-              HorizontalAlignment="Left"
+              Margin="710,10,10,0"
               VerticalAlignment="Top"
               Click="OK_button_Click"
               Content="确认" />
+      <Button x:Name="button2"
+              Width="87"
+              Height="21"
+              Margin="326,10,0,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Click="Button2_Click"
+              Content="设为默认方案" />
     </Grid>
     <TabControl x:Name="tabControl"
                 Width="{Binding ActualWidth, ElementName=Grid_1, Mode=OneWay}"
@@ -73,6 +79,544 @@
                         VerticalScrollBarVisibility="Visible">
             <Grid Height="634"
                   Background="#FFE5E5E5">
+
+
+              <GroupBox x:Name="groupBox_Copy"
+                        Height="336"
+                        Margin="10,10,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FF8A8A8A"
+                        Header="候选框配色"
+                        TabIndex="3100">
+                <Grid>
+
+                  <Label x:Name="label23_Copy9"
+                         Height="26"
+                         Margin="6,73,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选窗边框线宽度：" />
+
+                  <CheckBox x:Name="checkBox_Copy42"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,11,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Content="显示背景图"
+                            TabIndex="3101" />
+                  <CheckBox x:Name="hxc_checkBox"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,32,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="Hxc_checkBox_Click"
+                            Content="候选窗圆角"
+                            IsChecked="True"
+                            TabIndex="3102" />
+                  <CheckBox x:Name="hxcbj_checkBox"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,55,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="Hxcbj_checkBox_Click"
+                            Content="选中项背景圆角"
+                            IsChecked="True"
+                            TabIndex="3104" />
+
+
+
+
+                  <local:NumericUpDown x:Name="nud11"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="131,31,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       IsEnabled="{Binding IsChecked, ElementName=hxc_checkBox}"
+                                       MaxValue="50"
+                                       MinValue="1"
+                                       TabIndex="3103"
+                                       ValueChanged="Nud11_ValueChanged"
+                                       Value="15" />
+
+                  <local:NumericUpDown x:Name="nud12"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="131,54,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       IsEnabled="{Binding IsChecked, ElementName=hxcbj_checkBox}"
+                                       MaxValue="50"
+                                       MinValue="1"
+                                       TabIndex="3105"
+                                       ToolTip=""
+                                       ValueChanged="Nud11_ValueChanged"
+                                       Value="10" />
+
+                  <local:NumericUpDown x:Name="nud13"
+                                       Width="50"
+                                       Height="18"
+                                       Margin="131,77,0,0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       MaxValue="5"
+                                       MinValue="0"
+                                       TabIndex="3106"
+                                       ToolTip=""
+                                       ValueChanged="Nud11_ValueChanged"
+                                       Value="2" />
+
+
+
+
+
+
+
+
+
+                  <Label x:Name="color_label_01"
+                         Height="26"
+                         Margin="6,96,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="嵌入下划线色：" />
+                  <Label x:Name="color_label_02"
+                         Height="26"
+                         Margin="6,119,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="光标色：" />
+                  <Label x:Name="color_label_04"
+                         Height="26"
+                         Margin="6,165,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选窗口边框色：" />
+                  <CheckBox x:Name="hxcds_checkBox"
+                            x:Uid="String1"
+                            Height="16"
+                            Margin="9,193,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="Hxcds_checkBox_Click"
+                            Content="背景底色："
+                            TabIndex="3104"
+                            ToolTip="选中后使用对话框背景色" />
+                  <Label x:Name="color_label_06"
+                         Height="26"
+                         Margin="6,211,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选选中背景色：" />
+                  <Label x:Name="color_label_07"
+                         Height="26"
+                         Margin="6,234,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选选中字体色：" />
+                  <Label x:Name="color_label_03"
+                         Height="26"
+                         Margin="6,0,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Content="分隔线色：" />
+                  <Label x:Name="color_label_08"
+                         Height="26"
+                         Margin="6,257,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="编码字体色：" />
+                  <Label x:Name="color_checkBox_09"
+                         x:Uid="String1"
+                         Height="26"
+                         Margin="6,280,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Content="候选字体色："
+                         TabIndex="3115" />
+
+
+
+
+                  <Label x:Name="color_label_1"
+                         Width="50"
+                         Height="18"
+                         Margin="131,100,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FFFF0000"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3107"
+                         Tag="" />
+                  <Label x:Name="color_label_2"
+                         Width="50"
+                         Height="18"
+                         Margin="131,123,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF0066CC"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3105"
+                         Tag="" />
+                  <Label x:Name="color_label_3"
+                         Width="50"
+                         Height="18"
+                         Margin="131,146,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FFDAF692"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3109" />
+                  <Label x:Name="color_label_4"
+                         Width="50"
+                         Height="18"
+                         Margin="131,169,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF222222"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3104"
+                         Tag="" />
+                  <Label x:Name="color_label_5"
+                         Width="50"
+                         Height="18"
+                         Margin="131,192,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF0066CC"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3111"
+                         Tag="" />
+                  <Label x:Name="color_label_6"
+                         Width="50"
+                         Height="18"
+                         Margin="131,215,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF66ED0D"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3112" />
+                  <Label x:Name="color_label_7"
+                         Width="50"
+                         Height="18"
+                         Margin="131,238,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF333333"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3113"
+                         Tag="" />
+
+
+                  <Label x:Name="color_label_8"
+                         Width="50"
+                         Height="18"
+                         Margin="131,261,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FF9ACFFF"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3114"
+                         Tag="" />
+                  <Label x:Name="color_label_9"
+                         Width="50"
+                         Height="18"
+                         Margin="131,284,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Background="#FFE6CFD8"
+                         BorderBrush="Black"
+                         BorderThickness="1,1,1,1"
+                         Content=""
+                         MouseEnter="Color_label_MouseEnter"
+                         MouseLeave="Color_label_MouseLeave"
+                         MouseUp="Color_label_MouseUp"
+                         TabIndex="3116"
+                         Tag="" />
+
+                  <Grid Width="403"
+                        Height="292"
+                        Margin="311,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+
+                    <ListBox x:Name="colorSchemeListBox"
+                             Width="127"
+                             Height="150"
+                             Margin="6,90,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             d:ItemsSource="{d:SampleData ItemCount=5}"
+                             MouseDoubleClick="ColorSchemeListBox_MouseDoubleClick"
+                             SelectionChanged="ColorSchemeListBox_SelectionChanged">
+
+                      <ListBox.ContextMenu>
+                        <ContextMenu x:Name="listBoxContextMenu">
+                          <MenuItem Click="MenuItem_Click_1"
+                                    Header="新建" />
+                          <MenuItem Click="MenuItem_Click_2"
+                                    Header="修改" />
+                          <MenuItem Click="MenuItem_Click_3"
+                                    Header="删除" />
+                        </ContextMenu>
+                      </ListBox.ContextMenu>
+                    </ListBox>
+                    <Canvas x:Name="canvas"
+                            Width="255"
+                            Height="255"
+                            Margin="138,0,10,37"
+                            MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                            MouseWheel="Hue_slider_MouseWheel">
+                      <Canvas.Background>
+                        <ImageBrush ImageSource="{Binding Bitmap}" />
+                      </Canvas.Background>
+                      <Thumb x:Name="thumb"
+                             Canvas.Left="0"
+                             Canvas.Top="0"
+                             Width="12"
+                             Height="12"
+                             Background="Transparent"
+                             BorderBrush="Black"
+                             BorderThickness="2"
+                             DragDelta="Thumb_DragDelta"
+                             MouseWheel="Hue_slider_MouseWheel">
+                        <Thumb.Template>
+                          <ControlTemplate TargetType="Thumb">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="10"
+                                    SnapsToDevicePixels="True" />
+                          </ControlTemplate>
+                        </Thumb.Template>
+                      </Thumb>
+                    </Canvas>
+                    <Label x:Name="color_label_10"
+                           Width="22"
+                           Height="46"
+                           Margin="6,245,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Background="Red"
+                           BorderBrush="Black"
+                           BorderThickness="1,1,1,1"
+                           Content=""
+                           MouseEnter="Color_label_MouseEnter"
+                           MouseLeave="Color_label_MouseLeave"
+                           MouseUp="Color_label_MouseUp"
+                           TabIndex="3115"
+                           Tag="" />
+
+                    <Label x:Name="color_label_content"
+                           Height="23"
+                           Margin="33,245,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content=""
+                           Foreground="Red" />
+                    <TextBox x:Name="color_textBox_0"
+                             Width="100"
+                             Height="18"
+                             Margin="33,273,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             IsReadOnly="True"
+                             Text="(255, 255, 255)"
+                             TextWrapping="NoWrap" />
+                    <Slider x:Name="hue_slider"
+                            Width="255"
+                            Height="18"
+                            Margin="138,273,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            IsSnapToTickEnabled="True"
+                            LargeChange="1"
+                            Maximum="360"
+                            Minimum="0"
+                            MouseWheel="Hue_slider_MouseWheel"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            ValueChanged="Hue_slider_ValueChanged"
+                            Value="0" />
+                    <Button x:Name="saveButton"
+                            Width="127"
+                            Height="20"
+                            Margin="6,42,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="SaveButton_Click"
+                            Content="保存配色" />
+                    <TextBox x:Name="color_scheme_name_textBox"
+                             Width="127"
+                             Height="18"
+                             Margin="6,67,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             RenderTransformOrigin="0.688,3.108"
+                             Text=""
+                             TextWrapping="NoWrap" />
+                  </Grid>
+
+
+
+                  <Grid Width="120"
+                        Height="200"
+                        Margin="186,101,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#FFF">
+                    <Label x:Name="label4_Copy"
+                           Width="NaN"
+                           Height="24"
+                           Margin="-3,3,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="小科狗" />
+                    <Label x:Name="hxz_label_xhx"
+                           Width="15"
+                           Height="2"
+                           Margin="26,23,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           BorderBrush="Red"
+                           BorderThickness="2"
+                           Content="" />
+                    <Border x:Name="hxk_border"
+                            Width="98"
+                            Margin="18,27,0,21"
+                            HorizontalAlignment="Left"
+                            Background="#FF222222"
+                            BorderBrush="#FF66ED0D"
+                            BorderThickness="{Binding ElementName=nud13, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                            CornerRadius="{Binding ElementName=nud11, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label x:Name="hxz_label_0"
+                           Height="26"
+                           Margin="26,26,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="mg"
+                           Foreground="#FF9ACFFF" />
+                    <Label x:Name="hxz_label_gb"
+                           Width="2"
+                           Height="14"
+                           Margin="52,33,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           BorderBrush="#FF0066CC"
+                           BorderThickness="2"
+                           Content="" />
+                    <Label x:Name="hxz_label_fgx"
+                           Width="88"
+                           Height="1"
+                           Margin="23,49,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           BorderBrush="#FF66ED0D"
+                           BorderThickness="0,1,0,0"
+                           Content="" />
+                    <Border x:Name="hxz_border"
+                            Height="22"
+                            Margin="22,92,8,86"
+                            Background="#FF66ED0D"
+                            CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label x:Name="hxz_label_1"
+                           Height="26"
+                           Margin="22,50,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="1. 光"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_2"
+                           Height="26"
+                           Margin="22,70,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="2. 周 d"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_3"
+                           Height="26"
+                           Margin="22,90,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="3. 狗 j"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_4"
+                           Height="26"
+                           Margin="22,110,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="4. 硅 g"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_5"
+                           Height="26"
+                           Margin="22,130,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="5. 冉 t"
+                           Foreground="#FFFFFF" />
+                    <Label x:Name="hxz_label_6"
+                           Height="26"
+                           Margin="22,150,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="6. 磋 u"
+                           Foreground="#FFFFFF" />
+
+                  </Grid>
+
+
+
+
+
+
+
+
+
+                </Grid>
+              </GroupBox>
 
               <GroupBox x:Name="groupBox9"
                         Width="410"
@@ -224,35 +768,34 @@
                               VerticalAlignment="Top"
                               Background="#FFE5E5E5"
                               Orientation="Horizontal">
-                    <CheckBox x:Name="checkBox14"
-                              Height="16"
-                              Margin="10,5,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="常规"
-                              IsChecked="True"
-                              Visibility="Collapsed" />
-                    <CheckBox x:Name="checkBox15"
-                              Height="16"
-                              Margin="10,5,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="粗体"
-                              IsChecked="False" />
-                    <CheckBox x:Name="checkBox16"
-                              Height="16"
-                              Margin="10,5,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="斜体"
-                              IsChecked="False" />
-                    <CheckBox x:Name="checkBox17"
-                              Height="16"
-                              Margin="10,5,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="粗斜体"
-                              IsChecked="False" />
+                    <RadioButton x:Name="radioButton14"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="常规"
+                                 IsChecked="True" />
+                    <RadioButton x:Name="radioButton15"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="粗体"
+                                 IsChecked="False" />
+                    <RadioButton x:Name="radioButton16"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="斜体"
+                                 IsChecked="False" />
+                    <RadioButton x:Name="radioButton17"
+                                 Height="16"
+                                 Margin="10,5,0,0"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Content="粗斜体"
+                                 IsChecked="False" />
                   </StackPanel>
                   <Label x:Name="label23_Copy12"
                          Height="26"
@@ -502,556 +1045,8 @@
                             IsChecked="True" />
                 </Grid>
               </GroupBox>
-              <GroupBox x:Name="groupBox_Copy"
-                        Height="336"
-                        Margin="10,10,10,0"
-                        VerticalAlignment="Top"
-                        BorderBrush="#FF8A8A8A"
-                        Header="候选框配色"
-                        TabIndex="3100">
-                <Grid>
-
-                  <Label x:Name="label23_Copy9"
-                         Height="26"
-                         Margin="6,73,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="候选窗边框线宽度：" />
-
-                  <CheckBox x:Name="checkBox_Copy42"
-                            x:Uid="String1"
-                            Height="16"
-                            Margin="9,11,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Content="显示背景图"
-                            TabIndex="3101" />
-                  <CheckBox x:Name="hxc_checkBox"
-                            x:Uid="String1"
-                            Height="16"
-                            Margin="9,32,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="Hxc_checkBox_Click"
-                            Content="候选窗圆角"
-                            IsChecked="True"
-                            TabIndex="3102" />
-                  <CheckBox x:Name="hxcbj_checkBox"
-                            x:Uid="String1"
-                            Height="16"
-                            Margin="9,55,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="Hxcbj_checkBox_Click"
-                            Content="选中项背景圆角"
-                            IsChecked="True"
-                            TabIndex="3104" />
 
 
-
-
-                  <local:NumericUpDown x:Name="nud11"
-                                       Width="50"
-                                       Height="18"
-                                       Margin="131,31,0,0"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Top"
-                                       IsEnabled="{Binding IsChecked, ElementName=hxc_checkBox}"
-                                       MaxValue="50"
-                                       MinValue="1"
-                                       TabIndex="3103"
-                                       ValueChanged="Nud11_ValueChanged"
-                                       Value="15" />
-
-                  <local:NumericUpDown x:Name="nud12"
-                                       Width="50"
-                                       Height="18"
-                                       Margin="131,54,0,0"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Top"
-                                       IsEnabled="{Binding IsChecked, ElementName=hxcbj_checkBox}"
-                                       MaxValue="50"
-                                       MinValue="1"
-                                       TabIndex="3105"
-                                       ToolTip=""
-                                       ValueChanged="Nud11_ValueChanged"
-                                       Value="10" />
-
-                  <local:NumericUpDown x:Name="nud13"
-                                       Width="50"
-                                       Height="18"
-                                       Margin="131,77,0,0"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Top"
-                                       MaxValue="5"
-                                       MinValue="0"
-                                       TabIndex="3106"
-                                       ToolTip=""
-                                       ValueChanged="Nud11_ValueChanged"
-                                       Value="2" />
-
-
-
-
-
-
-
-
-
-                  <Label x:Name="color_label_01"
-                         Height="26"
-                         Margin="6,96,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="嵌入下划线色：" />
-                  <Label x:Name="color_label_02"
-                         Height="26"
-                         Margin="6,119,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="光标色：" />
-                  <Label x:Name="color_label_04"
-                         Height="26"
-                         Margin="6,165,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="候选窗口边框色：" />
-                  <CheckBox x:Name="hxcds_checkBox"
-                            x:Uid="String1"
-                            Height="16"
-                            Margin="9,193,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="hxcds_checkBox_Click"
-                            Content="背景底色："
-                            ToolTip="选中后使用对话框背景色"
-                            TabIndex="3104" />
-                  <Label x:Name="color_label_06"
-                         Height="26"
-                         Margin="6,211,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="候选选中背景色：" />
-                  <Label x:Name="color_label_07"
-                         Height="26"
-                         Margin="6,234,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="候选选中字体色：" />
-                  <Label x:Name="color_label_03"
-                         Height="26"
-                         Margin="6,0,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Content="分隔线色：" />
-                  <Label x:Name="color_label_08"
-                         Height="26"
-                         Margin="6,257,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="编码字体色：" />
-                  <Label x:Name="color_checkBox_09"
-                         x:Uid="String1"
-                         Height="26"
-                         Margin="6,280,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Content="候选字体色："
-                         TabIndex="3115" />
-
-
-
-
-                  <Label x:Name="color_label_1"
-                         Width="50"
-                         Height="18"
-                         Margin="131,100,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FFFF0000"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3107"
-                         Tag="" />
-                  <Label x:Name="color_label_2"
-                         Width="50"
-                         Height="18"
-                         Margin="131,123,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FF0066CC"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3105"
-                         Tag="" />
-                  <Label x:Name="color_label_3"
-                         Width="50"
-                         Height="18"
-                         Margin="131,146,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FFDAF692"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3109" />
-                  <Label x:Name="color_label_4"
-                         Width="50"
-                         Height="18"
-                         Margin="131,169,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FF222222"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3104"
-                         Tag="" />
-                  <Label x:Name="color_label_5"
-                         Width="50"
-                         Height="18"
-                         Margin="131,192,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FF0066CC"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3111"
-                         Tag="" />
-                  <Label x:Name="color_label_6"
-                         Width="50"
-                         Height="18"
-                         Margin="131,215,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FF66ED0D"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3112" />
-                  <Label x:Name="color_label_7"
-                         Width="50"
-                         Height="18"
-                         Margin="131,238,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FF333333"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3113"
-                         Tag="" />
-
-
-                  <Label x:Name="color_label_8"
-                         Width="50"
-                         Height="18"
-                         Margin="131,261,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FF9ACFFF"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3114"
-                         Tag="" />
-                  <Label x:Name="color_label_9"
-                         Width="50"
-                         Height="18"
-                         Margin="131,284,0,0"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Background="#FFE6CFD8"
-                         BorderBrush="Black"
-                         BorderThickness="1,1,1,1"
-                         Content=""
-                         MouseEnter="Color_label_MouseEnter"
-                         MouseLeave="Color_label_MouseLeave"
-                         MouseUp="Color_label_MouseUp"
-                         TabIndex="3116"
-                         Tag="" />
-
-                  <Grid Width="403"
-                        Height="292"
-                        Margin="311,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top">
-                    <Button x:Name="button3"
-                            Width="127"
-                            Height="23"
-                            Margin="6,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Content="应用" />
-
-                    <ListBox x:Name="colorSchemeListBox"
-                             Width="127"
-                             Height="150"
-                             Margin="6,90,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             d:ItemsSource="{d:SampleData ItemCount=5}"
-                             MouseDoubleClick="ColorSchemeListBox_MouseDoubleClick"
-                             SelectionChanged="ColorSchemeListBox_SelectionChanged">
-
-                      <ListBox.ContextMenu>
-                        <ContextMenu x:Name="listBoxContextMenu">
-                          <MenuItem Click="MenuItem_Click_1"
-                                    Header="新建" />
-                          <MenuItem Click="MenuItem_Click_2"
-                                    Header="修改" />
-                          <MenuItem Click="MenuItem_Click_3"
-                                    Header="删除" />
-                        </ContextMenu>
-                      </ListBox.ContextMenu>
-                    </ListBox>
-                    <Canvas x:Name="canvas"
-                            Width="255"
-                            Height="255"
-                            Margin="138,0,10,37"
-                            MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
-                            MouseWheel="Hue_slider_MouseWheel">
-                      <Canvas.Background>
-                        <ImageBrush ImageSource="{Binding Bitmap}" />
-                      </Canvas.Background>
-                      <Thumb x:Name="thumb"
-                             Canvas.Left="0"
-                             Canvas.Top="0"
-                             Width="12"
-                             Height="12"
-                             Background="Transparent"
-                             BorderBrush="Black"
-                             BorderThickness="2"
-                             DragDelta="Thumb_DragDelta"
-                             MouseWheel="Hue_slider_MouseWheel">
-                        <Thumb.Template>
-                          <ControlTemplate TargetType="Thumb">
-                            <Border Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="10"
-                                    SnapsToDevicePixels="True" />
-                          </ControlTemplate>
-                        </Thumb.Template>
-                      </Thumb>
-                    </Canvas>
-                    <Label x:Name="color_label_10"
-                           Width="22"
-                           Height="46"
-                           Margin="6,245,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Background="Red"
-                           BorderBrush="Black"
-                           BorderThickness="1,1,1,1"
-                           Content=""
-                           MouseEnter="Color_label_MouseEnter"
-                           MouseLeave="Color_label_MouseLeave"
-                           MouseUp="Color_label_MouseUp"
-                           TabIndex="3115"
-                           Tag="" />
-
-                    <Label x:Name="color_label_content"
-                           Height="23"
-                           Margin="33,245,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content=""
-                           Foreground="Red" />
-                    <TextBox x:Name="color_textBox_0"
-                             Width="100"
-                             Height="18"
-                             Margin="33,273,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             IsReadOnly="True"
-                             Text="(255, 255, 255)"
-                             TextWrapping="NoWrap" />
-                    <Slider x:Name="hue_slider"
-                            Width="255"
-                            Height="18"
-                            Margin="138,273,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            IsSnapToTickEnabled="True"
-                            LargeChange="1"
-                            Maximum="360"
-                            Minimum="0"
-                            MouseWheel="Hue_slider_MouseWheel"
-                            SmallChange="1"
-                            TickFrequency="1"
-                            ValueChanged="Hue_slider_ValueChanged"
-                            Value="0" />
-                    <Button x:Name="saveButton"
-                            Width="127"
-                            Height="20"
-                            Margin="6,42,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="SaveButton_Click"
-                            Content="保存配色" />
-                    <TextBox x:Name="color_scheme_name_textBox"
-                             Width="127"
-                             Height="18"
-                             Margin="6,67,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             RenderTransformOrigin="0.688,3.108"
-                             Text=""
-                             TextWrapping="NoWrap" />
-                  </Grid>
-
-
-
-                  <Grid Width="120"
-                        Height="200"
-                        Margin="186,101,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Background="#FFF">
-                    <Label x:Name="label4_Copy"
-                           Width="NaN"
-                           Height="24"
-                           Margin="-3,3,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="小科狗" />
-                    <Label x:Name="hxz_label_xhx"
-                           Width="15"
-                           Height="2"
-                           Margin="26,23,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           BorderBrush="Red"
-                           BorderThickness="2"
-                           Content="" />
-                    <Border x:Name="hxk_border"
-                            Width="98"
-                            Margin="18,27,0,21"
-                            HorizontalAlignment="Left"
-                            Background="#FF222222"
-                            BorderBrush="#FF66ED0D"
-                            BorderThickness="{Binding ElementName=nud13, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                            CornerRadius="{Binding ElementName=nud11, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label x:Name="hxz_label_0"
-                           Height="26"
-                           Margin="26,26,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="mg"
-                           Foreground="#FF9ACFFF" />
-                    <Label x:Name="hxz_label_gb"
-                           Width="2"
-                           Height="14"
-                           Margin="52,33,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           BorderBrush="#FF0066CC"
-                           BorderThickness="2"
-                           Content="" />
-                    <Label x:Name="hxz_label_fgx"
-                           Width="88"
-                           Height="1"
-                           Margin="23,49,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           BorderBrush="#FF66ED0D"
-                           BorderThickness="0,1,0,0"
-                           Content="" />
-                    <Border x:Name="hxz_border"
-                            Height="22"
-                            Margin="22,92,8,86"
-                            Background="#FF66ED0D"
-                            CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label x:Name="hxz_label_1"
-                           Height="26"
-                           Margin="22,50,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="1. 光"
-                           Foreground="#FFFFFF" />
-                    <Label x:Name="hxz_label_2"
-                           Height="26"
-                           Margin="22,70,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="2. 周 d"
-                           Foreground="#FFFFFF" />
-                    <Label x:Name="hxz_label_3"
-                           Height="26"
-                           Margin="22,90,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="3. 狗 j"
-                           Foreground="#FFFFFF" />
-                    <Label x:Name="hxz_label_4"
-                           Height="26"
-                           Margin="22,110,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="4. 硅 g"
-                           Foreground="#FFFFFF" />
-                    <Label x:Name="hxz_label_5"
-                           Height="26"
-                           Margin="22,130,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="5. 冉 t"
-                           Foreground="#FFFFFF" />
-                    <Label x:Name="hxz_label_6"
-                           Height="26"
-                           Margin="22,150,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="6. 磋 u"
-                           Foreground="#FFFFFF" />
-
-                  </Grid>
-                  <TextBox x:Name="textBox_Copy24"
-                           Width="120"
-                           Margin="186,7,0,219"
-                           HorizontalAlignment="Left"
-                           Text="&lt;0=(154, 207, 255)&gt;&lt;1=(230, 227, 216)&gt;&lt;2=(230, 227, 216)&gt;&lt;3=(230, 227, 216)&gt;&lt;4=(230, 227, 216)&gt;&lt;5=(230, 227, 216)&gt;&lt;6=(230, 227, 216)&gt;&lt;7=(230, 227, 216)&gt;&lt;8=(230, 227, 216)&gt;&lt;9=(230, 227, 216)&gt;&lt;10=(230, 227, 216)&gt;&lt;11=(0,0,0)&gt;&lt;12=(0,0,0)&gt;&lt;13=(0,0,0)&gt;&lt;14=(0,0,0)&gt;&lt;15=(0,0,0)&gt;&lt;16=(0,0,0)&gt;&lt;17=(0,0,0)&gt;&lt;18=(0,0,0)&gt;&lt;19=(0,0,0)&gt;&lt;20=(0,0,0)&gt;&lt;21=(0,0,0)&gt;&lt;22=(0,0,0)&gt;&lt;23=(0,0,0)&gt;&lt;24=(0,0,0)&gt;&lt;25=(0,0,0)&gt;&lt;26=(0,0,0)&gt;&#xD;&#xA;"
-                           TextWrapping="Wrap"
-                           Visibility="Collapsed" />
-
-
-
-
-
-
-
-
-
-                </Grid>
-              </GroupBox>
             </Grid>
           </ScrollViewer>
         </Grid>
@@ -2039,18 +2034,12 @@
                         Orientation="Vertical">
               <GroupBox x:Name="groupBox20"
                         Width="726"
-                        Height="213"
+                        Height="398"
                         Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         BorderBrush="#FF8A8A8A"
                         Header="说明">
-                <Label x:Name="label322"
-                       Width="164"
-                       Height="35"
-                       Margin="140,0,0,0"
-                       HorizontalAlignment="Left"
-                       Content="还没做！"
-                       FontSize="20" />
+                <Grid />
               </GroupBox>
               <GroupBox x:Name="groupBox21"
                         Width="726"
