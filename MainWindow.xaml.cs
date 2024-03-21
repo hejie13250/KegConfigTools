@@ -314,7 +314,7 @@ namespace 小科狗配置
 
 
 
-    // 更新配置到内存
+    // 更新配置
     private void UpdataConfig()
     {
       if (comboBox.SelectedIndex < 0)
@@ -357,6 +357,23 @@ namespace 小科狗配置
     private void OK_button_Click(object sender, RoutedEventArgs e)
     {
       UpdataConfig();
+      try
+      {
+        var labelName = comboBox.SelectedValue as string;
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        // 将 码表名称 写入剪切板
+        Clipboard.SetText(labelName);
+        Thread.Sleep(200);
+        // 调用 KWM_GETSET 消息接口 -> 读剪切板 码表名称 然后获取配置并写入剪切板
+        SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        // 从剪切板读取配置进行修改
+        currentConfig = Clipboard.GetText();
+        Clipboard.Clear();
+        GetCurrentConfigValue();
+        //GetControlsValue();
+      }
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
       this.Visibility = Visibility.Visible;
     }
     #endregion
@@ -521,8 +538,9 @@ namespace 小科狗配置
       }
     }
 
-private bool IsTrueOrFalse(string value) {
-      if(value == "不要" || value == "不是") return false;
+    private bool IsTrueOrFalse(string value)
+    {
+      if (value == "不要" || value == "不是") return false;
       else return true;
     }
 
