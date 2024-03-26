@@ -120,10 +120,11 @@
                     Margin="9,32,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Click="Hxc_checkBox_Click"
                     Content="候选窗圆角"
                     IsChecked="True"
-                    TabIndex="3102" />
+                    TabIndex="3102"
+                            Checked="Hxc_checkBox_Checked"
+                            Unchecked="Hxc_checkBox_Unchecked" />
                   <CheckBox
                     x:Name="hxcbj_checkBox"
                     x:Uid="String1"
@@ -131,10 +132,11 @@
                     Margin="9,55,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Click="Hxcbj_checkBox_Click"
                     Content="选中项背景圆角"
                     IsChecked="True"
-                    TabIndex="3104" />
+                    TabIndex="3104"
+                            Unchecked="Hxcbj_checkBox_Unchecked"
+                            Checked="Hxcbj_checkBox_Checked" />
 
 
 
@@ -218,10 +220,11 @@
                     Margin="9,193,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Click="Hxcds_checkBox_Click"
                     Content="背景底色："
                     TabIndex="3104"
-                    ToolTip="选中后使用对话框背景色" />
+                    ToolTip="选中后使用对话框背景色"
+                            Checked="Hxcds_checkBox_Checked"
+                            Unchecked="Hxcds_checkBox_Unchecked" />
                   <Label
                     x:Name="color_label_06"
                     Height="26"
@@ -1604,7 +1607,7 @@
                     Margin="108,32,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                            SelectionChanged="comboBox3_SelectionChanged" />
+                            SelectionChanged="ComboBox3_SelectionChanged" />
                   <TextBox
                     x:Name="textBox_Copy67"
                     Width="236"
