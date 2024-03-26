@@ -34,6 +34,7 @@ using System.Windows.Shapes;
 using Path = System.IO.Path;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Diagnostics;
+using System.Text;
 
 namespace 小科狗配置
 {
@@ -101,7 +102,7 @@ namespace 小科狗配置
     string currentConfig;
 
     SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));
-
+    readonly string settingConfigPath = "setting.ini";
 
     public MainWindow()
     {
@@ -121,18 +122,26 @@ namespace 小科狗配置
     {
       Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
       DataContext = this;
-      UpdateBitmap();
-
-      LoadJson();
-      LoadFile();
-      InitIcon();
-      LoadTableNamesIntoComboBox();
-
-    
+      UpdateBitmap();       // 生成 取色图
+      LoadJson();           // 读取 配色方案.json
+      LoadHxFile();         // 读取 候选序号.txt
+      LoadSettingConfig();  // 读取 setting.ini
+      InitIcon();           // 载入托盘图标
+      LoadTableNames();     // 载入码表方案名称
   }
 
+    // 读取 setting.ini
+    private void LoadSettingConfig(){
+      if (!File.Exists(settingConfigPath))
+        File.WriteAllText(settingConfigPath, "[window]\nclosed=0");
+      var close = GetValue("window", "closed", settingConfigPath);
+      checkBox2.IsChecked = close == "1";
+
+
+    }
+
     // 读取候选序号
-    private void LoadFile()
+    private void LoadHxFile()
     {
       string file = "候选序号.txt"; string numStr =
 @"<1=🥑¹sp><2=🍑²sp><3=🍋³sp><4=🍍⁴sp><5=🍈⁵sp><6=🍐⁶sp><7=🍊⁷sp ><8=⁸sp🍑 ><9=⁹sp🍉><10=¹⁰sp🍊>
@@ -147,9 +156,7 @@ namespace 小科狗配置
 <1=Ⓐsp><2=Ⓑsp><3=Ⓒsp><4=Ⓓsp><5=Ⓔsp><6=Ⓕsp><7=Ⓖsp><8=Ⓗsp><9=Ⓘsp><10=Ⓙsp>
 <1=ⓐsp><2=ⓑsp><3=ⓒsp><4=ⓓsp><5=ⓔsp><6=ⓕsp><7=ⓖsp><8=ⓗsp><9=ⓘsp><10=ⓙsp>";
       if (!File.Exists(file))
-      {
         File.WriteAllText(file, numStr);
-      }
       using StreamReader sr = new(file);
       string line;
       while ((line = sr.ReadLine()) != null)
@@ -192,7 +199,7 @@ namespace 小科狗配置
 
     #region 读写db
     // 从 db 读取表名到 ComboBox
-    private void LoadTableNamesIntoComboBox()
+    private void LoadTableNames()
     {
       SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
       connection.Open();
@@ -350,12 +357,6 @@ namespace 小科狗配置
     // 更新配置
     private void UpdataConfig()
     {
-      if (comboBox.SelectedIndex < 0)
-      {
-        MessageBox.Show("您没有选择任何方案！");
-        return;
-      }
-      
       var labelName = comboBox.SelectedValue as string;
       GetControlsValue();
       SaveConfig(labelName, currentConfig);
@@ -380,14 +381,28 @@ namespace 小科狗配置
     // 应用
     private void Apply_button_Click(object sender, RoutedEventArgs e)
     {
+      if (comboBox.SelectedIndex < 0)
+      {
+        MessageBox.Show("您没有选择任何方案！");
+        return;
+      }
       UpdataConfig();
     }
 
     //确认
     private void OK_button_Click(object sender, RoutedEventArgs e)
     {
+      if (comboBox.SelectedIndex < 0)
+      {
+        MessageBox.Show("您没有选择任何方案！");
+        return;
+      }
       UpdataConfig();
-      this.Visibility = Visibility.Visible;
+      if (checkBox2.IsChecked == true)
+        ((App)System.Windows.Application.Current).Exit();
+      else
+        this.Visibility = Visibility.Hidden;
+
       //try
       //{
       //  var labelName = comboBox.SelectedValue as string;
@@ -406,6 +421,14 @@ namespace 小科狗配置
       //}
       //catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
 
+    }
+
+    private void CheckBox2_Click(object sender, RoutedEventArgs e)
+    {
+      if (checkBox2.IsChecked == true)
+        SetValue("window", "closed", "1", settingConfigPath);
+      else
+        SetValue("window", "closed", "0", settingConfigPath);
     }
     #endregion
 
@@ -1750,7 +1773,48 @@ namespace 小科狗配置
     private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
       e.Cancel = true;
-      this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
+      if (checkBox2.IsChecked == true)
+        ((App)System.Windows.Application.Current).Exit();
+      else
+        this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
+    }
+    #endregion
+
+    #region 读写配置文件项
+    // 读写配置项 API
+    [DllImport("kernel32")]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
+    public static extern long GetPrivateProfileString(string section, string key, string defaultValue, StringBuilder retVal, int size, string filePath);
+    [DllImport("kernel32")]// 写入配置文件方法的4个参数：所在的分区、    键值、      参数值、      配置文件路径
+    private static extern long WritePrivateProfileString(string section, string key, string value, string filePath);
+
+    /// <summary>
+    /// 写配置文件
+    /// </summary>
+    /// <param name="section">配置项</param>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <param name="filePath">路径</param>
+    public static void SetValue(string section, string key, string value, string filePath)
+    {
+      WritePrivateProfileString(section, key, value, filePath);
+    }
+
+    /// <summary>
+    /// 读配置文件
+    /// </summary>
+    /// <param name="section">配置项</param>
+    /// <param name="key">键</param>
+    /// <param name="filePath">路径</param>
+    /// <returns>值</returns>
+    public static string GetValue(string section, string key, string filePath)
+    {
+      if (File.Exists(filePath))
+      {
+        StringBuilder sb = new(255);
+        GetPrivateProfileString(section, key, "", sb, 255, filePath);
+        return sb.ToString();
+      }
+      else return string.Empty;
     }
     #endregion
 

@@ -9,6 +9,7 @@
   Width="800"
   Height="1212"
   ResizeMode="CanMinimize"
+  Topmost="True"
   mc:Ignorable="d">
 
   <Grid>
@@ -51,7 +52,7 @@
         x:Name="apply_button"
         Width="80"
         Height="21"
-        Margin="625,10,0,0"
+        Margin="418,10,0,0"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
         Click="Apply_button_Click"
@@ -59,7 +60,7 @@
       <Button
         x:Name="ok_button"
         Height="21"
-        Margin="710,10,10,0"
+        Margin="503,10,217,0"
         VerticalAlignment="Top"
         Click="OK_button_Click"
         Content="确认" />
@@ -72,6 +73,13 @@
         VerticalAlignment="Top"
         Click="Button2_Click"
         Content="设为默认方案" />
+      <CheckBox
+        x:Name="checkBox2"
+        Margin="588,13,0,0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Click="CheckBox2_Click"
+        Content="确认后直接退出" />
     </Grid>
     <TabControl
       x:Name="tabControl"
@@ -120,11 +128,11 @@
                     Margin="9,32,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Checked="Hxc_checkBox_Checked"
                     Content="候选窗圆角"
                     IsChecked="True"
                     TabIndex="3102"
-                            Checked="Hxc_checkBox_Checked"
-                            Unchecked="Hxc_checkBox_Unchecked" />
+                    Unchecked="Hxc_checkBox_Unchecked" />
                   <CheckBox
                     x:Name="hxcbj_checkBox"
                     x:Uid="String1"
@@ -132,11 +140,11 @@
                     Margin="9,55,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Checked="Hxcbj_checkBox_Checked"
                     Content="选中项背景圆角"
                     IsChecked="True"
                     TabIndex="3104"
-                            Unchecked="Hxcbj_checkBox_Unchecked"
-                            Checked="Hxcbj_checkBox_Checked" />
+                    Unchecked="Hxcbj_checkBox_Unchecked" />
 
 
 
@@ -220,11 +228,11 @@
                     Margin="9,193,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Checked="Hxcds_checkBox_Checked"
                     Content="背景底色："
                     TabIndex="3104"
                     ToolTip="选中后使用对话框背景色"
-                            Checked="Hxcds_checkBox_Checked"
-                            Unchecked="Hxcds_checkBox_Unchecked" />
+                    Unchecked="Hxcds_checkBox_Unchecked" />
                   <Label
                     x:Name="color_label_06"
                     Height="26"
@@ -1607,7 +1615,7 @@
                     Margin="108,32,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                            SelectionChanged="ComboBox3_SelectionChanged" />
+                    SelectionChanged="ComboBox3_SelectionChanged" />
                   <TextBox
                     x:Name="textBox_Copy67"
                     Width="236"
