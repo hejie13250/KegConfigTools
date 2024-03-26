@@ -220,7 +220,7 @@ namespace 小科狗配置
     private string GetConfig(string labelName)
     {
       using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT value FROM {labelName} WHERE key = '配置'";
+      string query = $"SELECT value FROM '{labelName}' WHERE key = '配置'";
       connection.Open();
       using SQLiteCommand command = new(query, connection);
 
@@ -240,7 +240,7 @@ namespace 小科狗配置
     {
       string connectionString = $"Data Source={dbPath};Version=3;";
       using SQLiteConnection connection = new (connectionString);
-      string updateQuery = $"UPDATE {labelName} SET value = @Value WHERE key = '配置'";
+      string updateQuery = $"UPDATE '{labelName}' SET value = @Value WHERE key = '配置'";
       connection.Open();
       using SQLiteCommand command = new (updateQuery, connection);
       command.Parameters.AddWithValue("@Value", value);
@@ -803,7 +803,7 @@ namespace 小科狗配置
       ReplaceConfig("候选窗口候选从上到下排列锁定的情况下要使编码区离光标最近吗？", 要或不要((bool)checkBox_Copy46.IsChecked));
       ReplaceConfig("候选窗口候选排列方向模式>1时要隐藏编码串行吗？", 要或不要((bool)checkBox_Copy38.IsChecked));
       ReplaceConfig("要使用嵌入模式吗？", 要或不要((bool)checkBox_Copy44.IsChecked));
-      ReplaceConfig("编码或候选嵌入模式", comboBox1.SelectedIndex.ToString());
+      ReplaceConfig("编码或候选嵌入模式", 取编码或候选嵌入模式());
       ReplaceConfig("码表标签", textBox_Copy15.Text);
       ReplaceConfig("码表标签显示模式", comboBox1_Copy.SelectedIndex.ToString());
       ReplaceConfig("码表标签要左对齐吗？", 要或不要((bool)checkBox_Copy39.IsChecked));
@@ -902,7 +902,12 @@ namespace 小科狗配置
       //foreach (Match match in matches)
       //  modifiedConfigList.Add(match.Value);
     }
-
+    private string 取编码或候选嵌入模式(){
+      int selected = comboBox1.SelectedIndex;
+      if(selected < 5)
+        return selected.ToString();
+      return "10";
+    }
     private string 取背景底色(){
       if (hxcds_checkBox.IsChecked == true)
         return "";
