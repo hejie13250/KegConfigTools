@@ -36,6 +36,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace 小科狗配置
 {
@@ -109,7 +110,7 @@ namespace 小科狗配置
     {
       InitializeComponent();
       this.Title += " V" + GetAssemblyVersion();
-      this.Height = 440;
+      this.Height = 425;
 #if DEBUG
       dbPath = "Keg.db";
 #else
@@ -198,6 +199,44 @@ namespace 小科狗配置
     //const uint KWM_UPQJSET = (uint)WM_USER + 211;
     #endregion
 
+    #region 读写配置文件项
+    // 读写配置项 API
+    [DllImport("kernel32")]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
+    public static extern long GetPrivateProfileString(string section, string key, string defaultValue, StringBuilder retVal, int size, string filePath);
+    [DllImport("kernel32")]// 写入配置文件方法的4个参数：所在的分区、    键值、      参数值、      配置文件路径
+    private static extern long WritePrivateProfileString(string section, string key, string value, string filePath);
+
+    /// <summary>
+    /// 写配置文件
+    /// </summary>
+    /// <param name="section">配置项</param>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <param name="filePath">路径</param>
+    public static void SetValue(string section, string key, string value, string filePath)
+    {
+      WritePrivateProfileString(section, key, value, filePath);
+    }
+
+    /// <summary>
+    /// 读配置文件
+    /// </summary>
+    /// <param name="section">配置项</param>
+    /// <param name="key">键</param>
+    /// <param name="filePath">路径</param>
+    /// <returns>值</returns>
+    public static string GetValue(string section, string key, string filePath)
+    {
+      if (File.Exists(filePath))
+      {
+        StringBuilder sb = new(255);
+        GetPrivateProfileString(section, key, "", sb, 255, filePath);
+        return sb.ToString();
+      }
+      else return string.Empty;
+    }
+    #endregion
+
     #region 读写db
     // 从 db 读取表名到 ComboBox
     private void LoadTableNames()
@@ -271,11 +310,15 @@ namespace 小科狗配置
       currentConfig = GetConfig(labelName);
       if(!currentConfig.Contains("\n"))
           currentConfig = Regex.Replace(currentConfig, $"《", $"\n《");
-      //Clipboard.SetText(currentConfig);
       SetControlsValue();
-      //GetSet();
-    }
 
+      restor_default_button.IsEnabled = true;
+      loading_templates_button.IsEnabled = true;
+      set_as_default_button.IsEnabled = true;
+      apply_button.IsEnabled = true;
+      apply_all_button.IsEnabled = true;
+
+    }
 
     // 更新配置的值到 UI
     //private void GetSet()
@@ -299,14 +342,15 @@ namespace 小科狗配置
     //}
 
     // 重新载入
-    private void Reload_button_Click(object sender, RoutedEventArgs e)
+
+
+    private void Restor_default_button_Click(object sender, RoutedEventArgs e)
     {
       if (comboBox.SelectedIndex < 0)
       {
         MessageBox.Show("您没有选择任何方案！");
         return;
       }
-      //GetSet();
       var labelName = comboBox.SelectedValue as string;
       foreach (var config in configs)
       {
@@ -319,14 +363,30 @@ namespace 小科狗配置
       SetControlsValue();
     }
 
-    // 设置默认方案
-    private void Button2_Click(object sender, RoutedEventArgs e)
+    // 加载默认模板
+    private void Loading_templates_button_Click(object sender, RoutedEventArgs e)
     {
-      if (comboBox.SelectedIndex < 0)
+      var result = MessageBox.Show(
+      $"您确定要从服务端加载默认模板吗？",
+      "加载默认模板",
+      MessageBoxButton.OKCancel,
+      MessageBoxImage.Question);
+
+      if (result == MessageBoxResult.OK)
       {
-        MessageBox.Show("您没有选择任何方案！");
-        return;
+        var labelName = comboBox.SelectedValue as string;
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        SendMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
+        var str = Clipboard.GetText();
+        Clipboard.Clear();
+        currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
+        SetControlsValue();
       }
+    }
+
+    // 设置默认方案
+    private void Set_as_default_Click(object sender, RoutedEventArgs e)
+    {
       try
       {
         var labelName = comboBox.SelectedValue as string;
@@ -338,77 +398,19 @@ namespace 小科狗配置
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
     }
 
-    // 加载默认模板
-    private void Default_button_Click(object sender, RoutedEventArgs e)
-    {
-      if (comboBox.SelectedIndex < 0)
-      {
-        MessageBox.Show("您没有选择任何方案！");
-        return;
-      }
-      var labelName = comboBox.SelectedValue as string;
-      IntPtr hWnd = FindWindow("CKegServer_0", null);
-      SendMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
-      var str = Clipboard.GetText();
-      Clipboard.Clear();
-      currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
-      SetControlsValue();
-    }
-
-    // 更新配置
-    private void UpdataConfig()
-    {
-      //var labelName = comboBox.SelectedValue as string;
-      //GetControlsValue();
-      //SaveConfig(labelName, currentConfig);
-      //try
-      //{
-      //  IntPtr hWnd = FindWindow("CKegServer_0", null);
-      //  SendMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero);
-      //  Clipboard.SetText($"方案：<{labelName}> 配置");
-      //  Thread.Sleep(200);
-      //  SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
-      //  Thread.Sleep(200);
-      //  SendMessage(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero);
-      //}
-      //catch (Exception ex)
-      //{
-      //  MessageBox.Show($"错误信息：{ex.Message}");
-      //}
-
-
-    }
-
-    public static string GetDifferences(string modifiedConfig, string currentConfig)
-    {
-      // 将字符串按行分割成数组
-      var modifiedLines = modifiedConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-      var currentLines = currentConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-
-      // 找出不同的行
-      var differentLines = modifiedLines.Except(currentLines);
-
-      // 将不同的行追加到新的字符串中
-      string newConfig = string.Join(Environment.NewLine, differentLines);
-
-      return newConfig;
-    }
-
     // 应用修改
     private void Apply_button_Click(object sender, RoutedEventArgs e)
     {
-      if (comboBox.SelectedIndex < 0)
-      {
-        MessageBox.Show("您没有选择任何方案！");
-        return;
-      }
-      //UpdataConfig();
       var labelName = comboBox.SelectedValue as string;
       modifiedConfig = currentConfig;
-      GetControlsValue();
+      GetControlsValue(); // 读取所有控件值替换到 modifiedConfig
+      // 获取已修改项
+      string updataStr = $"方案：<{labelName}> 配置 \n" + GetDifferences(modifiedConfig, currentConfig);
+      if (updataStr == $"方案：<{labelName}> 配置 \n") {
+        MessageBox.Show("没修改任何项");
+        return;
+      }
       SaveConfig(labelName, modifiedConfig);
-      string updataStr = $"方案：<{labelName}> 配置\n" + GetDifferences(modifiedConfig, currentConfig);
-
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
@@ -424,18 +426,18 @@ namespace 小科狗配置
     }
 
     // 应用所有
-    private void OK_button_Click(object sender, RoutedEventArgs e)
+    private void Apply_All_button_Click(object sender, RoutedEventArgs e)
     {
-      if (comboBox.SelectedIndex < 0)
-      {
-        MessageBox.Show("您没有选择任何方案！");
-        return;
-      }
-
       var labelName = comboBox.SelectedValue as string;
       modifiedConfig = currentConfig;
-      GetControlsValue();
+      GetControlsValue(); 
+      if (modifiedConfig == currentConfig)
+      {
+        MessageBox.Show("没修改任何项");
+        return;
+      }
       SaveConfig(labelName, modifiedConfig);
+
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
@@ -447,6 +449,7 @@ namespace 小科狗配置
       }
     }
 
+    // 关闭窗口后直接退出
     private void CheckBox2_Click(object sender, RoutedEventArgs e)
     {
       if (checkBox2.IsChecked == true)
@@ -454,6 +457,23 @@ namespace 小科狗配置
       else
         SetValue("window", "closed", "0", settingConfigPath);
     }
+
+    // 获取已修改项
+    public static string GetDifferences(string modifiedConfig, string currentConfig)
+    {
+      // 将字符串按行分割成数组
+      var modifiedLines = modifiedConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+      var currentLines = currentConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+      // 找出不同的行
+      var differentLines = modifiedLines.Except(currentLines);
+
+      // 将不同的行追加到新的字符串中
+      string newConfig = string.Join(Environment.NewLine, differentLines);
+
+      return newConfig;
+    }
+
     #endregion
 
     #region 读取配置各项值到控件
@@ -781,9 +801,8 @@ namespace 小科狗配置
     // 正则替换 modifiedConfig
     private void ReplaceConfig(string key, string value)
     {
-      currentConfig = Regex.Replace(currentConfig, $"《{key}=.*?》", $"《{key}={value}》");
+      modifiedConfig = Regex.Replace(modifiedConfig, $"《{key}=.*?》", $"《{key}={value}》");
     }
-
     // 读取控件属性值
     private void GetControlsValue()
     {
@@ -922,7 +941,6 @@ namespace 小科狗配置
         return "";
       else return HexToRgb(color_label_5.Background.ToString());
     }
-
     private string 取候选窗口绘制模式()
     {
       if (radioButton10.IsChecked == true) return "0";
@@ -930,7 +948,6 @@ namespace 小科狗配置
       //if (radioButton9.IsChecked == true) return "2";
       return "2";
     }
-
     private string 取D2D字体样式()
     {
       //if (radioButton6.IsChecked == true) return "0";
@@ -944,7 +961,6 @@ namespace 小科狗配置
       if (radioButton16.IsChecked == true) return "2";
       return "3";
     }
-
     private string 取候选窗口候选排列方向模式()
     {
       if (radioButton8.IsChecked == true) return "1";
@@ -952,7 +968,6 @@ namespace 小科狗配置
       //if (radioButton13.IsChecked == true) return "3";
       return "3";
     }
-
     private string 取词语联想上屏字符串长度()
     {
       if (radioButton.IsChecked == true) return "1";
@@ -966,19 +981,16 @@ namespace 小科狗配置
       if (radioButton4.IsChecked == true) return "2";
       else return "3";
     }
-
     private string 取顶功规则()
     {
       if (radioButton454.IsChecked == true) return "1";
       if (radioButton455.IsChecked == true) return "2";
       return "3";
     }
-
     private string 是或不是(bool b){
       if (b == true) return "是";
       else return "不是";
     }
-
     private string 要或不要(bool b)
     {
       if (b == true) return "要";
@@ -1156,51 +1168,24 @@ namespace 小科狗配置
         // 依select_color_label的值更新指定控件相关属性
         switch (select_color_label)
         {
-
           case 1: //嵌入下划线色
-            color_label_1.Background = c_color;
-            //hxz_label_xhx.BorderBrush = c_color;
-            break;
+            color_label_1.Background = c_color; break;
           case 2: //光标色
-            color_label_2.Background = c_color;
-            //hxz_label_gb.BorderBrush = c_color;
-            break;
+            color_label_2.Background = c_color; break;
           case 3: //分隔线色
-            color_label_3.Background = c_color;
-            //hxz_label_fgx.BorderBrush = c_color;
-            break;
+            color_label_3.Background = c_color; break;
           case 4: //候选窗口边框色
-            color_label_4.Background = c_color;
-            //hxk_border.BorderBrush = c_color;
-            break;
+            color_label_4.Background = c_color; break;
           case 5: //候选窗背景底色
-            color_label_5.Background = c_color;
-            //hxk_border.Background = c_color;
-            break;
+            color_label_5.Background = c_color; break;
           case 6: //候选选中背景色
-            color_label_6.Background = c_color;
-            //hxz_border.Background = c_color;
-            break;
+            color_label_6.Background = c_color; break;
           case 7: //候选选中字体色
-            color_label_7.Background = c_color;
-            //hxz_label_3.Foreground = c_color;
-            //hxz_label_1.Foreground = c_color;
-            break;
+            color_label_7.Background = c_color; break;
           case 8: //编码字体色
-            color_label_8.Background = c_color;
-            //hxz_label_0.Foreground = c_color;
-            HXZ_TextBoxText();
-            break;
+            color_label_8.Background = c_color; HXZ_TextBoxText(); break;
           case 9: //候选字体色
-            color_label_9.Background = c_color;
-            //hxz_label_1.Foreground = c_color;
-            //hxz_label_2.Foreground = c_color;
-            //hxz_label_3.Foreground = c_color;
-            //hxz_label_4.Foreground = c_color;
-            //hxz_label_5.Foreground = c_color;
-            //hxz_label_6.Foreground = c_color;
-            HXZ_TextBoxText();
-            break;
+            color_label_9.Background = c_color; HXZ_TextBoxText(); break;
           case 10:
             color_label_10.Background = c_color; break;
         }
@@ -1448,19 +1433,6 @@ namespace 小科狗配置
         color_label_7.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.选中字体色));
         color_label_8.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.编码字体色));
         color_label_9.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.候选字色));
-        //hxz_label_0.BorderBrush = color_label_1.Background;
-        //hxz_label_gb.BorderBrush = color_label_2.Background;
-        //hxz_label_fgx.BorderBrush = color_label_3.Background;
-        //hxk_border.BorderBrush = color_label_4.Background;
-        //hxz_border.Background = color_label_6.Background;
-        //hxz_label_3.Foreground = color_label_7.Background;
-        //hxz_label_0.Foreground = color_label_8.Background;
-        //hxz_label_1.Foreground = color_label_9.Background;
-        //hxz_label_2.Foreground = color_label_9.Background;
-        //hxz_label_4.Foreground = color_label_9.Background;
-        //hxz_label_5.Foreground = color_label_9.Background;
-        //hxz_label_6.Foreground = color_label_9.Background;
-
       }
     }
 
@@ -1669,16 +1641,17 @@ namespace 小科狗配置
 
     private void Hxcds_checkBox_Unchecked(object sender, RoutedEventArgs e)
     {
-      //color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
       color_label_5.Background = bkColor;
     }
 
     #endregion
 
     #region 托盘图标和窗口
+
+    // 加载托盘图标
     private void InitIcon(){
       // 阻止默认的关闭行为
-      this.Closing += MainWindow_Closing;
+      //this.Closing += MainWindow_Closing;
 
       notifyIcon = new NotifyIcon
       {
@@ -1744,60 +1717,33 @@ namespace 小科狗配置
       MessageBox.Show("本工具用于小科狗码表方案配置", "说明");
     }
 
-    // 新增的托盘图标双击事件处理器
+    // 托盘图标双击事件
     private void NotifyIcon_DoubleClick(object sender, EventArgs e)
     {
       this.Visibility = Visibility.Visible;
     }
 
-    // 隐藏窗口
-    private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    // 移动窗口
+    private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      e.Cancel = true;
+      // 只有当用户按下左键时才处理
+      if (e.LeftButton == MouseButtonState.Pressed)
+      {
+        // 调用API使窗口跟随鼠标移动
+        DragMove();
+      }
+    }
+
+    private void button_Click(object sender, RoutedEventArgs e)
+    {
       if (checkBox2.IsChecked == true)
         ((App)System.Windows.Application.Current).Exit();
       else
         this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
     }
+
     #endregion
 
-    #region 读写配置文件项
-    // 读写配置项 API
-    [DllImport("kernel32")]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
-    public static extern long GetPrivateProfileString(string section, string key, string defaultValue, StringBuilder retVal, int size, string filePath);
-    [DllImport("kernel32")]// 写入配置文件方法的4个参数：所在的分区、    键值、      参数值、      配置文件路径
-    private static extern long WritePrivateProfileString(string section, string key, string value, string filePath);
-
-    /// <summary>
-    /// 写配置文件
-    /// </summary>
-    /// <param name="section">配置项</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <param name="filePath">路径</param>
-    public static void SetValue(string section, string key, string value, string filePath)
-    {
-      WritePrivateProfileString(section, key, value, filePath);
-    }
-
-    /// <summary>
-    /// 读配置文件
-    /// </summary>
-    /// <param name="section">配置项</param>
-    /// <param name="key">键</param>
-    /// <param name="filePath">路径</param>
-    /// <returns>值</returns>
-    public static string GetValue(string section, string key, string filePath)
-    {
-      if (File.Exists(filePath))
-      {
-        StringBuilder sb = new(255);
-        GetPrivateProfileString(section, key, "", sb, 255, filePath);
-        return sb.ToString();
-      }
-      else return string.Empty;
-    }
-    #endregion
 
 
   }
