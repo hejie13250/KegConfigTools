@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -16,27 +14,33 @@ using System.Windows.Media.Imaging;
 using Point = System.Windows.Point;
 using Color = System.Windows.Media.Color;
 using Label = System.Windows.Controls.Label;
-using ListBox = System.Windows.Controls.ListBox;
-using ComboBox = System.Windows.Controls.ComboBox;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using MessageBox = System.Windows.MessageBox;
 using MenuItem = System.Windows.Forms.MenuItem;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
-using Brush = System.Drawing.Brush;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
-using static 小科狗配置.MainWindow;
 using System.Threading;
-using System.Windows.Shapes;
 using Path = System.IO.Path;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
-using System.Xml.Linq;
+using Thumb = System.Windows.Controls.Primitives.Thumb;
+using TextBox = System.Windows.Controls.TextBox;
+using ListView = System.Windows.Controls.ListView;
+using System.Globalization;
+using System.Windows.Data;
+using System.ComponentModel;
+using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
+using CheckBox = System.Windows.Controls.CheckBox;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using System.Windows.Shapes;
+using GroupBox = System.Windows.Controls.GroupBox;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Window = System.Windows.Window;
 
 namespace 小科狗配置
 {
@@ -47,7 +51,8 @@ namespace 小科狗配置
   public partial class MainWindow : Window
   {
     #region 定义全局变量和初始化
-    public WriteableBitmap Bitmap { get; set; }
+    public WriteableBitmap Bitmap { get; set; } // 定义取色器背景图
+    // 定义配色方案类
     public class ColorScheme
     {
       public string 名称 { get; set; }
@@ -91,32 +96,93 @@ namespace 小科狗配置
       编码字体色 = "#000000",
       候选字色 = "#000000"
     };
-    readonly String filePath = "配色方案.json";
-    int select_color_label = 0;
+    readonly String schemeFilePath = "配色方案.json";
+    int select_color_label_num = 0;         // 用于记录当前选中的 select_color_label
 
-    NotifyIcon notifyIcon;
+    NotifyIcon notifyIcon;                  // 托盘图标
 
     readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    readonly string dbPath;
+    readonly string dbPath, kegFilePath;    // Keg.db 和 Keg.txt 文件路径
+    //string kegText;                         // 存放 Keg.txt 文件
+    readonly List<string> configs = new();  // 存方 Keg.db 内所有方案的配置，用于恢复
+    string bgString;                        // 存放字体色串
+    string currentConfig, modifiedConfig;   // 存少当前配置和当前修改的配置
 
-    readonly List<string> configs = new();
-    string bgString;
-    string currentConfig, modifiedConfig;
+    SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));  // 候选框无背景色时的值
+    readonly string settingConfigPath = "setting.ini";  // 窗口配置文件
+    #region 全局设置定义
+    readonly String globalSettingFilePath = "全局设置.json";
 
-    SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));
-    readonly string settingConfigPath = "setting.ini";
+    public struct 列表项
+    {
+      public bool IsChecked { get; set; }
+      public string Name { get; set; }
+      public string Value { get; set; }
+    }
+    public struct 状态条
+    {
+      public string 提示文本的位置 { get; set; }
+      public bool 提示文本要隐藏吗 { get; set; }
+      public bool 提示文本要显示中英以及大小写状态吗 { get; set; }
+      public string 提示文本中文字体色 { get; set; }
+      public string 提示文本英文字体色 { get; set; }
+      public int 提示文本字体大小 { get; set; }
+      public string 提示文本字体名称 { get; set; }
+      public bool 打字字数统计等数据是要保存在主程文件夹下吗 { get; set; }
+      public bool 快键只在候选窗口显示情况下才起作用吗 { get; set; }
+      public bool 要启用深夜锁屏吗 { get; set; }
+      public string 自动关机 { get; set; }
+    }
+
+    public struct GlobalSettings
+    {
+      public 状态条 状态栏和其它设置 { get; set; }
+      public ObservableCollection<列表项> 查找列表 { get; set; }
+      public ObservableCollection<列表项> 快键命令 { get; set; }
+      public ObservableCollection<列表项> 快键 { get; set; }
+      public ObservableCollection<列表项> 自启 { get; set; }
+    }
+
+    GlobalSettings 全局设置 = new()
+    {
+      状态栏和其它设置 = new(),
+      查找列表 = new ObservableCollection<列表项>(),
+      快键命令 = new ObservableCollection<列表项>(),
+      快键 = new ObservableCollection<列表项>(),
+      自启 = new ObservableCollection<列表项>()
+    };
+
+
+
+
+    #endregion
+
+
+
 
     public MainWindow()
     {
       InitializeComponent();
-      this.Title += " V" + GetAssemblyVersion();
-      this.Height = 425;
-#if DEBUG
-      dbPath = "Keg.db";
-#else
-      string relativeFilePath = Path.Combine(appPath, @"..\..\Keg.db");
-      dbPath = Path.GetFullPath(relativeFilePath);
-#endif
+      //this.Title += " V" + GetAssemblyVersion();
+
+      bool isNumberValid = int.TryParse(GetValue("window", "height"), out int height);
+
+      if (isNumberValid)
+      {
+        //this.Height = height;
+        nud22.Value = height;
+      }
+      else{
+        this.Height = 425;
+        SetValue("window", "height", "425");
+      }
+      
+
+
+
+      kegFilePath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.txt"));
+      dbPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.db"));
+
       Loaded += MainWindow_Loaded;
     }
 
@@ -125,47 +191,17 @@ namespace 小科狗配置
       Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
       DataContext = this;
       UpdateBitmap();       // 生成 取色图
-      LoadJson();           // 读取 配色方案.json
-      LoadHxFile();         // 读取 候选序号.txt
-      LoadSettingConfig();  // 读取 setting.ini
       InitIcon();           // 载入托盘图标
       LoadTableNames();     // 载入码表方案名称
-  }
+      LoadSettingConfig();  // 读取 setting.ini
+      LoadJson();           // 读取 配色方案.jsonString
+      LoadHxFile();         // 读取 候选序号.txt
+      ReadKegText();        // 读取 全局设置
+      listView3.ItemsSource = 全局设置.查找列表; // ListView的数据
+      listView4.ItemsSource = 全局设置.快键命令;
+      listView5.ItemsSource = 全局设置.快键;
+      listView6.ItemsSource = 全局设置.自启;
 
-    // 读取 setting.ini
-    private void LoadSettingConfig(){
-      if (!File.Exists(settingConfigPath))
-        File.WriteAllText(settingConfigPath, "[window]\nclosed=0");
-      var close = GetValue("window", "closed", settingConfigPath);
-      checkBox2.IsChecked = close == "1";
-
-
-    }
-
-    // 读取候选序号
-    private void LoadHxFile()
-    {
-      string file = "候选序号.txt"; string numStr =
-@"<1=🥑¹sp><2=🍑²sp><3=🍋³sp><4=🍍⁴sp><5=🍈⁵sp><6=🍐⁶sp><7=🍊⁷sp ><8=⁸sp🍑 ><9=⁹sp🍉><10=¹⁰sp🍊>
-<1=¹sp><2=²sp><3=³sp><4=⁴sp><5=⁵sp><6=⁶sp><7=⁷sp ><8=⁸sp ><9=⁹sp><10=¹⁰sp>
-<1=①sp><2=②sp><3=③sp><4=④sp><5=⑤sp><6=⑥sp><7=⑦sp><8=⑧sp><9=⑨sp><10=⑩sp>
-<1=❶sp><2=❷sp><3=❸sp><4=❹sp><5=❺sp><6=❻sp><7=❼sp><8=❽sp><9=❾sp><10=❿sp>
-<1=⓵sp><2=⓶sp><3=⓷sp><4=⓸sp><5=⓹sp><6=⓺sp><7=⓻sp><8=⓼sp><9=⓽sp><10=⓾sp>
-<1=㊀sp><2=㊁sp><3=㊂sp><4=㊃sp><5=㊄sp><6=㊅sp><7=㊆sp><8=㊇sp><9=㊈sp><10=㊉sp>
-<1=㈠sp><2=㈡sp><3=㈢sp><4=㈣sp><5=㈤sp><6=㈥sp><7=㈦sp><8=㈧sp><9=㈨sp><10=㈩sp>
-<1=🀇sp><2=🀈sp><3=🀉sp><4=🀊sp><5=🀋sp><6=🀌sp><7=🀍sp><8=🀎sp><9=🀏sp><10=🀄sp>
-<1=Ⅰsp><2=Ⅱsp><3=Ⅲsp><4=Ⅳsp><5=Ⅴsp><6=Ⅵsp><7=Ⅶsp><8=Ⅷsp><9=Ⅸsp><10=Ⅹsp>
-<1=Ⓐsp><2=Ⓑsp><3=Ⓒsp><4=Ⓓsp><5=Ⓔsp><6=Ⓕsp><7=Ⓖsp><8=Ⓗsp><9=Ⓘsp><10=Ⓙsp>
-<1=ⓐsp><2=ⓑsp><3=ⓒsp><4=ⓓsp><5=ⓔsp><6=ⓕsp><7=ⓖsp><8=ⓗsp><9=ⓘsp><10=ⓙsp>";
-      if (!File.Exists(file))
-        File.WriteAllText(file, numStr);
-      using StreamReader sr = new(file);
-      string line;
-      while ((line = sr.ReadLine()) != null)
-      {
-        ComboBoxItem item = new() { Content = line };
-        comboBox3.Items.Add(item);
-      }
     }
 
     // 获取版本号
@@ -188,10 +224,10 @@ namespace 小科狗配置
     //const uint KWM_RESETPIPLE = (uint)WM_USER + 200;
     const uint KWM_RESET = (uint)WM_USER + 201;
     //const uint KWM_SET0 = (uint)WM_USER + 202;
-    const uint KWM_GETSET = (uint)WM_USER + 203;
+    //const uint KWM_GETSET = (uint)WM_USER + 203;
     //const uint KWM_INSERT = (uint)WM_USER + 204;
     const uint KWM_UPBASE = (uint)WM_USER + 205;
-    const uint KWM_SAVEBASE = (uint)WM_USER + 206;
+    //const uint KWM_SAVEBASE = (uint)WM_USER + 206;
     //const uint KWM_GETDATAPATH = (uint)WM_USER + 207;
     const uint KWM_GETDEF = (uint)WM_USER + 208;
     const uint KWM_SET2ALL = (uint)WM_USER + 209;
@@ -211,11 +247,11 @@ namespace 小科狗配置
     /// </summary>
     /// <param name="section">配置项</param>
     /// <param name="key">键</param>
-    /// <param name="value">值</param>
+    /// <param name="value">命令行</param>
     /// <param name="filePath">路径</param>
-    public static void SetValue(string section, string key, string value, string filePath)
+    public  void SetValue(string section, string key, string value)
     {
-      WritePrivateProfileString(section, key, value, filePath);
+      WritePrivateProfileString(section, key, value, settingConfigPath);
     }
 
     /// <summary>
@@ -224,17 +260,18 @@ namespace 小科狗配置
     /// <param name="section">配置项</param>
     /// <param name="key">键</param>
     /// <param name="filePath">路径</param>
-    /// <returns>值</returns>
-    public static string GetValue(string section, string key, string filePath)
+    /// <returns>命令行</returns>
+    public string GetValue(string section, string key)
     {
-      if (File.Exists(filePath))
+      if (File.Exists(settingConfigPath))
       {
         StringBuilder sb = new(255);
-        GetPrivateProfileString(section, key, "", sb, 255, filePath);
+        GetPrivateProfileString(section, key, "", sb, 255, settingConfigPath);
         return sb.ToString();
       }
       else return string.Empty;
     }
+
     #endregion
 
     #region 读写db
@@ -320,30 +357,7 @@ namespace 小科狗配置
 
     }
 
-    // 更新配置的值到 UI
-    //private void GetSet()
-    //{
-    //  try{
-    //    var labelName = comboBox.SelectedValue as string;
-    //    IntPtr hWnd = FindWindow("CKegServer_0", null);
-    //    // 将 码表名称 写入剪切板
-    //    Clipboard.SetText(labelName);
-    //    Thread.Sleep(200);
-    //    // 调用 KWM_GETSET 消息接口 -> 读剪切板 码表名称 然后获取配置并写入剪切板
-    //    SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
-    //    Thread.Sleep(200);
-    //    // 从剪切板读取配置进行修改
-    //    currentConfig = Clipboard.GetText();
-    //     Clipboard.Clear();
-    //    SetControlsValue();
-    //    //GetControlsValue();
-    //  }
-    //  catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
-    //}
-
-    // 重新载入
-
-
+    // 加载默认设置
     private void Restor_default_button_Click(object sender, RoutedEventArgs e)
     {
       if (comboBox.SelectedIndex < 0)
@@ -453,9 +467,9 @@ namespace 小科狗配置
     private void CheckBox2_Click(object sender, RoutedEventArgs e)
     {
       if (checkBox2.IsChecked == true)
-        SetValue("window", "closed", "1", settingConfigPath);
+        SetValue("window", "closed", "1");
       else
-        SetValue("window", "closed", "0", settingConfigPath);
+        SetValue("window", "closed", "0");
     }
 
     // 获取已修改项
@@ -477,6 +491,41 @@ namespace 小科狗配置
     #endregion
 
     #region 读取配置各项值到控件
+    // 读取 setting.ini
+    private void LoadSettingConfig()
+    {
+      if (!File.Exists(settingConfigPath))
+        File.WriteAllText(settingConfigPath, "[window]\nclosed=0");
+      var close = GetValue("window", "closed");
+      checkBox2.IsChecked = close == "1";
+    }
+
+    // 读取候选序号
+    private void LoadHxFile()
+    {
+      string file = "候选序号.txt"; string numStr =
+@"<1=🥑¹sp><2=🍑²sp><3=🍋³sp><4=🍍⁴sp><5=🍈⁵sp><6=🍐⁶sp><7=🍊⁷sp ><8=⁸sp🍑 ><9=⁹sp🍉><10=¹⁰sp🍊>
+<1=¹sp><2=²sp><3=³sp><4=⁴sp><5=⁵sp><6=⁶sp><7=⁷sp ><8=⁸sp ><9=⁹sp><10=¹⁰sp>
+<1=①sp><2=②sp><3=③sp><4=④sp><5=⑤sp><6=⑥sp><7=⑦sp><8=⑧sp><9=⑨sp><10=⑩sp>
+<1=❶sp><2=❷sp><3=❸sp><4=❹sp><5=❺sp><6=❻sp><7=❼sp><8=❽sp><9=❾sp><10=❿sp>
+<1=⓵sp><2=⓶sp><3=⓷sp><4=⓸sp><5=⓹sp><6=⓺sp><7=⓻sp><8=⓼sp><9=⓽sp><10=⓾sp>
+<1=㊀sp><2=㊁sp><3=㊂sp><4=㊃sp><5=㊄sp><6=㊅sp><7=㊆sp><8=㊇sp><9=㊈sp><10=㊉sp>
+<1=㈠sp><2=㈡sp><3=㈢sp><4=㈣sp><5=㈤sp><6=㈥sp><7=㈦sp><8=㈧sp><9=㈨sp><10=㈩sp>
+<1=🀇sp><2=🀈sp><3=🀉sp><4=🀊sp><5=🀋sp><6=🀌sp><7=🀍sp><8=🀎sp><9=🀏sp><10=🀄sp>
+<1=Ⅰsp><2=Ⅱsp><3=Ⅲsp><4=Ⅳsp><5=Ⅴsp><6=Ⅵsp><7=Ⅶsp><8=Ⅷsp><9=Ⅸsp><10=Ⅹsp>
+<1=Ⓐsp><2=Ⓑsp><3=Ⓒsp><4=Ⓓsp><5=Ⓔsp><6=Ⓕsp><7=Ⓖsp><8=Ⓗsp><9=Ⓘsp><10=Ⓙsp>
+<1=ⓐsp><2=ⓑsp><3=ⓒsp><4=ⓓsp><5=ⓔsp><6=ⓕsp><7=ⓖsp><8=ⓗsp><9=ⓘsp><10=ⓙsp>";
+      if (!File.Exists(file))
+        File.WriteAllText(file, numStr);
+      using StreamReader sr = new(file);
+      string line;
+      while ((line = sr.ReadLine()) != null)
+      {
+        ComboBoxItem item = new() { Content = line };
+        comboBox3.Items.Add(item);
+      }
+    }
+
     // 读取配置值到控件
     private void SetControlsValue()
     {
@@ -630,14 +679,12 @@ namespace 小科狗配置
         hxcds_checkBox.IsChecked = true;
         color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
         bkColor = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-        //hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
       }
       else
       {
         hxcds_checkBox.IsChecked = false;
         color_label_5.Background = RGBStringToColor(value);
         bkColor = RGBStringToColor(value);
-        //hxk_border.Background = RGBStringToColor(value);
       }
     }
 
@@ -755,15 +802,9 @@ namespace 小科狗配置
         switch (match.Groups[1].Value) {
         case "0": //编码字体色
             color_label_8.Background = RGBStringToColor(value);
-            //hxz_label_0.Foreground = RGBStringToColor(value);
             break;
         case "1":
             color_label_9.Background = RGBStringToColor(value);
-            //hxz_label_1.Foreground = RGBStringToColor(value);
-            //hxz_label_2.Foreground = RGBStringToColor(value);
-            //hxz_label_4.Foreground = RGBStringToColor(value);
-            //hxz_label_5.Foreground = RGBStringToColor(value);
-            //hxz_label_6.Foreground = RGBStringToColor(value);
             break;
         }
       }
@@ -945,7 +986,6 @@ namespace 小科狗配置
     {
       if (radioButton10.IsChecked == true) return "0";
       if (radioButton11.IsChecked == true) return "1";
-      //if (radioButton9.IsChecked == true) return "2";
       return "2";
     }
     private string 取D2D字体样式()
@@ -1002,14 +1042,129 @@ namespace 小科狗配置
     #endregion
 
     #region 配色相关
+
+    // 画布 canvas 点击取色
+    private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      Canvas canvas;
+      Thumb thumb;
+
+      if (tabItem1.IsSelected)
+      {
+        canvas = canvas1;
+        thumb = thumb1;
+      }
+      else
+      {
+        canvas = canvas2;
+        thumb = thumb2;
+      }
+      var canvasPosition = e.GetPosition(canvas);
+      double newLeft = canvasPosition.X - thumb.ActualWidth / 2;
+      double newTop = canvasPosition.Y - thumb.ActualHeight / 2;
+
+      double canvasRight = canvas.ActualWidth - thumb.ActualWidth;
+      double canvasBottom = canvas.ActualHeight - thumb.ActualHeight;
+
+      newLeft = Math.Max(0, Math.Min(newLeft, canvasRight));
+      newTop = Math.Max(0, Math.Min(newTop, canvasBottom));
+
+      Canvas.SetLeft(thumb, newLeft);
+      Canvas.SetTop(thumb, newTop);
+      GetAreaColor();
+    }
+
+    // 画布 canvas 的 thumb 移动取色
+    private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+    {
+      Canvas canvas;
+      Thumb thumb;
+
+      if (tabItem1.IsSelected)
+      {
+        canvas = canvas1;
+        thumb = thumb1;
+      }
+      else
+      {
+        canvas = canvas2;
+        thumb = thumb2;
+      }
+      double newLeft = Canvas.GetLeft(thumb) + e.HorizontalChange;
+      double newTop = Canvas.GetTop(thumb) + e.VerticalChange;
+
+      // 计算画布边界
+      double canvasRight = canvas.ActualWidth - thumb.ActualWidth + 5;
+      double canvasBottom = canvas.ActualHeight - thumb.ActualHeight + 5;
+
+      // 限制 Thumb 在画布内部移动
+      newLeft = Math.Max(-6, Math.Min(newLeft, canvasRight));
+      newTop = Math.Max(-6, Math.Min(newTop, canvasBottom));
+
+      Canvas.SetLeft(thumb, newLeft);
+      Canvas.SetTop(thumb, newTop);
+      GetAreaColor();
+    }
+
+    // 更新对应标签的背景颜色
+    void GetAreaColor()
+    {
+      Canvas canvas;
+      Thumb thumb;
+      Label color_label;
+      TextBox colorTextBox;
+      Label[] colorLabels = { color_label_1, color_label_2, color_label_3, color_label_4, color_label_5, color_label_6, color_label_7, color_label_8, color_label_9, color_label_10, color_label_11, color_label_12, color_label_13 };
+      if (tabItem1.IsSelected)
+      {
+        canvas = canvas1;
+        thumb = thumb1;
+        color_label = color_label_10;
+        colorTextBox = color_textBox_1;
+      }
+      else
+      {
+        canvas = canvas2;
+        thumb = thumb2;
+        color_label = color_label_11;
+        colorTextBox = color_textBox_2;
+      }
+
+      Point? thumbPosition = thumb.TranslatePoint(new Point(thumb.ActualWidth / 2, thumb.ActualHeight / 2), canvas);
+
+      if (thumbPosition.HasValue && thumbPosition.Value.X >= 0 && thumbPosition.Value.X < Bitmap.PixelWidth && thumbPosition.Value.Y >= 0 && thumbPosition.Value.Y < Bitmap.PixelHeight)
+      {
+        int xCoordinate = (int)thumbPosition.Value.X;
+        int yCoordinate = (int)thumbPosition.Value.Y;
+
+        int stride = Bitmap.PixelWidth * (Bitmap.Format.BitsPerPixel / 8);
+        byte[] pixels = new byte[Bitmap.PixelHeight * stride];
+        Bitmap.CopyPixels(new Int32Rect(0, 0, Bitmap.PixelWidth, Bitmap.PixelHeight), pixels, stride, 0);
+
+        int pixelIndex = (yCoordinate * stride) + (xCoordinate * (Bitmap.Format.BitsPerPixel / 8));
+        Color color = Color.FromArgb(pixels[pixelIndex + 3], pixels[pixelIndex + 2], pixels[pixelIndex + 1], pixels[pixelIndex]);
+
+        var c_color = new SolidColorBrush(color);
+        colorTextBox.Text = $"({color.R}, {color.G}, {color.B})";
+        color_label.Background = c_color;
+        // 更新对应标签的背景颜色
+        for (int i = 1; i <= colorLabels.Length; i++)
+          if (i == select_color_label_num)
+            colorLabels[i - 1].Background = c_color;
+
+        // 更新Thumb的BorderBrush，取反色
+        thumb.BorderBrush = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
+      }
+
+    }
+
     // 读取 Json 文件
     void LoadJson()
     {
-      if (File.Exists(filePath))
+      if (File.Exists(schemeFilePath))
       {
         // 读取整个文件内容,将JSON字符串反序列化为对象
-        string json = File.ReadAllText(filePath);
-        ColorSchemesCollection colorSchemesJson = JsonConvert.DeserializeObject<ColorSchemesCollection>(json);
+        string jsonString = File.ReadAllText(schemeFilePath);
+        ColorSchemesCollection colorSchemesJson = JsonConvert.DeserializeObject<ColorSchemesCollection>(jsonString);
         配色方案 = colorSchemesJson.配色方案;
 
         foreach (var scheme in 配色方案)
@@ -1020,8 +1175,8 @@ namespace 小科狗配置
       else
       {
         配色方案.Add(colorScheme);
-        string json = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
-        File.WriteAllText(filePath, json);
+        string jsonString = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
+        File.WriteAllText(schemeFilePath, jsonString);
 
         colorSchemeListBox.Items.Add("默认");
       }
@@ -1066,61 +1221,9 @@ namespace 小科狗配置
       Bitmap.Unlock();
     }
 
-    // 取色器 移动取色
-    private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
-    {
-      var thumb = (Thumb)sender;
-      double newLeft = Canvas.GetLeft(thumb) + e.HorizontalChange;
-      double newTop = Canvas.GetTop(thumb) + e.VerticalChange;
-      double canvasRight = canvas.ActualWidth - thumb.ActualWidth + 5;
-      double canvasBottom = canvas.ActualHeight - thumb.ActualHeight + 5;
-
-      if (newLeft < -6)
-        newLeft = -6;
-      else if (newLeft > canvasRight)
-        newLeft = canvasRight;
-
-      if (newTop < -6)
-        newTop = -6;
-      else if (newTop > canvasBottom)
-        newTop = canvasBottom;
-
-      Canvas.SetLeft(thumb, newLeft);
-      Canvas.SetTop(thumb, newTop);
-
-      GetAreaColor();
-    }
-
-    // 取色器 点击取色
-    private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-      var canvasPosition = e.GetPosition(canvas);
-      double newLeft = canvasPosition.X - thumb.ActualWidth / 2;
-      double newTop = canvasPosition.Y - thumb.ActualHeight / 2;
-
-      double canvasRight = canvas.ActualWidth - thumb.ActualWidth;
-      double canvasBottom = canvas.ActualHeight - thumb.ActualHeight;
-
-      if (newLeft < 0)
-        newLeft = 0;
-      else if (newLeft > canvasRight)
-        newLeft = canvasRight;
-
-      if (newTop < 0)
-        newTop = 0;
-      else if (newTop > canvasBottom)
-        newTop = canvasBottom;
-
-      Canvas.SetLeft(thumb, newLeft);
-      Canvas.SetTop(thumb, newTop);
-      var thumbPosition = e.GetPosition(canvas);
-      GetAreaColor(thumbPosition);
-    }
-
     // Hue_slider 值改变事件
     private void Hue_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-      color_textBox_0.Text = (hue_slider.Value / 360).ToString();
       UpdateBitmap();
       GetAreaColor();
     }
@@ -1142,54 +1245,6 @@ namespace 小科狗配置
 
       // 阻止滚轮事件继续向上冒泡
       e.Handled = true;
-    }
-
-    // 设置控件背景色
-    void GetAreaColor(Point? thumbPosition = null)
-    {
-      thumbPosition = thumbPosition == null ? _ = thumb.TranslatePoint(new Point(thumb.ActualWidth / 2, thumb.ActualHeight / 2), canvas) : thumbPosition;
-      int xCoordinate = (int)thumbPosition?.X;
-      int yCoordinate = (int)thumbPosition?.Y;
-
-      if (xCoordinate >= 0 && xCoordinate < Bitmap.PixelWidth && yCoordinate >= 0 && yCoordinate < Bitmap.PixelHeight)
-      {
-        int stride = Bitmap.PixelWidth * (Bitmap.Format.BitsPerPixel / 8);
-        byte[] pixels = new byte[Bitmap.PixelHeight * stride];
-        Bitmap.CopyPixels(new Int32Rect(0, 0, Bitmap.PixelWidth, Bitmap.PixelHeight), pixels, stride, 0);
-        int pixelIndex = (yCoordinate * stride) + (xCoordinate * (Bitmap.Format.BitsPerPixel / 8));
-        Color color = Color.FromArgb(pixels[pixelIndex + 3], pixels[pixelIndex + 2], pixels[pixelIndex + 1], pixels[pixelIndex]);
-        var c_color = new SolidColorBrush(color);
-        color_textBox_0.Text = $"({color.R}, {color.G}, {color.B})"; // 格式化 color 为字符串
-        color_label_10.Background = c_color;
-
-        Color invertedColor = Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)); // 计算反色
-        thumb.BorderBrush = new SolidColorBrush(invertedColor);
-
-        // 依select_color_label的值更新指定控件相关属性
-        switch (select_color_label)
-        {
-          case 1: //嵌入下划线色
-            color_label_1.Background = c_color; break;
-          case 2: //光标色
-            color_label_2.Background = c_color; break;
-          case 3: //分隔线色
-            color_label_3.Background = c_color; break;
-          case 4: //候选窗口边框色
-            color_label_4.Background = c_color; break;
-          case 5: //候选窗背景底色
-            color_label_5.Background = c_color; break;
-          case 6: //候选选中背景色
-            color_label_6.Background = c_color; break;
-          case 7: //候选选中字体色
-            color_label_7.Background = c_color; break;
-          case 8: //编码字体色
-            color_label_8.Background = c_color; HXZ_TextBoxText(); break;
-          case 9: //候选字体色
-            color_label_9.Background = c_color; HXZ_TextBoxText(); break;
-          case 10:
-            color_label_10.Background = c_color; break;
-        }
-      }
     }
 
     // 更新所有候选字色（改为同一个颜色）
@@ -1297,43 +1352,55 @@ namespace 小科狗配置
       {
         case "color_label_1":
           color_label_content.Content = "嵌入下划线色";
-          select_color_label = 1;
+          select_color_label_num = 1;
           break;
         case "color_label_2":
-          select_color_label = 2;
+          select_color_label_num = 2;
           color_label_content.Content = "光标色";
           break;
         case "color_label_3":
           color_label_content.Content = "分隔线色";
-          select_color_label = 3;
+          select_color_label_num = 3;
           break;
         case "color_label_4":
-          select_color_label = 4;
+          select_color_label_num = 4;
           color_label_content.Content = "候选窗口边框色";
           break;
         case "color_label_5":
-          select_color_label = 5;
+          select_color_label_num = 5;
           color_label_content.Content = "候选窗背景底色";
           break;
         case "color_label_6":
-          select_color_label = 6;
+          select_color_label_num = 6;
           color_label_content.Content = "候选选中背景色";
           break;
         case "color_label_7":
-          select_color_label = 7;
+          select_color_label_num = 7;
           color_label_content.Content = "候选选中字体色";
           break;
         case "color_label_8":
-          select_color_label = 8;
+          select_color_label_num = 8;
           color_label_content.Content = "编码字体色";
           break;
         case "color_label_9":
-          select_color_label = 9;
+          select_color_label_num = 9;
           color_label_content.Content = "候选字体色";
           break;
         case "color_label_10":
-          select_color_label = 0;
+          select_color_label_num = 0;
           color_label_content.Content = "";
+          break;
+        case "color_label_11":
+          select_color_label_num = 0;
+          color_label_content1.Content = "";
+          break;
+        case "color_label_12":
+          select_color_label_num = 12;
+          color_label_content.Content = "中文字体色";
+          break;
+        case "color_label_13":
+          select_color_label_num = 13;
+          color_label_content.Content = "英文字体色";
           break;
       }
     }
@@ -1344,9 +1411,10 @@ namespace 小科狗配置
       Label label = sender as Label;
       label.BorderThickness = new Thickness(3);
       color_label_10.Background = label.Background;
+      color_label_11.Background = label.Background;
       var hex = RemoveChars(label.Background.ToString(), 2);
       var rgb = HexToRgb(hex);
-      color_textBox_0.Text = rgb;
+      color_textBox_1.Text = rgb;
     }
 
     // 显示颜色的 label 鼠标离开事件
@@ -1498,8 +1566,8 @@ namespace 小科狗配置
       if (result == MessageBoxResult.OK)
       {
         配色方案.RemoveAt(colorSchemeListBox.SelectedIndex);
-        string json = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
-        File.WriteAllText(filePath, json);
+        string jsonString = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
+        File.WriteAllText(schemeFilePath, jsonString);
 
         colorSchemeListBox.Items.Remove(name);
         colorSchemeListBox.Items.Refresh();
@@ -1561,15 +1629,20 @@ namespace 小科狗配置
 
         colorSchemeListBox.SelectedIndex = n;
       }
-      string json = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
-      File.WriteAllText(filePath, json);
+      string jsonString = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
+      File.WriteAllText(schemeFilePath, jsonString);
     }
 
     private void Button3_Copy_Click(object sender, RoutedEventArgs e)
     {
       var selectedFontName = SelectFontName();
       if (selectedFontName != null) {
-        textBox_Copy145.Text = selectedFontName.ToString();
+        Button btn = sender as Button;
+        switch (btn.Name)
+        {
+          case "button3_Copy": textBox_Copy145.Text = selectedFontName.ToString(); break;
+          case "button3_Copy1": textBox_Copy24.Text = selectedFontName.ToString(); break;
+        }
       }
     }
 
@@ -1646,7 +1719,7 @@ namespace 小科狗配置
 
     #endregion
 
-    #region 托盘图标和窗口
+    #region 托盘图标
 
     // 加载托盘图标
     private void InitIcon(){
@@ -1672,15 +1745,13 @@ namespace 小科狗配置
         menuItem1,  //显示配置窗口
         //menuItem5,  //显示/隐藏壮态条
         //menuItem4,  //重启服务端
-        menuItem2,  //关于
+        //menuItem2,  //关于
         menuItem3   //退出
       };
       notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
       // 添加托盘图标双击事件处理
       notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
     }
-
-
 
     // 发送Ctrl+F1组合键
     private void MenuItem5_Click(object sender, EventArgs e)
@@ -1723,6 +1794,9 @@ namespace 小科狗配置
       this.Visibility = Visibility.Visible;
     }
 
+    #endregion
+
+    #region 窗口相关
     // 移动窗口
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -1734,7 +1808,8 @@ namespace 小科狗配置
       }
     }
 
-    private void button_Click(object sender, RoutedEventArgs e)
+    // 确定
+    private void Button_Click(object sender, RoutedEventArgs e)
     {
       if (checkBox2.IsChecked == true)
         ((App)System.Windows.Application.Current).Exit();
@@ -1742,8 +1817,550 @@ namespace 小科狗配置
         this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
     }
 
+    // 设置窗口高度
+    private void Nud22_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
+    {
+      if (nud22 != null)
+      {
+        int height = (int)e.NewValue;
+        if (height < 425)
+          height = 425;
+        this.Height = height;
+      }
+    }
+
+    // 窗口高度写入配置文件
+    private void Nud22_LostFocus(object sender, RoutedEventArgs e)
+    {
+      if (nud22 != null)
+        SetValue("window", "height", nud22.Value.ToString());
+    }
     #endregion
 
+    // 使用说明
+    private void Instructions_button_Click(object sender, RoutedEventArgs e)
+    {
+      var instructionsWindow = new Instructions();
+      instructionsWindow.Show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 恢复全局设置
+    private void Default_button_Click(object sender, RoutedEventArgs e)
+    {
+      LoadKegTxt();
+    }
+
+    // 重新读取全局设置
+    private void Apply2_button_Click(object sender, RoutedEventArgs e)
+    {
+      LoadGlobalSettingJson();
+    }
+    // 应用全局设置
+    private void Apply3_button_Click(object sender, RoutedEventArgs e)
+    {
+      SaveGlobalSettingJson(true);
+    }
+
+
+    private void 控件禁止响应滚轮事件(object sender, MouseWheelEventArgs e)
+    {
+      if (sender is ListView listView)
+      {
+        e.Handled = true; // 阻止事件继续向下传递到ListView的内部ScrollViewer
+
+        // 创建一个新的MouseWheelEventArgs，将事件向上传递到StackPanel
+        var newEventArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        {
+          RoutedEvent = UIElement.MouseWheelEvent,
+          Source = sender
+        };
+        ((UIElement)listView.Parent).RaiseEvent(newEventArgs);
+      }
+    }
+
+    private void 提示文本的位置(string value)
+    {
+      switch (value)
+      {
+        case "0":
+          radioButton18.IsChecked = true; break;
+        case "1":
+          radioButton19.IsChecked = true; break;
+        case "2":
+          radioButton20.IsChecked = true; break;
+      }
+    }
+    private string 取提示文本的位置()
+    {
+      if (radioButton18.IsChecked == true) return "0";
+      if (radioButton19.IsChecked == true) return "1";
+      return "2";
+    }
+    private void 自动关机时间(string value)
+    {
+      if (value == "")
+      {
+        checkBox3_Copy5.IsChecked = false;
+      }
+      else
+      {
+        checkBox3_Copy5.IsChecked = true;
+        nud24.Value = int.Parse(value.Substring(0, 2));
+        nud25.Value = int.Parse(value.Substring(2, 2));
+      }
+    }
+
+
+
+    // 读取 全局设置
+    private void ReadKegText()
+    {
+      if (File.Exists(globalSettingFilePath))
+      {
+        LoadGlobalSettingJson();
+      }
+      else
+      {
+        LoadKegTxt();
+        SaveGlobalSettingJson(false);
+      }
+
+    }
+
+    // 读取文件 Keg.txt
+    private void LoadKegTxt()
+    {
+      string kegText = File.ReadAllText(kegFilePath);
+      MatchCollection matches;
+      string pattern;
+
+
+      // 设当状态栏控件值
+      pattern = "《(提示文本.*?)|(打字字数统.*?)|(快键只在候.*?)|(要启用深夜.*?)=(.*)》";
+      matches = Regex.Matches(kegText, pattern);
+      foreach (Match match in matches)
+      {
+        var value = match.Groups[2].Value;
+        switch (match.Groups[1].Value)
+        {
+          case "提示文本的位置": 提示文本的位置(value); break;
+          case "提示文本要隐藏吗？": checkBox3_Copy.IsChecked = IsTrueOrFalse(value); break;
+          case "提示文本要显示中英以及大小写状态吗？": checkBox3_Copy1.IsChecked = IsTrueOrFalse(value); break;
+          case "提示文本中文字体色": color_label_12.Background = RGBStringToColor(value); break;
+          case "提示文本英文字体色": color_label_13.Background = RGBStringToColor(value); break;
+          case "提示文本字体大小": nud23.Value = int.Parse(value); break;
+          case "提示文本字体名称": textBox_Copy24.Text = value; break;
+          case "打字字数统计等数据是要保存在主程文件夹下吗？": checkBox3_Copy3.IsChecked = IsTrueOrFalse(value); break;
+          case "快键只在候选窗口显示情况下才起作用吗？": checkBox3_Copy2.IsChecked = IsTrueOrFalse(value); break;
+          case "要启用深夜锁屏吗？": checkBox3_Copy4.IsChecked = IsTrueOrFalse(value); break;
+          case "自动关机时间": 自动关机时间(value); break;
+        }
+      }
+
+      pattern = "《在线查找=(.*?)::(.*)》";
+      matches = Regex.Matches(kegText, pattern);
+      foreach (Match match in matches)
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = match.Groups[1].Value,
+          Value = match.Groups[2].Value,
+        };
+        全局设置.查找列表.Add(item);
+      }
+
+
+      pattern = "《(运行命令行快键)=(.*)》";
+      matches = Regex.Matches(kegText, pattern);
+      foreach (Match match in matches)
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = match.Groups[1].Value,
+          Value = match.Groups[2].Value,
+        };
+        全局设置.快键命令.Add(item);
+      }
+
+      pattern = "《(?!.*快键命令)(.*快键)=(.*)》";
+      matches = Regex.Matches(kegText, pattern);
+      foreach (Match match in matches)
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = match.Groups[1].Value,
+          Value = match.Groups[2].Value,
+        };
+        全局设置.快键.Add(item);
+      }
+
+
+      pattern = "《(自启)=(.*)》";
+      matches = Regex.Matches(kegText, pattern);
+      foreach (Match match in matches)
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = match.Groups[1].Value,
+          Value = match.Groups[2].Value,
+        };
+        全局设置.自启.Add(item);
+      }
+    }
+
+
+    // 保存文件 全局设置.json
+    private void SaveGlobalSettingJson(bool b)
+    {
+      if(b)
+      {
+        全局设置 = new()
+        {
+          状态栏和其它设置 = new(),
+          查找列表 = new ObservableCollection<列表项>(),
+          快键命令 = new ObservableCollection<列表项>(),
+          快键 = new ObservableCollection<列表项>(),
+          自启 = new ObservableCollection<列表项>()
+        };
+      }
+      全局设置.状态栏和其它设置 = new 状态条
+      {
+        提示文本的位置 = 取提示文本的位置(),
+        提示文本要隐藏吗 = (bool)checkBox3_Copy.IsChecked,
+        提示文本要显示中英以及大小写状态吗 = (bool)checkBox3_Copy1.IsChecked,
+        提示文本中文字体色 = RemoveChars(color_label_12.Background.ToString(), 2),
+        提示文本英文字体色 = RemoveChars(color_label_13.Background.ToString(), 2),
+        提示文本字体大小 = nud23.Value,
+        提示文本字体名称 = textBox_Copy24.Text,
+        打字字数统计等数据是要保存在主程文件夹下吗 = (bool)checkBox3_Copy3.IsChecked,
+        快键只在候选窗口显示情况下才起作用吗 = (bool)checkBox3_Copy2.IsChecked,
+        要启用深夜锁屏吗 = (bool)checkBox3_Copy4.IsChecked,
+        自动关机 = checkBox3_Copy5.IsChecked == true ? $"{nud24.Value}{nud25.Value}" : ""
+    };
+
+      foreach (var item in listView3.Items)
+      {
+
+        全局设置.查找列表.Add((列表项)item);
+      }
+      foreach (var item in listView4.Items)
+      {
+        全局设置.快键命令.Add((列表项)item);
+      }
+      foreach (var item in listView5.Items)
+      {
+        全局设置.快键.Add((列表项)item);
+      }
+      foreach (var item in listView6.Items)
+      {
+        全局设置.自启.Add((列表项)item);
+      }
+
+      string jsonString = JsonConvert.SerializeObject(全局设置, Formatting.Indented);
+      File.WriteAllText(globalSettingFilePath, jsonString);
+    }
+
+    // 读取文件 全局设置.json
+    private void LoadGlobalSettingJson(){
+
+      全局设置 = new()
+      {
+        状态栏和其它设置 = new(),
+        查找列表 = new(),
+        快键命令 = new(),
+        快键 = new(),
+        自启 = new()
+      };
+
+      // 读取整个文件内容,将JSON字符串反序列化为对象
+      string jsonString = File.ReadAllText(globalSettingFilePath);
+      全局设置 = JsonConvert.DeserializeObject<GlobalSettings>(jsonString);
+      var 状态栏和其它设置 = 全局设置.状态栏和其它设置;
+      提示文本的位置(状态栏和其它设置.提示文本的位置);
+      checkBox3_Copy.IsChecked = 状态栏和其它设置.提示文本要隐藏吗;
+      checkBox3_Copy1.IsChecked = 状态栏和其它设置.提示文本要显示中英以及大小写状态吗;
+      color_label_12.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(状态栏和其它设置.提示文本中文字体色));
+      color_label_13.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(状态栏和其它设置.提示文本英文字体色));
+      nud23.Value = 状态栏和其它设置.提示文本字体大小;
+      textBox_Copy24.Text = 状态栏和其它设置.提示文本字体名称;
+      checkBox3_Copy3.IsChecked = 状态栏和其它设置.打字字数统计等数据是要保存在主程文件夹下吗;
+      checkBox3_Copy2.IsChecked = 状态栏和其它设置.快键只在候选窗口显示情况下才起作用吗;
+      checkBox3_Copy4.IsChecked = 状态栏和其它设置.要启用深夜锁屏吗;
+      自动关机时间(状态栏和其它设置.自动关机);
+
+      //listView3.ItemsSource = 全局设置.查找列表; // ListView的数据
+      //listView4.ItemsSource = 全局设置.快键命令;
+      //listView5.ItemsSource = 全局设置.快键;
+      //listView6.ItemsSource = 全局设置.自启;
+      //foreach (var item in listView3.Items)
+      //{
+
+      //  全局设置.查找列表.Add((列表项)item);
+      //}
+      //foreach (var item in listView4.Items)
+      //{
+      //  全局设置.快键命令.Add((列表项)item);
+      //}
+      //foreach (var item in listView5.Items)
+      //{
+      //  全局设置.快键.Add((列表项)item);
+      //}
+      //foreach (var item in listView6.Items)
+      //{
+      //  全局设置.自启.Add((列表项)item);
+      //}
+
+    }
+
+
+
+
+
+    // 修改选中项
+    private void ListViewMenuItem_Click_2(object sender, RoutedEventArgs e)
+    {
+      if (colorSchemeListBox.SelectedItem == null)
+      {
+        MessageBox.Show("您没有选中任何配色！",
+        "修改操作",
+        MessageBoxButton.OK,
+        MessageBoxImage.Question);
+        return;
+      }
+      saveButton.Content = "修改配色";
+      saveButton.Visibility = Visibility.Visible;
+      color_scheme_name_textBox.Visibility = Visibility.Visible;
+      color_scheme_name_textBox.Text += colorSchemeListBox.SelectedItem.ToString();
+    }
+
+    // 删除选中项
+    private void ListViewMenuItem_Click_3(object sender, RoutedEventArgs e)
+    {
+      if (colorSchemeListBox.SelectedItem == null)
+      {
+        MessageBox.Show("您没有选中任何配色！",
+        "删除操作",
+        MessageBoxButton.OK,
+        MessageBoxImage.Question);
+        return;
+      }
+      var name = colorSchemeListBox.SelectedItem.ToString();
+      var result = MessageBox.Show(
+      $"您确定要删除 {name} 吗？",
+      "删除操作",
+      MessageBoxButton.OKCancel,
+      MessageBoxImage.Question);
+
+      if (result == MessageBoxResult.OK)
+      {
+        配色方案.RemoveAt(colorSchemeListBox.SelectedIndex);
+        string jsonString = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
+        File.WriteAllText(schemeFilePath, jsonString);
+
+        colorSchemeListBox.Items.Remove(name);
+        colorSchemeListBox.Items.Refresh();
+      }
+
+    }
+
+    private void ListView_MouseEnter(object sender, MouseEventArgs e)
+    {
+
+    }
+
+    private void ListView3_button_Click(object sender, RoutedEventArgs e)
+    {
+
+      if ((string)new_button3.Content == "添加")
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = textBox_Copy25.Text,
+          Value = textBox_Copy26.Text,
+        };
+        全局设置.查找列表.Add(item);
+      }
+      else
+      {
+        var selectedItem = (列表项)listView3.SelectedItem;
+        selectedItem.Name = "新的名称"; // 替换为你要修改的新值
+        selectedItem.Value = "新的值"; // 替换为你要修改的新值
+        //selectedItem.IsChecked = !selectedItem.IsChecked;
+        new_button3.Content = "添加";
+      }
+
+    }
+
+
+    private void ListView4_button_Click(object sender, RoutedEventArgs e)
+    {
+      if ((string)new_button4.Content == "添加")
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = "运行命令行快键",
+          Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>",
+        };
+        全局设置.快键命令.Add(item);
+
+      }
+      else
+      {
+
+        new_button4.Content = "添加";
+      }
+    }
+
+
+    private void ListView5_button_Click(object sender, RoutedEventArgs e)
+    {
+      if ((string)new_button5.Content == "添加")
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(),
+          Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}>",
+        };
+        全局设置.快键.Add(item);
+      }
+      else
+      {
+
+        new_button5.Content = "添加";
+      }
+    }
+
+
+    private void ListView6_button_Click(object sender, RoutedEventArgs e)
+    {
+      if ((string)new_button6.Content == "添加")
+      {
+        var item = new 列表项()
+        {
+          IsChecked = true,
+          Name = "自启",
+          Value = textBox_Copy36.Text,
+        };
+        全局设置.自启.Add(item);
+
+      }
+      else
+      {
+
+        new_button6.Content = "添加";
+      }
+    }
+
+
+
+
+
+    int groupBoxIsSelected = 0;
+
+    private void GroupBox_MouseEnter(object sender, MouseEventArgs e)
+    {
+      GroupBox gb = sender as GroupBox;
+      if (gb.Name == "groupBox22") groupBoxIsSelected = 3;
+      if (gb.Name == "groupBox23") groupBoxIsSelected = 4;
+      if (gb.Name == "groupBox24") groupBoxIsSelected = 5;
+      else groupBoxIsSelected = 6;
+    }
+
+    private void ListView3_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      var selectedItem = (列表项)listView3.SelectedItem;
+      textBox_Copy25.Text = selectedItem.Name;
+      textBox_Copy26.Text = selectedItem.Value;
+
+      new_button3.Content = "修改";
+    }
+
+    private void ListView4_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      var selectedItem = (列表项)listView4.SelectedItem;
+      string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><命令行=(.*?)>";
+
+      // 创建一个正则实例并执行匹配
+      Match match = Regex.Match(selectedItem.Value, pattern);
+
+      // 检查是否成功匹配
+      if (match.Success)
+      {
+        // 分别获取匹配的5个分组内容
+        t1.Text = match.Groups[1].Value;
+        t2.Text = match.Groups[2].Value;
+        t3.Text = match.Groups[3].Value;
+        t4.Text = match.Groups[4].Value;
+        tc.Text = match.Groups[5].Value;
+      }
+      new_button4.Content = "修改";
+    }
+
+    private void ListView5_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      var selectedItem = (列表项)listView5.SelectedItem;
+      string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
+
+      // 创建一个正则实例并执行匹配
+      Match match = Regex.Match(selectedItem.Value, pattern);
+
+      // 检查是否成功匹配
+      if (match.Success)
+      {
+        // 分别获取匹配的5个分组内容
+        t5.Text = match.Groups[1].Value;
+        t6.Text = match.Groups[2].Value;
+        t7.Text = match.Groups[3].Value;
+        t8.Text = match.Groups[4].Value;
+      }
+      new_button5.Content = "修改";
+    }
+
+    private void ListView6_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      var selectedItem = (列表项)listView6.SelectedItem;
+      textBox_Copy25.Text = selectedItem.Name;
+      textBox_Copy26.Text = selectedItem.Value;
+
+      new_button6.Content = "修改";
+    }
+
+
+
+
+
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
+
+    private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+
+    }
 
 
   }
