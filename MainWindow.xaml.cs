@@ -41,6 +41,8 @@ using System.Windows.Shapes;
 using GroupBox = System.Windows.Controls.GroupBox;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Window = System.Windows.Window;
+using System.Xml.Linq;
+using System.Windows.Documents;
 
 namespace 小科狗配置
 {
@@ -50,7 +52,7 @@ namespace 小科狗配置
   /// 
   public partial class MainWindow : Window
   {
-    #region 定义全局变量和初始化
+    #region 配色方案相关定义
     public WriteableBitmap Bitmap { get; set; } // 定义取色器背景图
     // 定义配色方案类
     public class ColorScheme
@@ -96,6 +98,9 @@ namespace 小科狗配置
       编码字体色 = "#000000",
       候选字色 = "#000000"
     };
+    #endregion
+
+    #region 全局变量定义
     readonly String schemeFilePath = "配色方案.json";
     int select_color_label_num = 0;         // 用于记录当前选中的 select_color_label
 
@@ -103,23 +108,50 @@ namespace 小科狗配置
 
     readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     readonly string dbPath, kegFilePath;    // Keg.db 和 Keg.txt 文件路径
-    //string kegText;                         // 存放 Keg.txt 文件
+
     readonly List<string> configs = new();  // 存方 Keg.db 内所有方案的配置，用于恢复
     string bgString;                        // 存放字体色串
     string currentConfig, modifiedConfig;   // 存少当前配置和当前修改的配置
 
     SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));  // 候选框无背景色时的值
     readonly string settingConfigPath = "setting.ini";  // 窗口配置文件
-    #region 全局设置定义
     readonly String globalSettingFilePath = "全局设置.json";
+    #endregion
 
-    public struct 列表项
+    #region 全局设置界面列表项定义
+
+    public class 列表项 : INotifyPropertyChanged
     {
-      public bool IsChecked { get; set; }
-      public string Name { get; set; }
-      public string Value { get; set; }
+      private string _Enable;
+      public string Enable
+      {
+        get { return _Enable; }
+        set { _Enable = value; OnPropertyChanged("Enable"); }
+      }
+      private string _Name;
+      public string Name
+      {
+        get { return _Name; }
+        set { _Name = value; OnPropertyChanged("Name"); }
+      }
+      private string _Value;
+      public string Value
+      {
+        get { return _Value; }
+        set { _Value = value; OnPropertyChanged("Value"); }
+      }
+      public 列表项(){ }
+
+
+      public event PropertyChangedEventHandler PropertyChanged;
+      public virtual void OnPropertyChanged(string PropertyName)
+      {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+      }
+
     }
-    public struct 状态条
+
+    public class 状态条
     {
       public string 提示文本的位置 { get; set; }
       public bool 提示文本要隐藏吗 { get; set; }
@@ -134,6 +166,15 @@ namespace 小科狗配置
       public string 自动关机 { get; set; }
     }
 
+    // 用于 listView 数据绑定
+    public ObservableCollection<列表项> 查找列表 { get; set; }
+    public ObservableCollection<列表项> 快键命令 { get; set; }
+    public ObservableCollection<列表项> 快键 { get; set; }
+    public ObservableCollection<列表项> 自启 { get; set; }
+    public 状态条 设置项 { get; set; }
+
+
+    // 用于存放 全局设置.json
     public struct GlobalSettings
     {
       public 状态条 状态栏和其它设置 { get; set; }
@@ -157,8 +198,7 @@ namespace 小科狗配置
 
     #endregion
 
-
-
+    #region 初始化
 
     public MainWindow()
     {
@@ -177,11 +217,16 @@ namespace 小科狗配置
         SetValue("window", "height", "425");
       }
       
-
-
-
       kegFilePath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.txt"));
       dbPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.db"));
+      查找列表 = new ObservableCollection<列表项>();
+      快键命令 = new ObservableCollection<列表项>();
+      快键 = new ObservableCollection<列表项>();
+      自启 = new ObservableCollection<列表项>();
+      listView3.DataContext = 查找列表;
+      listView4.DataContext = 快键命令;
+      listView5.DataContext = 快键;
+      listView6.DataContext = 自启;
 
       Loaded += MainWindow_Loaded;
     }
@@ -197,11 +242,6 @@ namespace 小科狗配置
       LoadJson();           // 读取 配色方案.jsonString
       LoadHxFile();         // 读取 候选序号.txt
       ReadKegText();        // 读取 全局设置
-      listView3.ItemsSource = 全局设置.查找列表; // ListView的数据
-      listView4.ItemsSource = 全局设置.快键命令;
-      listView5.ItemsSource = 全局设置.快键;
-      listView6.ItemsSource = 全局设置.自启;
-
     }
 
     // 获取版本号
@@ -213,7 +253,7 @@ namespace 小科狗配置
     }
     #endregion
 
-    #region 定义消息接口
+    #region 消息接口定义
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -232,7 +272,7 @@ namespace 小科狗配置
     const uint KWM_GETDEF = (uint)WM_USER + 208;
     const uint KWM_SET2ALL = (uint)WM_USER + 209;
     //const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;
-    //const uint KWM_UPQJSET = (uint)WM_USER + 211;
+    const uint KWM_UPQJSET = (uint)WM_USER + 211;
     #endregion
 
     #region 读写配置文件项
@@ -1615,8 +1655,8 @@ namespace 小科狗配置
             return;
           }
         }
-        配色方案.Add(colorScheme);
-        colorSchemeListBox.Items.Add(name);
+        配色方案.Insert(0, colorScheme);
+        colorSchemeListBox.Items.Insert(0, name);
       }
       if (saveButton.Content.ToString() == "修改配色" && colorSchemeListBox.SelectedItem != null)
       {
@@ -1837,28 +1877,14 @@ namespace 小科狗配置
     }
     #endregion
 
+    #region 全局设置
+
     // 使用说明
     private void Instructions_button_Click(object sender, RoutedEventArgs e)
     {
       var instructionsWindow = new Instructions();
       instructionsWindow.Show();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // 恢复全局设置
     private void Default_button_Click(object sender, RoutedEventArgs e)
@@ -1874,24 +1900,69 @@ namespace 小科狗配置
     // 应用全局设置
     private void Apply3_button_Click(object sender, RoutedEventArgs e)
     {
-      SaveGlobalSettingJson(true);
+      SaveGlobalSettingJson();
+      SaveKeg();
     }
 
+    // 保存 Keg.txt
+    private void SaveKeg(){
+      string kegText = ""; // 存放 Keg.txt 文件
+      kegText += $"《提示文本的位置={取提示文本的位置()}》\n";
+      kegText += $"《提示文本要隐藏吗？={要或不要((bool)checkBox3_Copy.IsChecked)}》\n";
+      kegText += $"《提示文本要显示中英以及大小写状态吗？={要或不要((bool)checkBox3_Copy1.IsChecked)}》\n";
+      kegText += $"《提示文本中文字体色={HexToRgb(color_label_12.Background.ToString())}》\n";
+      kegText += $"《提示文本英文字体色={HexToRgb(color_label_13.Background.ToString())}》\n";
+      kegText += $"《提示文本字体大小={nud23.Value}》\n";
+      kegText += $"《提示文本字体名称={textBox_Copy24.Text}》\n";
+      kegText += $"《打字字数统计等数据是要保存在主程文件夹下吗？={是或不是((bool)checkBox3_Copy3.IsChecked) }》\n";
+      kegText += $"《快键只在候选窗口显示情况下才起作用吗？={是或不是((bool)checkBox3_Copy2.IsChecked)}》\n";
+      kegText += $"《要启用深夜锁屏吗？={要或不要((bool)checkBox3_Copy4.IsChecked)}》\n";
+      kegText += $"《自动关机={设置项.自动关机}》\n";
 
-    private void 控件禁止响应滚轮事件(object sender, MouseWheelEventArgs e)
-    {
-      if (sender is ListView listView)
+      kegText += $"\n在线查找\n";
+      foreach (var item in 查找列表)
       {
-        e.Handled = true; // 阻止事件继续向下传递到ListView的内部ScrollViewer
-
-        // 创建一个新的MouseWheelEventArgs，将事件向上传递到StackPanel
-        var newEventArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        if (item.Enable == "启用")
         {
-          RoutedEvent = UIElement.MouseWheelEvent,
-          Source = sender
-        };
-        ((UIElement)listView.Parent).RaiseEvent(newEventArgs);
+          kegText += $"《在线查找={item.Name}::{item.Value}》\n";
+        }
       }
+
+      kegText += $"\n运行命令行快键\n";
+      foreach (var item in 快键命令)
+      {
+        if (item.Enable == "启用")
+        {
+          kegText += $"《运行命令行快键={item.Value}》\n";
+        }
+      }
+
+      kegText += $"\n快键\n";
+      foreach (var item in 快键)
+      {
+        if (item.Enable == "启用")
+        {
+          kegText += $"《{item.Name}={item.Value}》\n";
+        }
+      }
+
+      kegText += $"\n自启\n";
+      foreach (var item in 自启)
+      {
+        if (item.Enable == "启用")
+        {
+          kegText += $"《自启={item.Value }》\n";
+        }
+      }
+
+      //File.WriteAllText("test.txt", kegText);
+      File.WriteAllText(kegFilePath, kegText);
+
+      try{
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        SendMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
+      }
+      catch { }
     }
 
     private void 提示文本的位置(string value)
@@ -1926,8 +1997,6 @@ namespace 小科狗配置
       }
     }
 
-
-
     // 读取 全局设置
     private void ReadKegText()
     {
@@ -1937,8 +2006,9 @@ namespace 小科狗配置
       }
       else
       {
+        File.Copy(kegFilePath, "Keg_bak.txt");
         LoadKegTxt();
-        SaveGlobalSettingJson(false);
+        SaveGlobalSettingJson();
       }
 
     }
@@ -1949,7 +2019,6 @@ namespace 小科狗配置
       string kegText = File.ReadAllText(kegFilePath);
       MatchCollection matches;
       string pattern;
-
 
       // 设当状态栏控件值
       pattern = "《(提示文本.*?)|(打字字数统.*?)|(快键只在候.*?)|(要启用深夜.*?)=(.*)》";
@@ -1979,11 +2048,11 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
         };
-        全局设置.查找列表.Add(item);
+        查找列表.Add(item);
       }
 
 
@@ -1993,24 +2062,24 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
         };
-        全局设置.快键命令.Add(item);
+        快键命令.Add(item);
       }
 
-      pattern = "《(?!.*快键命令)(.*快键)=(.*)》";
+      pattern = "《(?!.*命令行快键)(.*快键)=(.*)》";
       matches = Regex.Matches(kegText, pattern);
       foreach (Match match in matches)
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
         };
-        全局设置.快键.Add(item);
+        快键.Add(item);
       }
 
 
@@ -2020,30 +2089,18 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
         };
-        全局设置.自启.Add(item);
+        自启.Add(item);
       }
     }
 
-
     // 保存文件 全局设置.json
-    private void SaveGlobalSettingJson(bool b)
+    private void SaveGlobalSettingJson()
     {
-      if(b)
-      {
-        全局设置 = new()
-        {
-          状态栏和其它设置 = new(),
-          查找列表 = new ObservableCollection<列表项>(),
-          快键命令 = new ObservableCollection<列表项>(),
-          快键 = new ObservableCollection<列表项>(),
-          自启 = new ObservableCollection<列表项>()
-        };
-      }
-      全局设置.状态栏和其它设置 = new 状态条
+      设置项 = new 状态条
       {
         提示文本的位置 = 取提示文本的位置(),
         提示文本要隐藏吗 = (bool)checkBox3_Copy.IsChecked,
@@ -2058,23 +2115,14 @@ namespace 小科狗配置
         自动关机 = checkBox3_Copy5.IsChecked == true ? $"{nud24.Value}{nud25.Value}" : ""
     };
 
-      foreach (var item in listView3.Items)
+      全局设置 = new()
       {
-
-        全局设置.查找列表.Add((列表项)item);
-      }
-      foreach (var item in listView4.Items)
-      {
-        全局设置.快键命令.Add((列表项)item);
-      }
-      foreach (var item in listView5.Items)
-      {
-        全局设置.快键.Add((列表项)item);
-      }
-      foreach (var item in listView6.Items)
-      {
-        全局设置.自启.Add((列表项)item);
-      }
+        状态栏和其它设置 = 设置项,
+        查找列表 = 查找列表,
+        快键命令 = 快键命令,
+        快键 = 快键,
+        自启 = 自启
+      };
 
       string jsonString = JsonConvert.SerializeObject(全局设置, Formatting.Indented);
       File.WriteAllText(globalSettingFilePath, jsonString);
@@ -2086,108 +2134,216 @@ namespace 小科狗配置
       全局设置 = new()
       {
         状态栏和其它设置 = new(),
-        查找列表 = new(),
-        快键命令 = new(),
-        快键 = new(),
-        自启 = new()
+        查找列表 = new ObservableCollection<列表项>(),
+        快键命令 = new ObservableCollection<列表项>(),
+        快键 = new ObservableCollection<列表项>(),
+        自启 = new ObservableCollection<列表项>()
       };
 
       // 读取整个文件内容,将JSON字符串反序列化为对象
       string jsonString = File.ReadAllText(globalSettingFilePath);
       全局设置 = JsonConvert.DeserializeObject<GlobalSettings>(jsonString);
-      var 状态栏和其它设置 = 全局设置.状态栏和其它设置;
-      提示文本的位置(状态栏和其它设置.提示文本的位置);
-      checkBox3_Copy.IsChecked = 状态栏和其它设置.提示文本要隐藏吗;
-      checkBox3_Copy1.IsChecked = 状态栏和其它设置.提示文本要显示中英以及大小写状态吗;
-      color_label_12.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(状态栏和其它设置.提示文本中文字体色));
-      color_label_13.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(状态栏和其它设置.提示文本英文字体色));
-      nud23.Value = 状态栏和其它设置.提示文本字体大小;
-      textBox_Copy24.Text = 状态栏和其它设置.提示文本字体名称;
-      checkBox3_Copy3.IsChecked = 状态栏和其它设置.打字字数统计等数据是要保存在主程文件夹下吗;
-      checkBox3_Copy2.IsChecked = 状态栏和其它设置.快键只在候选窗口显示情况下才起作用吗;
-      checkBox3_Copy4.IsChecked = 状态栏和其它设置.要启用深夜锁屏吗;
-      自动关机时间(状态栏和其它设置.自动关机);
+      查找列表 = 全局设置.查找列表;
+      快键命令 = 全局设置.快键命令;
+      快键 = 全局设置.快键;
+      自启 = 全局设置.自启;
+      设置项 = 全局设置.状态栏和其它设置;
 
-      //listView3.ItemsSource = 全局设置.查找列表; // ListView的数据
-      //listView4.ItemsSource = 全局设置.快键命令;
-      //listView5.ItemsSource = 全局设置.快键;
-      //listView6.ItemsSource = 全局设置.自启;
-      //foreach (var item in listView3.Items)
-      //{
+      提示文本的位置(设置项.提示文本的位置);
+      checkBox3_Copy.IsChecked = 设置项.提示文本要隐藏吗;
+      checkBox3_Copy1.IsChecked = 设置项.提示文本要显示中英以及大小写状态吗;
+      color_label_12.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色));
+      color_label_13.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色));
+      nud23.Value = 设置项.提示文本字体大小;
+      textBox_Copy24.Text = 设置项.提示文本字体名称;
+      checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
+      checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
+      checkBox3_Copy4.IsChecked = 设置项.要启用深夜锁屏吗;
+      自动关机时间(设置项.自动关机);
 
-      //  全局设置.查找列表.Add((列表项)item);
-      //}
-      //foreach (var item in listView4.Items)
-      //{
-      //  全局设置.快键命令.Add((列表项)item);
-      //}
-      //foreach (var item in listView5.Items)
-      //{
-      //  全局设置.快键.Add((列表项)item);
-      //}
-      //foreach (var item in listView6.Items)
-      //{
-      //  全局设置.自启.Add((列表项)item);
-      //}
-
+      listView3.ItemsSource = 查找列表; // ListView的数据
+      listView4.ItemsSource = 快键命令;
+      listView5.ItemsSource = 快键;
+      listView6.ItemsSource = 自启;
     }
 
-
-
-
-
-    // 修改选中项
-    private void ListViewMenuItem_Click_2(object sender, RoutedEventArgs e)
+    // listView 控件禁止响应滚轮事件
+    private void 控件禁止响应滚轮事件(object sender, MouseWheelEventArgs e)
     {
-      if (colorSchemeListBox.SelectedItem == null)
+      if (sender is ListView listView)
       {
-        MessageBox.Show("您没有选中任何配色！",
-        "修改操作",
-        MessageBoxButton.OK,
-        MessageBoxImage.Question);
-        return;
+        e.Handled = true; // 阻止事件继续向下传递到ListView的内部ScrollViewer
+
+        // 创建一个新的MouseWheelEventArgs，将事件向上传递到StackPanel
+        var newEventArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        {
+          RoutedEvent = UIElement.MouseWheelEvent,
+          Source = sender
+        };
+        ((UIElement)listView.Parent).RaiseEvent(newEventArgs);
       }
-      saveButton.Content = "修改配色";
-      saveButton.Visibility = Visibility.Visible;
-      color_scheme_name_textBox.Visibility = Visibility.Visible;
-      color_scheme_name_textBox.Text += colorSchemeListBox.SelectedItem.ToString();
     }
 
-    // 删除选中项
-    private void ListViewMenuItem_Click_3(object sender, RoutedEventArgs e)
+    // listView 选中事件
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (colorSchemeListBox.SelectedItem == null)
+      if (sender is ListView listView)
       {
-        MessageBox.Show("您没有选中任何配色！",
-        "删除操作",
-        MessageBoxButton.OK,
-        MessageBoxImage.Question);
-        return;
-      }
-      var name = colorSchemeListBox.SelectedItem.ToString();
-      var result = MessageBox.Show(
-      $"您确定要删除 {name} 吗？",
-      "删除操作",
-      MessageBoxButton.OKCancel,
-      MessageBoxImage.Question);
+        if (listView.SelectedItem is 列表项 selectedItem)
+        {
+          if (listView == listView3 && (string)new_button3.Content == "修改")
+          {
+            textBox_Copy25.Text = selectedItem.Name;
+            textBox_Copy26.Text = selectedItem.Value;
+          }
+          else if (listView == listView4 && (string)new_button4.Content == "修改")
+          {
+            string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><命令行=(.*?)>";
+            Match match = Regex.Match(selectedItem.Value, pattern);
+            if (match.Success)
+            {
+              t1.Text = match.Groups[1].Value;
+              t2.Text = match.Groups[2].Value;
+              t3.Text = match.Groups[3].Value;
+              t4.Text = match.Groups[4].Value;
+              tc.Text = match.Groups[5].Value;
+            }
+          }
+          else if (listView == listView5 && (string)new_button5.Content == "修改")
+          {
+            string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
+            Match match = Regex.Match(selectedItem.Value, pattern);
+            if (match.Success)
+            {
+              t5.Text = match.Groups[1].Value;
+              t6.Text = match.Groups[2].Value;
+              t7.Text = match.Groups[3].Value;
+              t8.Text = match.Groups[4].Value;
+            }
+            for (int i = 0; i < comboBox4.Items.Count; i++)
+            {
+              string name = (comboBox4.Items[i] as ComboBoxItem)?.Content?.ToString();
+              if (name == selectedItem.Name)
+                comboBox4.SelectedIndex = i;
+            }
+          }
+          else if (listView == listView6 && (string)new_button6.Content == "修改")
+          {
+            textBox_Copy37.Text = selectedItem.Value;
+          }
 
+        }
+      }
+    }
+
+    // 列表双击 启用/禁用选中项
+    private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      if (sender is ListView listView)
+      {
+        if (listView.SelectedItem is 列表项 selectedItem)
+        {
+          selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+        }
+      }
+    }
+
+    // 右键 启用/禁用选中项
+    private void ListView3_MenuItem1_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView3.SelectedItem is 列表项 selectedItem)
+        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+    }
+    private void ListView4_MenuItem1_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView4.SelectedItem is 列表项 selectedItem)
+        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+    }
+    private void ListView5_MenuItem1_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView5.SelectedItem is 列表项 selectedItem)
+        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+    }
+    private void ListView6_MenuItem1_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView6.SelectedItem is 列表项 selectedItem)
+        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+    }
+
+    // 右键 新建
+    private void ListView3_MenuItem2_Click(object sender, RoutedEventArgs e)
+    {
+      new_button3.Content = "添加";
+    }
+    private void ListView4_MenuItem2_Click(object sender, RoutedEventArgs e)
+    {
+      new_button4.Content = "添加";
+    }
+    private void ListView5_MenuItem2_Click(object sender, RoutedEventArgs e)
+    {
+      new_button5.Content = "添加";
+    }
+    private void ListView6_MenuItem2_Click(object sender, RoutedEventArgs e)
+    {
+      new_button6.Content = "添加";
+    }
+
+    // 右键 修改选中项
+    private void ListView3_MenuItem3_Click(object sender, RoutedEventArgs e)
+    {
+      new_button3.Content = "修改";
+    }
+    private void ListView4_MenuItem3_Click(object sender, RoutedEventArgs e)
+    {
+      new_button4.Content = "修改";
+    }
+    private void ListView5_MenuItem3_Click(object sender, RoutedEventArgs e)
+    {
+      new_button5.Content = "修改";
+    }
+    private void ListView6_MenuItem3_Click(object sender, RoutedEventArgs e)
+    {
+      new_button6.Content = "修改";
+    }
+
+    // 右键 删除选中项
+    private void ListView3_MenuItem4_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView3.SelectedItem is 列表项 selectedItem)
+        删除列表项(3, selectedItem);
+    }
+    private void ListView4_MenuItem4_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView4.SelectedItem is 列表项 selectedItem)
+        删除列表项(4, selectedItem);
+    }
+    private void ListView5_MenuItem4_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView5.SelectedItem is 列表项 selectedItem)
+        删除列表项(5, selectedItem);
+    }
+    private void ListView6_MenuItem4_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView6.SelectedItem is 列表项 selectedItem)
+        删除列表项(6, selectedItem);
+    }
+    // listView 删除
+    private void 删除列表项(int listViewNum, 列表项 selectedItem)
+    {
+      var result = MessageBox.Show("您确定要删除吗？", "删除操作", MessageBoxButton.OKCancel, MessageBoxImage.Question);
       if (result == MessageBoxResult.OK)
-      {
-        配色方案.RemoveAt(colorSchemeListBox.SelectedIndex);
-        string jsonString = JsonConvert.SerializeObject(new { 配色方案 }, Formatting.Indented);
-        File.WriteAllText(schemeFilePath, jsonString);
-
-        colorSchemeListBox.Items.Remove(name);
-        colorSchemeListBox.Items.Refresh();
-      }
-
+        switch (listViewNum)
+        {
+          case 3: 查找列表.Remove(selectedItem); break;
+          case 4: 快键命令.Remove(selectedItem); break;
+          case 5: 快键.Remove(selectedItem); break;
+          case 6: 自启.Remove(selectedItem); break;
+        }
     }
 
-    private void ListView_MouseEnter(object sender, MouseEventArgs e)
-    {
 
-    }
 
+    // listView3 添加/修改
     private void ListView3_button_Click(object sender, RoutedEventArgs e)
     {
 
@@ -2195,44 +2351,52 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = textBox_Copy25.Text,
           Value = textBox_Copy26.Text,
         };
-        全局设置.查找列表.Add(item);
+        查找列表.Insert(0, item);
       }
       else
       {
-        var selectedItem = (列表项)listView3.SelectedItem;
-        selectedItem.Name = "新的名称"; // 替换为你要修改的新值
-        selectedItem.Value = "新的值"; // 替换为你要修改的新值
-        //selectedItem.IsChecked = !selectedItem.IsChecked;
-        new_button3.Content = "添加";
+        if (listView3.SelectedItem is 列表项 selectedItem)
+        {
+          selectedItem.Enable = "启用";
+          selectedItem.Name = textBox_Copy25.Text;
+          selectedItem.Value= textBox_Copy26.Text;
+          new_button3.Content = "添加";
+        }
       }
 
     }
 
-
+    // listView4 添加/修改
     private void ListView4_button_Click(object sender, RoutedEventArgs e)
     {
       if ((string)new_button4.Content == "添加")
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = "运行命令行快键",
           Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>",
         };
-        全局设置.快键命令.Add(item);
+        快键命令.Insert(0, item);
 
       }
       else
       {
-
-        new_button4.Content = "添加";
+        if (listView4.SelectedItem is 列表项 selectedItem)
+        {
+          selectedItem.Enable = "启用";
+          selectedItem.Name = "运行命令行快键";
+          selectedItem.Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>";
+          new_button4.Content = "添加";
+        }
       }
     }
 
+    // listView5 添加/修改
 
     private void ListView5_button_Click(object sender, RoutedEventArgs e)
     {
@@ -2240,128 +2404,51 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(),
           Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}>",
         };
-        全局设置.快键.Add(item);
+        快键.Insert(0, item);
       }
       else
       {
-
-        new_button5.Content = "添加";
+        if (listView5.SelectedItem is 列表项 selectedItem)
+        {
+          selectedItem.Enable = "启用";
+          selectedItem.Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString();
+          selectedItem.Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}>";
+          new_button5.Content = "添加";
+        }
       }
     }
 
-
+    // listView6 添加/修改
     private void ListView6_button_Click(object sender, RoutedEventArgs e)
     {
       if ((string)new_button6.Content == "添加")
       {
         var item = new 列表项()
         {
-          IsChecked = true,
+          Enable = "启用",
           Name = "自启",
-          Value = textBox_Copy36.Text,
+          Value = textBox_Copy37.Text,
         };
-        全局设置.自启.Add(item);
+        自启.Insert(0, item);
 
       }
       else
       {
-
-        new_button6.Content = "添加";
+        if (listView6.SelectedItem is 列表项 selectedItem)
+        {
+          selectedItem.Enable = "启用";
+          selectedItem.Name = "自启";
+          selectedItem.Value = textBox_Copy37.Text;
+          new_button6.Content = "添加";
+        }
       }
     }
 
 
-
-
-
-    int groupBoxIsSelected = 0;
-
-    private void GroupBox_MouseEnter(object sender, MouseEventArgs e)
-    {
-      GroupBox gb = sender as GroupBox;
-      if (gb.Name == "groupBox22") groupBoxIsSelected = 3;
-      if (gb.Name == "groupBox23") groupBoxIsSelected = 4;
-      if (gb.Name == "groupBox24") groupBoxIsSelected = 5;
-      else groupBoxIsSelected = 6;
-    }
-
-    private void ListView3_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-      var selectedItem = (列表项)listView3.SelectedItem;
-      textBox_Copy25.Text = selectedItem.Name;
-      textBox_Copy26.Text = selectedItem.Value;
-
-      new_button3.Content = "修改";
-    }
-
-    private void ListView4_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-      var selectedItem = (列表项)listView4.SelectedItem;
-      string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><命令行=(.*?)>";
-
-      // 创建一个正则实例并执行匹配
-      Match match = Regex.Match(selectedItem.Value, pattern);
-
-      // 检查是否成功匹配
-      if (match.Success)
-      {
-        // 分别获取匹配的5个分组内容
-        t1.Text = match.Groups[1].Value;
-        t2.Text = match.Groups[2].Value;
-        t3.Text = match.Groups[3].Value;
-        t4.Text = match.Groups[4].Value;
-        tc.Text = match.Groups[5].Value;
-      }
-      new_button4.Content = "修改";
-    }
-
-    private void ListView5_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-      var selectedItem = (列表项)listView5.SelectedItem;
-      string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
-
-      // 创建一个正则实例并执行匹配
-      Match match = Regex.Match(selectedItem.Value, pattern);
-
-      // 检查是否成功匹配
-      if (match.Success)
-      {
-        // 分别获取匹配的5个分组内容
-        t5.Text = match.Groups[1].Value;
-        t6.Text = match.Groups[2].Value;
-        t7.Text = match.Groups[3].Value;
-        t8.Text = match.Groups[4].Value;
-      }
-      new_button5.Content = "修改";
-    }
-
-    private void ListView6_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-      var selectedItem = (列表项)listView6.SelectedItem;
-      textBox_Copy25.Text = selectedItem.Name;
-      textBox_Copy26.Text = selectedItem.Value;
-
-      new_button6.Content = "修改";
-    }
-
-
-
-
-
-    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
-
-    private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-
-    }
-
-
+    #endregion
   }
 }
