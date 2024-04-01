@@ -1,48 +1,40 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Point = System.Windows.Point;
-using Color = System.Windows.Media.Color;
-using Label = System.Windows.Controls.Label;
-using ColorConverter = System.Windows.Media.ColorConverter;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using MessageBox = System.Windows.MessageBox;
-using MenuItem = System.Windows.Forms.MenuItem;
-using System.Data.SQLite;
-using System.Text.RegularExpressions;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
-using System.Threading;
-using Path = System.IO.Path;
-using System.Diagnostics;
-using System.Text;
-using System.Linq;
-using Thumb = System.Windows.Controls.Primitives.Thumb;
-using TextBox = System.Windows.Controls.TextBox;
+using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
+using FormsDialogResult = System.Windows.Forms.DialogResult;
+using Label = System.Windows.Controls.Label;
 using ListView = System.Windows.Controls.ListView;
-using System.Globalization;
-using System.Windows.Data;
-using System.ComponentModel;
-using Newtonsoft.Json.Linq;
-using System.Collections.ObjectModel;
-using CheckBox = System.Windows.Controls.CheckBox;
-using ListViewItem = System.Windows.Controls.ListViewItem;
-using System.Windows.Shapes;
-using GroupBox = System.Windows.Controls.GroupBox;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using MenuItem = System.Windows.Forms.MenuItem;
+using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using Path = System.IO.Path;
+using Point = System.Windows.Point;
+using TextBox = System.Windows.Controls.TextBox;
+using Thumb = System.Windows.Controls.Primitives.Thumb;
 using Window = System.Windows.Window;
-using System.Xml.Linq;
-using System.Windows.Documents;
 
 namespace 小科狗配置
 {
@@ -875,7 +867,6 @@ namespace 小科狗配置
           radioButton5.IsChecked = true; break;
       }
     }
-
     #endregion
 
     #region 读取控件属性值
@@ -1889,7 +1880,7 @@ namespace 小科狗配置
     // 恢复全局设置
     private void Default_button_Click(object sender, RoutedEventArgs e)
     {
-      LoadKegTxt();
+      LoadKegTxt("Keg_bak.txt");
     }
 
     // 重新读取全局设置
@@ -2007,14 +1998,13 @@ namespace 小科狗配置
       else
       {
         File.Copy(kegFilePath, "Keg_bak.txt");
-        LoadKegTxt();
+        LoadKegTxt(kegFilePath);
         SaveGlobalSettingJson();
       }
-
     }
 
     // 读取文件 Keg.txt
-    private void LoadKegTxt()
+    private void LoadKegTxt(string kegFilePath)
     {
       string kegText = File.ReadAllText(kegFilePath);
       MatchCollection matches;
@@ -2448,7 +2438,17 @@ namespace 小科狗配置
       }
     }
 
+    private void Df_button_Click(object sender, RoutedEventArgs e)
+    {
 
+      OpenFileDialog openFileDialog = new()
+      {
+        Filter = "应用 (*.exe)|*.exe|所有文件 (*.*)|*.*",
+        Title = "选择一个文件"
+      };
+      if (openFileDialog.ShowDialog() == FormsDialogResult.OK)
+        textBox_Copy37.Text = openFileDialog.FileName;
+    }
     #endregion
   }
 }
