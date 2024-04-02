@@ -10,7 +10,7 @@
         BorderThickness="2,2,2,2"
         MouseDown="Window_MouseDown"
         ResizeMode="NoResize"
-        Topmost="True"
+        Topmost="False"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
@@ -269,12 +269,802 @@
   <Grid>
 
     <TabControl x:Name="tabControl"
-                Width="{Binding ActualWidth, ElementName=Grid_1, Mode=OneWay}"
-                Height="{Binding ActualHeight, ElementName=Grid_1, Mode=OneWay}"
+                Width="auto"
+                Height="auto"
                 Margin="10,10,10,10"
                 VerticalAlignment="Top"
                 BorderBrush="#FF8A8A8A">
 
+      <TabItem x:Name="tabItem2"
+               Header="全局设置">
+        <Grid>
+          <!--  定义行  -->
+          <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <!--  第一行，高度根据内容自动调整  -->
+            <RowDefinition Height="*" />
+            <!--  第二行，占用剩余空间  -->
+          </Grid.RowDefinitions>
+
+          <!--  将顶部控件放置在第一行  -->
+          <StackPanel Orientation="Horizontal">
+            <StackPanel.Background>
+              <LinearGradientBrush StartPoint="0.5,0"
+                                   EndPoint="0.5,1">
+                <GradientStop Offset="0"
+                              Color="White" />
+                <GradientStop Offset="0.805"
+                              Color="White" />
+                <GradientStop Offset="0.985"
+                              Color="#FF312121" />
+              </LinearGradientBrush>
+            </StackPanel.Background>
+            <Button x:Name="instructions_button"
+                    Width="70"
+                    Height="21"
+                    Click="Instructions_button_Click"
+                    Content="使用说明" />
+            <Button x:Name="default_button"
+                    Width="70"
+                    Height="21"
+                    Margin="5,0,0,0"
+                    Click="Default_button_Click"
+                    Content="恢复默认"
+                    ToolTip="从备份文件中读取全局设置" />
+            <Button x:Name="apply2_button"
+                    Width="70"
+                    Height="21"
+                    Margin="5,0,0,0"
+                    Click="Apply2_button_Click"
+                    Content="重新读取"
+                    ToolTip="将当前方案内修改项更新到服务端" />
+            <Button x:Name="apply3_button"
+                    Width="70"
+                    Height="21"
+                    Margin="5,0,0,0"
+                    Click="Apply3_button_Click"
+                    Content="应用设置"
+                    ToolTip="将当前方案内修改项更新到服务端" />
+
+
+          </StackPanel>
+
+          <!--  将ScrollViewer放置在第二行  -->
+          <ScrollViewer Grid.Row="1"
+                        VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+              <StackPanel Background="#FFE5E5E5"
+                          Orientation="Vertical">
+                <GroupBox x:Name="groupBox21"
+                          Width="730"
+                          Height="332"
+                          Margin="5,5,5,5"
+                          HorizontalAlignment="Left"
+                          BorderBrush="#FF8A8A8A"
+                          Foreground="Red"
+                          Header="状态栏">
+                  <Grid>
+                    <Grid Width="185"
+                          Height="126"
+                          Margin="20,10,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top">
+                      <Image x:Name="image"
+                             Width="175"
+                             Height="125"
+                             Margin="3,3,3,3" />
+                      <TextBlock x:Name="toolTipTextBlock"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Top"
+                                 FontFamily="{Binding Text, ElementName=textBox_Copy24}"
+                                 FontSize="{Binding Value, ElementName=nud23}"
+                                 Foreground="Black"
+                                 Text="中c：方案名称" />
+
+
+                    </Grid>
+                    <Label x:Name="label5"
+                           Height="26"
+                           Margin="9,277,0,7"
+                           HorizontalAlignment="Left"
+                           Content="文本位置：" />
+                    <CheckBox x:Name="checkBox3_Copy"
+                              Margin="14,154,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Checked="CheckBox3_Copy_CheckedChanged"
+                              Content="隐藏提示文本"
+                              Unchecked="CheckBox3_Copy_CheckedChanged" />
+                    <CheckBox x:Name="checkBox3_Copy1"
+                              Margin="14,174,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Checked="CheckBox3_Copy1_CheckedChanged"
+                              Content="显示中英以及大小写状态"
+                              IsChecked="True"
+                              Unchecked="CheckBox3_Copy1_CheckedChanged" />
+                    <Label x:Name="color_label_01_Copy"
+                           Height="26"
+                           Margin="10,189,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="提示文本中文字体色：" />
+                    <Label x:Name="color_label_02_Copy"
+                           Height="26"
+                           Margin="10,212,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="提示文本英文字体色：" />
+                    <Label x:Name="color_label_12"
+                           Width="50"
+                           Height="18"
+                           Margin="185,194,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Background="Black"
+                           BorderBrush="Black"
+                           BorderThickness="1,1,1,1"
+                           Content=""
+                           MouseEnter="Color_label_MouseEnter"
+                           MouseLeave="Color_label_MouseLeave"
+                           MouseUp="Color_label_MouseUp"
+                           TabIndex="3107"
+                           Tag="" />
+                    <Label x:Name="color_label_13"
+                           Width="50"
+                           Height="18"
+                           Margin="185,216,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Background="#FFFF0000"
+                           BorderBrush="Black"
+                           BorderThickness="1,1,1,1"
+                           Content=""
+                           MouseEnter="Color_label_MouseEnter"
+                           MouseLeave="Color_label_MouseLeave"
+                           MouseUp="Color_label_MouseUp"
+                           TabIndex="3105"
+                           Tag="" />
+                    <Label x:Name="label23_Copy14"
+                           Height="26"
+                           Margin="10,236,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="提示文本字体大小：" />
+                    <local:NumericUpDown x:Name="nud23"
+                                         Width="50"
+                                         Height="18"
+                                         Margin="185,239,0,0"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Top"
+                                         MaxValue="72"
+                                         MinValue="8"
+                                         TabIndex="3106"
+                                         ToolTip=""
+                                         Value="20" />
+                    <Label x:Name="label23_Copy15"
+                           Height="26"
+                           Margin="9,257,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Content="字体名称：" />
+                    <TextBox x:Name="textBox_Copy24"
+                             Width="129"
+                             Margin="76,262,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             IsReadOnly="True"
+                             Text="楷体"
+                             TextWrapping="NoWrap"
+                             ToolTip="若创建指定字体对象失败，就采用plane0字体，还失败则采用黑体" />
+                    <Button x:Name="button3_Copy1"
+                            Width="27"
+                            Height="17"
+                            Margin="208,262,0,0"
+                            Padding="1,-5,1,1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Click="Button3_Copy_Click"
+                            Content="..." />
+                    <StackPanel Margin="76,279,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Background="#FFE5E5E5"
+                                Orientation="Horizontal">
+                      <RadioButton x:Name="radioButton18"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Click="RadioButton_Click"
+                                   Content="顶部"
+                                   IsChecked="True" />
+                      <RadioButton x:Name="radioButton19"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Click="RadioButton_Click"
+                                   Content="中部"
+                                   IsChecked="False" />
+                      <RadioButton x:Name="radioButton20"
+                                   Height="16"
+                                   Margin="10,5,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Click="RadioButton_Click"
+                                   Content="底部"
+                                   IsChecked="False" />
+                    </StackPanel>
+                    <Grid Width="403"
+                          Height="292"
+                          Margin="315,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center">
+
+                      <ListBox x:Name="skinListBox"
+                               Width="127"
+                               Height="150"
+                               Margin="6,90,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               d:ItemsSource="{d:SampleData ItemCount=5}"
+                               SelectionChanged="SkinListBox_SelectionChanged" />
+                      <Canvas x:Name="canvas2"
+                              Width="255"
+                              Height="255"
+                              Margin="138,0,10,37"
+                              MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                              MouseWheel="Hue_slider_MouseWheel">
+                        <Canvas.Background>
+                          <ImageBrush ImageSource="{Binding Bitmap}" />
+                        </Canvas.Background>
+                        <Thumb x:Name="thumb2"
+                               Canvas.Left="0"
+                               Canvas.Top="0"
+                               Width="12"
+                               Height="12"
+                               Background="Transparent"
+                               BorderBrush="Black"
+                               BorderThickness="2"
+                               DragDelta="Thumb_DragDelta"
+                               MouseWheel="Hue_slider_MouseWheel">
+                          <Thumb.Template>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                              <Border Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="10"
+                                      SnapsToDevicePixels="True" />
+                            </ControlTemplate>
+                          </Thumb.Template>
+                        </Thumb>
+                      </Canvas>
+                      <Label x:Name="color_label_11"
+                             Width="22"
+                             Height="46"
+                             Margin="6,245,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Background="Red"
+                             BorderBrush="Black"
+                             BorderThickness="1,1,1,1"
+                             Content=""
+                             MouseEnter="Color_label_MouseEnter"
+                             MouseLeave="Color_label_MouseLeave"
+                             MouseUp="Color_label_MouseUp"
+                             TabIndex="3115"
+                             Tag="" />
+
+                      <Label x:Name="color_label_content1"
+                             Height="23"
+                             Margin="33,245,0,0"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Content=""
+                             Foreground="Red" />
+                      <TextBox x:Name="color_textBox_2"
+                               Width="100"
+                               Height="18"
+                               Margin="33,273,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               IsReadOnly="True"
+                               Text="(255, 255, 255)"
+                               TextWrapping="NoWrap" />
+                      <Slider x:Name="hue_slider1"
+                              Width="255"
+                              Height="18"
+                              Margin="138,273,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              IsSnapToTickEnabled="True"
+                              LargeChange="1"
+                              Maximum="360"
+                              Minimum="0"
+                              MouseWheel="Hue_slider_MouseWheel"
+                              SmallChange="1"
+                              TickFrequency="1"
+                              ValueChanged="Hue_slider_ValueChanged"
+                              Value="{Binding Value, ElementName=hue_slider}" />
+                      <Button x:Name="saveButton1"
+                              Width="127"
+                              Height="20"
+                              Margin="6,65,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Click="SaveButton1_Click"
+                              Content="应用皮肤" />
+                    </Grid>
+                  </Grid>
+                </GroupBox>
+                <GroupBox x:Name="groupBox26"
+                          Width="730"
+                          Margin="5,5,5,5"
+                          HorizontalAlignment="Left"
+                          BorderBrush="#FF8A8A8A"
+                          Foreground="Red"
+                          Header="设置">
+                  <Grid>
+                    <StackPanel Orientation="Vertical">
+                      <CheckBox x:Name="checkBox3_Copy3"
+                                Height="20"
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Content="打字统计等数据保存在主程文件夹下，否则保存在 C:\SiKegInput"
+                                IsChecked="True" />
+                      <CheckBox x:Name="checkBox3_Copy2"
+                                Height="20"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Content="快键只在候选窗口显示情况下才起作用，方案  查找  状态条和打开文字配置快键除外"
+                                IsChecked="True" />
+                      <CheckBox x:Name="checkBox3_Copy4"
+                                Height="20"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Content="启用深夜锁屏（22点-次日8点之间锁屏）" />
+                      <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="checkBox3_Copy5"
+                                  Margin="5,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  Content="定时自动关机：" />
+
+                        <local:NumericUpDown x:Name="nud24"
+                                             Width="50"
+                                             Height="18"
+                                             Margin="0,-2,0,0"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Top"
+                                             IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
+                                             MaxValue="23"
+                                             MinValue="0"
+                                             TabIndex="3106"
+                                             ToolTip=""
+                                             Value="22" />
+                        <Label x:Name="label23_Copy148"
+                               Margin="0,-6,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Content="时" />
+                        <local:NumericUpDown x:Name="nud25"
+                                             Width="50"
+                                             Height="18"
+                                             Margin="0,-2,0,0"
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Top"
+                                             IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
+                                             MaxValue="59"
+                                             MinValue="0"
+                                             TabIndex="3106"
+                                             ToolTip=""
+                                             Value="30" />
+                        <Label x:Name="label23_Copy149"
+                               Margin="0,-6,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Content="分" />
+                      </StackPanel>
+                    </StackPanel>
+                  </Grid>
+
+                </GroupBox>
+                <GroupBox x:Name="groupBox22"
+                          Width="730"
+                          Margin="5,5,5,5"
+                          HorizontalAlignment="Left"
+                          BorderBrush="#FF8A8A8A"
+                          Foreground="Red"
+                          Header="在线查找设置">
+                  <Grid>
+                    <!--  定义行  -->
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="35" />
+                      <!--  第一行，高度根据内容自动调整  -->
+                      <RowDefinition Height="*" />
+                      <!--  第二行，占用剩余空间  -->
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+
+                      <Button x:Name="new_button3"
+                              Width="70"
+                              Height="21"
+                              Margin="5,0,0,0"
+                              Click="ListView3_button_Click"
+                              Content="添加" />
+                      <TextBox x:Name="textBox_Copy25"
+                               Width="100"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap"
+                               ToolTip="网址或可执行文件路径" />
+                      <TextBox x:Name="textBox_Copy26"
+                               Width="527"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap"
+                               ToolTip="带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py" />
+
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="1"
+                                Margin="0,0,0,0">
+                      <ListView x:Name="listView3"
+                                d:ItemsSource="{d:SampleData ItemCount=3}"
+                                BorderBrush="Black"
+                                BorderThickness="1,1,1,1"
+                                ItemContainerStyle="{StaticResource InforTipStyle}"
+                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                                MouseDoubleClick="ListView_MouseDoubleClick"
+                                PreviewMouseWheel="控件禁止响应滚轮事件"
+                                SelectionChanged="ListView_SelectionChanged"
+                                Style="{DynamicResource ListViewStyle}">
+                        <ListView.ContextMenu>
+                          <ContextMenu>
+                            <MenuItem Click="ListView3_MenuItem1_Click"
+                                      Header="启用/禁用" />
+                            <MenuItem Click="ListView3_MenuItem2_Click"
+                                      Header="新建" />
+                            <MenuItem Click="ListView3_MenuItem3_Click"
+                                      Header="修改" />
+                            <MenuItem Click="ListView3_MenuItem4_Click"
+                                      Header="删除" />
+                          </ContextMenu>
+                        </ListView.ContextMenu>
+
+
+                        <ListView.View>
+                          <GridView AllowsColumnReorder="True">
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Enable}"
+                                            Header="启用" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Name}"
+                                            Header="名称" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Value}"
+                                            Header="命令" />
+                          </GridView>
+                        </ListView.View>
+                      </ListView>
+                    </StackPanel>
+                  </Grid>
+                </GroupBox>
+                <GroupBox x:Name="groupBox23"
+                          Width="730"
+                          Margin="5,5,5,5"
+                          HorizontalAlignment="Left"
+                          BorderBrush="#FF8A8A8A"
+                          Foreground="Red"
+                          Header="快捷命令设置">
+                  <Grid>
+                    <!--  定义行  -->
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="35" />
+                      <!--  第一行，高度根据内容自动调整  -->
+                      <RowDefinition Height="*" />
+                      <!--  第二行，占用剩余空间  -->
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+
+                      <Button x:Name="new_button4"
+                              Width="70"
+                              Height="21"
+                              Margin="5,0,0,0"
+                              Click="ListView4_button_Click"
+                              Content="添加" />
+
+                      <Label x:Name="label526"
+                             Height="24"
+                             Margin="5,0,0,0"
+                             Content="快键：" />
+
+                      <TextBox x:Name="t1"
+                               Width="50"
+                               Height="21"
+                               TextWrapping="NoWrap" />
+                      <TextBox x:Name="t2"
+                               Width="50"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+                      <TextBox x:Name="t3"
+                               Width="50"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+                      <TextBox x:Name="t4"
+                               Width="50"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+                      <Label x:Name="label527"
+                             Height="24"
+                             Margin="5,0,0,0"
+                             Content="命令行：" />
+                      <TextBox x:Name="tc"
+                               Width="305"
+                               Height="21"
+                               Margin="0,0,5,0"
+                               TextWrapping="NoWrap" />
+
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="1"
+                                Margin="0,0,0,0">
+                      <ListView x:Name="listView4"
+                                d:ItemsSource="{d:SampleData ItemCount=3}"
+                                BorderBrush="Black"
+                                BorderThickness="1,1,1,1"
+                                ItemContainerStyle="{StaticResource InforTipStyle}"
+                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                                MouseDoubleClick="ListView_MouseDoubleClick"
+                                PreviewMouseWheel="控件禁止响应滚轮事件"
+                                SelectionChanged="ListView_SelectionChanged"
+                                Style="{DynamicResource ListViewStyle}">
+                        <ListView.ContextMenu>
+                          <ContextMenu>
+                            <MenuItem Click="ListView4_MenuItem1_Click"
+                                      Header="启用/禁用" />
+                            <MenuItem Click="ListView4_MenuItem2_Click"
+                                      Header="新建" />
+                            <MenuItem Click="ListView4_MenuItem3_Click"
+                                      Header="修改" />
+                            <MenuItem Click="ListView4_MenuItem4_Click"
+                                      Header="删除" />
+                          </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.View>
+                          <GridView AllowsColumnReorder="True">
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Enable}"
+                                            Header="启用" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Name}"
+                                            Header="名称" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Value}"
+                                            Header="命令" />
+                          </GridView>
+                        </ListView.View>
+                      </ListView>
+                    </StackPanel>
+                  </Grid>
+                </GroupBox>
+                <GroupBox x:Name="groupBox24"
+                          Width="730"
+                          Margin="5,5,5,5"
+                          HorizontalAlignment="Left"
+                          BorderBrush="#FF8A8A8A"
+                          Foreground="Red"
+                          Header="快捷键设置">
+                  <Grid>
+                    <!--  定义行  -->
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="35" />
+                      <!--  第一行，高度根据内容自动调整  -->
+                      <RowDefinition Height="*" />
+                      <!--  第二行，占用剩余空间  -->
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+
+                      <Button x:Name="new_button5"
+                              Width="70"
+                              Height="21"
+                              Margin="5,0,0,0"
+                              Click="ListView5_button_Click"
+                              Content="添加" />
+                      <ComboBox x:Name="comboBox4"
+                                Width="180"
+                                Height="21"
+                                Margin="10,0,0,0"
+                                SelectedIndex="0">
+                        <ComboBoxItem Content="获取使用说明重新配置快键" />
+                        <ComboBoxItem Content="在线查找快键" />
+                        <ComboBoxItem Content="方案选择快键" />
+                        <ComboBoxItem Content="打开文字配置界面快键" />
+                        <ComboBoxItem Content="候选窗口调大快键" />
+                        <ComboBoxItem Content="候选窗口调小快键" />
+                        <ComboBoxItem Content="手动加词条快键" />
+                        <ComboBoxItem Content="锁定当前进程为TSF跟随快键" />
+                        <ComboBoxItem Content="上屏后再取坐标快键" />
+                        <ComboBoxItem Content="显示或隐藏状态条快键" />
+                        <ComboBoxItem Content="状态栏回到主屏右下角快键" />
+                        <ComboBoxItem Content="截图候选窗口上屏快键" />
+                        <ComboBoxItem Content="截图选中候选上屏快键" />
+                        <ComboBoxItem Content="截图选中反查上屏快键" />
+                        <ComboBoxItem Content="设置截候选图上屏快键" />
+                        <ComboBoxItem Content="设置上屏反查字段快键" />
+                        <ComboBoxItem Content="上屏反查字段快键" />
+                        <ComboBoxItem Content="显示或隐藏反查字段快键" />
+                        <ComboBoxItem Content="删除方案或词条快键" />
+                        <ComboBoxItem Content="调整词条置顶快键" />
+                        <ComboBoxItem Content="换皮肤快键" />
+                        <ComboBoxItem Content="进入英文长句态快键" />
+                      </ComboBox>
+
+                      <Label x:Name="label528"
+                             Height="24"
+                             Margin="5,0,0,0"
+                             Content="快键：" />
+                      <TextBox x:Name="t5"
+                               Width="50"
+                               Height="21"
+                               TextWrapping="NoWrap" />
+                      <TextBox x:Name="t6"
+                               Width="50"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+                      <TextBox x:Name="t7"
+                               Width="50"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+                      <TextBox x:Name="t8"
+                               Width="50"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="1"
+                                Margin="0,0,0,0">
+                      <ListView x:Name="listView5"
+                                d:ItemsSource="{d:SampleData ItemCount=3}"
+                                BorderBrush="Black"
+                                BorderThickness="1,1,1,1"
+                                ItemContainerStyle="{StaticResource InforTipStyle}"
+                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                                MouseDoubleClick="ListView_MouseDoubleClick"
+                                PreviewMouseWheel="控件禁止响应滚轮事件"
+                                SelectionChanged="ListView_SelectionChanged"
+                                Style="{DynamicResource ListViewStyle}">
+                        <ListView.ContextMenu>
+                          <ContextMenu>
+                            <MenuItem Click="ListView5_MenuItem1_Click"
+                                      Header="启用/禁用" />
+                            <MenuItem Click="ListView5_MenuItem2_Click"
+                                      Header="新建" />
+                            <MenuItem Click="ListView5_MenuItem3_Click"
+                                      Header="修改" />
+                            <MenuItem Click="ListView5_MenuItem4_Click"
+                                      Header="删除" />
+                          </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.View>
+                          <GridView AllowsColumnReorder="True">
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Enable}"
+                                            Header="启用" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Name}"
+                                            Header="名称" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Value}"
+                                            Header="命令" />
+                          </GridView>
+                        </ListView.View>
+                      </ListView>
+                    </StackPanel>
+                  </Grid>
+                </GroupBox>
+                <GroupBox x:Name="groupBox25"
+                          Width="730"
+                          Margin="5,5,5,5"
+                          HorizontalAlignment="Left"
+                          BorderBrush="#FF8A8A8A"
+                          Foreground="Red"
+                          Header="随小科狗自启的程序">
+                  <Grid>
+                    <!--  定义行  -->
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="35" />
+                      <!--  第一行，高度根据内容自动调整  -->
+                      <RowDefinition Height="*" />
+                      <!--  第二行，占用剩余空间  -->
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+
+                      <Button x:Name="new_button6"
+                              Width="70"
+                              Height="21"
+                              Margin="5,0,0,0"
+                              Click="ListView6_button_Click"
+                              Content="添加" />
+
+                      <TextBox x:Name="textBox_Copy37"
+                               Width="596"
+                               Height="21"
+                               Margin="5,0,0,0"
+                               TextWrapping="NoWrap" />
+                      <Button x:Name="df_button"
+                              Width="31"
+                              Height="21"
+                              Margin="5,0,0,0"
+                              Padding="1,-5,1,1"
+                              Click="Df_button_Click"
+                              Content="..." />
+
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="1"
+                                Margin="0,0,0,0">
+                      <ListView x:Name="listView6"
+                                d:ItemsSource="{d:SampleData ItemCount=3}"
+                                BorderBrush="Black"
+                                BorderThickness="1,1,1,1"
+                                ItemContainerStyle="{StaticResource InforTipStyle}"
+                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                                MouseDoubleClick="ListView_MouseDoubleClick"
+                                PreviewMouseWheel="控件禁止响应滚轮事件"
+                                SelectionChanged="ListView_SelectionChanged"
+                                Style="{DynamicResource ListViewStyle}">
+                        <ListView.ContextMenu>
+                          <ContextMenu>
+                            <MenuItem Click="ListView6_MenuItem1_Click"
+                                      Header="启用/禁用" />
+                            <MenuItem Click="ListView6_MenuItem2_Click"
+                                      Header="新建" />
+                            <MenuItem Click="ListView6_MenuItem3_Click"
+                                      Header="修改" />
+                            <MenuItem Click="ListView6_MenuItem4_Click"
+                                      Header="删除" />
+                          </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.View>
+                          <GridView AllowsColumnReorder="True">
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Enable}"
+                                            Header="启用" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Name}"
+                                            Header="名称" />
+                            <GridViewColumn Width="auto"
+                                            DisplayMemberBinding="{Binding Value}"
+                                            Header="命令" />
+                          </GridView>
+                        </ListView.View>
+                      </ListView>
+                    </StackPanel>
+                  </Grid>
+                </GroupBox>
+
+
+              </StackPanel>
+
+            </StackPanel>
+          </ScrollViewer>
+        </Grid>
+      </TabItem>
       <TabItem x:Name="tabItem1"
                Header="方案设置"
                TabIndex="3000">
@@ -2367,798 +3157,6 @@
           </ScrollViewer>
         </Grid>
       </TabItem>
-      <TabItem x:Name="tabItem2"
-               Header="全局设置">
-        <Grid>
-          <!--  定义行  -->
-          <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <!--  第一行，高度根据内容自动调整  -->
-            <RowDefinition Height="*" />
-            <!--  第二行，占用剩余空间  -->
-          </Grid.RowDefinitions>
-
-          <!--  将顶部控件放置在第一行  -->
-          <StackPanel Orientation="Horizontal">
-            <StackPanel.Background>
-              <LinearGradientBrush StartPoint="0.5,0"
-                                   EndPoint="0.5,1">
-                <GradientStop Offset="0"
-                              Color="White" />
-                <GradientStop Offset="0.805"
-                              Color="White" />
-                <GradientStop Offset="0.985"
-                              Color="#FF312121" />
-              </LinearGradientBrush>
-            </StackPanel.Background>
-            <Button x:Name="instructions_button"
-                    Width="70"
-                    Height="21"
-                    Click="Instructions_button_Click"
-                    Content="使用说明" />
-            <Button x:Name="default_button"
-                    Width="70"
-                    Height="21"
-                    Margin="5,0,0,0"
-                    Click="Default_button_Click"
-                    Content="恢复默认"
-                    ToolTip="从备份文件中读取全局设置" />
-            <Button x:Name="apply2_button"
-                    Width="70"
-                    Height="21"
-                    Margin="5,0,0,0"
-                    Click="Apply2_button_Click"
-                    Content="重新读取"
-                    ToolTip="将当前方案内修改项更新到服务端" />
-            <Button x:Name="apply3_button"
-                    Width="70"
-                    Height="21"
-                    Margin="5,0,0,0"
-                    Click="Apply3_button_Click"
-                    Content="应用设置"
-                    ToolTip="将当前方案内修改项更新到服务端" />
-
-
-          </StackPanel>
-
-          <!--  将ScrollViewer放置在第二行  -->
-          <ScrollViewer Grid.Row="1"
-                        VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
-              <StackPanel Background="#FFE5E5E5"
-                          Orientation="Vertical">
-                <GroupBox x:Name="groupBox21"
-                          Width="730"
-                          Height="332"
-                          Margin="5,5,5,5"
-                          HorizontalAlignment="Left"
-                          BorderBrush="#FF8A8A8A"
-                          Foreground="Red"
-                          Header="状态栏">
-                  <Grid>
-                    <Grid Width="181"
-                          Height="131"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          Margin="20,15,543,185">
-
-                      <Image x:Name="image"
-                             HorizontalAlignment="Left"
-                             Margin="3,3,3,3"
-                             Width="175"
-                             Height="125"/>
-
-                    </Grid>
-                    <Label x:Name="label5"
-                           Height="26"
-                           Margin="9,277,0,7"
-                           HorizontalAlignment="Left"
-                           Content="文本位置：" />
-                    <CheckBox x:Name="checkBox3_Copy"
-                              Margin="14,154,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="隐藏提示文本" />
-                    <CheckBox x:Name="checkBox3_Copy1"
-                              Margin="14,174,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="显示中英以及大小写状态"
-                              IsChecked="True" />
-                    <Label x:Name="color_label_01_Copy"
-                           Height="26"
-                           Margin="10,189,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="提示文本中文字体色：" />
-                    <Label x:Name="color_label_02_Copy"
-                           Height="26"
-                           Margin="10,212,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="提示文本英文字体色：" />
-                    <Label x:Name="color_label_12"
-                           Width="50"
-                           Height="18"
-                           Margin="185,194,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Background="Black"
-                           BorderBrush="Black"
-                           BorderThickness="1,1,1,1"
-                           Content=""
-                           MouseEnter="Color_label_MouseEnter"
-                           MouseLeave="Color_label_MouseLeave"
-                           MouseUp="Color_label_MouseUp"
-                           TabIndex="3107"
-                           Tag="" />
-                    <Label x:Name="color_label_13"
-                           Width="50"
-                           Height="18"
-                           Margin="185,216,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Background="#FFFF0000"
-                           BorderBrush="Black"
-                           BorderThickness="1,1,1,1"
-                           Content=""
-                           MouseEnter="Color_label_MouseEnter"
-                           MouseLeave="Color_label_MouseLeave"
-                           MouseUp="Color_label_MouseUp"
-                           TabIndex="3105"
-                           Tag="" />
-                    <Label x:Name="label23_Copy14"
-                           Height="26"
-                           Margin="10,236,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="提示文本字体大小：" />
-                    <local:NumericUpDown x:Name="nud23"
-                                         Width="50"
-                                         Height="18"
-                                         Margin="185,239,0,0"
-                                         HorizontalAlignment="Left"
-                                         VerticalAlignment="Top"
-                                         MaxValue="72"
-                                         MinValue="8"
-                                         TabIndex="3106"
-                                         ToolTip=""
-                                         Value="20" />
-                    <Label x:Name="label23_Copy15"
-                           Height="26"
-                           Margin="9,257,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="字体名称：" />
-                    <TextBox x:Name="textBox_Copy24"
-                             Width="129"
-                             Margin="76,262,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             IsReadOnly="True"
-                             Text="楷体"
-                             TextWrapping="NoWrap"
-                             ToolTip="若创建指定字体对象失败，就采用plane0字体，还失败则采用黑体" />
-                    <Button x:Name="button3_Copy1"
-                            Width="27"
-                            Height="17"
-                            Margin="208,262,0,0"
-                            Padding="1,-5,1,1"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="Button3_Copy_Click"
-                            Content="..." />
-                    <StackPanel Margin="76,279,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Background="#FFE5E5E5"
-                                Orientation="Horizontal">
-                      <RadioButton x:Name="radioButton18"
-                                   Height="16"
-                                   Margin="10,5,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Content="顶部"
-                                   IsChecked="True" />
-                      <RadioButton x:Name="radioButton19"
-                                   Height="16"
-                                   Margin="10,5,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Content="中部"
-                                   IsChecked="False" />
-                      <RadioButton x:Name="radioButton20"
-                                   Height="16"
-                                   Margin="10,5,0,0"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Content="底部"
-                                   IsChecked="False" />
-
-                    </StackPanel>
-                    <Grid Width="403"
-                          Height="292"
-                          Margin="315,0,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center">
-
-                      <ListBox x:Name="colorSchemeListBox1"
-                               Width="127"
-                               Height="150"
-                               Margin="6,90,0,0"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Top"
-                               d:ItemsSource="{d:SampleData ItemCount=5}"
-                               IsEnabled="False">
-
-                        <ListBox.ContextMenu>
-                          <ContextMenu x:Name="listBoxContextMenu1">
-                            <MenuItem Click="MenuItem_Click_1"
-                                      Header="新建" />
-                            <MenuItem Click="MenuItem_Click_2"
-                                      Header="修改" />
-                            <MenuItem Click="MenuItem_Click_3"
-                                      Header="删除" />
-                          </ContextMenu>
-                        </ListBox.ContextMenu>
-                      </ListBox>
-                      <Canvas x:Name="canvas2"
-                              Width="255"
-                              Height="255"
-                              Margin="138,0,10,37"
-                              MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
-                              MouseWheel="Hue_slider_MouseWheel">
-                        <Canvas.Background>
-                          <ImageBrush ImageSource="{Binding Bitmap}" />
-                        </Canvas.Background>
-                        <Thumb x:Name="thumb2"
-                               Canvas.Left="0"
-                               Canvas.Top="0"
-                               Width="12"
-                               Height="12"
-                               Background="Transparent"
-                               BorderBrush="Black"
-                               BorderThickness="2"
-                               DragDelta="Thumb_DragDelta"
-                               MouseWheel="Hue_slider_MouseWheel">
-                          <Thumb.Template>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                              <Border Background="{TemplateBinding Background}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      CornerRadius="10"
-                                      SnapsToDevicePixels="True" />
-                            </ControlTemplate>
-                          </Thumb.Template>
-                        </Thumb>
-                      </Canvas>
-                      <Label x:Name="color_label_11"
-                             Width="22"
-                             Height="46"
-                             Margin="6,245,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Background="Red"
-                             BorderBrush="Black"
-                             BorderThickness="1,1,1,1"
-                             Content=""
-                             MouseEnter="Color_label_MouseEnter"
-                             MouseLeave="Color_label_MouseLeave"
-                             MouseUp="Color_label_MouseUp"
-                             TabIndex="3115"
-                             Tag="" />
-
-                      <Label x:Name="color_label_content1"
-                             Height="23"
-                             Margin="33,245,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Content=""
-                             Foreground="Red" />
-                      <TextBox x:Name="color_textBox_2"
-                               Width="100"
-                               Height="18"
-                               Margin="33,273,0,0"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Top"
-                               IsReadOnly="True"
-                               Text="(255, 255, 255)"
-                               TextWrapping="NoWrap" />
-                      <Slider x:Name="hue_slider1"
-                              Width="255"
-                              Height="18"
-                              Margin="138,273,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              IsSnapToTickEnabled="True"
-                              LargeChange="1"
-                              Maximum="360"
-                              Minimum="0"
-                              MouseWheel="Hue_slider_MouseWheel"
-                              SmallChange="1"
-                              TickFrequency="1"
-                              ValueChanged="Hue_slider_ValueChanged"
-                              Value="{Binding Value, ElementName=hue_slider}" />
-                      <Button x:Name="saveButton1"
-                              Width="127"
-                              Height="20"
-                              Margin="6,65,0,0"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              Content="应用皮肤" />
-                    </Grid>
-
-
-
-                  </Grid>
-                </GroupBox>
-
-                <GroupBox x:Name="groupBox22"
-                          Width="730"
-                          Margin="5,5,5,5"
-                          HorizontalAlignment="Left"
-                          BorderBrush="#FF8A8A8A"
-                          Foreground="Red"
-                          Header="在线查找设置">
-                  <Grid>
-                    <!--  定义行  -->
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="35" />
-                      <!--  第一行，高度根据内容自动调整  -->
-                      <RowDefinition Height="*" />
-                      <!--  第二行，占用剩余空间  -->
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-
-                      <Button x:Name="new_button3"
-                              Width="70"
-                              Height="21"
-                              Margin="5,0,0,0"
-                              Click="ListView3_button_Click"
-                              Content="添加" />
-                      <TextBox x:Name="textBox_Copy25"
-                               Width="100"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap"
-                               ToolTip="网址或可执行文件路径" />
-                      <TextBox x:Name="textBox_Copy26"
-                               Width="527"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap"
-                               ToolTip="带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py" />
-
-                    </StackPanel>
-
-
-                    <StackPanel Grid.Row="1"
-                                Margin="0,0,0,0">
-                      <ListView x:Name="listView3"
-                                d:ItemsSource="{d:SampleData ItemCount=3}"
-                                BorderBrush="Black"
-                                BorderThickness="1,1,1,1"
-                                ItemContainerStyle="{StaticResource InforTipStyle}"
-                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
-                                MouseDoubleClick="ListView_MouseDoubleClick"
-                                PreviewMouseWheel="控件禁止响应滚轮事件"
-                                SelectionChanged="ListView_SelectionChanged"
-                                Style="{DynamicResource ListViewStyle}">
-                        <ListView.ContextMenu>
-                          <ContextMenu>
-                            <MenuItem Click="ListView3_MenuItem1_Click"
-                                      Header="启用/禁用" />
-                            <MenuItem Click="ListView3_MenuItem2_Click"
-                                      Header="新建" />
-                            <MenuItem Click="ListView3_MenuItem3_Click"
-                                      Header="修改" />
-                            <MenuItem Click="ListView3_MenuItem4_Click"
-                                      Header="删除" />
-                          </ContextMenu>
-                        </ListView.ContextMenu>
-
-
-                        <ListView.View>
-                          <GridView AllowsColumnReorder="True">
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Enable}"
-                                            Header="启用" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Name}"
-                                            Header="名称" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Value}"
-                                            Header="命令" />
-                          </GridView>
-                        </ListView.View>
-                      </ListView>
-                    </StackPanel>
-                  </Grid>
-                </GroupBox>
-                <GroupBox x:Name="groupBox23"
-                          Width="730"
-                          Margin="5,5,5,5"
-                          HorizontalAlignment="Left"
-                          BorderBrush="#FF8A8A8A"
-                          Foreground="Red"
-                          Header="快捷命令设置">
-                  <Grid>
-                    <!--  定义行  -->
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="35" />
-                      <!--  第一行，高度根据内容自动调整  -->
-                      <RowDefinition Height="*" />
-                      <!--  第二行，占用剩余空间  -->
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Orientation="Horizontal">
-
-                      <Button x:Name="new_button4"
-                              Width="70"
-                              Height="21"
-                              Margin="5,0,0,0"
-                              Click="ListView4_button_Click"
-                              Content="添加" />
-
-                      <Label x:Name="label526"
-                             Height="24"
-                             Margin="5,0,0,0"
-                             Content="快键：" />
-
-                      <TextBox x:Name="t1"
-                               Width="50"
-                               Height="21"
-                               TextWrapping="NoWrap" />
-                      <TextBox x:Name="t2"
-                               Width="50"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-                      <TextBox x:Name="t3"
-                               Width="50"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-                      <TextBox x:Name="t4"
-                               Width="50"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-                      <Label x:Name="label527"
-                             Height="24"
-                             Margin="5,0,0,0"
-                             Content="命令行：" />
-                      <TextBox x:Name="tc"
-                               Width="305"
-                               Height="21"
-                               Margin="0,0,5,0"
-                               TextWrapping="NoWrap" />
-
-                    </StackPanel>
-
-
-                    <StackPanel Grid.Row="1"
-                                Margin="0,0,0,0">
-                      <ListView x:Name="listView4"
-                                d:ItemsSource="{d:SampleData ItemCount=3}"
-                                BorderBrush="Black"
-                                BorderThickness="1,1,1,1"
-                                ItemContainerStyle="{StaticResource InforTipStyle}"
-                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
-                                MouseDoubleClick="ListView_MouseDoubleClick"
-                                PreviewMouseWheel="控件禁止响应滚轮事件"
-                                SelectionChanged="ListView_SelectionChanged"
-                                Style="{DynamicResource ListViewStyle}">
-                        <ListView.ContextMenu>
-                          <ContextMenu>
-                            <MenuItem Click="ListView4_MenuItem1_Click"
-                                      Header="启用/禁用" />
-                            <MenuItem Click="ListView4_MenuItem2_Click"
-                                      Header="新建" />
-                            <MenuItem Click="ListView4_MenuItem3_Click"
-                                      Header="修改" />
-                            <MenuItem Click="ListView4_MenuItem4_Click"
-                                      Header="删除" />
-                          </ContextMenu>
-                        </ListView.ContextMenu>
-                        <ListView.View>
-                          <GridView AllowsColumnReorder="True">
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Enable}"
-                                            Header="启用" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Name}"
-                                            Header="名称" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Value}"
-                                            Header="命令" />
-                          </GridView>
-                        </ListView.View>
-                      </ListView>
-                    </StackPanel>
-                  </Grid>
-                </GroupBox>
-                <GroupBox x:Name="groupBox24"
-                          Width="730"
-                          Margin="5,5,5,5"
-                          HorizontalAlignment="Left"
-                          BorderBrush="#FF8A8A8A"
-                          Foreground="Red"
-                          Header="快捷键设置">
-                  <Grid>
-                    <!--  定义行  -->
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="35" />
-                      <!--  第一行，高度根据内容自动调整  -->
-                      <RowDefinition Height="*" />
-                      <!--  第二行，占用剩余空间  -->
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-
-                      <Button x:Name="new_button5"
-                              Width="70"
-                              Height="21"
-                              Margin="5,0,0,0"
-                              Click="ListView5_button_Click"
-                              Content="添加" />
-                      <ComboBox x:Name="comboBox4"
-                                Width="180"
-                                Height="21"
-                                Margin="10,0,0,0"
-                                SelectedIndex="0">
-                        <ComboBoxItem Content="获取使用说明重新配置快键" />
-                        <ComboBoxItem Content="在线查找快键" />
-                        <ComboBoxItem Content="方案选择快键" />
-                        <ComboBoxItem Content="打开文字配置界面快键" />
-                        <ComboBoxItem Content="候选窗口调大快键" />
-                        <ComboBoxItem Content="候选窗口调小快键" />
-                        <ComboBoxItem Content="手动加词条快键" />
-                        <ComboBoxItem Content="锁定当前进程为TSF跟随快键" />
-                        <ComboBoxItem Content="上屏后再取坐标快键" />
-                        <ComboBoxItem Content="显示或隐藏状态条快键" />
-                        <ComboBoxItem Content="状态栏回到主屏右下角快键" />
-                        <ComboBoxItem Content="截图候选窗口上屏快键" />
-                        <ComboBoxItem Content="截图选中候选上屏快键" />
-                        <ComboBoxItem Content="截图选中反查上屏快键" />
-                        <ComboBoxItem Content="设置截候选图上屏快键" />
-                        <ComboBoxItem Content="设置上屏反查字段快键" />
-                        <ComboBoxItem Content="上屏反查字段快键" />
-                        <ComboBoxItem Content="显示或隐藏反查字段快键" />
-                        <ComboBoxItem Content="删除方案或词条快键" />
-                        <ComboBoxItem Content="调整词条置顶快键" />
-                        <ComboBoxItem Content="换皮肤快键" />
-                        <ComboBoxItem Content="进入英文长句态快键" />
-                      </ComboBox>
-
-                      <Label x:Name="label528"
-                             Height="24"
-                             Margin="5,0,0,0"
-                             Content="快键：" />
-                      <TextBox x:Name="t5"
-                               Width="50"
-                               Height="21"
-                               TextWrapping="NoWrap" />
-                      <TextBox x:Name="t6"
-                               Width="50"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-                      <TextBox x:Name="t7"
-                               Width="50"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-                      <TextBox x:Name="t8"
-                               Width="50"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-
-                    </StackPanel>
-                    <StackPanel Grid.Row="1"
-                                Margin="0,0,0,0">
-                      <ListView x:Name="listView5"
-                                d:ItemsSource="{d:SampleData ItemCount=3}"
-                                BorderBrush="Black"
-                                BorderThickness="1,1,1,1"
-                                ItemContainerStyle="{StaticResource InforTipStyle}"
-                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
-                                MouseDoubleClick="ListView_MouseDoubleClick"
-                                PreviewMouseWheel="控件禁止响应滚轮事件"
-                                SelectionChanged="ListView_SelectionChanged"
-                                Style="{DynamicResource ListViewStyle}">
-                        <ListView.ContextMenu>
-                          <ContextMenu>
-                            <MenuItem Click="ListView5_MenuItem1_Click"
-                                      Header="启用/禁用" />
-                            <MenuItem Click="ListView5_MenuItem2_Click"
-                                      Header="新建" />
-                            <MenuItem Click="ListView5_MenuItem3_Click"
-                                      Header="修改" />
-                            <MenuItem Click="ListView5_MenuItem4_Click"
-                                      Header="删除" />
-                          </ContextMenu>
-                        </ListView.ContextMenu>
-                        <ListView.View>
-                          <GridView AllowsColumnReorder="True">
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Enable}"
-                                            Header="启用" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Name}"
-                                            Header="名称" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Value}"
-                                            Header="命令" />
-                          </GridView>
-                        </ListView.View>
-                      </ListView>
-                    </StackPanel>
-                  </Grid>
-                </GroupBox>
-                <GroupBox x:Name="groupBox25"
-                          Width="730"
-                          Margin="5,5,5,5"
-                          HorizontalAlignment="Left"
-                          BorderBrush="#FF8A8A8A"
-                          Foreground="Red"
-                          Header="随小科狗自启的程序">
-                  <Grid>
-                    <!--  定义行  -->
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="35" />
-                      <!--  第一行，高度根据内容自动调整  -->
-                      <RowDefinition Height="*" />
-                      <!--  第二行，占用剩余空间  -->
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-
-                      <Button x:Name="new_button6"
-                              Width="70"
-                              Height="21"
-                              Margin="5,0,0,0"
-                              Click="ListView6_button_Click"
-                              Content="添加" />
-
-                      <TextBox x:Name="textBox_Copy37"
-                               Width="596"
-                               Height="21"
-                               Margin="5,0,0,0"
-                               TextWrapping="NoWrap" />
-                      <Button x:Name="df_button"
-                              Width="31"
-                              Height="21"
-                              Margin="5,0,0,0"
-                              Padding="1,-5,1,1"
-                              Content="..."
-                              Click="Df_button_Click" />
-
-                    </StackPanel>
-
-
-                    <StackPanel Grid.Row="1"
-                                Margin="0,0,0,0">
-                      <ListView x:Name="listView6"
-                                d:ItemsSource="{d:SampleData ItemCount=3}"
-                                BorderBrush="Black"
-                                BorderThickness="1,1,1,1"
-                                ItemContainerStyle="{StaticResource InforTipStyle}"
-                                ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
-                                MouseDoubleClick="ListView_MouseDoubleClick"
-                                PreviewMouseWheel="控件禁止响应滚轮事件"
-                                SelectionChanged="ListView_SelectionChanged"
-                                Style="{DynamicResource ListViewStyle}">
-                        <ListView.ContextMenu>
-                          <ContextMenu>
-                            <MenuItem Click="ListView6_MenuItem1_Click"
-                                      Header="启用/禁用" />
-                            <MenuItem Click="ListView6_MenuItem2_Click"
-                                      Header="新建" />
-                            <MenuItem Click="ListView6_MenuItem3_Click"
-                                      Header="修改" />
-                            <MenuItem Click="ListView6_MenuItem4_Click"
-                                      Header="删除" />
-                          </ContextMenu>
-                        </ListView.ContextMenu>
-                        <ListView.View>
-                          <GridView AllowsColumnReorder="True">
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Enable}"
-                                            Header="启用" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Name}"
-                                            Header="名称" />
-                            <GridViewColumn Width="auto"
-                                            DisplayMemberBinding="{Binding Value}"
-                                            Header="命令" />
-                          </GridView>
-                        </ListView.View>
-                      </ListView>
-                    </StackPanel>
-                  </Grid>
-                </GroupBox>
-                <GroupBox x:Name="groupBox26"
-                          Width="726"
-                          Margin="5,5,5,5"
-                          HorizontalAlignment="Left"
-                          BorderBrush="#FF8A8A8A"
-                          Foreground="Red"
-                          Header="其它设置">
-                  <Grid>
-                    <StackPanel Orientation="Vertical">
-                      <CheckBox x:Name="checkBox3_Copy3"
-                                Height="20"
-                                Margin="5,10,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="打字统计等数据保存在主程文件夹下，否则保存在 C:\SiKegInput"
-                                IsChecked="True" />
-                      <CheckBox x:Name="checkBox3_Copy2"
-                                Height="20"
-                                Margin="5,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="快键只在候选窗口显示情况下才起作用，方案  查找  状态条和打开文字配置快键除外"
-                                IsChecked="True" />
-                      <CheckBox x:Name="checkBox3_Copy4"
-                                Height="20"
-                                Margin="5,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Content="启用深夜锁屏（22点-次日8点之间锁屏）" />
-                      <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="checkBox3_Copy5"
-                                  Margin="5,0,0,0"
-                                  HorizontalAlignment="Left"
-                                  VerticalAlignment="Top"
-                                  Content="定时自动关机：" />
-
-                        <local:NumericUpDown x:Name="nud24"
-                                             Width="50"
-                                             Height="18"
-                                             Margin="0,-2,0,0"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Top"
-                                             IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
-                                             MaxValue="23"
-                                             MinValue="0"
-                                             TabIndex="3106"
-                                             ToolTip=""
-                                             Value="22" />
-                        <Label x:Name="label23_Copy148"
-                               Margin="0,-6,0,0"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Top"
-                               Content="时" />
-                        <local:NumericUpDown x:Name="nud25"
-                                             Width="50"
-                                             Height="18"
-                                             Margin="0,-2,0,0"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Top"
-                                             IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
-                                             MaxValue="59"
-                                             MinValue="0"
-                                             TabIndex="3106"
-                                             ToolTip=""
-                                             Value="30" />
-                        <Label x:Name="label23_Copy149"
-                               Margin="0,-6,0,0"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Top"
-                               Content="分" />
-                      </StackPanel>
-                    </StackPanel>
-                  </Grid>
-
-                </GroupBox>
-
-              </StackPanel>
-
-            </StackPanel>
-          </ScrollViewer>
-        </Grid>
-      </TabItem>
       <TabItem x:Name="tabItem3"
                Header="关于">
         <Grid>
@@ -3183,6 +3181,11 @@
                               Color="#FF312121" />
               </LinearGradientBrush>
             </StackPanel.Background>
+            <Button Content="GitHup"
+                    Width="70"
+                    Height="21"
+                    Click="OpenWebPage_Click"
+                    HorizontalAlignment="Right" />
             <Label x:Name="label5d"
                    Height="26"
                    Margin="5,0,0,0"
@@ -3200,7 +3203,14 @@
                                  ToolTip=""
                                  ValueChanged="Nud22_ValueChanged"
                                  Value="425" />
-
+            <!--<CheckBox
+              x:Name="checkBox3"
+              Height="20"
+              Margin="15,10,0,0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top"
+              Click="CheckBox3_Click"
+              Content="窗口置顶" />-->
             <CheckBox x:Name="checkBox2"
                       Height="20"
                       Margin="15,10,0,0"
@@ -3225,7 +3235,12 @@
                           HorizontalAlignment="Left"
                           BorderBrush="#FF8A8A8A"
                           Header="关于">
-                  <Grid />
+                  <TextBox x:Name="textBox"
+                           Height="207"
+                           Margin="10,0,10,0"
+                           Text="1、本工具已经开源，用于小科狗输入平台配置输入方案，主要是因太闲了打发时间才写了这个；&#x0A;2、将“KegConfigTool.zip”内的“skin”和“tools”都解压到小科狗安装目录内；&#x0A;3、运行“tools\KegConfigTool\小科狗配置.exe”即可，也可以加入小科狗自启；&#x0A;4、第一次使用建议把每个方案都点一下“加载模板”，然后再设置，最后应用，这么做是为了把Keg.db内的配置换成最新的；"
+                           TextWrapping="Wrap"
+                           FontSize="16" />
                 </GroupBox>
 
               </StackPanel>

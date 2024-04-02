@@ -25,6 +25,7 @@ using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using FormsDialogResult = System.Windows.Forms.DialogResult;
 using Label = System.Windows.Controls.Label;
+using ListBox = System.Windows.Controls.ListBox;
 using ListView = System.Windows.Controls.ListView;
 using MenuItem = System.Windows.Forms.MenuItem;
 using MessageBox = System.Windows.MessageBox;
@@ -32,6 +33,7 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using Path = System.IO.Path;
 using Point = System.Windows.Point;
+using RadioButton = System.Windows.Controls.RadioButton;
 using TextBox = System.Windows.Controls.TextBox;
 using Thumb = System.Windows.Controls.Primitives.Thumb;
 using Window = System.Windows.Window;
@@ -91,9 +93,11 @@ namespace 小科狗配置
       候选字色 = "#000000"
     };
     #endregion
-
+    
     #region 全局变量定义
-    readonly String schemeFilePath = "配色方案.json";
+    string zh_en = "中c：";
+    string labelName = "方案名称";          // 当前方案名称
+    readonly string schemeFilePath = "配色方案.json";
     int select_color_label_num = 0;         // 用于记录当前选中的 select_color_label
 
     NotifyIcon notifyIcon;                  // 托盘图标
@@ -106,8 +110,8 @@ namespace 小科狗配置
     string currentConfig, modifiedConfig;   // 存少当前配置和当前修改的配置
 
     SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));  // 候选框无背景色时的值
-    readonly string settingConfigPath = "setting.ini";  // 窗口配置文件
-    readonly String globalSettingFilePath = "全局设置.json";
+    readonly string settingConfigPath;  // 窗口配置文件
+    readonly string globalSettingFilePath = "全局设置.json";
     #endregion
 
     #region 全局设置界面列表项定义
@@ -194,23 +198,17 @@ namespace 小科狗配置
 
     public MainWindow()
     {
-      InitializeComponent();
-      //this.Title += " V" + GetAssemblyVersion();
-
-      bool isNumberValid = int.TryParse(GetValue("window", "height"), out int height);
-
-      if (isNumberValid)
-      {
-        //this.Height = height;
-        nud22.Value = height;
-      }
-      else{
-        this.Height = 425;
-        SetValue("window", "height", "425");
-      }
-      
       kegFilePath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.txt"));
       dbPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.db"));
+      settingConfigPath = Path.GetFullPath(Path.Combine(appPath, @".\setting.ini"));
+
+      InitializeComponent();
+      //this.Title += " V" + GetAssemblyVersion();
+      LoadSettingConfig();  // 读取 setting.ini
+
+      toolTipTextBlock.Text = $"{zh_en}{labelName}";
+
+
       查找列表 = new ObservableCollection<列表项>();
       快键命令 = new ObservableCollection<列表项>();
       快键 = new ObservableCollection<列表项>();
@@ -227,10 +225,10 @@ namespace 小科狗配置
     {
       Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
       DataContext = this;
+      LoadImages();
       UpdateBitmap();       // 生成 取色图
       InitIcon();           // 载入托盘图标
       LoadTableNames();     // 载入码表方案名称
-      LoadSettingConfig();  // 读取 setting.ini
       LoadJson();           // 读取 配色方案.jsonString
       LoadHxFile();         // 读取 候选序号.txt
       ReadKegText();        // 读取 全局设置
@@ -250,7 +248,8 @@ namespace 小科狗配置
     static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    //static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
     const int WM_USER = 0x0400; // 根据Windows API定义
     //const uint KWM_RESETPIPLE = (uint)WM_USER + 200;
@@ -265,6 +264,7 @@ namespace 小科狗配置
     const uint KWM_SET2ALL = (uint)WM_USER + 209;
     //const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;
     const uint KWM_UPQJSET = (uint)WM_USER + 211;
+    const uint KWM_SKINSET = (uint)WM_USER + 212;
     #endregion
 
     #region 读写配置文件项
@@ -375,10 +375,12 @@ namespace 小科狗配置
     // 切换方案
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
+      labelName = comboBox.SelectedValue as string;
+      toolTipTextBlock.Text = $"{zh_en}{labelName}";
+
       currentConfig = GetConfig(labelName);
-      if(!currentConfig.Contains("\n"))
-          currentConfig = Regex.Replace(currentConfig, $"《", $"\n《");
+      //if(!currentConfig.Contains("\n"))
+      //    currentConfig = Regex.Replace(currentConfig, $"《", $"\n《");
       SetControlsValue();
 
       restor_default_button.IsEnabled = true;
@@ -397,7 +399,7 @@ namespace 小科狗配置
         MessageBox.Show("您没有选择任何方案！");
         return;
       }
-      var labelName = comboBox.SelectedValue as string;
+      //labelName = comboBox.SelectedValue as string;
       foreach (var config in configs)
       {
         if (config == labelName)
@@ -420,13 +422,14 @@ namespace 小科狗配置
 
       if (result == MessageBoxResult.OK)
       {
-        var labelName = comboBox.SelectedValue as string;
+        //labelName = comboBox.SelectedValue as string;
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
+        PostMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
         var str = Clipboard.GetText();
         Clipboard.Clear();
         currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
         SetControlsValue();
+        modifiedConfig = currentConfig;
       }
     }
 
@@ -435,11 +438,11 @@ namespace 小科狗配置
     {
       try
       {
-        var labelName = comboBox.SelectedValue as string;
+        //labelName = comboBox.SelectedValue as string;
         Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
         Thread.Sleep(200);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
+        PostMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
     }
@@ -447,22 +450,23 @@ namespace 小科狗配置
     // 应用修改
     private void Apply_button_Click(object sender, RoutedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
+      //labelName = comboBox.SelectedValue as string;
       modifiedConfig = currentConfig;
       GetControlsValue(); // 读取所有控件值替换到 modifiedConfig
       // 获取已修改项
       string updataStr = $"方案：<{labelName}> 配置 \n" + GetDifferences(modifiedConfig, currentConfig);
-      if (updataStr == $"方案：<{labelName}> 配置 \n") {
-        MessageBox.Show("没修改任何项");
-        return;
-      }
+      //if (updataStr == $"方案：<{labelName}> 配置 \n")
+      //{
+      //  MessageBox.Show("没修改任何项");
+      //  return;
+      //}
       SaveConfig(labelName, modifiedConfig);
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
         Clipboard.SetText(updataStr);
         Thread.Sleep(200);
-        SendMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
+        PostMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
         currentConfig = modifiedConfig;
       }
       catch (Exception ex)
@@ -474,20 +478,20 @@ namespace 小科狗配置
     // 应用所有
     private void Apply_All_button_Click(object sender, RoutedEventArgs e)
     {
-      var labelName = comboBox.SelectedValue as string;
+      //labelName = comboBox.SelectedValue as string;
       modifiedConfig = currentConfig;
-      GetControlsValue(); 
-      if (modifiedConfig == currentConfig)
-      {
-        MessageBox.Show("没修改任何项");
-        return;
-      }
+      GetControlsValue();
+      //if (modifiedConfig == currentConfig)
+      //{
+      //  MessageBox.Show("没修改任何项");
+      //  return;
+      //}
       SaveConfig(labelName, modifiedConfig);
 
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero);
+        PostMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex)
       {
@@ -504,12 +508,27 @@ namespace 小科狗配置
         SetValue("window", "closed", "0");
     }
 
+    // 窗口置顶
+    private void CheckBox3_Click(object sender, RoutedEventArgs e)
+    {
+      this.Topmost = (bool)checkBox2.IsChecked;
+      var topmost = checkBox2.IsChecked == true ? "1" : "0";
+      SetValue("window", "topmost", topmost);
+    }
+
     // 获取已修改项
     public static string GetDifferences(string modifiedConfig, string currentConfig)
     {
+      string pattern = "《.*?》";
+      MatchCollection matches1 = Regex.Matches(modifiedConfig, pattern);
+      MatchCollection matches2 = Regex.Matches(currentConfig, pattern);
+
+      string[] modifiedLines = matches1.Cast<Match>().Select(m => m.Value).ToArray();
+      string[] currentLines = matches2.Cast<Match>().Select(m => m.Value).ToArray();
+
       // 将字符串按行分割成数组
-      var modifiedLines = modifiedConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-      var currentLines = currentConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+      //var modifiedLines = modifiedConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+      //var currentLines = currentConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
       // 找出不同的行
       var differentLines = modifiedLines.Except(currentLines);
@@ -527,9 +546,16 @@ namespace 小科狗配置
     private void LoadSettingConfig()
     {
       if (!File.Exists(settingConfigPath))
+      {
         File.WriteAllText(settingConfigPath, "[window]\nclosed=0");
-      var close = GetValue("window", "closed");
-      checkBox2.IsChecked = close == "1";
+        checkBox2.IsChecked = true;
+        this.Topmost= false;
+      }
+      checkBox2.IsChecked = GetValue("window", "closed") == "1";
+      //checkBox3.IsChecked = GetValue("window", "closed") == "1";
+      bool isNumberValid = int.TryParse(GetValue("window", "height"), out int height);
+      nud22.Value = isNumberValid ? height : 425;
+      //this.Topmost= (bool)checkBox3.IsChecked;
     }
 
     // 读取候选序号
@@ -873,7 +899,15 @@ namespace 小科狗配置
     // 正则替换 modifiedConfig
     private void ReplaceConfig(string key, string value)
     {
+    try
+    {
       modifiedConfig = Regex.Replace(modifiedConfig, $"《{key}=.*?》", $"《{key}={value}》");
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e.Message);
+      Console.WriteLine($"《{key}={value}》");
+    }
     }
     // 读取控件属性值
     private void GetControlsValue()
@@ -1182,6 +1216,8 @@ namespace 小科狗配置
           if (i == select_color_label_num)
             colorLabels[i - 1].Background = c_color;
 
+        if(select_color_label_num== 12 || select_color_label_num == 13)
+          toolTipTextBlock.Foreground = c_color;
         // 更新Thumb的BorderBrush，取反色
         thumb.BorderBrush = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
       }
@@ -1266,13 +1302,10 @@ namespace 小科狗配置
       if (Keyboard.Modifiers == ModifierKeys.Control) step *= -10;
 
       if (e.Delta > 0 && hue_slider.Value + step <= hue_slider.Maximum)
-      {
         hue_slider.Value += step;
-      }
       else if (e.Delta < 0 && hue_slider.Value - step >= hue_slider.Minimum)
-      {
         hue_slider.Value -= step;
-      }
+
 
       // 阻止滚轮事件继续向上冒泡
       e.Handled = true;
@@ -1293,9 +1326,7 @@ namespace 小科狗配置
     private static void HSVToRGB(double h, double s, double v, out byte r, out byte g, out byte b)
     {
       if (s == 0)
-      {
         r = g = b = (byte)(v * 255);
-      }
       else
       {
         double hue = h * 6.0;
@@ -1304,7 +1335,6 @@ namespace 小科狗配置
         double p = v * (1.0 - s);
         double q = v * (1.0 - (s * f));
         double t = v * (1.0 - (s * (1.0 - f)));
-
         switch (i)
         {
           case 0:
@@ -1346,12 +1376,8 @@ namespace 小科狗配置
     {
       // 预期rgb字符串格式如 "255, 128, 0"
       string[] rgbValues = rgb.Trim().Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
       if (!byte.TryParse(rgbValues[0], out byte r) || !byte.TryParse(rgbValues[1], out byte g) || !byte.TryParse(rgbValues[2], out byte b))
-      {
         throw new FormatException("RGB 取值：0-255");
-      }
-
       // 将字节转换为十六进制字符串，并去掉前导零
       return $"{r:X2}{g:X2}{b:X2}";
     }
@@ -1476,27 +1502,17 @@ namespace 小科狗配置
     private void Hxc_checkBox_Click(object sender, RoutedEventArgs e)
     {
       if (nud11.IsEnabled == true)
-      {
         hxk_border.CornerRadius = new CornerRadius(nud11.Value);
-      }
       else
-      {
         hxk_border.CornerRadius = new CornerRadius(0);
-      }
     }
 
     private void Hxcds_checkBox_Click(object sender, RoutedEventArgs e)
     {
       if (hxcds_checkBox.IsChecked == false)
-      {
         color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-        //hxk_border.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-      }
       else
-      {
         color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-        //hxk_border.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-      }
     }
 
     // 配色列表双击事件
@@ -1541,13 +1557,9 @@ namespace 小科狗配置
       if (colorSchemeListBox.SelectedItem != null)
       {
         if (saveButton.Content.ToString() == "保存配色")
-        {
           color_scheme_name_textBox.Text = "";
-        }
         if (saveButton.Content.ToString() == "修改配色")
-        {
           color_scheme_name_textBox.Text = colorSchemeListBox.SelectedItem.ToString();
-        }
       }
     }
 
@@ -1685,11 +1697,8 @@ namespace 小科狗配置
 
       // 显示字体对话框并获取用户的选择结果
       if (fontDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-      {
         return fontDialog.Font.Name; // 返回用户选择的字体名称
-      }
 
-      // 如果用户取消了对话框，则可能返回null或默认值
       return null;
     }
 
@@ -1698,7 +1707,6 @@ namespace 小科狗配置
       if (textBox_Copy22.Text == "") {
         textBox_Copy22.Text = "⁠⁣"; // 有个隐藏符号
       }
-
     }
 
     private void TextBox_Copy23_TextChanged(object sender, TextChangedEventArgs e)
@@ -1738,7 +1746,6 @@ namespace 小科狗配置
 
     private void Hxcds_checkBox_Checked(object sender, RoutedEventArgs e)
     {
-      //color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
       bkColor = (SolidColorBrush)color_label_5.Background;
       color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
     }
@@ -1866,6 +1873,12 @@ namespace 小科狗配置
       if (nud22 != null)
         SetValue("window", "height", nud22.Value.ToString());
     }
+
+    private void OpenWebPage_Click(object sender, RoutedEventArgs e)
+    {
+      System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/hejie13250/KegConfigTools") { UseShellExecute = true });
+    }
+
     #endregion
 
     #region 全局设置
@@ -1951,7 +1964,7 @@ namespace 小科狗配置
 
       try{
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
+        PostMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
       }
       catch { }
     }
@@ -1961,11 +1974,11 @@ namespace 小科狗配置
       switch (value)
       {
         case "0":
-          radioButton18.IsChecked = true; break;
+          radioButton18.IsChecked = true; toolTipTextBlock.VerticalAlignment = VerticalAlignment.Top; break;
         case "1":
-          radioButton19.IsChecked = true; break;
+          radioButton19.IsChecked = true; toolTipTextBlock.VerticalAlignment = VerticalAlignment.Center; break;
         case "2":
-          radioButton20.IsChecked = true; break;
+          radioButton20.IsChecked = true; toolTipTextBlock.VerticalAlignment = VerticalAlignment.Bottom; break;
       }
     }
     private string 取提示文本的位置()
@@ -2438,6 +2451,120 @@ namespace 小科狗配置
       }
     }
 
+    private void CheckBox3_Copy1_CheckedChanged(object sender, RoutedEventArgs e)
+    {
+      zh_en = checkBox3_Copy1.IsChecked ==true ? "中c：" : "";
+      toolTipTextBlock.Text = $"{zh_en}{labelName}";
+    }
+
+    private void CheckBox3_Copy_CheckedChanged(object sender, RoutedEventArgs e)
+    {
+      toolTipTextBlock.Visibility = checkBox3_Copy.IsChecked == true ? Visibility.Hidden : Visibility.Visible;
+    }
+
+    private void LoadImages()
+    {
+      // 获取应用的相对路径并转换为绝对路径
+      string directoryPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\skin\"));
+      
+      // 设置皮肤图片路径
+      string skin = $"{directoryPath}Keg.png";
+      string skinBackup = $"{directoryPath}默认.png";
+      //Console.WriteLine(skin);
+      // 将皮肤图片设置为图像源
+      image.Source = new BitmapImage(new Uri(skin));
+
+      // 如果备份皮肤文件不存在，则复制当前皮肤文件作为备份
+      if (!File.Exists(skinBackup))
+      {
+        File.Copy(skin, skinBackup);
+      }
+
+      // 定义支持的图片扩展名数组
+      var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+
+      // 获取目录下所有非“Keg”且具有指定扩展名的图片文件
+      var allFiles = Directory.GetFiles(directoryPath)
+                           .Where(f => imageExtensions.Contains(Path.GetExtension(f).ToLowerInvariant())
+                                       && Path.GetFileNameWithoutExtension(f) != "Keg");
+
+      // 查找默认皮肤文件，如果存在则将其从原始文件列表中移除
+      var defaultFile = allFiles.FirstOrDefault(f => Path.GetFileNameWithoutExtension(f) == "默认");
+
+      List<string> files;
+      if (defaultFile != null)
+      {
+        // 移除默认皮肤文件后，将其添加到新列表的首位
+        files = allFiles.Except(new[] { defaultFile }).ToList();
+        files.Insert(0, defaultFile);
+      }
+      else
+      {
+        // 若默认皮肤文件不存在，则直接使用所有符合条件的文件列表
+        files = allFiles.ToList();
+      }
+
+      // 遍历处理后的图片文件集合
+      foreach (var file in files)
+      {
+        // 从文件路径中提取图片名称
+        var imageName = Path.GetFileNameWithoutExtension(file);
+
+        // 将图片名称添加到皮肤列表框中
+        skinListBox.Items.Add(imageName);
+      }
+    }
+
+    private void SkinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      string selectedItem = (string)skinListBox.SelectedItem;
+      string skin = Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png");
+      image.Source = new BitmapImage(new Uri(skin));
+    }
+
+    private void SaveButton1_Click(object sender, RoutedEventArgs e)
+    {
+      if (skinListBox.SelectedIndex > 0)
+      {
+        string selectedItem = (string)skinListBox.SelectedItem;
+        string selectedSkin = Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png");
+        //string currentSkin = Path.Combine(appPath, @"..\..\skin\Keg.png");
+        try
+        {
+          IntPtr hWnd = FindWindow("CKegServer_0", null);
+          Clipboard.SetText($"《皮肤路径 = {selectedSkin}》");
+          Thread.Sleep(200);
+          // KWM_SKINSET 更新皮肤文件路径
+          PostMessage(hWnd, KWM_SKINSET, IntPtr.Zero, IntPtr.Zero);
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show($"错误信息：{ex.Message}");
+        }
+      }
+    }
+
+    private void RadioButton_Click(object sender, RoutedEventArgs e)
+    {
+      RadioButton radioButton = (RadioButton)sender;
+
+      if ((bool)radioButton.IsChecked)
+      {
+        switch (radioButton.Content.ToString())
+        {
+          case "顶部":
+            toolTipTextBlock.VerticalAlignment = VerticalAlignment.Top;
+            break;
+          case "中部":
+            toolTipTextBlock.VerticalAlignment = VerticalAlignment.Center;
+            break;
+          case "底部":
+            toolTipTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+            break;
+        }
+      }
+    }
+
     private void Df_button_Click(object sender, RoutedEventArgs e)
     {
 
@@ -2449,6 +2576,7 @@ namespace 小科狗配置
       if (openFileDialog.ShowDialog() == FormsDialogResult.OK)
         textBox_Copy37.Text = openFileDialog.FileName;
     }
+
     #endregion
   }
 }
