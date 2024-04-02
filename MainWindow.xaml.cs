@@ -248,23 +248,28 @@ namespace 小科狗配置
     static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    //static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
     static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-    const int WM_USER = 0x0400; // 根据Windows API定义
-    //const uint KWM_RESETPIPLE = (uint)WM_USER + 200;
-    const uint KWM_RESET = (uint)WM_USER + 201;
-    //const uint KWM_SET0 = (uint)WM_USER + 202;
-    //const uint KWM_GETSET = (uint)WM_USER + 203;
-    //const uint KWM_INSERT = (uint)WM_USER + 204;
-    const uint KWM_UPBASE = (uint)WM_USER + 205;
-    //const uint KWM_SAVEBASE = (uint)WM_USER + 206;
-    //const uint KWM_GETDATAPATH = (uint)WM_USER + 207;
-    const uint KWM_GETDEF = (uint)WM_USER + 208;
-    const uint KWM_SET2ALL = (uint)WM_USER + 209;
-    //const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;
-    const uint KWM_UPQJSET = (uint)WM_USER + 211;
-    const uint KWM_SKINSET = (uint)WM_USER + 212;
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+
+    const int WM_USER           = 0x0400;               // 根据Windows API定义
+    const uint KWM_RESETPIPLE   = (uint)WM_USER + 200;  //重置双轮流通信命名管道
+    const uint KWM_RESET        = (uint)WM_USER + 201;  //重置配置
+    const uint KWM_SET0         = (uint)WM_USER + 202;  //权重全置为0
+    const uint KWM_GETSET       = (uint)WM_USER + 203;  //由剪切板指定方案名,从而获得该方案的配置
+    const uint KWM_INSERT       = (uint)WM_USER + 204;  //根据剪切板的带方案名(第一行数据)的词条插入词条
+    const uint KWM_UPBASE       = (uint)WM_USER + 205;  //更新内存数据库 
+    const uint KWM_SAVEBASE     = (uint)WM_USER + 206;  //保存内存数据库
+    const uint KWM_GETDATAPATH  = (uint)WM_USER + 207;  //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
+    const uint KWM_GETDEF       = (uint)WM_USER + 208;  //把默认无方案名的配置模板吐到剪切板
+    const uint KWM_SET2ALL      = (uint)WM_USER + 209;  //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
+    const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;  //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
+    const uint KWM_UPQJSET      = (uint)WM_USER + 211;  //读取说明文本更新全局设置
+    const uint KWM_UPPFSET      = (uint)WM_USER + 212;  //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
+    const uint KWM_GETALLNAME   = (uint)WM_USER + 213;  //把所有方案名吐到剪切板,一行一个方案名
     #endregion
 
     #region 读写配置文件项
@@ -306,63 +311,118 @@ namespace 小科狗配置
 
     #endregion
 
-    #region 读写db
-    // 从 db 读取表名到 ComboBox
+
+
     private void LoadTableNames()
     {
-      SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      connection.Open();
       try
       {
-        comboBox.Items.Clear();
-        using var command = connection.CreateCommand();
-        command.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
-        var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-          var labelName = reader.GetString(0);
-          comboBox.Items.Add(labelName);
-          configs.Add(labelName);
-        }
+        //把所有方案名吐到剪切板,一行一个方案名
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        PostMessage(hWnd, KWM_GETALLNAME, IntPtr.Zero, IntPtr.Zero);
       }
-      catch (Exception ex)
-      {
-        MessageBox.Show($"Error loading table names: {ex.Message}");
-      }
-      connection.Close();
-    }
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
+      Thread.Sleep(300);
+      var multiLineString = Clipboard.GetText();
 
-    // 从指定表 labelName 内读取 key 列为"配置"时 value 的值
+      // 使用StringSplitOptions.RemoveEmptyEntries选项来避免空行被添加
+      string[] lines = multiLineString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+      // 将每行作为一个项添加到ComboBox中
+      foreach (string line in lines)
+        comboBox.Items.Add(line);
+    }
     private string GetConfig(string labelName)
     {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT value FROM '{labelName}' WHERE key = '配置'";
-      connection.Open();
-      using SQLiteCommand command = new(query, connection);
-
-      string result;
-      using (SQLiteDataReader reader = command.ExecuteReader())
-      {
-        if (reader.Read()) result = reader["value"].ToString();
-        else result = null;
+      try
+      { 
+        Clipboard.SetText(labelName);
+        //Thread.Sleep(300);
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
+        //PostMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
       }
-      connection.Close();
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
+
+      Thread.Sleep(300);
+      string result = Clipboard.GetText();
       return result;
     }
 
-    // 保存配置到数据库
-    // 更新指定表 labelName 内 key 列为 "配置" 时 value 列的值为 value
+    // 保存内存配置到数据库
     private void SaveConfig(string labelName, String value)
     {
-      string connectionString = $"Data Source={dbPath};Version=3;";
-      using SQLiteConnection connection = new (connectionString);
-      string updateQuery = $"UPDATE '{labelName}' SET value = @Value WHERE key = '配置'";
-      connection.Open();
-      using SQLiteCommand command = new (updateQuery, connection);
-      command.Parameters.AddWithValue("@Value", value);
-      int rowsAffected = command.ExecuteNonQuery();
-      connection.Close();
+      try
+      {
+        Clipboard.SetText(labelName);
+        Thread.Sleep(300);
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        PostMessage(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero);
+      }
+      catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
+
     }
+
+
+
+
+    #region 读写db
+    // 从 db 读取表名到 ComboBox
+    //private void LoadTableNames()
+    //{
+    //  SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
+    //  connection.Open();
+    //  try
+    //  {
+    //    comboBox.Items.Clear();
+    //    using var command = connection.CreateCommand();
+    //    command.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
+    //    var reader = command.ExecuteReader();
+    //    while (reader.Read())
+    //    {
+    //      var labelName = reader.GetString(0);
+    //      comboBox.Items.Add(labelName);
+    //      configs.Add(labelName);
+    //    }
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    MessageBox.Show($"Error loading table names: {ex.Message}");
+    //  }
+    //  connection.Close();
+    //}
+
+    // 从指定表 labelName 内读取 key 列为"配置"时 value 的值
+    //private string GetConfig(string labelName)
+    //{
+    //  using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
+    //  string query = $"SELECT value FROM '{labelName}' WHERE key = '配置'";
+    //  connection.Open();
+    //  using SQLiteCommand command = new(query, connection);
+
+    //  string result;
+    //  using (SQLiteDataReader reader = command.ExecuteReader())
+    //  {
+    //    if (reader.Read()) result = reader["value"].ToString();
+    //    else result = null;
+    //  }
+    //  connection.Close();
+    //  return result;
+    //}
+
+    // 保存配置到数据库
+    // 更新指定表 labelName 内 key 列为 "配置" 时 value 列的值为 value
+    //private void SaveConfig(string labelName, String value)
+    //{
+    //  string connectionString = $"Data Source={dbPath};Version=3;";
+    //  using SQLiteConnection connection = new (connectionString);
+    //  string updateQuery = $"UPDATE '{labelName}' SET value = @Value WHERE key = '配置'";
+    //  connection.Open();
+    //  using SQLiteCommand command = new (updateQuery, connection);
+    //  command.Parameters.AddWithValue("@Value", value);
+    //  int rowsAffected = command.ExecuteNonQuery();
+    //  connection.Close();
+    //}
 
     #endregion
 
@@ -394,20 +454,17 @@ namespace 小科狗配置
     // 加载默认设置
     private void Restor_default_button_Click(object sender, RoutedEventArgs e)
     {
-      if (comboBox.SelectedIndex < 0)
-      {
-        MessageBox.Show("您没有选择任何方案！");
-        return;
-      }
       //labelName = comboBox.SelectedValue as string;
-      foreach (var config in configs)
-      {
-        if (config == labelName)
-        {
-          currentConfig = config;
-          break;
-        }
-      }
+      //foreach (var config in configs)
+      //{
+      //  if (config == labelName)
+      //  {
+      //    currentConfig = config;
+      //    break;
+      //  }
+      //}
+
+      currentConfig = GetConfig(labelName);
       SetControlsValue();
     }
 
@@ -429,7 +486,12 @@ namespace 小科狗配置
         Clipboard.Clear();
         currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
         SetControlsValue();
+
         modifiedConfig = currentConfig;
+
+        checkBox_Copy25.IsEnabled = true;
+        checkBox_Copy26.IsEnabled = true;
+        checkBox1.IsEnabled = false;
       }
     }
 
@@ -440,7 +502,7 @@ namespace 小科狗配置
       {
         //labelName = comboBox.SelectedValue as string;
         Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
-        Thread.Sleep(200);
+        Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
         PostMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
       }
@@ -465,8 +527,8 @@ namespace 小科狗配置
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
         Clipboard.SetText(updataStr);
-        Thread.Sleep(200);
-        PostMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(300);
+        SendMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
         currentConfig = modifiedConfig;
       }
       catch (Exception ex)
@@ -2481,7 +2543,7 @@ namespace 小科狗配置
       }
 
       // 定义支持的图片扩展名数组
-      var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+      var imageExtensions = new[] { ".png", ".gif" };
 
       // 获取目录下所有非“Keg”且具有指定扩展名的图片文件
       var allFiles = Directory.GetFiles(directoryPath)
@@ -2532,16 +2594,27 @@ namespace 小科狗配置
         try
         {
           IntPtr hWnd = FindWindow("CKegServer_0", null);
-          Clipboard.SetText($"《皮肤路径 = {selectedSkin}》");
-          Thread.Sleep(200);
-          // KWM_SKINSET 更新皮肤文件路径
-          PostMessage(hWnd, KWM_SKINSET, IntPtr.Zero, IntPtr.Zero);
+          Clipboard.SetText(selectedSkin);
+          Thread.Sleep(300);
+          // KWM_UPPFSET 更新皮肤文件路径
+          PostMessage(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero);
         }
         catch (Exception ex)
         {
           MessageBox.Show($"错误信息：{ex.Message}");
         }
       }
+    }
+
+    private void Ttext_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      t2.IsEnabled = t1.Text != "";
+      t3.IsEnabled = t2.Text != "";
+      t4.IsEnabled = t3.Text != "";
+
+      t6.IsEnabled = t5.Text != "";
+      t7.IsEnabled = t6.Text != "";
+      t8.IsEnabled = t7.Text != "";
     }
 
     private void RadioButton_Click(object sender, RoutedEventArgs e)
