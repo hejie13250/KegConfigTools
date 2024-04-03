@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -319,7 +320,7 @@ namespace 小科狗配置
       {
         //把所有方案名吐到剪切板,一行一个方案名
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        PostMessage(hWnd, KWM_GETALLNAME, IntPtr.Zero, IntPtr.Zero);
+        SendMessage(hWnd, KWM_GETALLNAME, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
       Thread.Sleep(300);
@@ -340,11 +341,11 @@ namespace 小科狗配置
         //Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
         SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
-        //PostMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
+        //SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
 
-      Thread.Sleep(300);
+      //Thread.Sleep(300);
       string result = Clipboard.GetText();
       return result;
     }
@@ -357,7 +358,7 @@ namespace 小科狗配置
         Clipboard.SetText(labelName);
         Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        PostMessage(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero);
+        SendMessage(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
 
@@ -412,13 +413,13 @@ namespace 小科狗配置
 
     // 保存配置到数据库
     // 更新指定表 labelName 内 key 列为 "配置" 时 value 列的值为 value
-    //private void SaveConfig(string labelName, String value)
+    //private void SaveConfig(String value)
     //{
     //  string connectionString = $"Data Source={dbPath};Version=3;";
-    //  using SQLiteConnection connection = new (connectionString);
+    //  using SQLiteConnection connection = new(connectionString);
     //  string updateQuery = $"UPDATE '{labelName}' SET value = @Value WHERE key = '配置'";
     //  connection.Open();
-    //  using SQLiteCommand command = new (updateQuery, connection);
+    //  using SQLiteCommand command = new(updateQuery, connection);
     //  command.Parameters.AddWithValue("@Value", value);
     //  int rowsAffected = command.ExecuteNonQuery();
     //  connection.Close();
@@ -427,6 +428,41 @@ namespace 小科狗配置
     #endregion
 
     #region 顶部控件事件
+
+
+    // 删除Keg.db内所有方案配置
+    private void Res_button_Click(object sender, RoutedEventArgs e)
+    {
+      var result = MessageBox.Show(
+      $"如果你的方案配置出了问题，确定后将删除 Keg.db 内所有方案的配置！",
+      "清除操作",
+      MessageBoxButton.OKCancel,
+      MessageBoxImage.Question);
+
+      if (result == MessageBoxResult.OK)
+      {
+        // 连接到SQLite数据库
+        using var conn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+        conn.Open();
+
+        // 创建命令对象
+        var cmd = new SQLiteCommand("SELECT name FROM sqlite_master WHERE type='table';", conn);
+
+        // 执行命令，获取数据表名
+        var tables = cmd.ExecuteReader();
+        while (tables.Read())
+        {
+          string tableName = tables.GetString(0);
+
+          // 更新每个表中的配置值
+          var updateCmd = new SQLiteCommand($"UPDATE {tableName} SET value='' WHERE key='配置';", conn);
+          updateCmd.ExecuteNonQuery();
+        }
+
+        // 提交事务
+        conn.Close();
+      }
+    }
     private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
     {
       comboBox.Focus();
@@ -442,13 +478,13 @@ namespace 小科狗配置
       //if(!currentConfig.Contains("\n"))
       //    currentConfig = Regex.Replace(currentConfig, $"《", $"\n《");
       SetControlsValue();
-
+      
       restor_default_button.IsEnabled = true;
       loading_templates_button.IsEnabled = true;
       set_as_default_button.IsEnabled = true;
       apply_button.IsEnabled = true;
       apply_all_button.IsEnabled = true;
-
+      res_button.IsEnabled = true;
     }
 
     // 加载默认设置
@@ -481,7 +517,7 @@ namespace 小科狗配置
       {
         //labelName = comboBox.SelectedValue as string;
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        PostMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
+        SendMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
         var str = Clipboard.GetText();
         Clipboard.Clear();
         currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
@@ -489,9 +525,10 @@ namespace 小科狗配置
 
         modifiedConfig = currentConfig;
 
-        checkBox_Copy25.IsEnabled = true;
-        checkBox_Copy26.IsEnabled = true;
-        checkBox1.IsEnabled = false;
+        checkBox_Copy25.IsChecked = true;
+        checkBox_Copy26.IsChecked = true;
+        checkBox1.IsChecked = false;
+        checkBox_Copy12.IsChecked = true;
       }
     }
 
@@ -504,7 +541,7 @@ namespace 小科狗配置
         Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
         Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        PostMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
+        SendMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
     }
@@ -553,7 +590,7 @@ namespace 小科狗配置
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        PostMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero);
+        SendMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex)
       {
@@ -2026,7 +2063,7 @@ namespace 小科狗配置
 
       try{
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        PostMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
+        SendMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
       }
       catch { }
     }
@@ -2534,7 +2571,8 @@ namespace 小科狗配置
       string skinBackup = $"{directoryPath}默认.png";
       //Console.WriteLine(skin);
       // 将皮肤图片设置为图像源
-      image.Source = new BitmapImage(new Uri(skin));
+      try  { image.Source = new BitmapImage(new Uri(GetValue("skin", "path"))); }
+      catch{ image.Source = new BitmapImage(new Uri(skin)); }
 
       // 如果备份皮肤文件不存在，则复制当前皮肤文件作为备份
       if (!File.Exists(skinBackup))
@@ -2580,7 +2618,7 @@ namespace 小科狗配置
     private void SkinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       string selectedItem = (string)skinListBox.SelectedItem;
-      string skin = Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png");
+      string skin = Path.GetFullPath(Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png"));
       image.Source = new BitmapImage(new Uri(skin));
     }
 
@@ -2589,15 +2627,17 @@ namespace 小科狗配置
       if (skinListBox.SelectedIndex > 0)
       {
         string selectedItem = (string)skinListBox.SelectedItem;
-        string selectedSkin = Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png");
-        //string currentSkin = Path.Combine(appPath, @"..\..\skin\Keg.png");
+        string selectedSkin = Path.GetFullPath(Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png"));
+
         try
         {
           IntPtr hWnd = FindWindow("CKegServer_0", null);
           Clipboard.SetText(selectedSkin);
           Thread.Sleep(300);
           // KWM_UPPFSET 更新皮肤文件路径
-          PostMessage(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero);
+          SendMessage(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero);
+
+          SetValue("skin", "path", selectedSkin);
         }
         catch (Exception ex)
         {
@@ -2616,6 +2656,8 @@ namespace 小科狗配置
       t7.IsEnabled = t6.Text != "";
       t8.IsEnabled = t7.Text != "";
     }
+
+
 
     private void RadioButton_Click(object sender, RoutedEventArgs e)
     {

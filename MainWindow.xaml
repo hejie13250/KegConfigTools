@@ -1152,9 +1152,10 @@
               Height="21"
               Margin="5,0,0,0"
               Click="Restor_default_button_Click"
-              Content="恢复默认"
+              Content="重新读取"
               IsEnabled="False"
-              ToolTip="恢复应用开启后载入的配置" />
+                    ToolTip="重新读取当前方案的配置" />
+
             <Button
               x:Name="loading_templates_button"
               Width="70"
@@ -1163,7 +1164,15 @@
               Click="Loading_templates_button_Click"
               Content="加载模板"
               IsEnabled="False"
-              ToolTip="从服务端读取配置模板，通常只在配置模板有大调整后才会用到这个" />
+              ToolTip="从服务端读取配置模板" />
+            <Button x:Name="res_button"
+                    Width="70"
+                    Height="21"
+                    Margin="5,0,0,0"
+                    Click="Res_button_Click"
+                    Content="清空配置"
+                    IsEnabled="False"
+                    ToolTip="删除Keg.db内所有方案的配置" />
             <Button
               x:Name="set_as_default_button"
               Width="70"
