@@ -20,11 +20,14 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using FormsDialogResult = System.Windows.Forms.DialogResult;
+using GroupBox = System.Windows.Controls.GroupBox;
 using Label = System.Windows.Controls.Label;
 using ListBox = System.Windows.Controls.ListBox;
 using ListView = System.Windows.Controls.ListView;
@@ -94,7 +97,7 @@ namespace 小科狗配置
       候选字色 = "#000000"
     };
     #endregion
-    
+
     #region 全局变量定义
     string zh_en = "中c：";
     string labelName = "方案名称";          // 当前方案名称
@@ -106,7 +109,7 @@ namespace 小科狗配置
     readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     readonly string dbPath, kegFilePath;    // Keg.db 和 Keg.txt 文件路径
 
-    readonly List<string> configs = new();  // 存方 Keg.db 内所有方案的配置，用于恢复
+    //readonly List<string> configs = new();  // 存方 Keg.db 内所有方案的配置，用于恢复
     string bgString;                        // 存放字体色串
     string currentConfig, modifiedConfig;   // 存少当前配置和当前修改的配置
 
@@ -257,17 +260,17 @@ namespace 小科狗配置
 
 
     const int WM_USER           = 0x0400;               // 根据Windows API定义
-    const uint KWM_RESETPIPLE   = (uint)WM_USER + 200;  //重置双轮流通信命名管道
+    //const uint KWM_RESETPIPLE   = (uint)WM_USER + 200;  //重置双轮流通信命名管道
     const uint KWM_RESET        = (uint)WM_USER + 201;  //重置配置
-    const uint KWM_SET0         = (uint)WM_USER + 202;  //权重全置为0
+    //const uint KWM_SET0         = (uint)WM_USER + 202;  //权重全置为0
     const uint KWM_GETSET       = (uint)WM_USER + 203;  //由剪切板指定方案名,从而获得该方案的配置
-    const uint KWM_INSERT       = (uint)WM_USER + 204;  //根据剪切板的带方案名(第一行数据)的词条插入词条
+    //const uint KWM_INSERT       = (uint)WM_USER + 204;  //根据剪切板的带方案名(第一行数据)的词条插入词条
     const uint KWM_UPBASE       = (uint)WM_USER + 205;  //更新内存数据库 
     const uint KWM_SAVEBASE     = (uint)WM_USER + 206;  //保存内存数据库
-    const uint KWM_GETDATAPATH  = (uint)WM_USER + 207;  //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
+    //const uint KWM_GETDATAPATH  = (uint)WM_USER + 207;  //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
     const uint KWM_GETDEF       = (uint)WM_USER + 208;  //把默认无方案名的配置模板吐到剪切板
     const uint KWM_SET2ALL      = (uint)WM_USER + 209;  //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
-    const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;  //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
+    //const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;  //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
     const uint KWM_UPQJSET      = (uint)WM_USER + 211;  //读取说明文本更新全局设置
     const uint KWM_UPPFSET      = (uint)WM_USER + 212;  //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
     const uint KWM_GETALLNAME   = (uint)WM_USER + 213;  //把所有方案名吐到剪切板,一行一个方案名
@@ -351,7 +354,7 @@ namespace 小科狗配置
     }
 
     // 保存内存配置到数据库
-    private void SaveConfig(string labelName, String value)
+    private void SaveConfig(string labelName)
     {
       try
       {
@@ -559,7 +562,7 @@ namespace 小科狗配置
       //  MessageBox.Show("没修改任何项");
       //  return;
       //}
-      SaveConfig(labelName, modifiedConfig);
+      SaveConfig(labelName);
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
@@ -585,7 +588,7 @@ namespace 小科狗配置
       //  MessageBox.Show("没修改任何项");
       //  return;
       //}
-      SaveConfig(labelName, modifiedConfig);
+      SaveConfig(labelName);
 
       try
       {
@@ -653,8 +656,20 @@ namespace 小科狗配置
       checkBox2.IsChecked = GetValue("window", "closed") == "1";
       //checkBox3.IsChecked = GetValue("window", "closed") == "1";
       bool isNumberValid = int.TryParse(GetValue("window", "height"), out int height);
-      nud22.Value = isNumberValid ? height : 425;
+      nud22.Value = isNumberValid ? height : 600;
       //this.Topmost= (bool)checkBox3.IsChecked;
+      this.Width = 900;
+      //scrollViewer1.Height = this.Height - 50;
+      Grid1.Height = this.Height - 50;
+      Grid2.Height = this.Height - 50;
+      Grid3.Height = this.Height - 50;
+      Grid2.Width = 750;
+      Grid2.Width = 0;
+      Grid3.Width = 0;
+      Grid1.Visibility = Visibility.Visible;
+      Grid2.Visibility = Visibility.Hidden;
+      Grid3.Visibility = Visibility.Hidden;
+
     }
 
     // 读取候选序号
@@ -1205,6 +1220,150 @@ namespace 小科狗配置
 
     #endregion
 
+    #region 页面切换
+
+    private void 方案设置页面()
+    {
+      Grid1.Width = 750;
+      Grid2.Width = 0;
+      Grid3.Width = 0;
+      Grid1.Visibility = Visibility.Visible;
+      Grid2.Visibility = Visibility.Hidden;
+      Grid3.Visibility = Visibility.Hidden;
+    }
+    private void 全局设置页面()
+    {
+      Grid1.Width = 0;
+      Grid2.Width = 750;
+      Grid3.Width = 0;
+      Grid1.Visibility = Visibility.Hidden;
+      Grid2.Visibility = Visibility.Visible;
+      Grid3.Visibility = Visibility.Hidden;
+    }
+    private void 关于页面()
+    {
+      Grid1.Width = 0;
+      Grid2.Width = 0;
+      Grid3.Width = 750;
+      Grid1.Visibility = Visibility.Hidden;
+      Grid2.Visibility = Visibility.Hidden;
+      Grid3.Visibility = Visibility.Visible;
+    }
+
+    private void RadioButton1_Click(object sender, RoutedEventArgs e)
+    {
+      RadioButton radioButton = sender as RadioButton;
+      StackPanel stackPanel = radioButton.Content as StackPanel;
+      TextBlock textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+
+      switch (textBlock.Text)
+      {
+        case "方案设置":
+          方案设置页面();
+          //ScrollViewerOffset("候选框配色", 1);
+          break;
+        case "全局设置":
+          全局设置页面();
+          //ScrollViewerOffset("状态条", 2);
+          break;
+        case "关于":
+          关于页面();
+          break;
+      }
+
+    }
+
+
+    private void RadioButton2_Click(object sender, RoutedEventArgs e)
+    {
+      RadioButton radioButton = sender as RadioButton;
+      StackPanel stackPanel = radioButton.Content as StackPanel;
+      TextBlock textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+
+      switch (textBlock.Text)
+      {
+        case "候选框配色":
+        case "候选框样式":
+        case "字体和渲染":
+        case "码表设置":
+        case "标点设置":
+        case "动作设置":
+        case "顶功设置":
+        case "上屏设置":
+        case "中英切换":
+        case "翻页按键":
+        case "词语联想":
+        case "码表调频与检索":
+        case "重复上屏":
+        case "自动造词":
+        case "临时码表检索":
+        case "引导码表检索":
+          方案设置页面();
+          //Grid1.Visibility = Visibility.Visible;
+          //Grid2.Visibility = Visibility.Collapsed;
+          //Grid3.Visibility = Visibility.Collapsed;
+          ScrollViewerOffset(textBlock.Text, 1);
+          break;
+        case "状态条":
+        case "在线查找":
+        case "快捷命令":
+        case "快捷键":
+        case "自启动应用":
+        case "其它选项":
+          全局设置页面();
+          //Grid1.Visibility = Visibility.Collapsed;
+          //Grid2.Visibility = Visibility.Visible;
+          //Grid3.Visibility = Visibility.Collapsed;
+          ScrollViewerOffset(textBlock.Text, 2);
+          break;
+      }
+    }
+
+
+    /// <summary>
+    /// 点击左侧的控件偏移右侧滚动条（滚动页面）
+    /// </summary>
+    /// <param name="text">左侧被点击的控件名</param>
+    /// <param name="n">右侧第几个滚动条</param>
+    private void ScrollViewerOffset(string content, int n)
+    {
+      if (n == 1)
+      {
+        // 找到与RadioButton对应的GroupBox 计算需要滚动的距离
+        GroupBox groupBox = FindGroupBox(content, stackPanel1);
+        double offset = groupBox.TransformToAncestor(scrollViewer1).Transform(new Point(0, 0)).Y;
+        scrollViewer1.ScrollToVerticalOffset(offset);
+      }
+      if (n == 2)
+      {
+        // 找到与RadioButton对应的GroupBox 计算需要滚动的距离
+        GroupBox groupBox = FindGroupBox(content, stackPanel2);
+        double offset = groupBox.TransformToAncestor(scrollViewer2).Transform(new Point(0, 0)).Y;
+        scrollViewer2.ScrollToVerticalOffset(offset);
+      }
+    }
+
+
+    /// <summary>
+    /// 查找指定容器 StackPanel 内指定 content 的 GroupBox
+    /// </summary>
+    /// <param name="content">GroupBox的content</param>
+    /// <param name="stackPanel">GroupBox所在的StackPanel容器</param>
+    /// <returns></returns>
+    private GroupBox FindGroupBox(string content, StackPanel stackPanel)
+    {
+      foreach (var child in stackPanel.Children)
+      {
+        if (child is GroupBox groupBox && groupBox.Header.ToString() == content)
+        {
+          return groupBox;
+        }
+      }
+      return null;
+    }
+
+    #endregion
+
     #region 配色相关
 
     // 画布 canvas 点击取色
@@ -1213,7 +1372,7 @@ namespace 小科狗配置
       Canvas canvas;
       Thumb thumb;
 
-      if (tabItem1.IsSelected)
+      if (Grid1.Visibility == Visibility.Visible)
       {
         canvas = canvas1;
         thumb = thumb1;
@@ -1244,7 +1403,7 @@ namespace 小科狗配置
       Canvas canvas;
       Thumb thumb;
 
-      if (tabItem1.IsSelected)
+      if (Grid1.Visibility == Visibility.Visible)
       {
         canvas = canvas1;
         thumb = thumb1;
@@ -1278,7 +1437,7 @@ namespace 小科狗配置
       Label color_label;
       TextBox colorTextBox;
       Label[] colorLabels = { color_label_1, color_label_2, color_label_3, color_label_4, color_label_5, color_label_6, color_label_7, color_label_8, color_label_9, color_label_10, color_label_11, color_label_12, color_label_13 };
-      if (tabItem1.IsSelected)
+      if (Grid1.Visibility == Visibility.Visible)
       {
         canvas = canvas1;
         thumb = thumb1;
@@ -1945,6 +2104,13 @@ namespace 小科狗配置
       }
     }
 
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      Grid1.Height = this.Height - 50;
+      Grid2.Height = this.Height - 50;
+      Grid3.Height = this.Height - 50;
+
+    }
     // 确定
     private void Button_Click(object sender, RoutedEventArgs e)
     {
@@ -1960,8 +2126,8 @@ namespace 小科狗配置
       if (nud22 != null)
       {
         int height = (int)e.NewValue;
-        if (height < 425)
-          height = 425;
+        if (height < 500)
+          height = 500;
         this.Height = height;
       }
     }
@@ -2268,6 +2434,10 @@ namespace 小科狗配置
       listView5.ItemsSource = 快键;
       listView6.ItemsSource = 自启;
     }
+
+
+
+
 
     // listView 控件禁止响应滚轮事件
     private void 控件禁止响应滚轮事件(object sender, MouseWheelEventArgs e)
@@ -2659,7 +2829,9 @@ namespace 小科狗配置
 
 
 
-    private void RadioButton_Click(object sender, RoutedEventArgs e)
+
+        // 文本位置
+        private void RadioButton3_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = (RadioButton)sender;
 
