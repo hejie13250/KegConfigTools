@@ -291,9 +291,9 @@
                 Margin="0,3"
                 HorizontalAlignment="Center"
                 BorderBrush="Gray"
-                BorderThickness="1" >
+                BorderThickness="1">
                 <Border.Background>
-                  <ImageBrush ImageSource="/hue.png"/>
+                  <ImageBrush ImageSource="/hue.png" />
                 </Border.Background>
               </Border>
               <Track x:Name="PART_Track">
@@ -873,7 +873,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             MaxValue="10"
-                            MinValue="0"
+                            MinValue="1"
                             TabIndex="3106"
                             ToolTip=""
                             ValueChanged="Nud11_ValueChanged"
