@@ -783,13 +783,13 @@
                             Content="候选窗圆角：" />
                           <Label
                             x:Name="labe1l23_Copy9"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Content="候选窗边框线宽度：" />
                           <Label
                             x:Name="label23_Copy9"
-                            Grid.Row="3"
+                            Grid.Row="2"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Content="选中项背景圆角：" />
