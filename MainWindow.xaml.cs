@@ -20,8 +20,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Shapes;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -29,7 +28,6 @@ using ColorConverter = System.Windows.Media.ColorConverter;
 using FormsDialogResult = System.Windows.Forms.DialogResult;
 using GroupBox = System.Windows.Controls.GroupBox;
 using Label = System.Windows.Controls.Label;
-using ListBox = System.Windows.Controls.ListBox;
 using ListView = System.Windows.Controls.ListView;
 using MenuItem = System.Windows.Forms.MenuItem;
 using MessageBox = System.Windows.MessageBox;
@@ -52,6 +50,8 @@ namespace 小科狗配置
   {
     #region 配色方案相关定义
     public WriteableBitmap Bitmap { get; set; } // 定义取色器背景图
+    public WriteableBitmap Hue_bitmap { get; set; } // 定义取色器色相滑块背景图
+
     // 定义配色方案类
     public class ColorScheme
     {
@@ -116,6 +116,7 @@ namespace 小科狗配置
     SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));  // 候选框无背景色时的值
     readonly string settingConfigPath;  // 窗口配置文件
     readonly string globalSettingFilePath = "全局设置.json";
+    string currentGroupBox;               // 用于记录当前选中的GroupBox名称
     #endregion
 
     #region 全局设置界面列表项定义
@@ -1222,6 +1223,7 @@ namespace 小科狗配置
 
     #region 页面切换
 
+
     private void 方案设置页面()
     {
       Grid1.Width = 750;
@@ -1260,11 +1262,11 @@ namespace 小科狗配置
       {
         case "方案设置":
           方案设置页面();
-          //ScrollViewerOffset("候选框配色", 1);
+          ScrollViewerOffset("候选框配色", 1);
           break;
         case "全局设置":
           全局设置页面();
-          //ScrollViewerOffset("状态条", 2);
+          ScrollViewerOffset("状态条", 2);
           break;
         case "关于":
           关于页面();
@@ -1329,17 +1331,13 @@ namespace 小科狗配置
     {
       if (n == 1)
       {
-        // 找到与RadioButton对应的GroupBox 计算需要滚动的距离
         GroupBox groupBox = FindGroupBox(content, stackPanel1);
-        double offset = groupBox.TransformToAncestor(scrollViewer1).Transform(new Point(0, 0)).Y;
-        scrollViewer1.ScrollToVerticalOffset(offset);
+        groupBox.BringIntoView();
       }
       if (n == 2)
       {
-        // 找到与RadioButton对应的GroupBox 计算需要滚动的距离
         GroupBox groupBox = FindGroupBox(content, stackPanel2);
-        double offset = groupBox.TransformToAncestor(scrollViewer2).Transform(new Point(0, 0)).Y;
-        scrollViewer2.ScrollToVerticalOffset(offset);
+        groupBox.BringIntoView();
       }
     }
 
@@ -1360,6 +1358,22 @@ namespace 小科狗配置
         }
       }
       return null;
+    }
+
+    private List<double> GetGroupBoxHeights(StackPanel stackPanel)
+    {
+      List<double> groupBoxHeights = new();
+
+      foreach (var child in stackPanel.Children)
+      {
+        if (child is GroupBox groupBox)
+        {
+          double groupBoxHeight = groupBox.ActualHeight;
+          groupBoxHeights.Add(groupBoxHeight);
+        }
+      }
+
+      return groupBoxHeights;
     }
 
     #endregion
@@ -1546,6 +1560,7 @@ namespace 小科狗配置
       Bitmap.Unlock();
     }
 
+
     // Hue_slider 值改变事件
     private void Hue_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
@@ -1556,7 +1571,7 @@ namespace 小科狗配置
     // Hue_slider 滚轮事件
     private void Hue_slider_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-      int step = -5;
+      int step = 5;
       if (Keyboard.Modifiers == ModifierKeys.Control) step *= -10;
 
       if (e.Delta > 0 && hue_slider.Value + step <= hue_slider.Maximum)
@@ -2830,8 +2845,9 @@ namespace 小科狗配置
 
 
 
-        // 文本位置
-        private void RadioButton3_Click(object sender, RoutedEventArgs e)
+
+    // 文本位置
+    private void RadioButton3_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = (RadioButton)sender;
 

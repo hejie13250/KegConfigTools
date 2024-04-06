@@ -7,7 +7,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   Title="小科狗输入法方案配置"
   Width="2387"
-  Height="4117"
+  Height="4842"
   BorderThickness="2,2,2,2"
   MouseDown="Window_MouseDown"
   ResizeMode="NoResize"
@@ -287,13 +287,14 @@
             <Grid>
               <Border
                 x:Name="TrackBackground"
-                Width="4"
-                Margin="0,5"
+                Width="20"
+                Margin="0,3"
                 HorizontalAlignment="Center"
-                Background="LightGray"
                 BorderBrush="Gray"
-                BorderThickness="1">
-                <Rectangle x:Name="PART_SelectionRange" Visibility="Hidden" />
+                BorderThickness="1" >
+                <Border.Background>
+                  <ImageBrush ImageSource="/hue.png"/>
+                </Border.Background>
               </Border>
               <Track x:Name="PART_Track">
                 <Track.Thumb>
@@ -301,8 +302,8 @@
                     <Thumb.Template>
                       <ControlTemplate TargetType="{x:Type Thumb}">
                         <Ellipse
-                          Width="8"
-                          Height="20"
+                          Width="12"
+                          Height="6"
                           Fill="DarkGray" />
                       </ControlTemplate>
                     </Thumb.Template>
@@ -1257,97 +1258,100 @@
 
                         </Grid>
                         <Grid
-                          Grid.Row="4"
-                          Grid.RowSpan="9"
-                          Grid.Column="5"
                           Width="210"
                           Height="220"
                           Margin="5,0,5,10"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Bottom">
-                          <Canvas
-                            x:Name="canvas1"
-                            Width="170"
-                            Height="170"
-                            Margin="0,0,10,50"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
-                            MouseWheel="Hue_slider_MouseWheel">
-                            <Canvas.Background>
-                              <ImageBrush ImageSource="{Binding Bitmap}" />
-                            </Canvas.Background>
-                            <Thumb
-                              x:Name="thumb1"
-                              Canvas.Left="0"
-                              Canvas.Top="0"
-                              Width="12"
-                              Height="12"
-                              Background="Transparent"
-                              BorderBrush="Black"
-                              BorderThickness="2"
-                              DragDelta="Thumb_DragDelta"
-                              MouseWheel="Hue_slider_MouseWheel">
-                              <Thumb.Template>
-                                <ControlTemplate TargetType="Thumb">
-                                  <Border
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="10"
-                                    SnapsToDevicePixels="True" />
-                                </ControlTemplate>
-                              </Thumb.Template>
-                            </Thumb>
-                          </Canvas>
-                          <Label
-                            x:Name="color_label_10"
-                            Width="46"
-                            Height="46"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Background="Red"
-                            BorderBrush="Black"
-                            BorderThickness="1,1,1,1"
-                            MouseEnter="Color_label_MouseEnter"
-                            MouseLeave="Color_label_MouseLeave"
-                            MouseUp="Color_label_MouseUp"
-                            TabIndex="3115"
-                            Tag="" />
-
-                          <Slider
-                            x:Name="hue_slider"
-                            Width="24"
-                            Height="170"
-                            Margin="0,0,10,50"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            IsSnapToTickEnabled="True"
-                            LargeChange="1"
-                            Maximum="360"
-                            Minimum="0"
-                            MouseWheel="Hue_slider_MouseWheel"
-                            SmallChange="1"
-                            Style="{StaticResource VerticalSliderStyle}"
-                            TickFrequency="1"
-                            ValueChanged="Hue_slider_ValueChanged"
-                            Value="0" />
-                          <TextBox
-                            x:Name="color_textBox_1"
-                            Width="119"
-                            Height="18"
-                            Margin="51,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            IsReadOnly="True"
-                            Text="(255, 255, 255)"
-                            TextWrapping="NoWrap" />
-                          <Label
-                            x:Name="color_label_content"
-                            Margin="54,0,0,20"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Foreground="Red" />
+                          <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                              <Canvas
+                                x:Name="canvas1"
+                                Width="170"
+                                Height="170"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                                MouseWheel="Hue_slider_MouseWheel">
+                                <Canvas.Background>
+                                  <ImageBrush ImageSource="{Binding Bitmap}" />
+                                </Canvas.Background>
+                                <Thumb
+                                  x:Name="thumb1"
+                                  Canvas.Left="0"
+                                  Canvas.Top="0"
+                                  Width="12"
+                                  Height="12"
+                                  Background="Transparent"
+                                  BorderBrush="Black"
+                                  BorderThickness="2"
+                                  DragDelta="Thumb_DragDelta"
+                                  MouseWheel="Hue_slider_MouseWheel">
+                                  <Thumb.Template>
+                                    <ControlTemplate TargetType="Thumb">
+                                      <Border
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="10"
+                                        SnapsToDevicePixels="True" />
+                                    </ControlTemplate>
+                                  </Thumb.Template>
+                                </Thumb>
+                              </Canvas>
+                              <Slider
+                                x:Name="hue_slider"
+                                Width="24"
+                                Height="170"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                IsSnapToTickEnabled="True"
+                                LargeChange="1"
+                                Maximum="360"
+                                Minimum="0"
+                                MouseWheel="Hue_slider_MouseWheel"
+                                SmallChange="1"
+                                Style="{StaticResource VerticalSliderStyle}"
+                                TickFrequency="1"
+                                ValueChanged="Hue_slider_ValueChanged"
+                                Value="0" />
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                              <Label
+                                x:Name="color_label_10"
+                                Width="46"
+                                Height="46"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Background="Red"
+                                BorderBrush="Black"
+                                BorderThickness="1,1,1,1"
+                                MouseEnter="Color_label_MouseEnter"
+                                MouseLeave="Color_label_MouseLeave"
+                                MouseUp="Color_label_MouseUp"
+                                TabIndex="3115"
+                                Tag="" />
+                              <StackPanel Orientation="Vertical">
+                                <Label
+                                  x:Name="color_label_content"
+                                  Height="26"
+                                  Margin="5,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Bottom"
+                                  Foreground="Red" />
+                                <TextBox
+                                  x:Name="color_textBox_1"
+                                  Width="119"
+                                  Height="18"
+                                  Margin="5,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Bottom"
+                                  IsReadOnly="True"
+                                  Text="(255, 255, 255)"
+                                  TextWrapping="NoWrap" />
+                              </StackPanel>
+                            </StackPanel>
+                          </StackPanel>
                         </Grid>
 
                       </StackPanel>
@@ -3679,6 +3683,13 @@
                     </Grid>
                   </Border>
                 </GroupBox>
+
+
+
+
+
+
+
               </StackPanel>
             </ScrollViewer>
           </Grid>
@@ -3946,24 +3957,7 @@
                             Content="底部"
                             IsChecked="False" />
                         </StackPanel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                       </Grid>
-
-
 
                       <Grid
                         Width="120"
@@ -3988,101 +3982,109 @@
                           HorizontalAlignment="Center"
                           d:ItemsSource="{d:SampleData ItemCount=5}"
                           SelectionChanged="SkinListBox_SelectionChanged" />
-
-
                       </Grid>
                       <Grid
-                        Grid.Row="4"
-                        Grid.RowSpan="9"
-                        Grid.Column="5"
                         Width="210"
                         Height="220"
                         Margin="5,0,5,10"
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Bottom">
-                        <Canvas
-                          x:Name="canvas2"
-                          Width="170"
-                          Height="170"
-                          Margin="0,0,10,50"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Bottom"
-                          MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
-                          MouseWheel="Hue_slider_MouseWheel">
-                          <Canvas.Background>
-                            <ImageBrush ImageSource="{Binding Bitmap}" />
-                          </Canvas.Background>
-                          <Thumb
-                            x:Name="thumb2"
-                            Canvas.Left="0"
-                            Canvas.Top="0"
-                            Width="12"
-                            Height="12"
-                            Background="Transparent"
-                            BorderBrush="Black"
-                            BorderThickness="2"
-                            DragDelta="Thumb_DragDelta"
-                            MouseWheel="Hue_slider_MouseWheel">
-                            <Thumb.Template>
-                              <ControlTemplate TargetType="Thumb">
-                                <Border
-                                  Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  CornerRadius="10"
-                                  SnapsToDevicePixels="True" />
-                              </ControlTemplate>
-                            </Thumb.Template>
-                          </Thumb>
-                        </Canvas>
-                        <Label
-                          x:Name="color_label_11"
-                          Width="46"
-                          Height="46"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Bottom"
-                          Background="Red"
-                          BorderBrush="Black"
-                          BorderThickness="1,1,1,1"
-                          MouseEnter="Color_label_MouseEnter"
-                          MouseLeave="Color_label_MouseLeave"
-                          MouseUp="Color_label_MouseUp"
-                          TabIndex="3115"
-                          Tag="" />
+                        <StackPanel Orientation="Vertical">
+                          <StackPanel Orientation="Horizontal">
+                            <Canvas
+                              x:Name="canvas2"
+                              Width="170"
+                              Height="170"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                              MouseWheel="Hue_slider_MouseWheel">
+                              <Canvas.Background>
+                                <ImageBrush ImageSource="{Binding Bitmap}" />
+                              </Canvas.Background>
+                              <Thumb
+                                x:Name="thumb2"
+                                Canvas.Left="0"
+                                Canvas.Top="0"
+                                Width="12"
+                                Height="12"
+                                Background="Transparent"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                DragDelta="Thumb_DragDelta"
+                                MouseWheel="Hue_slider_MouseWheel">
+                                <Thumb.Template>
+                                  <ControlTemplate TargetType="Thumb">
+                                    <Border
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="10"
+                                      SnapsToDevicePixels="True" />
+                                  </ControlTemplate>
+                                </Thumb.Template>
+                              </Thumb>
+                            </Canvas>
+                            <Slider
+                              x:Name="hue_slider1"
+                              Width="24"
+                              Height="170"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Bottom"
+                              IsSnapToTickEnabled="True"
+                              LargeChange="1"
+                              Maximum="360"
+                              Minimum="0"
+                              MouseWheel="Hue_slider_MouseWheel"
+                              SmallChange="1"
+                              Style="{StaticResource VerticalSliderStyle}"
+                              TickFrequency="1"
+                              ValueChanged="Hue_slider_ValueChanged"
+                              Value="{Binding Value, ElementName=hue_slider}">
+                              <Slider.Background>
+                                <ImageBrush />
+                              </Slider.Background>
+                            </Slider>
+                          </StackPanel>
 
-                        <Slider
-                          x:Name="hue_slider1"
-                          Width="24"
-                          Height="170"
-                          Margin="0,0,10,50"
-                          HorizontalAlignment="Right"
-                          VerticalAlignment="Bottom"
-                          IsSnapToTickEnabled="True"
-                          LargeChange="1"
-                          Maximum="360"
-                          Minimum="0"
-                          MouseWheel="Hue_slider_MouseWheel"
-                          SmallChange="1"
-                          Style="{StaticResource VerticalSliderStyle}"
-                          TickFrequency="1"
-                          ValueChanged="Hue_slider_ValueChanged"
-                          Value="0" />
-                        <TextBox
-                          x:Name="color_textBox_2"
-                          Width="119"
-                          Height="18"
-                          Margin="51,0,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Bottom"
-                          IsReadOnly="True"
-                          Text="(255, 255, 255)"
-                          TextWrapping="NoWrap" />
-                        <Label
-                          x:Name="color_label_content1"
-                          Margin="54,0,0,20"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Bottom"
-                          Foreground="Red" />
+                          <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                            <Label
+                              x:Name="color_label_11"
+                              Width="46"
+                              Height="46"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Background="Red"
+                              BorderBrush="Black"
+                              BorderThickness="1,1,1,1"
+                              MouseEnter="Color_label_MouseEnter"
+                              MouseLeave="Color_label_MouseLeave"
+                              MouseUp="Color_label_MouseUp"
+                              TabIndex="3115"
+                              Tag="" />
+
+                            <StackPanel Orientation="Vertical">
+                              <Label
+                                x:Name="color_label_content1"
+                                Height="26"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Foreground="Red" />
+                              <TextBox
+                                x:Name="color_textBox_2"
+                                Width="119"
+                                Height="18"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                IsReadOnly="True"
+                                Text="(255, 255, 255)"
+                                TextWrapping="NoWrap" />
+
+                            </StackPanel>
+                          </StackPanel>
+                        </StackPanel>
                       </Grid>
 
                     </StackPanel>
@@ -4568,8 +4570,8 @@
                         Style="{DynamicResource CheckBoxStyle}" />
                       <Label
                         x:Name="label23_Copy161"
-                             Grid.Row="3"
-                             HorizontalAlignment="Right"
+                        Grid.Row="3"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Content="定时自动关机：" />
                       <StackPanel
@@ -4579,17 +4581,17 @@
                         <CheckBox
                           x:Name="checkBox3_Copy5"
                           HorizontalAlignment="Left"
-                                  VerticalAlignment="Center"
-                                  Style="{DynamicResource CheckBoxStyle}" />
+                          VerticalAlignment="Center"
+                          Style="{DynamicResource CheckBoxStyle}" />
 
                         <local:NumericUpDown
                           x:Name="nud24"
                           Width="50"
                           Height="18"
-                                             Margin="5,0,0,0"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"
-                                             IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
+                          Margin="5,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
                           MaxValue="23"
                           MinValue="0"
                           TabIndex="3106"
@@ -4597,18 +4599,18 @@
                           Value="22" />
                         <Label
                           x:Name="label23_Copy148"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Content="时"
-                               Margin="-3,0,0,0" />
+                          Margin="-3,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Content="时" />
                         <local:NumericUpDown
                           x:Name="nud25"
                           Width="50"
                           Height="18"
-                                             Margin="2,0,0,0"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Center"
-                                             IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
+                          Margin="2,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
                           MaxValue="59"
                           MinValue="0"
                           TabIndex="3106"
@@ -4616,10 +4618,10 @@
                           Value="30" />
                         <Label
                           x:Name="label23_Copy149"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Content="分"
-                               Margin="-3,0,0,0" />
+                          Margin="-3,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Content="分" />
                       </StackPanel>
 
                     </Grid>
