@@ -256,8 +256,8 @@ namespace 小科狗配置
 
     static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    //[DllImport("user32.dll", CharSet = CharSet.Auto)]
+    //static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
 
     const int WM_USER           = 0x0400;               // 根据Windows API定义
@@ -324,7 +324,8 @@ namespace 小科狗配置
       {
         //把所有方案名吐到剪切板,一行一个方案名
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_GETALLNAME, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_GETALLNAME, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
       Thread.Sleep(300);
@@ -344,8 +345,8 @@ namespace 小科狗配置
         Clipboard.SetText(labelName);
         //Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
-        //SendMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
 
@@ -362,7 +363,8 @@ namespace 小科狗配置
         Clipboard.SetText(labelName);
         Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
 
@@ -521,7 +523,8 @@ namespace 小科狗配置
       {
         //labelName = comboBox.SelectedValue as string;
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero);
         var str = Clipboard.GetText();
         Clipboard.Clear();
         currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
@@ -545,7 +548,8 @@ namespace 小科狗配置
         Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
         Thread.Sleep(300);
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex) { MessageBox.Show($"错误信息：{ex.Message}"); }
     }
@@ -568,8 +572,8 @@ namespace 小科狗配置
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
         Clipboard.SetText(updataStr);
-        Thread.Sleep(300);
-        SendMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero);
         currentConfig = modifiedConfig;
       }
       catch (Exception ex)
@@ -594,7 +598,8 @@ namespace 小科狗配置
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero); 
       }
       catch (Exception ex)
       {
@@ -2244,7 +2249,8 @@ namespace 小科狗配置
 
       try{
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
+        PostMessage(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero);
       }
       catch { }
     }
@@ -2818,9 +2824,9 @@ namespace 小科狗配置
         {
           IntPtr hWnd = FindWindow("CKegServer_0", null);
           Clipboard.SetText(selectedSkin);
-          Thread.Sleep(300);
+          Thread.Sleep(200);
           // KWM_UPPFSET 更新皮肤文件路径
-          SendMessage(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero);
+          PostMessage(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero);
 
           SetValue("skin", "path", selectedSkin);
         }
