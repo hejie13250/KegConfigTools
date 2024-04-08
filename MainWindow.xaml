@@ -5,6 +5,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:oxy="http://oxyplot.org/wpf"
   Title="小科狗输入法方案配置"
   Width="2387"
   Height="4842"
@@ -592,6 +593,16 @@
                   VerticalAlignment="Center"
                   FontSize="14"
                   Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                  Text="{Binding Header, ElementName=groupBox_26}" />
+              </StackPanel>
+            </RadioButton>
+            <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock
+                  Margin="20,0,0,0"
+                  VerticalAlignment="Center"
+                  FontSize="14"
+                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
                   Text="{Binding Header, ElementName=groupBox_24}" />
               </StackPanel>
             </RadioButton>
@@ -676,7 +687,6 @@
                 SelectionChanged="ComboBox_SelectionChanged" />
               <Button
                 x:Name="restor_default_button"
-                Width="70"
                 Height="21"
                 Margin="5,0,0,0"
                 Click="Restor_default_button_Click"
@@ -686,7 +696,6 @@
 
               <Button
                 x:Name="loading_templates_button"
-                Width="70"
                 Height="21"
                 Margin="5,0,0,0"
                 Click="Loading_templates_button_Click"
@@ -695,7 +704,6 @@
                 ToolTip="从服务端读取配置模板" />
               <Button
                 x:Name="res_button"
-                Width="70"
                 Height="21"
                 Margin="5,0,0,0"
                 Click="Res_button_Click"
@@ -704,16 +712,15 @@
                 ToolTip="删除Keg.db内所有方案的配置" />
               <Button
                 x:Name="set_as_default_button"
-                Width="70"
                 Height="21"
                 Margin="5,0,0,0"
                 Click="Set_as_default_Click"
                 Content="设为默认"
                 IsEnabled="False"
                 ToolTip="将当前方案设为所有进程默认方案" />
+
               <Button
                 x:Name="apply_button"
-                Width="70"
                 Height="21"
                 Margin="5,0,0,0"
                 Click="Apply_button_Click"
@@ -721,12 +728,19 @@
                 IsEnabled="False"
                 ToolTip="将当前方案内修改项更新到服务端" />
               <Button
+                x:Name="apply_save_button"
+                Height="21"
+                Margin="5,0,0,0"
+                Click="Apply_save_button_Click"
+                Content="保存内存数据"
+                IsEnabled="False"
+                ToolTip="将当前方案配置保存到数据库" />
+              <Button
                 x:Name="apply_all_button"
-                Width="70"
                 Height="21"
                 Margin="5,0,0,0"
                 Click="Apply_All_button_Click"
-                Content="应用全部"
+                Content="更新内存数据"
                 IsEnabled="False"
                 ToolTip="将当前方案全部更新到服务端" />
             </StackPanel>
@@ -1316,7 +1330,7 @@
                                 ValueChanged="Hue_slider_ValueChanged"
                                 Value="0" />
                             </StackPanel>
-                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                            <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
                               <Label
                                 x:Name="color_label_10"
                                 Width="46"
@@ -1339,16 +1353,52 @@
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Bottom"
                                   Foreground="Red" />
-                                <TextBox
-                                  x:Name="color_textBox_1"
-                                  Width="119"
-                                  Height="18"
-                                  Margin="5,0,0,0"
+                                <local:RGBTextBox
+                                  x:Name="rgb1"
+                                  Height="20"
+                                  Margin="7,0,0,0"
                                   HorizontalAlignment="Left"
-                                  VerticalAlignment="Bottom"
-                                  IsReadOnly="True"
-                                  Text="(255, 255, 255)"
-                                  TextWrapping="NoWrap" />
+                                  VerticalAlignment="Center"
+                                  ValueChanged="rgb_ValueChanged" />
+                                <!--<StackPanel Orientation="Horizontal">
+                                  <Label
+                                    x:Name="color11_label"
+                                    Height="auto"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Content="RGB:" />
+                                  <TextBox
+                                    x:Name="color_textBox_1"
+                                    Width="33"
+                                    Height="18"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    PreviewTextInput="TextBox_PreviewTextInput"
+                                    Text="255"
+                                    TextWrapping="NoWrap" />
+
+                                  <TextBox
+                                    x:Name="g1"
+                                    Width="33"
+                                    Height="18"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    KeyDown="TextBox_KeyDown"
+                                    Text="255"
+                                    TextWrapping="NoWrap" />
+                                  <TextBox
+                                    x:Name="b1"
+                                    Width="33"
+                                    Height="18"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    KeyDown="TextBox_KeyDown"
+                                    Text="255"
+                                    TextWrapping="NoWrap" />
+
+                                </StackPanel>-->
                               </StackPanel>
                             </StackPanel>
                           </StackPanel>
@@ -4046,14 +4096,13 @@
                               </Slider.Background>
                             </Slider>
                           </StackPanel>
-
-                          <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                          <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
                             <Label
                               x:Name="color_label_11"
                               Width="46"
                               Height="46"
                               HorizontalAlignment="Left"
-                              VerticalAlignment="Center"
+                              VerticalAlignment="Bottom"
                               Background="Red"
                               BorderBrush="Black"
                               BorderThickness="1,1,1,1"
@@ -4062,7 +4111,6 @@
                               MouseUp="Color_label_MouseUp"
                               TabIndex="3115"
                               Tag="" />
-
                             <StackPanel Orientation="Vertical">
                               <Label
                                 x:Name="color_label_content1"
@@ -4071,17 +4119,52 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 Foreground="Red" />
-                              <TextBox
-                                x:Name="color_textBox_2"
-                                Width="119"
-                                Height="18"
-                                Margin="5,0,0,0"
+                              <local:RGBTextBox
+                                x:Name="rgb2"
+                                Height="20"
+                                Margin="7,0,0,0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                IsReadOnly="True"
-                                Text="(255, 255, 255)"
-                                TextWrapping="NoWrap" />
+                                VerticalAlignment="Center"
+                                ValueChanged="rgb_ValueChanged" />
+                              <!--<StackPanel Orientation="Horizontal">
+                                <Label
+                                  x:Name="color12_label"
+                                  Height="auto"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  Content="RGB:" />
+                                <TextBox
+                                  x:Name="color_textBox_2"
+                                  Width="33"
+                                  Height="18"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  PreviewTextInput="TextBox_PreviewTextInput"
+                                  Text="255"
+                                  TextWrapping="NoWrap" />
 
+                                <TextBox
+                                  x:Name="g2"
+                                  Width="33"
+                                  Height="18"
+                                  Margin="5,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  PreviewTextInput="TextBox_PreviewTextInput"
+                                  Text="255"
+                                  TextWrapping="NoWrap" />
+                                <TextBox
+                                  x:Name="b2"
+                                  Width="33"
+                                  Height="18"
+                                  Margin="5,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  PreviewTextInput="TextBox_PreviewTextInput"
+                                  Text="255"
+                                  TextWrapping="NoWrap" />
+
+                              </StackPanel>-->
                             </StackPanel>
                           </StackPanel>
                         </StackPanel>
@@ -4108,12 +4191,19 @@
                       <StackPanel Orientation="Horizontal">
 
                         <Button
-                          x:Name="new_button3"
-                          Width="70"
+                          x:Name="add_button1"
+                          Width="30"
                           Height="21"
                           Margin="10,0,0,0"
-                          Click="ListView3_button_Click"
+                          Click="Add_button_Click"
                           Content="添加" />
+                        <Button
+                          x:Name="modify_button1"
+                          Width="30"
+                          Height="21"
+                          Margin="5,0,0,0"
+                          Click="Modify_button_Click"
+                          Content="修改" />
                         <TextBox
                           x:Name="textBox_Copy25"
                           Width="100"
@@ -4123,7 +4213,7 @@
                           ToolTip="网址或可执行文件路径" />
                         <TextBox
                           x:Name="textBox_Copy26"
-                          Width="514"
+                          Width="519"
                           Height="21"
                           Margin="5,0,0,0"
                           TextWrapping="NoWrap"
@@ -4148,8 +4238,6 @@
                           <ListView.ContextMenu>
                             <ContextMenu>
                               <MenuItem Click="ListView3_MenuItem1_Click" Header="启用/禁用" />
-                              <MenuItem Click="ListView3_MenuItem2_Click" Header="新建" />
-                              <MenuItem Click="ListView3_MenuItem3_Click" Header="修改" />
                               <MenuItem Click="ListView3_MenuItem4_Click" Header="删除" />
                             </ContextMenu>
                           </ListView.ContextMenu>
@@ -4193,13 +4281,19 @@
                       <StackPanel Orientation="Horizontal">
 
                         <Button
-                          x:Name="new_button4"
-                          Width="70"
+                          x:Name="add_button2"
+                          Width="30"
                           Height="21"
                           Margin="10,0,0,0"
-                          Click="ListView4_button_Click"
+                          Click="Add_button_Click"
                           Content="添加" />
-
+                        <Button
+                          x:Name="modify_button2"
+                          Width="30"
+                          Height="21"
+                          Margin="5,0,0,0"
+                          Click="Modify_button_Click"
+                          Content="修改" />
                         <Label
                           x:Name="label526"
                           Height="24"
@@ -4243,7 +4337,7 @@
                           Content="命令行：" />
                         <TextBox
                           x:Name="tc"
-                          Width="295"
+                          Width="300"
                           Height="21"
                           Margin="0,0,5,0"
                           TextWrapping="NoWrap" />
@@ -4267,8 +4361,6 @@
                           <ListView.ContextMenu>
                             <ContextMenu>
                               <MenuItem Click="ListView4_MenuItem1_Click" Header="启用/禁用" />
-                              <MenuItem Click="ListView4_MenuItem2_Click" Header="新建" />
-                              <MenuItem Click="ListView4_MenuItem3_Click" Header="修改" />
                               <MenuItem Click="ListView4_MenuItem4_Click" Header="删除" />
                             </ContextMenu>
                           </ListView.ContextMenu>
@@ -4309,12 +4401,19 @@
                       <StackPanel Orientation="Horizontal">
 
                         <Button
-                          x:Name="new_button5"
-                          Width="70"
+                          x:Name="add_button3"
+                          Width="30"
                           Height="21"
                           Margin="10,0,0,0"
-                          Click="ListView5_button_Click"
+                          Click="Add_button_Click"
                           Content="添加" />
+                        <Button
+                          x:Name="modify_button3"
+                          Width="30"
+                          Height="21"
+                          Margin="5,0,0,0"
+                          Click="Modify_button_Click"
+                          Content="修改" />
                         <ComboBox
                           x:Name="comboBox4"
                           Width="180"
@@ -4398,8 +4497,6 @@
                           <ListView.ContextMenu>
                             <ContextMenu>
                               <MenuItem Click="ListView5_MenuItem1_Click" Header="启用/禁用" />
-                              <MenuItem Click="ListView5_MenuItem2_Click" Header="新建" />
-                              <MenuItem Click="ListView5_MenuItem3_Click" Header="修改" />
                               <MenuItem Click="ListView5_MenuItem4_Click" Header="删除" />
                             </ContextMenu>
                           </ListView.ContextMenu>
@@ -4440,13 +4537,19 @@
                       <StackPanel Orientation="Horizontal">
 
                         <Button
-                          x:Name="new_button6"
-                          Width="70"
+                          x:Name="add_button4"
+                          Width="30"
                           Height="21"
                           Margin="10,0,0,0"
-                          Click="ListView6_button_Click"
+                          Click="Add_button_Click"
                           Content="添加" />
-
+                        <Button
+                          x:Name="modify_button4"
+                          Width="30"
+                          Height="21"
+                          Margin="5,0,0,0"
+                          Click="Modify_button_Click"
+                          Content="修改" />
                         <TextBox
                           x:Name="textBox_Copy37"
                           Width="587"
@@ -4468,7 +4571,6 @@
                       <StackPanel Grid.Row="1" Margin="0,0,0,0">
                         <ListView
                           x:Name="listView6"
-                          Margin="10,0,10,10"
                           d:ItemsSource="{d:SampleData ItemCount=3}"
                           BorderBrush="Black"
                           BorderThickness="1,1,1,1"
@@ -4481,8 +4583,6 @@
                           <ListView.ContextMenu>
                             <ContextMenu>
                               <MenuItem Click="ListView6_MenuItem1_Click" Header="启用/禁用" />
-                              <MenuItem Click="ListView6_MenuItem2_Click" Header="新建" />
-                              <MenuItem Click="ListView6_MenuItem3_Click" Header="修改" />
                               <MenuItem Click="ListView6_MenuItem4_Click" Header="删除" />
                             </ContextMenu>
                           </ListView.ContextMenu>
@@ -4507,6 +4607,114 @@
                     </Grid>
                   </Border>
                 </GroupBox>
+
+                <GroupBox
+                  x:Name="groupBox_26"
+                  Header="定时关机"
+                  Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                  <Border Style="{StaticResource CustomBorderStyle}">
+                    <Grid>
+
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+
+                        <RowDefinition Height="*" />
+
+                      </Grid.RowDefinitions>
+                      <StackPanel Orientation="Horizontal">
+
+                        <Button
+                          x:Name="add_button5"
+                          Width="30"
+                          Height="21"
+                          Margin="10,0,0,0"
+                          Click="Add_button_Click"
+                          Content="添加" />
+                        <Button
+                          x:Name="modify_button5"
+                          Width="30"
+                          Height="21"
+                          Margin="5,0,0,0"
+                          Click="Modify_button_Click"
+                          Content="修改" />
+                        <local:NumericUpDown
+                          x:Name="nud24"
+                          Width="50"
+                          Height="18"
+                          Margin="5,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          MaxValue="23"
+                          MinValue="0"
+                          TabIndex="3106"
+                          ToolTip=""
+                          Value="22" />
+                        <Label
+                          x:Name="label23_Copy148"
+                          Margin="-3,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Content="时" />
+                        <local:NumericUpDown
+                          x:Name="nud25"
+                          Width="50"
+                          Height="18"
+                          Margin="2,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          MaxValue="59"
+                          MinValue="0"
+                          TabIndex="3106"
+                          ToolTip=""
+                          Value="30" />
+                        <Label
+                          x:Name="label23_Copy149"
+                          Margin="-3,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Content="分" />
+                      </StackPanel>
+                      <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                        <ListView
+                          x:Name="listView7"
+                          Margin="10,0,10,10"
+                          d:ItemsSource="{d:SampleData ItemCount=3}"
+                          BorderBrush="Black"
+                          BorderThickness="1,1,1,1"
+                          ItemContainerStyle="{StaticResource InforTipStyle}"
+                          ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                          MouseDoubleClick="ListView_MouseDoubleClick"
+                          PreviewMouseWheel="控件禁止响应滚轮事件"
+                          SelectionChanged="ListView_SelectionChanged"
+                          Style="{DynamicResource ListViewStyle}">
+                          <ListView.ContextMenu>
+                            <ContextMenu>
+                              <MenuItem Click="ListView7_MenuItem1_Click" Header="启用/禁用" />
+                              <MenuItem Click="ListView7_MenuItem4_Click" Header="删除" />
+                            </ContextMenu>
+                          </ListView.ContextMenu>
+                          <ListView.View>
+                            <GridView AllowsColumnReorder="True">
+                              <GridViewColumn
+                                Width="35"
+                                DisplayMemberBinding="{Binding Enable}"
+                                Header="启用" />
+                              <GridViewColumn
+                                Width="150"
+                                DisplayMemberBinding="{Binding Name}"
+                                Header="名称" />
+                              <GridViewColumn
+                                Width="450"
+                                DisplayMemberBinding="{Binding Value}"
+                                Header="命令" />
+                            </GridView>
+                          </ListView.View>
+                        </ListView>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </GroupBox>
+
                 <GroupBox
                   x:Name="groupBox_24"
                   Header="其它选项"
@@ -4568,61 +4776,8 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{DynamicResource CheckBoxStyle}" />
-                      <Label
-                        x:Name="label23_Copy161"
-                        Grid.Row="3"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Content="定时自动关机：" />
-                      <StackPanel
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Orientation="Horizontal">
-                        <CheckBox
-                          x:Name="checkBox3_Copy5"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
-                          Style="{DynamicResource CheckBoxStyle}" />
 
-                        <local:NumericUpDown
-                          x:Name="nud24"
-                          Width="50"
-                          Height="18"
-                          Margin="5,0,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
-                          IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
-                          MaxValue="23"
-                          MinValue="0"
-                          TabIndex="3106"
-                          ToolTip=""
-                          Value="22" />
-                        <Label
-                          x:Name="label23_Copy148"
-                          Margin="-3,0,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
-                          Content="时" />
-                        <local:NumericUpDown
-                          x:Name="nud25"
-                          Width="50"
-                          Height="18"
-                          Margin="2,0,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
-                          IsEnabled="{Binding IsChecked, ElementName=checkBox3_Copy5}"
-                          MaxValue="59"
-                          MinValue="0"
-                          TabIndex="3106"
-                          ToolTip=""
-                          Value="30" />
-                        <Label
-                          x:Name="label23_Copy149"
-                          Margin="-3,0,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
-                          Content="分" />
-                      </StackPanel>
+
 
                     </Grid>
                   </Border>
@@ -4699,7 +4854,7 @@
                     <Grid>
                       <TextBox
                         x:Name="textBox"
-                        Height="207"
+                        MaxHeight="200"
                         Margin="10,10,10,10"
                         FontSize="16"
                         Text="1、本工具已经开源，用于小科狗输入平台配置输入方案，主要是因太闲了打发时间才写了这个；&#x0A;2、将“KegConfigTool.zip”内的“skin”和“tools”都解压到小科狗安装目录内；&#x0A;3、运行“tools\KegConfigTool\小科狗配置.exe”即可，也可以加入小科狗自启；&#x0A;4、第一次使用建议把每个方案都点一下“加载模板”，然后再设置，最后应用，这么做是为了把Keg.db内的配置换成最新的；"
@@ -4708,7 +4863,95 @@
 
                   </Border>
                 </GroupBox>
+                <GroupBox
+                  x:Name="groupBox_27"
+                  Header="数据统计"
+                  Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                  <Border Style="{StaticResource CustomBorderStyle}">
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
 
+                        <RowDefinition Height="*" />
+
+                      </Grid.RowDefinitions>
+                      <StackPanel Orientation="Horizontal">
+                        <Button
+                          Width="70"
+                          Height="21"
+                          Margin="10,0,0,0"
+                          HorizontalAlignment="Right"
+                          Click="Button_Click_1"
+                          Content="数据统计" />
+                        <Button Width="70"
+                                Height="21"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Right"
+                                Click="Button_Click_3"
+                                Content="数据统计" />
+                        <Button
+                          Width="70"
+                          Height="21"
+                          Margin="10,0,0,0"
+                          HorizontalAlignment="Right"
+                          Click="Button_Click_2"
+                          Content="生成图表" />
+                      </StackPanel>
+                      <StackPanel
+                        Grid.Row="1"
+                        Margin="0,0,0,0"
+                        Orientation="Vertical">
+                        <ListView
+                          x:Name="listView8"
+                          Margin="10,0,10,10"
+                          d:ItemsSource="{d:SampleData ItemCount=6}"
+                          BorderBrush="Black"
+                          BorderThickness="1,1,1,1"
+                          ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                          PreviewMouseWheel="控件禁止响应滚轮事件"
+                          Style="{DynamicResource ListViewStyle}"
+                                  Height="200">
+
+
+                          <ListView.View>
+                            <GridView AllowsColumnReorder="True">
+                              <GridViewColumn
+                                Width="100"
+                                DisplayMemberBinding="{Binding RQ}"
+                                Header="日期" />
+                              <GridViewColumn
+                                Width="100"
+                                DisplayMemberBinding="{Binding DZS}"
+                                Header="打字数" />
+                              <GridViewColumn
+                                Width="100"
+                                DisplayMemberBinding="{Binding JJS}"
+                                Header="击键数" />
+                              <GridViewColumn
+                                Width="100"
+                                DisplayMemberBinding="{Binding SPS}"
+                                Header="上屏数" />
+                              <GridViewColumn
+                                Width="100"
+                                DisplayMemberBinding="{Binding SJ}"
+                                Header="时间" />
+                              <GridViewColumn
+                                Width="100"
+                                              DisplayMemberBinding="{Binding LJ}"
+                                Header="累计" />
+                            </GridView>
+                          </ListView.View>
+                        </ListView>
+                        <oxy:PlotView
+                          x:Name="plotView"
+                          Width="700"
+                          Height="350"
+                          Margin="10,10,10,10.2" />
+                      </StackPanel>
+                    </Grid>
+
+                  </Border>
+                </GroupBox>
               </StackPanel>
             </ScrollViewer>
           </Grid>
