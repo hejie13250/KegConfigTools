@@ -287,14 +287,14 @@ namespace 小科狗配置
       自启 = new ObservableCollection<列表项>();
       自动关机 = new ObservableCollection<列表项>();
 
-      打字数据 = new ObservableCollection<数据项>();
+      //打字数据 = new ObservableCollection<数据项>();
 
       listView3.DataContext = 查找列表;
       listView4.DataContext = 快键命令;
       listView5.DataContext = 快键;
       listView6.DataContext = 自启;
       listView7.DataContext = 自动关机;
-
+      //listView8.DataContext = 打字数据;
 
       Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
       DataContext = this;
@@ -1603,7 +1603,7 @@ namespace 小科狗配置
         toolTipTextBlock.Foreground = c_color;
     }
 
-    private void rgb_ValueChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
+    private void RGB_ValueChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
     {
       SetColorLableColor(RGBStringToColor(rgb1.RGBText));
     }
@@ -2279,8 +2279,8 @@ namespace 小科狗配置
     // 使用说明
     private void Instructions_button_Click(object sender, RoutedEventArgs e)
     {
-      var instructionsWindow = new Instructions();
-      instructionsWindow.Show();
+      var atatisticalData = new AtatisticalData();
+      atatisticalData.Show();
     }
 
     // 恢复全局设置
@@ -3067,80 +3067,83 @@ namespace 小科狗配置
     #endregion
 
 
-    #region 数据统计
+    //#region 数据统计
 
 
-    private void Button_Click_1(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
-        Thread.Sleep(200);
-        SendMessageTimeout(hWnd, KWM_GETALLZSTJ, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
-      }
-      catch (Exception ex)
-      {
-        MessageBox.Show($"操作失败，请重试！");
-        Console.WriteLine(ex.Message);
-      }
-      //textBox.Text = Clipboard.GetText();
+    //private void Button_Click_1(object sender, RoutedEventArgs e)
+    //{
+    //  try
+    //  {
+    //    IntPtr hWnd = FindWindow("CKegServer_0", null);
+    //    Thread.Sleep(200);
+    //    SendMessageTimeout(hWnd, KWM_GETALLZSTJ, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    MessageBox.Show($"操作失败，请重试！");
+    //    Console.WriteLine(ex.Message);
+    //  }
 
-    }
+    //  打字数据.Clear();
+    //  string str = Clipboard.GetText();
+    //  string pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
+    //  MatchCollection matches = Regex.Matches(str, pattern);
+    //  foreach (Match match in matches)
+    //  {
+    //    if (match.Success)
+    //    {
+    //      var item = new 数据项()
+    //      {
+    //        RQ = match.Groups[0].Value,
+    //        DZS = match.Groups[1].Value,
+    //        JJS = match.Groups[2].Value,
+    //        SPS = match.Groups[4].Value,
+    //        SJ = match.Groups[5].Value,
+    //        LJ = match.Groups[6].Value,
+    //      };
+    //      打字数据.Add(item);
+    //    }
+    //    //打字数据 = new ObservableCollection<数据项>();
+    //    listView8.DataContext = 打字数据;
+    //  }
 
-    private void Button_Click_3(object sender, RoutedEventArgs e)
-    {
-      string str = Clipboard.GetText();
-      string pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
-      MatchCollection matches = Regex.Matches(str, pattern);
-      foreach (Match match in matches)
-      {
-        if (match.Success)
-        {
-          var item = new 数据项()
-          {
-            RQ = match.Groups[0].Value,
-            DZS = match.Groups[1].Value,
-            JJS = match.Groups[2].Value,
-            SPS = match.Groups[4].Value,
-            SJ = match.Groups[5].Value,
-            LJ = match.Groups[6].Value,
-          };
-          打字数据.Add(item);
-        }
-        打字数据 = new ObservableCollection<数据项>();
-      }
+    //}
 
-    }
+    //private void Button_Click_3(object sender, RoutedEventArgs e)
+    //{
 
 
-    private void Button_Click_2(object sender, RoutedEventArgs e)
-    {
+    //}
 
-      // 创建数据点
-      var points = new List<DataPoint> {
-                new DataPoint(0, 0),
-                new DataPoint(1, 1),
-                new DataPoint(2, 4),
-                new DataPoint(3, 9),
-                new DataPoint(4, 16)
-            };
 
-      // 创建一个线性函数系列
-      var functionSeries = new FunctionSeries(x => x * x, 0, 4, 100)
-      {
-        Title = "x^2",
-        Color = OxyColors.Blue,
-        LineStyle = LineStyle.Solid
-    };
+    //private void Button_Click_2(object sender, RoutedEventArgs e)
+    //{
 
-      // 创建模型并添加系列
-      var model = new PlotModel { Title = "Curve Chart Example" };
-      model.Series.Add(functionSeries);
+    //  // 创建数据点
+    //  var points = new List<DataPoint> {
+    //            new DataPoint(0, 0),
+    //            new DataPoint(1, 1),
+    //            new DataPoint(2, 4),
+    //            new DataPoint(3, 9),
+    //            new DataPoint(4, 16)
+    //        };
 
-      // 将模型设置到PlotView
-      plotView.Model = model;
+    //  // 创建一个线性函数系列
+    //  var functionSeries = new FunctionSeries(x => x * x, 0, 4, 100)
+    //  {
+    //    Title = "x^2",
+    //    Color = OxyColors.Blue,
+    //    LineStyle = LineStyle.Solid
+    //};
 
-    }
-    #endregion
+    //  // 创建模型并添加系列
+    //  var model = new PlotModel { Title = "Curve Chart Example" };
+    //  model.Series.Add(functionSeries);
+
+    //  // 将模型设置到PlotView
+    //  plotView.Model = model;
+
+    //}
+    //#endregion
   }
 }

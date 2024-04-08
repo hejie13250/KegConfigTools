@@ -1,0 +1,112 @@
+﻿<Window
+  x:Class="小科狗配置.AtatisticalData"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:小科狗配置"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:oxy="http://oxyplot.org/wpf"
+  Width="770"
+  Height="auto"
+  BorderThickness="2,2,2,2"
+  MouseDown="Window_MouseDown"
+  ResizeMode="NoResize"
+  Topmost="True"
+  WindowStartupLocation="CenterScreen"
+  WindowStyle="None"
+  mc:Ignorable="d">
+  <Grid>
+    <Button
+      x:Name="button"
+      Width="45"
+      Height="30"
+      Margin="723,2,0,0"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Top"
+      Background="Transparent"
+      BorderThickness="0"
+      Click="Button_Click"
+      Content="✕" />
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
+
+        <RowDefinition Height="*" />
+
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal">
+        <Button
+          Width="70"
+          Height="21"
+          Margin="10,0,0,0"
+          HorizontalAlignment="Right"
+          Click="Button_Click_1"
+          Content="数据统计" />
+        <Button
+          Width="70"
+          Height="21"
+          Margin="10,0,0,0"
+          HorizontalAlignment="Right"
+          Click="Button_Click_3"
+          Content="数据统计" />
+        <Button
+          Width="70"
+          Height="21"
+          Margin="10,0,0,0"
+          HorizontalAlignment="Right"
+          Click="Button_Click_2"
+          Content="生成图表" />
+      </StackPanel>
+      <StackPanel
+        Grid.Row="1"
+        Margin="0,0,0,0"
+        Orientation="Vertical">
+        <ListView
+          x:Name="listView8"
+          Height="200"
+          Margin="10,0,10,10"
+          d:ItemsSource="{d:SampleData ItemCount=6}"
+          BorderBrush="Black"
+          BorderThickness="1,1,1,1"
+          ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+          Style="{DynamicResource ListViewStyle}">
+
+
+          <ListView.View>
+            <GridView AllowsColumnReorder="True">
+              <GridViewColumn
+                Width="100"
+                DisplayMemberBinding="{Binding RQ}"
+                Header="日期" />
+              <GridViewColumn
+                Width="100"
+                DisplayMemberBinding="{Binding DZS}"
+                Header="打字数" />
+              <GridViewColumn
+                Width="100"
+                DisplayMemberBinding="{Binding JJS}"
+                Header="击键数" />
+              <GridViewColumn
+                Width="100"
+                DisplayMemberBinding="{Binding SPS}"
+                Header="上屏数" />
+              <GridViewColumn
+                Width="100"
+                DisplayMemberBinding="{Binding SJ}"
+                Header="时间" />
+              <GridViewColumn
+                Width="100"
+                DisplayMemberBinding="{Binding LJ}"
+                Header="累计" />
+            </GridView>
+          </ListView.View>
+        </ListView>
+        <oxy:PlotView
+          x:Name="plotView"
+          Width="700"
+          Height="350"
+          Margin="10,10,10,10.2" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

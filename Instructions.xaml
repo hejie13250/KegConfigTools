@@ -1,37 +1,44 @@
-﻿<Window x:Class="小科狗配置.Instructions"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:小科狗配置"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="Instructions"
-        Width="770"
-        Height="425"
-        BorderThickness="2,2,2,2"
-        MouseDown="Window_MouseDown"
-        ResizeMode="NoResize"
-        Topmost="True"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
-        mc:Ignorable="d">
+﻿<Window
+  x:Class="小科狗配置.Instructions"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:小科狗配置"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Title="Instructions"
+  Width="770"
+  Height="425"
+  BorderThickness="2,2,2,2"
+  MouseDown="Window_MouseDown"
+  ResizeMode="NoResize"
+  Topmost="True"
+  WindowStartupLocation="CenterScreen"
+  WindowStyle="None"
+  mc:Ignorable="d">
   <Grid>
-    <Button x:Name="button"
-            Width="53"
-            Height="20"
-            Margin="703,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Click="Button_Click"
-            Content="确认" />
-    <TextBox x:Name="textBox"
-             FontSize="16"
-             Text="小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。&#xA;&#xA;请按ctrl+F7改变跨进程通讯方式：命名管道和消息共享内存两种模式切换&#xA;ctrl+F8:小科狗模式&#xA;ctrl+F9:大科狗模式&#xA;ctrl+F10:小狼狗模式&#xA;若不喜欢F7、F8、F9和F10设置方式请安装小科狗马上删除C:\Windows\TSF\SiKegInput\KegKeySet.txt文件中的对应键。&#xA;&#xA;内部变量说明:&#xA;[s]为选中项  &#xA;[bs]为编码&#xA;[us]为选中项的Unicode编码&#xA;[xz]为剪切板&#xA;[ss]为编码+所有候选项,&amp;&amp;&amp;连接&#xA;[zb]为候选窗口左上角坐标和右下角坐标,&amp;&amp;&amp;连接&#xA;[szb]为选中候选区域左上角坐标和右下角坐标,&amp;&amp;&amp;连接&#xA;{[s]}为前次上屏的内容&#xA;&#xA;全自定义快键设置,暂时不能包括Alt键&#xA;快键名为大写的前三位,如回车=ENT,翻页的PageUp=PU PageDown=PD   &#xA;左Shift=LSH   左Ctrl=LCT,向下箭头=UP,向下箭头=DOW 左箭头=LEF,右箭头=RIG,以此类推&#xA;快键组合不能单独使用Shift和Ctrl组合,如 打开文字配置界面快键=&lt;1=LSH&gt;&lt;2=LCT&gt;&lt;3=&gt;&lt;4=&gt;&#xA;小键盘的前面加个x&#xA;F1-F12可以使用单键&#xA;截图快键只能用CTRL组合键&#xA;&#xA;特殊快键说明:&#xA;打开服务端监视器的快键是左Ctrl+右箭头+小键盘数字&#xA;打开或关闭TSF调试信息的快键是左Ctrl+左箭头+右箭头&#xA;&#xA;进入英文长句态，以S或Q开头，后面跟数字，进入数字或金额大写转化"
-             TextWrapping="Wrap"
-             Margin="10,35,10,10" />
-    <Label x:Name="label"
-           Margin="10,7,0,0"
-           HorizontalAlignment="Left"
-           VerticalAlignment="Top"
-           Content="全局设置说明：" />
+
+    <Button
+      x:Name="button"
+      Width="45"
+      Height="30"
+      Margin="723,2,0,0"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Top"
+      Background="Transparent"
+      BorderThickness="0"
+      Click="Button_Click"
+      Content="✕" />
+    <TextBox
+      x:Name="textBox"
+      Margin="10,35,10,10"
+      FontSize="16"
+      Text="小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。&#xA;&#xA;请按ctrl+F7改变跨进程通讯方式：命名管道和消息共享内存两种模式切换&#xA;ctrl+F8:小科狗模式&#xA;ctrl+F9:大科狗模式&#xA;ctrl+F10:小狼狗模式&#xA;若不喜欢F7、F8、F9和F10设置方式请安装小科狗马上删除C:\Windows\TSF\SiKegInput\KegKeySet.txt文件中的对应键。&#xA;&#xA;内部变量说明:&#xA;[s]为选中项  &#xA;[bs]为编码&#xA;[us]为选中项的Unicode编码&#xA;[xz]为剪切板&#xA;[ss]为编码+所有候选项,&amp;&amp;&amp;连接&#xA;[zb]为候选窗口左上角坐标和右下角坐标,&amp;&amp;&amp;连接&#xA;[szb]为选中候选区域左上角坐标和右下角坐标,&amp;&amp;&amp;连接&#xA;{[s]}为前次上屏的内容&#xA;&#xA;全自定义快键设置,暂时不能包括Alt键&#xA;快键名为大写的前三位,如回车=ENT,翻页的PageUp=PU PageDown=PD   &#xA;左Shift=LSH   左Ctrl=LCT,向下箭头=UP,向下箭头=DOW 左箭头=LEF,右箭头=RIG,以此类推&#xA;快键组合不能单独使用Shift和Ctrl组合,如 打开文字配置界面快键=&lt;1=LSH&gt;&lt;2=LCT&gt;&lt;3=&gt;&lt;4=&gt;&#xA;小键盘的前面加个x&#xA;F1-F12可以使用单键&#xA;截图快键只能用CTRL组合键&#xA;&#xA;特殊快键说明:&#xA;打开服务端监视器的快键是左Ctrl+右箭头+小键盘数字&#xA;打开或关闭TSF调试信息的快键是左Ctrl+左箭头+右箭头&#xA;&#xA;进入英文长句态，以S或Q开头，后面跟数字，进入数字或金额大写转化"
+      TextWrapping="Wrap" />
+    <Label
+      x:Name="label"
+      Margin="10,7,0,0"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Top"
+      Content="全局设置说明：" />
   </Grid>
 </Window>
