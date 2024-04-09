@@ -96,6 +96,7 @@ namespace 小科狗配置
     #endregion
 
     #region 全局变量定义
+    string kegPath;                         // 小科狗主程序目录
     string zh_en = "中c：";
     string labelName = "方案名称";          // 当前方案名称
     readonly string schemeFilePath = "配色方案.json";
@@ -111,7 +112,7 @@ namespace 小科狗配置
     string currentConfig, modifiedConfig;   // 存少当前配置和当前修改的配置
 
     SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));  // 候选框无背景色时的值
-    readonly string settingConfigPath;  // 窗口配置文件
+    readonly string settingConfigFile = "KegConfigToolSetting.ini";  // 窗口配置文件
     readonly string globalSettingFilePath = "全局设置.json";
     string currentGroupBox;               // 用于记录当前选中的GroupBox名称
     #endregion
@@ -204,21 +205,35 @@ namespace 小科狗配置
 
     public MainWindow()
     {
-      kegFilePath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.txt"));
-      dbPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.db"));
-      settingConfigPath = Path.GetFullPath(Path.Combine(appPath, @".\setting.ini"));
+      settingConfigFile = appPath + "\\KegConfigToolSetting.ini";
+
+      // 获取小科狗主程序目录
+      kegPath = GetValue("window", "keg_path");
+      if (!File.Exists(kegPath + "\\KegServer.exe"))
+      {
+        kegPath = GetKegPath();
+        if (File.Exists(kegPath + "\\KegServer.exe"))
+          SetValue("window", "keg_path", kegPath);
+        else
+          this.Close();
+      }
+      kegFilePath = kegPath + "\\Keg.txt";
+      dbPath = kegPath + "\\Keg.db";
+
+      //kegFilePath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.txt"));
+      //dbPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.db"));
+      //settingConfigPath = Path.GetFullPath(Path.Combine(appPath, @".\setting.ini"));
 
       InitializeComponent();
-      //this.Title += " V" + GetAssemblyVersion();
-      LoadSettingConfig();  // 读取 setting.ini
-
-      toolTipTextBlock.Text = $"{zh_en}{labelName}";
-
       Loaded += MainWindow_Loaded;
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
+      // 读取 setting.ini
+      LoadSettingConfig();
+      toolTipTextBlock.Text = $"{zh_en}{labelName}";
+
       查找列表 = new ObservableCollection<列表项>();
       快键命令 = new ObservableCollection<列表项>();
       快键   = new ObservableCollection<列表项>();
@@ -230,7 +245,6 @@ namespace 小科狗配置
       listView5.DataContext = 快键;
       listView6.DataContext = 自启;
       listView7.DataContext = 自动关机;
-
 
       Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
       DataContext = this;
@@ -308,7 +322,7 @@ namespace 小科狗配置
     /// <param name="filePath">路径</param>
     public  void SetValue(string section, string key, string value)
     {
-      WritePrivateProfileString(section, key, value, settingConfigPath);
+      WritePrivateProfileString(section, key, value, settingConfigFile);
     }
 
     /// <summary>
@@ -320,10 +334,10 @@ namespace 小科狗配置
     /// <returns>命令行</returns>
     public string GetValue(string section, string key)
     {
-      if (File.Exists(settingConfigPath))
+      if (File.Exists(settingConfigFile))
       {
         StringBuilder sb = new(255);
-        GetPrivateProfileString(section, key, "", sb, 255, settingConfigPath);
+        GetPrivateProfileString(section, key, "", sb, 255, settingConfigFile);
         return sb.ToString();
       }
       else return string.Empty;
@@ -675,15 +689,27 @@ namespace 小科狗配置
     #endregion
 
     #region 读取配置各项值到控件
+
+
+    // 显示对话框，并获取用户选择的文件夹路径
+    private string GetKegPath(){
+      FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+      folderBrowserDialog.Description = "选择小科狗主程序目录"; 
+      
+      if (folderBrowserDialog.ShowDialog() == FormsDialogResult.OK)
+        return folderBrowserDialog.SelectedPath;
+      return null;
+    }
+
     // 读取 setting.ini
     private void LoadSettingConfig()
     {
-      if (!File.Exists(settingConfigPath))
-      {
-        File.WriteAllText(settingConfigPath, "[window]\nclosed=0");
-        checkBox2.IsChecked = true;
-        this.Topmost= false;
-      }
+      //if (!File.Exists(settingConfigFile))
+      //{
+      //  File.WriteAllText(settingConfigFile, "[window]\nclosed=0");
+      //  checkBox2.IsChecked = true;
+      //  this.Topmost= false;
+      //}
       checkBox2.IsChecked = GetValue("window", "closed") == "1";
       //checkBox3.IsChecked = GetValue("window", "closed") == "1";
       bool isNumberValid = int.TryParse(GetValue("window", "height"), out int height);
@@ -1373,6 +1399,11 @@ namespace 小科狗配置
       if (n == 2)
       {
         GroupBox groupBox = FindGroupBox(content, stackPanel2);
+        groupBox.BringIntoView();
+      }
+      if (n == 3)
+      {
+        GroupBox groupBox = FindGroupBox(content, stackPanel3);
         groupBox.BringIntoView();
       }
     }
@@ -2233,6 +2264,7 @@ namespace 小科狗配置
     // 恢复全局设置
     private void Default_button_Click(object sender, RoutedEventArgs e)
     {
+      File.Delete(globalSettingFilePath);
       LoadKegTxt("Keg_bak.txt");
     }
 
@@ -2881,7 +2913,7 @@ namespace 小科狗配置
     private void LoadImages()
     {
       // 获取应用的相对路径并转换为绝对路径
-      string directoryPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\skin\"));
+      string directoryPath = kegPath + "\\skin\\";
       
       // 设置皮肤图片路径
       string skin = $"{directoryPath}Keg.png";
@@ -2935,7 +2967,7 @@ namespace 小科狗配置
     private void SkinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       string selectedItem = (string)skinListBox.SelectedItem;
-      string skin = Path.GetFullPath(Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png"));
+      string skin = kegPath + "\\skin\\" + selectedItem + ".png";
       image.Source = new BitmapImage(new Uri(skin));
     }
 
@@ -2944,7 +2976,7 @@ namespace 小科狗配置
       if (skinListBox.SelectedIndex > 0)
       {
         string selectedItem = (string)skinListBox.SelectedItem;
-        string selectedSkin = Path.GetFullPath(Path.Combine(appPath, @"..\..\skin\" + selectedItem + ".png"));
+        string selectedSkin = kegPath + "\\skin\\" + selectedItem + ".png";
 
         try
         {

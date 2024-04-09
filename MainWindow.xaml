@@ -4872,7 +4872,7 @@
             </StackPanel>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-              <StackPanel Orientation="Vertical">
+              <StackPanel x:Name="stackPanel3" Orientation="Vertical">
                 <GroupBox
                   x:Name="groupBox_25"
                   Header="关于"
@@ -4898,10 +4898,10 @@
                     <Grid>
                       <StackPanel Orientation="Vertical">
                         <Label
+                          Margin="10,10,0,0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
-                          Content="全局设置说明："
-                               Margin="10,10,0,0" />
+                          Content="全局设置说明：" />
                         <TextBox
                           Margin="10,10,10,10"
                           FontSize="16"
