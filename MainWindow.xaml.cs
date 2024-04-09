@@ -353,7 +353,7 @@ namespace 小科狗配置
     const uint KWM_UPQJSET      = (uint)WM_USER + 211;  //读取说明文本更新全局设置
     const uint KWM_UPPFSET      = (uint)WM_USER + 212;  //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
     const uint KWM_GETALLNAME   = (uint)WM_USER + 213;  //把所有方案名吐到剪切板,一行一个方案名
-    const uint KWM_GETALLZSTJ   = (uint)WM_USER + 214;  //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
+    //const uint KWM_GETALLZSTJ   = (uint)WM_USER + 214;  //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
     #endregion
 
     #region 读写配置文件项
@@ -2279,8 +2279,8 @@ namespace 小科狗配置
     // 使用说明
     private void Instructions_button_Click(object sender, RoutedEventArgs e)
     {
-      var atatisticalData = new AtatisticalData();
-      atatisticalData.Show();
+      //var atatisticalData = new AtatisticalData();
+      //atatisticalData.Show();
     }
 
     // 恢复全局设置

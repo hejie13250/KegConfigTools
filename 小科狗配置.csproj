@@ -134,16 +134,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AtatisticalData.xaml.cs">
-      <DependentUpon>AtatisticalData.xaml</DependentUpon>
-    </Compile>
     <Compile Include="RGBTextBox.xaml.cs">
       <DependentUpon>RGBTextBox.xaml</DependentUpon>
     </Compile>
-    <Page Include="AtatisticalData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Instructions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
