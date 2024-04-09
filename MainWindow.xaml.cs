@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SQLite;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,9 +19,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -39,11 +34,8 @@ using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using Path = System.IO.Path;
 using Point = System.Windows.Point;
 using RadioButton = System.Windows.Controls.RadioButton;
-using TextBox = System.Windows.Controls.TextBox;
 using Thumb = System.Windows.Controls.Primitives.Thumb;
 using Window = System.Windows.Window;
-using OxyPlot;
-using OxyPlot.Series;
 
 namespace 小科狗配置
 {
@@ -208,60 +200,6 @@ namespace 小科狗配置
 
     #endregion
 
-    #region 打字数据定义
-    public class 数据项 : INotifyPropertyChanged
-    {
-      private string _RQ;
-      public string RQ  //日期
-      {
-        get { return _RQ; }
-        set { _RQ = value; OnPropertyChanged("RQ"); }
-      }
-      private string _DZS;
-      public string DZS //打字数
-      {
-        get { return _DZS; }
-        set { _DZS = value; OnPropertyChanged("DZS"); }
-      }
-      private string _JJS;
-      public string JJS //击键数
-      {
-        get { return _JJS; }
-        set { _JJS = value; OnPropertyChanged("JJS"); }
-      }
-      private string _SPS;
-      public string SPS //上屏数
-      {
-        get { return _SPS; }
-        set { _SPS = value; OnPropertyChanged("SPS"); }
-      }
-      private string _SJ;
-      public string SJ  //时间
-      {
-        get { return _SJ; }
-        set { _SJ = value; OnPropertyChanged("SJ"); }
-      }
-      private string _LJ;
-      public string LJ  //累计
-      {
-        get { return _LJ; }
-        set { _LJ = value; OnPropertyChanged("LJ"); }
-      }
-      public 数据项() { }
-
-      public event PropertyChangedEventHandler PropertyChanged;
-      public virtual void OnPropertyChanged(string PropertyName)
-      {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-      }
-
-    }
-
-    public ObservableCollection<数据项> 打字数据 { get; set; }
-
-    #endregion
-
-
     #region 初始化
 
     public MainWindow()
@@ -283,18 +221,16 @@ namespace 小科狗配置
     {
       查找列表 = new ObservableCollection<列表项>();
       快键命令 = new ObservableCollection<列表项>();
-      快键 = new ObservableCollection<列表项>();
-      自启 = new ObservableCollection<列表项>();
+      快键   = new ObservableCollection<列表项>();
+      自启   = new ObservableCollection<列表项>();
       自动关机 = new ObservableCollection<列表项>();
-
-      //打字数据 = new ObservableCollection<数据项>();
 
       listView3.DataContext = 查找列表;
       listView4.DataContext = 快键命令;
       listView5.DataContext = 快键;
       listView6.DataContext = 自启;
       listView7.DataContext = 自动关机;
-      //listView8.DataContext = 打字数据;
+
 
       Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
       DataContext = this;
@@ -1336,7 +1272,7 @@ namespace 小科狗配置
       Grid2.Visibility = Visibility.Visible;
       Grid3.Visibility = Visibility.Hidden;
     }
-    private void 关于页面()
+    private void 帮助页面()
     {
       Grid1.Width = 0;
       Grid2.Width = 0;
@@ -1362,8 +1298,9 @@ namespace 小科狗配置
           全局设置页面();
           ScrollViewerOffset("状态条", 2);
           break;
-        case "关于":
-          关于页面();
+        case "帮助":
+          帮助页面();
+          ScrollViewerOffset("关于", 3);
           break;
       }
 
@@ -1412,6 +1349,10 @@ namespace 小科狗配置
           //Grid2.Visibility = Visibility.Visible;
           //Grid3.Visibility = Visibility.Collapsed;
           ScrollViewerOffset(textBlock.Text, 2);
+          break;
+        case "关于":
+        case "全局设置说明":
+          ScrollViewerOffset(textBlock.Text, 3);
           break;
       }
     }
@@ -2216,6 +2157,7 @@ namespace 小科狗配置
     private void NotifyIcon_DoubleClick(object sender, EventArgs e)
     {
       this.Visibility = Visibility.Visible;
+      this.WindowState = WindowState.Normal;
     }
 
     #endregion
@@ -2230,6 +2172,12 @@ namespace 小科狗配置
         // 调用API使窗口跟随鼠标移动
         DragMove();
       }
+    }
+
+    // 窗口最小化
+    private void Button_Click_1(object sender, RoutedEventArgs e)
+    {
+      this.WindowState = WindowState.Minimized;
     }
 
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -2279,8 +2227,7 @@ namespace 小科狗配置
     // 使用说明
     private void Instructions_button_Click(object sender, RoutedEventArgs e)
     {
-      //var atatisticalData = new AtatisticalData();
-      //atatisticalData.Show();
+      System.Diagnostics.Process.Start("数据统计.exe");
     }
 
     // 恢复全局设置
@@ -3028,6 +2975,8 @@ namespace 小科狗配置
       t8.IsEnabled = t7.Text != "";
     }
 
+
+
     // 提示文本位置
     private void RadioButton3_Click(object sender, RoutedEventArgs e)
     {
@@ -3067,83 +3016,6 @@ namespace 小科狗配置
     #endregion
 
 
-    //#region 数据统计
 
-
-    //private void Button_Click_1(object sender, RoutedEventArgs e)
-    //{
-    //  try
-    //  {
-    //    IntPtr hWnd = FindWindow("CKegServer_0", null);
-    //    Thread.Sleep(200);
-    //    SendMessageTimeout(hWnd, KWM_GETALLZSTJ, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
-    //  }
-    //  catch (Exception ex)
-    //  {
-    //    MessageBox.Show($"操作失败，请重试！");
-    //    Console.WriteLine(ex.Message);
-    //  }
-
-    //  打字数据.Clear();
-    //  string str = Clipboard.GetText();
-    //  string pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
-    //  MatchCollection matches = Regex.Matches(str, pattern);
-    //  foreach (Match match in matches)
-    //  {
-    //    if (match.Success)
-    //    {
-    //      var item = new 数据项()
-    //      {
-    //        RQ = match.Groups[0].Value,
-    //        DZS = match.Groups[1].Value,
-    //        JJS = match.Groups[2].Value,
-    //        SPS = match.Groups[4].Value,
-    //        SJ = match.Groups[5].Value,
-    //        LJ = match.Groups[6].Value,
-    //      };
-    //      打字数据.Add(item);
-    //    }
-    //    //打字数据 = new ObservableCollection<数据项>();
-    //    listView8.DataContext = 打字数据;
-    //  }
-
-    //}
-
-    //private void Button_Click_3(object sender, RoutedEventArgs e)
-    //{
-
-
-    //}
-
-
-    //private void Button_Click_2(object sender, RoutedEventArgs e)
-    //{
-
-    //  // 创建数据点
-    //  var points = new List<DataPoint> {
-    //            new DataPoint(0, 0),
-    //            new DataPoint(1, 1),
-    //            new DataPoint(2, 4),
-    //            new DataPoint(3, 9),
-    //            new DataPoint(4, 16)
-    //        };
-
-    //  // 创建一个线性函数系列
-    //  var functionSeries = new FunctionSeries(x => x * x, 0, 4, 100)
-    //  {
-    //    Title = "x^2",
-    //    Color = OxyColors.Blue,
-    //    LineStyle = LineStyle.Solid
-    //};
-
-    //  // 创建模型并添加系列
-    //  var model = new PlotModel { Title = "Curve Chart Example" };
-    //  model.Series.Add(functionSeries);
-
-    //  // 将模型设置到PlotView
-    //  plotView.Model = model;
-
-    //}
-    //#endregion
   }
 }
