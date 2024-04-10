@@ -3047,7 +3047,11 @@ namespace 小科狗配置
 
     #endregion
 
-
+    private void HotKeyControl_HotKeyPressed(object sender, RoutedEventArgs e)
+    {
+      string hotKey = ((HotKeyControl)sender).HotKey;
+      //MessageBox.Show($"当前热键：{hotKey}");
+    }
 
   }
 }

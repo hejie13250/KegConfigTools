@@ -697,10 +697,16 @@
               <RowDefinition Height="35" />
               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <StackPanel
               Margin="11,0,0,0"
               Background="#FFF2F2F2"
               Orientation="Horizontal">
+              <local:HotKeyControl
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                HotKeyPressed="HotKeyControl_HotKeyPressed"
+                TabIndex="3103" Width="200" />
               <Label
                 x:Name="label123"
                 Height="24"
@@ -770,6 +776,7 @@
                 Content="更新内存数据"
                 IsEnabled="False"
                 ToolTip="将当前方案全部更新到服务端" />
+
             </StackPanel>
             <ScrollViewer
               x:Name="scrollViewer1"
