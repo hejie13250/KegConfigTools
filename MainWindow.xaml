@@ -702,11 +702,7 @@
               Margin="11,0,0,0"
               Background="#FFF2F2F2"
               Orientation="Horizontal">
-              <local:HotKeyControl
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                HotKeyPressed="HotKeyControl_HotKeyPressed"
-                TabIndex="3103" Width="200" />
+
               <Label
                 x:Name="label123"
                 Height="24"
@@ -3788,10 +3784,10 @@
               Background="#FFF2F2F2"
               Orientation="Horizontal">
               <Button
-                x:Name="instructions_button"
+                x:Name="run_button"
                 Width="70"
                 Height="21"
-                Click="Instructions_button_Click"
+                Click="Run_button_Click"
                 Content="数据统计" />
               <Button
                 x:Name="default_button"
@@ -3826,6 +3822,164 @@
               Grid.Row="1"
               VerticalScrollBarVisibility="Hidden">
               <StackPanel x:Name="stackPanel2" Orientation="Vertical">
+                <GroupBox
+                  x:Name="groupBox_22"
+                  Header="快捷键"
+                  Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                  <Border Style="{StaticResource CustomBorderStyle}">
+                    <Grid>
+
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="70" />
+
+                        <RowDefinition Height="*" />
+
+                      </Grid.RowDefinitions>
+                      <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+
+                          <Button
+                            x:Name="add_button3"
+                            Width="30"
+                            Height="21"
+                            Margin="10,0,0,0"
+                            Click="Add_button_Click"
+                            Content="添加" />
+                          <Button
+                            x:Name="modify_button3"
+                            Width="30"
+                            Height="21"
+                            Margin="5,0,0,0"
+                            Click="Modify_button_Click"
+                            Content="修改" />
+                          <ComboBox
+                            x:Name="comboBox4"
+                            Width="180"
+                            Height="21"
+                            Margin="5,0,0,0"
+                            SelectedIndex="0">
+                            <ComboBoxItem Content="获取使用说明重新配置快键" />
+                            <ComboBoxItem Content="在线查找快键" />
+                            <ComboBoxItem Content="方案选择快键" />
+                            <ComboBoxItem Content="打开文字配置界面快键" />
+                            <ComboBoxItem Content="候选窗口调大快键" />
+                            <ComboBoxItem Content="候选窗口调小快键" />
+                            <ComboBoxItem Content="手动加词条快键" />
+                            <ComboBoxItem Content="锁定当前进程为TSF跟随快键" />
+                            <ComboBoxItem Content="上屏后再取坐标快键" />
+                            <ComboBoxItem Content="显示或隐藏状态条快键" />
+                            <ComboBoxItem Content="状态栏回到主屏右下角快键" />
+                            <ComboBoxItem Content="截图候选窗口上屏快键" />
+                            <ComboBoxItem Content="截图选中候选上屏快键" />
+                            <ComboBoxItem Content="截图选中反查上屏快键" />
+                            <ComboBoxItem Content="设置截候选图上屏快键" />
+                            <ComboBoxItem Content="设置上屏反查字段快键" />
+                            <ComboBoxItem Content="上屏反查字段快键" />
+                            <ComboBoxItem Content="显示或隐藏反查字段快键" />
+                            <ComboBoxItem Content="删除方案或词条快键" />
+                            <ComboBoxItem Content="调整词条置顶快键" />
+                            <ComboBoxItem Content="换皮肤快键" />
+                            <ComboBoxItem Content="进入英文长句态快键" />
+                          </ComboBox>
+
+                          <Label
+                            x:Name="label528"
+                            Height="24"
+                            Margin="5,0,0,0"
+                            Content="快键：" />
+                          <TextBox
+                            x:Name="t5"
+                            Width="50"
+                            Height="21"
+                            TextChanged="Ttext_TextChanged"
+                            TextWrapping="NoWrap" />
+                          <TextBox
+                            x:Name="t6"
+                            Width="50"
+                            Height="21"
+                            Margin="5,0,0,0"
+                            IsEnabled="False"
+                            TextChanged="Ttext_TextChanged"
+                            TextWrapping="NoWrap" />
+                          <TextBox
+                            x:Name="t7"
+                            Width="50"
+                            Height="21"
+                            Margin="5,0,0,0"
+                            IsEnabled="False"
+                            TextChanged="Ttext_TextChanged"
+                            TextWrapping="NoWrap" />
+                          <TextBox
+                            x:Name="t8"
+                            Width="50"
+                            Height="21"
+                            Margin="5,0,0,0"
+                            IsEnabled="False"
+                            TextChanged="Ttext_TextChanged"
+                            TextWrapping="NoWrap" />
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                          <local:HotKeyControl
+                            x:Name="hotKeyControl"
+                            Height="25"
+                            Margin="300,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            HotKeyPressed="hotKeyControl_HotKeyPressed_1"
+                            TabIndex="3103" />
+                          <Button
+                            Width="30"
+                            Height="21"
+                            Margin="10,0,0,0"
+                            Click="Button_Click_2"
+                            Content="添加" />
+
+                        </StackPanel>
+                      </StackPanel>
+
+
+                      <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                        <ListView
+                          x:Name="listView5"
+                          Margin="10,0,10,10"
+                          d:ItemsSource="{d:SampleData ItemCount=3}"
+                          BorderBrush="Black"
+                          BorderThickness="1,1,1,1"
+                          ItemContainerStyle="{StaticResource InforTipStyle}"
+                          ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                          MouseDoubleClick="ListView_MouseDoubleClick"
+                          PreviewMouseWheel="控件禁止响应滚轮事件"
+                          SelectionChanged="ListView_SelectionChanged"
+                          Style="{DynamicResource ListViewStyle}">
+                          <ListView.ContextMenu>
+                            <ContextMenu>
+                              <MenuItem Click="ListView5_MenuItem1_Click" Header="启用/禁用" />
+                              <MenuItem Click="ListView5_MenuItem4_Click" Header="删除" />
+                            </ContextMenu>
+                          </ListView.ContextMenu>
+                          <ListView.View>
+                            <GridView AllowsColumnReorder="True">
+                              <GridViewColumn
+                                Width="35"
+                                DisplayMemberBinding="{Binding Enable}"
+                                Header="启用" />
+                              <GridViewColumn
+                                Width="150"
+                                DisplayMemberBinding="{Binding Name}"
+                                Header="名称" />
+                              <GridViewColumn
+                                Width="450"
+                                DisplayMemberBinding="{Binding Value}"
+                                Header="命令" />
+                            </GridView>
+                          </ListView.View>
+                        </ListView>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </GroupBox>
                 <GroupBox
                   x:Name="groupBox_19"
                   Height="370"
@@ -4419,7 +4573,7 @@
                     </Grid>
                   </Border>
                 </GroupBox>
-                <GroupBox
+                <!--<GroupBox
                   x:Name="groupBox_22"
                   Header="快捷键"
                   Style="{StaticResource HiddenBorderGroupBoxStyle}">
@@ -4554,7 +4708,7 @@
                       </StackPanel>
                     </Grid>
                   </Border>
-                </GroupBox>
+                </GroupBox>-->
                 <GroupBox
                   x:Name="groupBox_23"
                   Header="自启动应用"
@@ -4772,7 +4926,7 @@
                         x:Name="label23_Copy158"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Content="打字统计数据保存位置由主程序文件夹转到 C:\SiKegInput ：" />
+                        Content="打字统计数据保存位置由 C:\SiKegInput 转到主程序文件夹：" />
                       <CheckBox
                         x:Name="checkBox3_Copy3"
                         Grid.Column="1"

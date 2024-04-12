@@ -104,7 +104,7 @@ namespace 小科狗配置
 
     NotifyIcon notifyIcon;                  // 托盘图标
 
-    readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    readonly string appPath = Environment.CurrentDirectory;
     readonly string dbPath, kegFilePath;    // Keg.db 和 Keg.txt 文件路径
 
     //readonly List<string> configs = new();  // 存方 Keg.db 内所有方案的配置，用于恢复
@@ -308,9 +308,9 @@ namespace 小科狗配置
 
     #region 读写配置文件项
     // 读写配置项 API
-    [DllImport("kernel32")]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
-    public static extern long GetPrivateProfileString(string section, string key, string defaultValue, StringBuilder retVal, int size, string filePath);
-    [DllImport("kernel32")]// 写入配置文件方法的4个参数：所在的分区、    键值、      参数值、      配置文件路径
+    [DllImport("kernel32", CharSet = CharSet.Unicode)]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
+    private static extern long GetPrivateProfileString(string section, string key, string defaultValue, StringBuilder retVal, int size, string filePath);
+    [DllImport("kernel32", CharSet = CharSet.Unicode)]// 写入配置文件方法的4个参数：所在的分区、    键值、      参数值、      配置文件路径
     private static extern long WritePrivateProfileString(string section, string key, string value, string filePath);
 
     /// <summary>
@@ -2255,10 +2255,12 @@ namespace 小科狗配置
 
     #region 全局设置
 
-    // 使用说明
-    private void Instructions_button_Click(object sender, RoutedEventArgs e)
+    // 数据统计
+    private void Run_button_Click(object sender, RoutedEventArgs e)
     {
-      System.Diagnostics.Process.Start("数据统计.exe");
+      string path = appPath + "\\小科狗打字统计.exe";
+      if (File.Exists(path)) Process.Start(path);
+      else MessageBox.Show($"请将 “小科狗打字统计.exe” 移到本应用所在目录内！");
     }
 
     // 恢复全局设置
@@ -3031,7 +3033,15 @@ namespace 小科狗配置
       }
     }
 
+    private void hotKeyControl_HotKeyPressed_1(object sender, RoutedEventArgs e)
+    {
 
+    }
+
+    private void Button_Click_2(object sender, RoutedEventArgs e)
+    {
+      Clipboard.SetText(hotKeyControl.HotKey);
+    }
 
     private void Df_button_Click(object sender, RoutedEventArgs e)
     {
@@ -3050,7 +3060,7 @@ namespace 小科狗配置
     private void HotKeyControl_HotKeyPressed(object sender, RoutedEventArgs e)
     {
       string hotKey = ((HotKeyControl)sender).HotKey;
-      //MessageBox.Show($"当前热键：{hotKey}");
+      Console.WriteLine($"当前热键：{hotKey}");
     }
 
   }

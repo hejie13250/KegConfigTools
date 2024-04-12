@@ -5,17 +5,143 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  d:DesignHeight="20"
-  d:DesignWidth="120"
+  MinWidth="150"
+  MinHeight="22"
+  d:DesignHeight="25"
+  d:DesignWidth="150"
   mc:Ignorable="d">
+  <UserControl.Resources>
+    <Style x:Key="RoundButton" TargetType="{x:Type Button}">
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Grid Width="14" Height="14">
+              <Border
+                x:Name="border"
+                Background="Black"
+                CornerRadius="7" />
+              <TextBlock
+                Margin="0,-1.5,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="×">
+                <TextBlock.Foreground>
+                  <SolidColorBrush Color="White" />
+                </TextBlock.Foreground>
+              </TextBlock>
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                  <VisualState x:Name="Normal">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="Black"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="Red"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="DarkGray"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type TextBox}">
+            <Grid>
+              <Border
+                x:Name="border"
+                Background="#FFFF"
+                BorderBrush="Black"
+                BorderThickness="2"
+                CornerRadius="11" />
+              <ContentPresenter
+                Margin="10,0,28,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{TemplateBinding Text}" />
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                  <VisualState x:Name="Normal">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                        To="Black"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                        To="Blue"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                        To="DarkGray"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
   <Grid>
     <TextBox
       x:Name="txtHotKey"
       VerticalContentAlignment="Center"
+      Foreground="Gray"
+      GotFocus="TxtHotKey_GotFocus"
+      IsReadOnly="True"
+      LostFocus="TxtHotKey_LostFocus"
       PreviewKeyDown="TxtHotKey_PreviewKeyDown"
       PreviewKeyUp="TxtHotKey_PreviewKeyUp"
-      PreviewTextInput="TxtHotKey_PreviewTextInput"
-
-      ToolTip="请输入热键" TextChanged="TxtHotKey_TextChanged" />
+      Style="{DynamicResource RoundTextBox}"
+      Text="请点击输入热键" />
+    <Button
+      x:Name="delBtn"
+      Margin="0,0,4,0"
+      HorizontalAlignment="Right"
+      Click="Button_Click"
+      Style="{DynamicResource RoundButton}" />
   </Grid>
 </UserControl>
