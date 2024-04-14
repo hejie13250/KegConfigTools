@@ -2,39 +2,222 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace 小科狗配置
 {
   /// <summary>
   /// HotKeyControl.xaml 的交互逻辑
   /// </summary>
-  /// 
+
+
+
+  //  public partial class HotKeyControl : UserControl
+  //  {
+  //    private readonly List<Key> _pressedKeys = new();
+
+  //    public HotKeyControl()
+  //    {
+  //      InitializeComponent();
+  //      InitializeHotKey();
+  //    }
+
+  //    #region Dependency Property
+
+  //    public static readonly DependencyProperty HotKeyProperty = DependencyProperty.Register(
+  //        "HotKey", typeof(string), typeof(HotKeyControl), new PropertyMetadata("<1=><2=><3=><4=>", OnHotKeyPropertyChanged));
+
+  //    public string HotKey
+  //    {
+  //      get => (string)GetValue(HotKeyProperty);
+  //      set => SetValue(HotKeyProperty, value);
+  //    }
+
+  //    private static void OnHotKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+  //    {
+  //      //var control = (HotKeyControl)d;
+  //      //control.OnHotKeyPropertyChanged(e.NewValue as string);
+  //      var control = (HotKeyControl)d;
+  //      if (control != null)
+  //      {
+  //        control.OnHotKeyPropertyChanged(e.NewValue as string);
+  //      }
+  //    }
+
+  //    protected virtual void OnHotKeyPropertyChanged(string newValue)
+  //    {
+  //      //txtHotKey.Text = string.IsNullOrEmpty(newValue) ? "请输入热键" : newValue;
+  //      if (txtHotKey != null) // 确保txtHotKey已经初始化
+  //      {
+  //        txtHotKey.Text = string.IsNullOrEmpty(newValue) ? "请输入热键" : newValue;
+  //      }
+  //    }
+
+
+  //    #endregion
+
+  //    #region Event Handlers
+
+  //    private void TxtHotKey_PreviewKeyDown(object sender, KeyEventArgs e)
+  //    {
+  //      if (!_pressedKeys.Contains(e.Key) && _pressedKeys.Count < 4)
+  //        _pressedKeys.Add(e.Key);
+
+  //      UpdateHotKeyString();
+  //      e.Handled = true;
+  //    }
+  //    private void TxtHotKey_PreviewKeyUp(object sender, KeyEventArgs e)
+  //    {
+  //      if (_pressedKeys.Contains(e.Key))
+  //        _pressedKeys.Remove(e.Key);
+
+  //      if (_pressedKeys.Count == 0)
+  //      {
+  //        //让TxtHotKey失去焦点
+  //        //Keyboard.ClearFocus();
+  //        focusTextBox.Focus();
+  //        txtHotKey.Foreground = new SolidColorBrush(Colors.Gray);
+  //      }
+  //    }
+
+  //    private void Timer_Tick(object sender, EventArgs e)
+  //    {
+  //      UpdateHotKeyString();
+  //    }
+
+  //    private void Button_Click(object sender, RoutedEventArgs e)
+  //    {
+  //      ResetHotKey();
+  //      HotKeyPressed?.Invoke(this, new RoutedEventArgs());
+  //    }
+
+  //    private void TxtHotKey_GotFocus(object sender, RoutedEventArgs e)
+  //    {
+  //      txtHotKey.Foreground = new SolidColorBrush(Colors.Red);
+  //    }
+
+  //    private void TxtHotKey_LostFocus(object sender, RoutedEventArgs e)
+  //    {
+  //      txtHotKey.Foreground = new SolidColorBrush(Colors.Gray);
+  //      _pressedKeys.Clear();
+  //    }
+
+  //    private void TxtHotKey_MouseEnter(object sender, MouseEventArgs e)
+  //    {
+  //      delBtn.Visibility = Visibility.Visible;
+  //    }
+
+  //    private void TxtHotKey_MouseLeave(object sender, MouseEventArgs e)
+  //    {
+  //      delBtn.Visibility = Visibility.Hidden;
+  //    }
+
+  //    #endregion
+
+  //    #region Private Methods
+
+  //    private void InitializeHotKey()
+  //    {
+  //      //HotKey = string.Empty;
+  //      //DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
+  //      //timer.Tick += Timer_Tick;
+  //      HotKey = string.Empty;
+  //      DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
+  //      timer.Tick += Timer_Tick;
+  //      //timer.Start(); // 确保启动计时器
+
+  //    }
+
+
+  //    private void UpdateHotKeyString()
+  //    {
+  //      var modifierKeys = new[] { Key.LeftCtrl, Key.RightCtrl, Key.LeftShift, Key.RightShift, Key.LWin, Key.RWin };
+  //      var functionKeys = Enum.GetValues(typeof(Key)).OfType<Key>()
+  //          .Where(k => k >= Key.F1 && k <= Key.F24).ToArray();
+
+  //      var modifiers = _pressedKeys.Where(k => modifierKeys.Contains(k)).ToArray();
+  //      var nonModifierKey = _pressedKeys.Except(modifierKeys).FirstOrDefault();
+
+  //      if (nonModifierKey == Key.None)
+  //      {
+  //        HotKey = modifiers.Any() ? string.Join("+", modifiers.Select(k => k.ToString())) : string.Empty;
+  //      }
+  //      else
+  //      {
+  //        HotKey = modifiers.Any() ? string.Join("+", modifiers.Select(k => k.ToString()).Concat(new[] { nonModifierKey.ToString() })) : nonModifierKey.ToString();
+  //      }
+
+  //      HotKey = HotKey.Replace("ImeProcessed", "");
+  //      txtHotKey.Text = HotKey;
+  //      HotKeyPressed?.Invoke(this, new RoutedEventArgs());
+  //    }
+
+  //    private void ResetHotKey()
+  //    {
+  //      txtHotKey.Focus();
+  //      _pressedKeys.Clear();
+  //      HotKey = "<1=><2=><3=><4=>";
+  //      txtHotKey.Text = "请输入热键";
+  //    }
+
+  //    #endregion
+
+  //    public event RoutedEventHandler HotKeyPressed;
+  //  }
+  //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   public partial class HotKeyControl : UserControl
   {
-    private List<Key> pressedKeys = new List<Key>();
+    private List<Key> pressedKeys = new();
+    private string oldHotKey;
 
+    public string HotKey
+    {
+      get { return (string)GetValue(HotKeyProperty); }
+      set { SetValue(HotKeyProperty, value); }
+    }
     public HotKeyControl()
     {
       InitializeComponent();
     }
 
-    //public static DependencyProperty HotKeyProperty = DependencyProperty.Register(
-    //    "HotKey", typeof(string), typeof(HotKeyControl), new PropertyMetadata(default(string)));
-
-
     public static readonly DependencyProperty HotKeyProperty = DependencyProperty.Register(
         "HotKey", typeof(string), typeof(HotKeyControl), new PropertyMetadata(default(string), OnHotKeyPropertyChanged));
+
+    // 定义一个事件
+    public event RoutedEventHandler HotKeyPressed;
 
     private static void OnHotKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -47,7 +230,7 @@ namespace 小科狗配置
       // 当HotKey属性改变时，更新txtHotKey的文本
       if (!string.IsNullOrEmpty(newValue))
       {
-        txtHotKey.Text = newValue;
+        Convert(newValue);
       }
       else
       {
@@ -56,15 +239,58 @@ namespace 小科狗配置
       }
     }
 
-    public string HotKey
+
+    private void Convert(string newValue)
     {
-      get { return (string)GetValue(HotKeyProperty); }
-      set { SetValue(HotKeyProperty, value); }
+      string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
+      Match matchs = Regex.Match(newValue, pattern);
+      if (matchs.Success)
+      {
+        newValue = $"{matchs.Groups[1].Value}|{matchs.Groups[2].Value}|{matchs.Groups[3].Value}|{matchs.Groups[4].Value}";
+        newValue = newValue.Trim('|', '|').Replace('|', '+');
+        if(newValue.Length > 0) 
+        { 
+          txtHotKey.Foreground = new SolidColorBrush(Colors.Black);
+          txtHotKey.Text = newValue;
+        }
+
+      }
     }
 
-    // 定义一个事件
-    public event RoutedEventHandler HotKeyPressed;
 
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+      pressedKeys.Clear();
+      txtHotKey.Focus();
+      HotKey = "<1=><2=><3=><4=>";
+      txtHotKey.Text = "请输入热键";
+      HotKeyPressed?.Invoke(this, new RoutedEventArgs());
+    }
+
+    private void TxtHotKey_GotFocus(object sender, RoutedEventArgs e)
+    {
+      txtHotKey.Foreground = new SolidColorBrush(Colors.Red);
+    }
+
+    private void TxtHotKey_LostFocus(object sender, RoutedEventArgs e)
+    {
+      txtHotKey.Foreground = new SolidColorBrush(Colors.Gray);
+      pressedKeys.Clear();
+    }
+
+    private void TxtHotKey_MouseEnter(object sender, MouseEventArgs e)
+    {
+      if (txtHotKey.Text != "点击输入热键")
+        delBtn.Visibility = Visibility.Visible;
+    }
+
+    private void TxtHotKey_MouseLeave(object sender, MouseEventArgs e)
+    {
+      delBtn.Visibility = Visibility.Hidden;
+    }
+
+
+    // 按下按键
     private void TxtHotKey_PreviewKeyDown(object sender, KeyEventArgs e)
     {
       // 添加按下的键到列表中，最多四个键
@@ -78,11 +304,9 @@ namespace 小科狗配置
       e.Handled = true;
     }
 
+    // 松开按键
     private void TxtHotKey_PreviewKeyUp(object sender, KeyEventArgs e)
     {
-      // 移除释放的键
-      //pressedKeys.Remove(e.Key);
-
       // 如果有按键按下，则更新热键字符串
       if (pressedKeys.Count > 0)
       {
@@ -91,7 +315,7 @@ namespace 小科狗配置
       else
       {
         // 如果没有按键按下，启动一个定时器来更新HotKey
-        DispatcherTimer timer = new DispatcherTimer()
+        DispatcherTimer timer = new()
         {
           Interval = TimeSpan.FromMilliseconds(100) // 延迟100毫秒
         };
@@ -100,93 +324,46 @@ namespace 小科狗配置
       }
       e.Handled = true;
       // 转移焦点
-      delBtn.Focus();
+      focusTextBox.Focus();
+      txtHotKey.Foreground = new SolidColorBrush(Colors.Black);
     }
 
-
+    // 确保在所有按键被释放后，UpdateHotKeyString方法被调用
     private void Timer_Tick(object sender, EventArgs e)
     {
-      // 确保在所有按键被释放后，UpdateHotKeyString方法被调用
       UpdateHotKeyString();
     }
+
     private void UpdateHotKeyString()
     {
-      // 过滤出左右版本的修饰键和非修饰键
+      string hoKey;
       var modifierKeys = new[] { Key.LeftCtrl, Key.RightCtrl, Key.LeftShift, Key.RightShift, Key.LWin, Key.RWin };
-      var functionKeys = new[] {
-      Key.F1, Key.F2, Key.F3, Key.F4, Key.F5, Key.F6, Key.F7, Key.F8, Key.F9, Key.F10, Key.F11, Key.F12,
-      Key.F13, Key.F14, Key.F15, Key.F16, Key.F17, Key.F18, Key.F19, Key.F20, Key.F21, Key.F22, Key.F23, Key.F24,
-      };
+      var functionKeys = Enum.GetValues(typeof(Key)).OfType<Key>()
+          .Where(k => k >= Key.F1 && k <= Key.F24).ToArray();
+
       var modifiers = pressedKeys.Where(k => modifierKeys.Contains(k)).ToArray();
       var nonModifierKey = pressedKeys.Except(modifierKeys).FirstOrDefault();
 
-      // 如果有非修饰键，则构建热键字符串
-      if (nonModifierKey != Key.None)
+      if (nonModifierKey == Key.None)
       {
-        // 如果非修饰键是功能键，则可以单独使用
-        if (functionKeys.Contains(nonModifierKey))
-        {
-          HotKey = nonModifierKey.ToString();
-        }
-        else
-        {
-          // 否则，字母和数字键必须在修饰键后面
-          if (modifiers.Length > 0)
-          {
-            HotKey = string.Join("+", modifiers.Concat(new[] { nonModifierKey }).Select(k => k.ToString()).ToArray());
-          }
-          else
-          {
-            // 如果没有修饰键，则清空热键字符串
-            HotKey = string.Empty;
-          }
-        }
+        HotKey = modifiers.Any() ? string.Join("+", modifiers.Select(k => k.ToString())) : string.Empty;
       }
       else
       {
-        // 如果没有非修饰键，且修饰键列表不为空，则只显示修饰键
-        if (modifiers.Length > 0)
-        {
-          HotKey = string.Join("+", modifiers.Select(k => k.ToString()).ToArray());
-        }
-        else
-        {
-          // 如果没有非修饰键，且修饰键列表为空，则清空热键字符串
-          HotKey = string.Empty;
-        }
+        HotKey = modifiers.Any() ? string.Join("+", modifiers.Select(k => k.ToString()).Concat(new[] { nonModifierKey.ToString() })) : nonModifierKey.ToString();
       }
 
-      // 去除因输入法获取到的文本
       HotKey = HotKey.Replace("ImeProcessed", "");
-      // 更新txtHotKey的文本
       txtHotKey.Text = HotKey;
-      // 当热键更新时，触发事件
-      HotKeyPressed?.Invoke(this, new RoutedEventArgs());
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-      txtHotKey.Text = "请输入热键";
-      txtHotKey.Focus();
-      pressedKeys.Clear();
-      HotKey = "";
       HotKeyPressed?.Invoke(this, new RoutedEventArgs());
     }
 
 
-    private void TxtHotKey_GotFocus(object sender, RoutedEventArgs e)
-    {
-      txtHotKey.Foreground = new SolidColorBrush(Colors.Red);
-    }
 
-    private void TxtHotKey_LostFocus(object sender, RoutedEventArgs e)
-    {
-      txtHotKey.Foreground = new SolidColorBrush(Colors.Gray);
-      pressedKeys.Clear();
-    }
+
 
 
   }
-
-
 }
+
+

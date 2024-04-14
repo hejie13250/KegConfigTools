@@ -5,8 +5,8 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  Width="63"
-  d:DesignHeight="18"
+  Width="60"
+  d:DesignHeight="22"
   MouseWheel="UserControl_MouseWheel"
   mc:Ignorable="d">
   <UserControl.Resources>
@@ -23,7 +23,7 @@
                 Background="#FFABADB3"
                 CornerRadius="8,0,0,8" />
               <TextBlock
-                Margin="2,-3,0,0"
+                Margin="3,0,0,0"
                 FontSize="16"
                 Text="-" />
             </Grid>
@@ -43,7 +43,7 @@
                 x:Name="border"
                 Background="#FFABADB3"
                 CornerRadius="0,8,8,0" />
-              <TextBlock Margin="1,0,0,0" Text="+" />
+              <TextBlock Margin="1,3,0,0" Text="+" />
 
             </Grid>
           </ControlTemplate>
@@ -51,11 +51,12 @@
       </Setter>
     </Style>
   </UserControl.Resources>
-  <Grid Margin="0,0,5,0">
-
-
-
-    <TextBox Margin="11,0,11,0" Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
+  <Grid>
+    <TextBox
+      Height="22"
+      Margin="12,0,12,0"
+      Padding="0,2,0,0"
+      Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
     <RepeatButton
       Width="12"
       Padding="5,-2,0,0"

@@ -16,8 +16,6 @@ namespace 小科狗配置
   /// </summary>
   public partial class App : Application
   {
-    private static Mutex mutex = null;
-
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -26,8 +24,7 @@ namespace 小科狗配置
     {
       base.OnStartup(e);
 
-      bool isNewInstance;
-      mutex = new Mutex(true, "小科狗配置", out isNewInstance);
+      _ = new Mutex(true, "小科狗配置", out bool isNewInstance);
 
       if (!isNewInstance)
       {

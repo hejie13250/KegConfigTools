@@ -1,42 +1,47 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.SQLite;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using Newtonsoft.Json;
+using System.Threading;
+using System.Reflection;
+using System.Data.SQLite;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.ComponentModel;
+using System.Windows.Controls;
+using System.Collections.Generic;
 using System.Windows.Media.Imaging;
-using Button = System.Windows.Controls.Button;
-using Clipboard = System.Windows.Clipboard;
-using Color = System.Windows.Media.Color;
-using ColorConverter = System.Windows.Media.ColorConverter;
+using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Windows.Controls.Primitives;
+using Path              = System.IO.Path;
+using Point             = System.Windows.Point;
+using Window            = System.Windows.Window;
+using Clipboard         = System.Windows.Clipboard;
+using MessageBox        = System.Windows.MessageBox;
+using Color             = System.Windows.Media.Color;
+using MenuItem          = System.Windows.Forms.MenuItem;
+using Label             = System.Windows.Controls.Label;
+using Button            = System.Windows.Controls.Button;
+using GroupBox          = System.Windows.Controls.GroupBox;
+using ListView          = System.Windows.Controls.ListView;
+using RadioButton       = System.Windows.Controls.RadioButton;
+using Thumb             = System.Windows.Controls.Primitives.Thumb;
+using ColorConverter    = System.Windows.Media.ColorConverter;
+using MouseEventArgs    = System.Windows.Input.MouseEventArgs;
+using OpenFileDialog    = System.Windows.Forms.OpenFileDialog;
 using FormsDialogResult = System.Windows.Forms.DialogResult;
-using GroupBox = System.Windows.Controls.GroupBox;
-using Label = System.Windows.Controls.Label;
-using ListView = System.Windows.Controls.ListView;
-using MenuItem = System.Windows.Forms.MenuItem;
-using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
-using Path = System.IO.Path;
-using Point = System.Windows.Point;
-using RadioButton = System.Windows.Controls.RadioButton;
-using Thumb = System.Windows.Controls.Primitives.Thumb;
-using Window = System.Windows.Window;
-
+using System.Windows.Data;
+using System.Numerics;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using CheckBox = System.Windows.Controls.CheckBox;
+using System.Windows.Shapes;
+using TextBox = System.Windows.Controls.TextBox;
 namespace 小科狗配置
 {
   /// <summary>
@@ -46,98 +51,99 @@ namespace 小科狗配置
   public partial class MainWindow : Window
   {
     #region 配色方案相关定义
-    public WriteableBitmap Bitmap { get; set; } // 定义取色器背景图
+    public WriteableBitmap Bitmap     { get; set; } // 定义取色器背景图
     public WriteableBitmap Hue_bitmap { get; set; } // 定义取色器色相滑块背景图
 
     // 定义配色方案类
     public class ColorScheme
     {
-      public string 名称 { get; set; }
-      public bool 显示背景图 { get; set; }
-      public bool 显示候选窗圆角 { get; set; }
-      public bool 显示选中项背景圆角 { get; set; }
-      public int 候选窗圆角 { get; set; }
-      public int 选中项圆角 { get; set; }
-      public int 边框线宽 { get; set; }
-      public string 下划线色 { get; set; }
-      public string 光标色 { get; set; }
-      public string 分隔线色 { get; set; }
-      public string 窗口边框色 { get; set; }
-      public string 窗背景底色 { get; set; }
-      public string 选中背景色 { get; set; }
-      public string 选中字体色 { get; set; }
-      public string 编码字体色 { get; set; }
-      public string 候选字色 { get; set; }
+      public string 名称               { get; set; }
+      public bool   显示背景图         { get; set; }
+      public bool   显示候选窗圆角     { get; set; }
+      public bool   显示选中项背景圆角 { get; set; }
+      public int    候选窗圆角         { get; set; }
+      public int    选中项圆角         { get; set; }
+      public int    边框线宽           { get; set; }
+      public string 下划线色           { get; set; }
+      public string 光标色             { get; set; }
+      public string 分隔线色           { get; set; }
+      public string 窗口边框色         { get; set; }
+      public string 窗背景底色         { get; set; }
+      public string 选中背景色         { get; set; }
+      public string 选中字体色         { get; set; }
+      public string 编码字体色         { get; set; }
+      public string 候选字色           { get; set; }
     }
     public class ColorSchemesCollection
     {
       public List<ColorScheme> 配色方案 { get; set; }
     }
-    List<ColorScheme> 配色方案 = new();
-    ColorScheme colorScheme = new()
+    List<ColorScheme> 配色方案  = new();
+    ColorScheme colorScheme     = new()
     {
-      名称 = "默认",
-      显示背景图 = false,
-      显示候选窗圆角 = true,
+      名称               = "默认",
+      显示背景图         = false,
+      显示候选窗圆角     = true,
       显示选中项背景圆角 = true,
-      候选窗圆角 = 15,
-      选中项圆角 = 10,
-      边框线宽 = 1,
-      下划线色 = "#FF0000",
-      光标色 = "#004CFF",
-      分隔线色 = "#000000",
-      窗口边框色 = "#000000",
-      窗背景底色 = "#FFFFFF",
-      选中背景色 = "#000000",
-      选中字体色 = "#333333",
-      编码字体色 = "#000000",
-      候选字色 = "#000000"
+      候选窗圆角         = 15,
+      选中项圆角         = 10,
+      边框线宽           = 1,
+      下划线色           = "#FF0000",
+      光标色             = "#004CFF",
+      分隔线色           = "#000000",
+      窗口边框色         = "#000000",
+      窗背景底色         = "#FFFFFF",
+      选中背景色         = "#000000",
+      选中字体色         = "#333333",
+      编码字体色         = "#000000",
+      候选字色           = "#000000"
     };
     #endregion
 
     #region 全局变量定义
-    string kegPath;                         // 小科狗主程序目录
-    string zh_en = "中c：";
-    string labelName = "方案名称";          // 当前方案名称
-    readonly string schemeFilePath = "配色方案.json";
-    int select_color_label_num = 0;         // 用于记录当前选中的 select_color_label
-
-    NotifyIcon notifyIcon;                  // 托盘图标
-
-    readonly string appPath = Environment.CurrentDirectory;
-    readonly string dbPath, kegFilePath;    // Keg.db 和 Keg.txt 文件路径
-
-    //readonly List<string> configs = new();  // 存方 Keg.db 内所有方案的配置，用于恢复
-    string bgString;                        // 存放字体色串
-    string currentConfig, modifiedConfig;   // 存少当前配置和当前修改的配置
-
-    SolidColorBrush bkColor = new ((Color) ColorConverter.ConvertFromString("#00000000"));  // 候选框无背景色时的值
-    readonly string settingConfigFile = "KegConfigToolSetting.ini";  // 窗口配置文件
+    SolidColorBrush bkColor               = new ((Color) ColorConverter.ConvertFromString("#FFFFFFFF"));  // 候选框无背景色时的值
+    readonly string appPath               = Environment.CurrentDirectory;
+    readonly string settingConfigFile     = "KegConfigToolSetting.ini";  // 窗口配置文件
+    readonly string schemeFilePath        = "配色方案.json";
     readonly string globalSettingFilePath = "全局设置.json";
-    string currentGroupBox;               // 用于记录当前选中的GroupBox名称
+    string labelName                      = "方案名称";                  // 当前方案名称
+    string zh_en                          = "中c：";
+    int select_color_label_num            = 0;       // 用于记录当前选中的 select_color_label
+    readonly string kegPath;                         // 小科狗主程序目录
+    string bgString;                                 // 存放字体色串
+    string currentConfig, modifiedConfig;            // 存少当前配置和当前修改的配置
+    readonly string dbPath, kegFilePath;             // Keg.db 和 Keg.txt 文件路径
+    NotifyIcon notifyIcon;                           // 托盘图标
     #endregion
 
     #region 全局设置界面列表项定义
 
     public class 列表项 : INotifyPropertyChanged
     {
-      private string _Enable;
-      public string Enable
+      private bool _Enable;
+      public bool  Enable
       {
         get { return _Enable; }
         set { _Enable = value; OnPropertyChanged("Enable"); }
       }
-      private string _Name;
-      public string Name
+      private string  _Name;
+      public string   Name
       {
         get { return _Name; }
         set { _Name = value; OnPropertyChanged("Name"); }
       }
-      private string _Value;
-      public string Value
+      private string  _Value;
+      public string   Value
       {
         get { return _Value; }
         set { _Value = value; OnPropertyChanged("Value"); }
+      }
+
+      private string _Cmd;
+      public string CMD
+      {
+        get { return _Cmd; }
+        set { _Cmd = value; OnPropertyChanged("CMD"); }
       }
       public 列表项(){ }
 
@@ -152,37 +158,35 @@ namespace 小科狗配置
 
     public class 状态条
     {
-      public string 提示文本的位置 { get; set; }
-      public bool 提示文本要隐藏吗 { get; set; }
-      public bool 提示文本要显示中英以及大小写状态吗 { get; set; }
-      public string 提示文本中文字体色 { get; set; }
-      public string 提示文本英文字体色 { get; set; }
-      public int 提示文本字体大小 { get; set; }
-      public string 提示文本字体名称 { get; set; }
-      public bool 打字字数统计等数据是要保存在主程文件夹下吗 { get; set; }
-      public bool 快键只在候选窗口显示情况下才起作用吗 { get; set; }
-      public bool 要启用深夜锁屏吗 { get; set; }
-      //public string 自动关机 { get; set; }
+      public string 提示文本的位置       { get; set; }
+      public bool   提示文本要隐藏吗     { get; set; }
+      public string 提示文本中文字体色   { get; set; }
+      public string 提示文本英文字体色   { get; set; }
+      public int    提示文本字体大小     { get; set; }
+      public string 提示文本字体名称     { get; set; }
+      public bool   要启用深夜锁屏吗     { get; set; }
+      public bool   提示文本要显示中英以及大小写状态吗         { get; set; }
+      public bool   快键只在候选窗口显示情况下才起作用吗       { get; set; }
+      public bool   打字字数统计等数据是要保存在主程文件夹下吗 { get; set; }
     }
 
     // 用于 listView 数据绑定
     public ObservableCollection<列表项> 查找列表 { get; set; }
     public ObservableCollection<列表项> 快键命令 { get; set; }
-    public ObservableCollection<列表项> 快键 { get; set; }
-    public ObservableCollection<列表项> 自启 { get; set; }
     public ObservableCollection<列表项> 自动关机 { get; set; }
-
-    public 状态条 设置项 { get; set; }
+    public ObservableCollection<列表项> 快键     { get; set; }
+    public ObservableCollection<列表项> 自启     { get; set; }
+    public 状态条 设置项                         { get; set; }
 
 
     // 用于存放 全局设置.json
     public struct GlobalSettings
     {
-      public 状态条 状态栏和其它设置 { get; set; }
+      public 状态条 状态栏和其它设置               { get; set; }
       public ObservableCollection<列表项> 查找列表 { get; set; }
       public ObservableCollection<列表项> 快键命令 { get; set; }
-      public ObservableCollection<列表项> 快键 { get; set; }
-      public ObservableCollection<列表项> 自启 { get; set; }
+      public ObservableCollection<列表项> 快键     { get; set; }
+      public ObservableCollection<列表项> 自启     { get; set; }
       public ObservableCollection<列表项> 自动关机 { get; set; }
 
     }
@@ -190,10 +194,10 @@ namespace 小科狗配置
     GlobalSettings 全局设置 = new()
     {
       状态栏和其它设置 = new(),
-      查找列表 = new ObservableCollection<列表项>(),
-      快键命令 = new ObservableCollection<列表项>(),
-      快键 = new ObservableCollection<列表项>(),
-      自启 = new ObservableCollection<列表项>()
+      查找列表         = new ObservableCollection<列表项>(),
+      快键命令         = new ObservableCollection<列表项>(),
+      快键             = new ObservableCollection<列表项>(),
+      自启             = new ObservableCollection<列表项>()
     };
 
 
@@ -212,17 +216,11 @@ namespace 小科狗配置
       if (!File.Exists(kegPath + "\\KegServer.exe"))
       {
         kegPath = GetKegPath();
-        if (File.Exists(kegPath + "\\KegServer.exe"))
-          SetValue("window", "keg_path", kegPath);
-        else
-          this.Close();
+        if (File.Exists(kegPath + "\\KegServer.exe")) SetValue("window", "keg_path", kegPath);
+        else Close();
       }
       kegFilePath = kegPath + "\\Keg.txt";
-      dbPath = kegPath + "\\Keg.db";
-
-      //kegFilePath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.txt"));
-      //dbPath = Path.GetFullPath(Path.Combine(appPath, @"..\..\Keg.db"));
-      //settingConfigPath = Path.GetFullPath(Path.Combine(appPath, @".\setting.ini"));
+      dbPath      = kegPath + "\\Keg.db";
 
       InitializeComponent();
       Loaded += MainWindow_Loaded;
@@ -234,11 +232,11 @@ namespace 小科狗配置
       LoadSettingConfig();
       toolTipTextBlock.Text = $"{zh_en}{labelName}";
 
-      查找列表 = new ObservableCollection<列表项>();
-      快键命令 = new ObservableCollection<列表项>();
-      快键   = new ObservableCollection<列表项>();
-      自启   = new ObservableCollection<列表项>();
-      自动关机 = new ObservableCollection<列表项>();
+      查找列表  = new ObservableCollection<列表项>();
+      快键命令  = new ObservableCollection<列表项>();
+      快键      = new ObservableCollection<列表项>();
+      自启      = new ObservableCollection<列表项>();
+      自动关机  = new ObservableCollection<列表项>();
 
       listView3.DataContext = 查找列表;
       listView4.DataContext = 快键命令;
@@ -246,7 +244,7 @@ namespace 小科狗配置
       listView6.DataContext = 自启;
       listView7.DataContext = 自动关机;
 
-      Bitmap = new WriteableBitmap(255, 255, 255, 255, PixelFormats.Bgra32, null);
+      Bitmap      = new WriteableBitmap(170, 170, 170, 170, PixelFormats.Bgra32, null);
       DataContext = this;
       LoadImages();
       UpdateBitmap();       // 生成 取色图
@@ -261,7 +259,7 @@ namespace 小科狗配置
     public string GetAssemblyVersion()
     {
       Assembly assembly = Assembly.GetExecutingAssembly();
-      Version version = assembly.GetName().Version;
+      Version version   = assembly.GetName().Version;
       return version.ToString().Substring(0,3);
     }
     #endregion
@@ -269,14 +267,6 @@ namespace 小科狗配置
     #region 消息接口定义
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-
-    static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
     [DllImport("user32.dll", SetLastError = true)]
     static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
 
@@ -285,7 +275,7 @@ namespace 小科狗配置
     const uint ABORTIFHUNG = 0x0002;
     //const uint NOTIMEOUTIFNOTHUNG = 0x0008;
     //uint flags = (uint)(ABORTIFHUNG | BLOCK);
-    readonly uint flags = (uint)(ABORTIFHUNG);
+    readonly uint flags   = (uint)(ABORTIFHUNG);
     readonly uint timeout = 500;
 
     const int WM_USER           = 0x0400;               // 根据Windows API定义
@@ -506,36 +496,24 @@ namespace 小科狗配置
     // 切换方案
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      labelName = comboBox.SelectedValue as string;
+      labelName             = comboBox.SelectedValue as string;
       toolTipTextBlock.Text = $"{zh_en}{labelName}";
 
       currentConfig = GetConfig(labelName);
-      //if(!currentConfig.Contains("\n"))
-      //    currentConfig = Regex.Replace(currentConfig, $"《", $"\n《");
       SetControlsValue();
       
-      restor_default_button.IsEnabled = true;
-      loading_templates_button.IsEnabled = true;
-      set_as_default_button.IsEnabled = true;
-      apply_button.IsEnabled = true;
-      apply_save_button.IsEnabled = true;
-      apply_all_button.IsEnabled = true;
-      res_button.IsEnabled = true;
+      restor_default_button.IsEnabled     = true;
+      loading_templates_button.IsEnabled  = true;
+      set_as_default_button.IsEnabled     = true;
+      apply_button.IsEnabled              = true;
+      apply_save_button.IsEnabled         = true;
+      apply_all_button.IsEnabled          = true;
+      res_button.IsEnabled                = true;
     }
 
     // 加载默认设置
     private void Restor_default_button_Click(object sender, RoutedEventArgs e)
     {
-      //labelName = comboBox.SelectedValue as string;
-      //foreach (var config in configs)
-      //{
-      //  if (config == labelName)
-      //  {
-      //    currentConfig = config;
-      //    break;
-      //  }
-      //}
-
       currentConfig = GetConfig(labelName);
       SetControlsValue();
     }
@@ -554,17 +532,16 @@ namespace 小科狗配置
 
       try
       {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        IntPtr hWnd   = FindWindow("CKegServer_0", null);
         SendMessageTimeout(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
-        var str = Clipboard.GetText();
+        var str       = Clipboard.GetText();
         currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
         SetControlsValue();
 
-        modifiedConfig = currentConfig;
-
+        modifiedConfig            = currentConfig;
         checkBox_Copy25.IsChecked = true;
         checkBox_Copy26.IsChecked = true;
-        checkBox1.IsChecked = false;
+        checkBox1.IsChecked       = false;
         checkBox_Copy12.IsChecked = true;
       }
       catch (Exception ex)
@@ -579,7 +556,6 @@ namespace 小科狗配置
     {
       try
       {
-        //labelName = comboBox.SelectedValue as string;
         Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
         IntPtr hWnd = FindWindow("CKegServer_0", null);
         SendMessageTimeout(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
@@ -599,7 +575,6 @@ namespace 小科狗配置
       // 获取已修改项
       string updataStr = $"方案：<{labelName}> 配置 \n" + GetDifferences(modifiedConfig, currentConfig);
 
-      //SaveConfig(labelName);
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
@@ -624,15 +599,6 @@ namespace 小科狗配置
     // 更新内存数据
     private void Apply_All_button_Click(object sender, RoutedEventArgs e)
     {
-      //modifiedConfig = currentConfig;
-      //GetControlsValue();
-      //if (modifiedConfig == currentConfig)
-      //{
-      //  MessageBox.Show("没修改任何项");
-      //  return;
-      //}
-      //SaveConfig(labelName);
-
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
@@ -666,36 +632,28 @@ namespace 小科狗配置
     // 获取已修改项
     public static string GetDifferences(string modifiedConfig, string currentConfig)
     {
-      string pattern = "《.*?》";
-      MatchCollection matches1 = Regex.Matches(modifiedConfig, pattern);
-      MatchCollection matches2 = Regex.Matches(currentConfig, pattern);
-
-      string[] modifiedLines = matches1.Cast<Match>().Select(m => m.Value).ToArray();
-      string[] currentLines = matches2.Cast<Match>().Select(m => m.Value).ToArray();
-
-      // 将字符串按行分割成数组
-      //var modifiedLines = modifiedConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-      //var currentLines = currentConfig.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-
+      string pattern            = "《.*?》";
+      MatchCollection matches1  = Regex.Matches(modifiedConfig, pattern);
+      MatchCollection matches2  = Regex.Matches(currentConfig, pattern);
+      string[] modifiedLines    = matches1.Cast<Match>().Select(m => m.Value).ToArray();
+      string[] currentLines     = matches2.Cast<Match>().Select(m => m.Value).ToArray();
       // 找出不同的行
-      var differentLines = modifiedLines.Except(currentLines);
-
+      var differentLines        = modifiedLines.Except(currentLines);
       // 将不同的行追加到新的字符串中
-      string newConfig = string.Join(Environment.NewLine, differentLines);
-
+      string newConfig          = string.Join(Environment.NewLine, differentLines);
       return newConfig;
     }
 
     #endregion
 
     #region 读取配置各项值到控件
-
-
     // 显示对话框，并获取用户选择的文件夹路径
     private string GetKegPath(){
-      FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-      folderBrowserDialog.Description = "选择小科狗主程序目录"; 
-      
+      FolderBrowserDialog folderBrowserDialog = new()
+      {
+        Description = "选择小科狗主程序目录"
+      };
+
       if (folderBrowserDialog.ShowDialog() == FormsDialogResult.OK)
         return folderBrowserDialog.SelectedPath;
       return null;
@@ -704,29 +662,19 @@ namespace 小科狗配置
     // 读取 setting.ini
     private void LoadSettingConfig()
     {
-      //if (!File.Exists(settingConfigFile))
-      //{
-      //  File.WriteAllText(settingConfigFile, "[window]\nclosed=0");
-      //  checkBox2.IsChecked = true;
-      //  this.Topmost= false;
-      //}
       checkBox2.IsChecked = GetValue("window", "closed") == "1";
-      //checkBox3.IsChecked = GetValue("window", "closed") == "1";
-      bool isNumberValid = int.TryParse(GetValue("window", "height"), out int height);
-      nud22.Value = isNumberValid ? height : 600;
-      //this.Topmost= (bool)checkBox3.IsChecked;
-      this.Width = 900;
-      //scrollViewer1.Height = this.Height - 50;
-      Grid1.Height = this.Height - 50;
-      Grid2.Height = this.Height - 50;
-      Grid3.Height = this.Height - 50;
-      Grid2.Width = 750;
-      Grid2.Width = 0;
-      Grid3.Width = 0;
-      Grid1.Visibility = Visibility.Visible;
-      Grid2.Visibility = Visibility.Hidden;
-      Grid3.Visibility = Visibility.Hidden;
-
+      bool isNumberValid  = int.TryParse(GetValue("window", "height"), out int height);
+      nud22.Value         = isNumberValid ? height : 600;
+      this.Width          = 900;
+      Grid1.Height        = this.Height - 50;
+      Grid2.Height        = this.Height - 50;
+      Grid3.Height        = this.Height - 50;
+      Grid2.Width         = 750;
+      Grid2.Width         = 0;
+      Grid3.Width         = 0;
+      Grid1.Visibility    = Visibility.Visible;
+      Grid2.Visibility    = Visibility.Hidden;
+      Grid3.Visibility    = Visibility.Hidden;
     }
 
     // 读取候选序号
@@ -777,126 +725,128 @@ namespace 小科狗配置
         var value = match.Groups[2].Value;
         switch (match.Groups[1].Value)
         {
-          case "大键盘码元": textBox_Copy677.Text = value; break;
-          case "小键盘码元": textBox_Copy5.Text = value; break;
-          case "大小键盘万能码元": textBox_Copy6.Text = value; break;
-          case "非编码串首位的大键盘码元": textBox_Copy7.Text = value; break;
-          case "非编码串首位的小键盘码元": textBox_Copy8.Text = value; break;
-          case "最大码长": nud1.Value = int.Parse(value); break;
-          case "是键首字根码表吗？": checkBox1_Copy55.IsChecked = IsTrueOrFalse(value); break;
-          case "键首字根": textBox125.Text = value; break;
-          case "顶功小集码元": textBox_Copy675.Text = value; break;
-          case "顶功规则": 顶功规则(value); break;
-          case "重复上屏码元字符串": textBox_Copy1.Text = value; break;
-          case "中英切换要显示提示窗口吗？": checkBox_Copy11.IsChecked = IsTrueOrFalse(value); break;
-          case "从中文切换到英文时,要上屏编码串吗？": checkBox_Copy12.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用左Shift键吗？": checkBox_Copy13.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用右Shift键吗？": checkBox_Copy14.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用左Ctrl键吗？": checkBox_Copy15.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用右Ctrl键吗？": checkBox_Copy16.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用Ctrl+Space键吗？": checkBox_Copy17.IsChecked = IsTrueOrFalse(value); break;
-          case "字体名称": textBox_Copy145.Text = value; break;
-          case "D2D回退字体集": textBox_Copy10.Text = value; break;
-          case "候选窗口绘制模式": 候选窗口绘制模式(value); break;
-          case "GDI字体加粗权值": nud14_Copy.Value = int.Parse(value); break;
-          case "GDI字体要倾斜吗？": checkBox_Copy314.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体样式": GDIp字体样式(value); break;
-          case "GDI+字体要下划线吗？": checkBox19.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体要删除线吗？": checkBox20.IsChecked = IsTrueOrFalse(value); break;
-          case "D2D字体加粗权值": nud14.Value = int.Parse(value); break;
-          case "D2D字体样式": D2D字体样式(value); break;
-          case "候选个数": nud15.Value = int.Parse(value); break;
-          case "1-26候选的横向偏离": nud16.Value = int.Parse(value); break;
-          case "候选的高度间距": nud17.Value = int.Parse(value); break;
-          case "候选的宽度间距": nud18.Value = int.Parse(value); break;
-          case "候选窗口候选排列方向模式": 候选窗口候选排列方向模式(value); break;
-          case "候选窗口候选从上到下排列要锁定吗？": checkBox_Copy45.IsChecked = IsTrueOrFalse(value); break;
-          case "候选窗口候选从上到下排列锁定的情况下要使编码区离光标最近吗？": checkBox_Copy46.IsChecked = IsTrueOrFalse(value); break;
-          case "候选窗口候选排列方向模式>1时要隐藏编码串行吗？": checkBox_Copy38.IsChecked = IsTrueOrFalse(value); break;
-          case "要使用嵌入模式吗？": checkBox_Copy44.IsChecked = IsTrueOrFalse(value); break;
-          case "编码或候选嵌入模式": 编码或候选嵌入模式(value); break;
-          case "码表标签": textBox_Copy15.Text = value; break;
-          case "码表标签显示模式": comboBox1_Copy.SelectedIndex = int.Parse(value); break;
-          case "码表标签要左对齐吗？": checkBox_Copy39.IsChecked = IsTrueOrFalse(value); break;
-          case "竖向候选窗口选中背景色要等宽吗？": checkBox_Copy41.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示背景图吗？": checkBox_Copy42.IsChecked = IsTrueOrFalse(value); break;
-          case "高度宽度要完全自动调整吗？": checkBox_Copy40.IsChecked = IsTrueOrFalse(value); break;
-          case "窗口四个角要圆角吗？": hxc_checkBox.IsChecked = IsTrueOrFalse(value); break;
-          case "选中项四个角要圆角吗？": hxcbj_checkBox.IsChecked = IsTrueOrFalse(value); break;
-          case "窗口四个角的圆角半径": nud11.Value = int.Parse(value); break;
-          case "选中项四个角的圆角半径": nud12.Value = int.Parse(value); break;
-          case "候选窗口边框线宽度": nud13.Value = int.Parse(value); break;
-          case "嵌入下划线色": color_label_1.Background = RGBStringToColor(value); break;
-          case "光标色": color_label_2.Background = RGBStringToColor(value); break;
-          case "分隔线色": color_label_3.Background = RGBStringToColor(value); break;
-          case "候选窗口边框色": color_label_4.Background = RGBStringToColor(value); break;
-          case "候选选中色": color_label_6.Background = RGBStringToColor(value); break;
-          case "候选选中字体色": color_label_7.Background = RGBStringToColor(value); break;
-          case "背景底色": 背景底色(value); break;
-          case "候选字体色串": SetLabelColor(value); break;
-          case "关联中文标点吗？": checkBox_Copy31.IsChecked = IsTrueOrFalse(value); break;
-          case "大键盘中文标点串": textBox_Copy68.Text = value; break;
-          case "大键盘按下Shift的中文标点串": textBox_Copy69.Text = value; break;
-          case "要开启词语联想吗？": checkBox_Copy4.IsChecked = IsTrueOrFalse(value); break;
-          case "词语联想上屏字符串长度": 词语联想上屏字符串长度(value); break;
-          case "词语联想检索范围": 词语联想检索范围(value); break;
-          case "词语联想要显示词语全部吗？": checkBox_Copy5.IsChecked = IsTrueOrFalse(value); break;
-          case "词语联想只是匹配首位吗？": checkBox_Copy6.IsChecked = IsTrueOrFalse(value); break;
-          case "词语联想时标点顶屏要起作用吗？": checkBox_Copy7.IsChecked = IsTrueOrFalse(value); break;
-          case "要开启Ctrl键清联想吗？": checkBox_Copy10.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示键首字根吗？": checkBox_Copy34.IsChecked = IsTrueOrFalse(value); break;
-          case "上屏后候选窗口要立即消失吗？": checkBox_Copy18.IsChecked = IsTrueOrFalse(value); break;
-          case "超过码长要清屏吗？": checkBox_Copy19.IsChecked = IsTrueOrFalse(value); break;
-          case "无候选要清屏吗？": checkBox_Copy20.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用最大码长无候选清屏吗？": checkBox_Copy21.IsChecked = IsTrueOrFalse(value); break;
-          case "无候选敲空格要上屏编码串吗？": checkBox_Copy22.IsChecked = IsTrueOrFalse(value); break;
-          case "Shift键上屏编码串吗？": checkBox_Copy23.IsChecked = IsTrueOrFalse(value); break;
-          case "Shift键+字母键要进入临时英文长句态吗？": checkBox_Copy24.IsChecked = IsTrueOrFalse(value); break;
-          case "Space键要上屏临时英文编码串吗？": checkBox_Copy25.IsChecked = IsTrueOrFalse(value); break;
-          case "Enter键上屏编码串吗？": checkBox_Copy26.IsChecked = IsTrueOrFalse(value); break;
-          case "Enter键上屏并使首个字母大写吗？": checkBox_Copy27.IsChecked = IsTrueOrFalse(value); break;
-          case "Backspace键一次性删除前次上屏的内容吗？": checkBox_Copy28.IsChecked = IsTrueOrFalse(value); break;
-          case "前次上屏的是数字再上屏句号*要转成点号*吗？": checkBox_Copy29.IsChecked = IsTrueOrFalse(value); break;
-          case "过渡态按1要上屏1吗？": checkBox_Copy30.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用ESC键自动造词吗？": checkBox_Copy3.IsChecked = IsTrueOrFalse(value); break;
-          case "要逐码提示检索吗？": checkBox_Copy.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示逐码提示吗？": checkBox.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示反查提示吗？": checkBox1.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用单字模式吗？": checkBox1_Copy.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用上屏自动增加调频权重吗？": checkBox1_Copy1.IsChecked = IsTrueOrFalse(value); break;
-          case "调频权重最小码长": nud2.Value = int.Parse(value); break;
-          case "要启用上屏自动增加调频权重直接到顶吗？": checkBox_Copy1.IsChecked = IsTrueOrFalse(value); break;
-          case "候选词条要按码长短优先排序吗？": checkBox_Copy2.IsChecked = IsTrueOrFalse(value); break;
-          case "候选词条要按调频权重检索排序吗？": checkBox1_Copy2.IsChecked = IsTrueOrFalse(value); break;
-          case "双检索历史重数": nud3.Value = int.Parse(value); break;
-          case "要启用双检索吗？": checkBox1_Copy3.IsChecked = IsTrueOrFalse(value); break;
-          case "双检索时编码要完全匹配吗？": checkBox1_Copy4.IsChecked = IsTrueOrFalse(value); break;
-          case "候选快键字符串": textBox_Copy66.Text = value; break;
-          case "候选序号": textBox_Copy67.Text = value; break;
-          case "要码长顶屏吗？": checkBox1_Copy111.IsChecked = IsTrueOrFalse(value); break;
-          case "要数字顶屏吗？": checkBox1_Copy7.IsChecked = IsTrueOrFalse(value); break;
-          case "要标点顶屏吗？": checkBox1_Copy6.IsChecked = IsTrueOrFalse(value); break;
-          case "标点或数字顶屏时,若是引导键,要继续引导吗？": checkBox1_Copy8.IsChecked = IsTrueOrFalse(value); break;
-          case "要唯一上屏吗？": checkBox1_Copy5.IsChecked = IsTrueOrFalse(value); break;
-          case "唯一上屏最小码长": nud4.Value = int.Parse(value); break;
-          case "往上翻页大键盘英文符号编码串": textBox_Copy21.Text = value; break;
-          case "往下翻页大键盘英文符号编码串": textBox_Copy2.Text = value; break;
-          case "往上翻页小键盘英文符号编码串": textBox_Copy3.Text = value; break;
-          case "往下翻页小键盘英文符号编码串": textBox_Copy4.Text = value; break;
-          case "码表临时快键": textBox_Copy19.Text = value; break;
-          case "码表临时快键编码名": textBox_Copy20.Text = value; break;
-          case "无临时快键时,也要显示主码表标识吗？": checkBox_Copy32.IsChecked = IsTrueOrFalse(value); break;
-          case "主码表标识": textBox_Copy22.Text = value; break;
-          case "副码表标识": textBox_Copy23.Text = value; break;
-          case "码表引导快键0": textBox_Copy.Text = value; break;
-          case "码表引导快键0编码名0": textBox_Copy9.Text = value; break;
-          case "码表引导快键0编码名1": textBox_Copy11.Text = value; break;
-          case "码表引导快键1": textBox_Copy12.Text = value; break;
-          case "码表引导快键1编码名0": textBox_Copy13.Text = value; break;
-          case "码表引导快键1编码名1": textBox_Copy14.Text = value; break;
-          case "码表引导快键2": textBox_Copy16.Text = value; break;
-          case "码表引导快键2编码名0": textBox_Copy17.Text = value; break;
-          case "码表引导快键2编码名1": textBox_Copy18.Text = value; break;
+          case "背景底色"                     : 背景底色                     (value); break;
+          case "顶功规则"                     : 顶功规则                     (value); break;
+          case "D2D字体样式"                  : D2D字体样式                  (value); break;
+          case "GDI+字体样式"                 : GDIp字体样式                 (value); break;
+          case "候选字体色串"                 : SetLabelColor                (value); break;
+          case "词语联想检索范围"             : 词语联想检索范围             (value); break;
+          case "候选窗口绘制模式"             : 候选窗口绘制模式             (value); break;
+          case "编码或候选嵌入模式"           : 编码或候选嵌入模式           (value); break;
+          case "词语联想上屏字符串长度"       : 词语联想上屏字符串长度       (value); break;
+          case "候选窗口候选排列方向模式"     : 候选窗口候选排列方向模式     (value); break;
+          case "大键盘码元"                   : textBox_Copy677.Text         = value; break;
+          case "小键盘码元"                   : textBox_Copy5.Text           = value; break;
+          case "键首字根"                     : textBox125.Text              = value; break;
+          case "字体名称"                     : textBox_Copy145.Text         = value; break;
+          case "码表标签"                     : textBox_Copy15.Text          = value; break;
+          case "主码表标识"                   : textBox_Copy22.Text          = value; break;
+          case "副码表标识"                   : textBox_Copy23.Text          = value; break;
+          case "候选序号"                     : textBox_Copy67.Text          = value; break;
+          case "顶功小集码元"                 : textBox_Copy675.Text         = value; break;
+          case "码表临时快键"                 : textBox_Copy19.Text          = value; break;
+          case "D2D回退字体集"                : textBox_Copy10.Text          = value; break;
+          case "码表引导快键0"                : textBox_Copy.Text            = value; break;
+          case "码表引导快键1"                : textBox_Copy12.Text          = value; break;
+          case "码表引导快键2"                : textBox_Copy16.Text          = value; break;
+          case "候选快键字符串"               : textBox_Copy66.Text          = value; break;
+          case "大小键盘万能码元"             : textBox_Copy6.Text           = value; break;
+          case "大键盘中文标点串"             : textBox_Copy68.Text          = value; break;
+          case "重复上屏码元字符串"           : textBox_Copy1.Text           = value; break;
+          case "码表临时快键编码名"           : textBox_Copy20.Text          = value; break;
+          case "码表引导快键0编码名0"         : textBox_Copy9.Text           = value; break;
+          case "码表引导快键0编码名1"         : textBox_Copy11.Text          = value; break;
+          case "码表引导快键1编码名0"         : textBox_Copy13.Text          = value; break;
+          case "码表引导快键1编码名1"         : textBox_Copy14.Text          = value; break;
+          case "码表引导快键2编码名0"         : textBox_Copy17.Text          = value; break;
+          case "码表引导快键2编码名1"         : textBox_Copy18.Text          = value; break;
+          case "非编码串首位的大键盘码元"     : textBox_Copy7.Text           = value; break;
+          case "非编码串首位的小键盘码元"     : textBox_Copy8.Text           = value; break;
+          case "大键盘按下Shift的中文标点串"  : textBox_Copy69.Text          = value; break;
+          case "往上翻页大键盘英文符号编码串" : textBox_Copy21.Text          = value; break;
+          case "往下翻页大键盘英文符号编码串" : textBox_Copy2.Text           = value; break;
+          case "往上翻页小键盘英文符号编码串" : textBox_Copy3.Text           = value; break;
+          case "往下翻页小键盘英文符号编码串" : textBox_Copy4.Text           = value; break;
+          case "码表标签显示模式"             : comboBox1_Copy.SelectedIndex = int.Parse(value); break;
+          case "窗口四个角的圆角半径"         : nud11.Value                  = int.Parse(value); break;
+          case "选中项四个角的圆角半径"       : nud12.Value                  = int.Parse(value); break;
+          case "候选窗口边框线宽度"           : nud13.Value                  = int.Parse(value); break;
+          case "最大码长"                     : nud1.Value                   = int.Parse(value); break;
+          case "D2D字体加粗权值"              : nud14.Value                  = int.Parse(value); break;
+          case "候选个数"                     : nud15.Value                  = int.Parse(value); break;
+          case "1-26候选的横向偏离"           : nud16.Value                  = int.Parse(value); break;
+          case "候选的高度间距"               : nud17.Value                  = int.Parse(value); break;
+          case "候选的宽度间距"               : nud18.Value                  = int.Parse(value); break;
+          case "调频权重最小码长"             : nud2.Value                   = int.Parse(value); break;
+          case "双检索历史重数"               : nud3.Value                   = int.Parse(value); break;
+          case "唯一上屏最小码长"             : nud4.Value                   = int.Parse(value); break;
+          case "GDI字体加粗权值"              : nud14_Copy.Value             = int.Parse(value); break;
+          case "光标色"                                      : color_label_2.Background    = RGBStringToColor(value); break;
+          case "分隔线色"                                    : color_label_3.Background    = RGBStringToColor(value); break;
+          case "候选选中色"                                  : color_label_6.Background    = RGBStringToColor(value); break;
+          case "要码长顶屏吗？"                              : checkBox1_Copy111.IsChecked = IsTrueOrFalse   (value); break;
+          case "要数字顶屏吗？"                              : checkBox1_Copy7.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要标点顶屏吗？"                              : checkBox1_Copy6.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要唯一上屏吗？"                              : checkBox1_Copy5.IsChecked   = IsTrueOrFalse   (value); break;
+          case "嵌入下划线色"                                : color_label_1.Background    = RGBStringToColor(value); break;
+          case "候选窗口边框色"                              : color_label_4.Background    = RGBStringToColor(value); break;
+          case "候选选中字体色"                              : color_label_7.Background    = RGBStringToColor(value); break;
+          case "要显示背景图吗？"                            : checkBox_Copy42.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用双检索吗？"                            : checkBox1_Copy3.IsChecked   = IsTrueOrFalse   (value); break;
+          case "关联中文标点吗？"                            : checkBox_Copy31.IsChecked   = IsTrueOrFalse   (value); break;
+          case "无候选要清屏吗？"                            : checkBox_Copy20.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要使用嵌入模式吗？"                          : checkBox_Copy44.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要开启词语联想吗？"                          : checkBox_Copy4.IsChecked    = IsTrueOrFalse   (value); break;
+          case "是键首字根码表吗？"                          : checkBox1_Copy55.IsChecked  = IsTrueOrFalse   (value); break;
+          case "要显示键首字根吗？"                          : checkBox_Copy34.IsChecked   = IsTrueOrFalse   (value); break;
+          case "超过码长要清屏吗？"                          : checkBox_Copy19.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要逐码提示检索吗？"                          : checkBox_Copy.IsChecked     = IsTrueOrFalse   (value); break;
+          case "要显示逐码提示吗？"                          : checkBox.IsChecked          = IsTrueOrFalse   (value); break;
+          case "要显示反查提示吗？"                          : checkBox1.IsChecked         = IsTrueOrFalse   (value); break;
+          case "要启用单字模式吗？"                          : checkBox1_Copy.IsChecked    = IsTrueOrFalse   (value); break;
+          case "GDI字体要倾斜吗？"                           : checkBox_Copy314.IsChecked  = IsTrueOrFalse   (value); break;
+          case "要启用右Ctrl键吗？"                          : checkBox_Copy16.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用左Ctrl键吗？"                          : checkBox_Copy15.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用左Shift键吗？"                         : checkBox_Copy13.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用右Shift键吗？"                         : checkBox_Copy14.IsChecked   = IsTrueOrFalse   (value); break;
+          case "GDI+字体要下划线吗？"                        : checkBox19.IsChecked        = IsTrueOrFalse   (value); break;
+          case "GDI+字体要删除线吗？"                        : checkBox20.IsChecked        = IsTrueOrFalse   (value); break;
+          case "窗口四个角要圆角吗？"                        : hxc_checkBox.IsChecked      = IsTrueOrFalse   (value); break;
+          case "码表标签要左对齐吗？"                        : checkBox_Copy39.IsChecked   = IsTrueOrFalse   (value); break;
+          case "过渡态按1要上屏1吗？"                        : checkBox_Copy30.IsChecked   = IsTrueOrFalse   (value); break;
+          case "Shift键上屏编码串吗？"                       : checkBox_Copy23.IsChecked   = IsTrueOrFalse   (value); break;
+          case "Enter键上屏编码串吗？"                       : checkBox_Copy26.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用Ctrl+Space键吗？"                      : checkBox_Copy17.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要开启Ctrl键清联想吗？"                      : checkBox_Copy10.IsChecked   = IsTrueOrFalse   (value); break;
+          case "选中项四个角要圆角吗？"                      : hxcbj_checkBox.IsChecked    = IsTrueOrFalse   (value); break;
+          case "要启用ESC键自动造词吗？"                     : checkBox_Copy3.IsChecked    = IsTrueOrFalse   (value); break;
+          case "词语联想只是匹配首位吗？"                    : checkBox_Copy6.IsChecked    = IsTrueOrFalse   (value); break;
+          case "高度宽度要完全自动调整吗？"                  : checkBox_Copy40.IsChecked   = IsTrueOrFalse   (value); break;
+          case "中英切换要显示提示窗口吗？"                  : checkBox_Copy11.IsChecked   = IsTrueOrFalse   (value); break;
+          case "双检索时编码要完全匹配吗？"                  : checkBox1_Copy4.IsChecked   = IsTrueOrFalse   (value); break;
+          case "词语联想要显示词语全部吗？"                  : checkBox_Copy5.IsChecked    = IsTrueOrFalse   (value); break;
+          case "上屏后候选窗口要立即消失吗？"                : checkBox_Copy18.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用最大码长无候选清屏吗？"                : checkBox_Copy21.IsChecked   = IsTrueOrFalse   (value); break;
+          case "无候选敲空格要上屏编码串吗？"                : checkBox_Copy22.IsChecked   = IsTrueOrFalse   (value); break;
+          case "词语联想时标点顶屏要起作用吗？"              : checkBox_Copy7.IsChecked    = IsTrueOrFalse   (value); break;
+          case "候选词条要按码长短优先排序吗？"              : checkBox_Copy2.IsChecked    = IsTrueOrFalse   (value); break;
+          case "要启用上屏自动增加调频权重吗？"              : checkBox1_Copy1.IsChecked   = IsTrueOrFalse   (value); break;
+          case "Space键要上屏临时英文编码串吗？"             : checkBox_Copy25.IsChecked   = IsTrueOrFalse   (value); break;
+          case "Enter键上屏并使首个字母大写吗？"             : checkBox_Copy27.IsChecked   = IsTrueOrFalse   (value); break;
+          case "候选词条要按调频权重检索排序吗？"            : checkBox1_Copy2.IsChecked   = IsTrueOrFalse   (value); break;
+          case "竖向候选窗口选中背景色要等宽吗？"            : checkBox_Copy41.IsChecked   = IsTrueOrFalse   (value); break;
+          case "候选窗口候选从上到下排列要锁定吗？"          : checkBox_Copy45.IsChecked   = IsTrueOrFalse   (value); break;
+          case "无临时快键时,也要显示主码表标识吗？"         : checkBox_Copy32.IsChecked   = IsTrueOrFalse   (value); break;
+          case "从中文切换到英文时,要上屏编码串吗？"         : checkBox_Copy12.IsChecked   = IsTrueOrFalse   (value); break;
+          case "Shift键+字母键要进入临时英文长句态吗？"      : checkBox_Copy24.IsChecked   = IsTrueOrFalse   (value); break;
+          case "要启用上屏自动增加调频权重直接到顶吗？"      : checkBox_Copy1.IsChecked    = IsTrueOrFalse   (value); break;
+          case "Backspace键一次性删除前次上屏的内容吗？"     : checkBox_Copy28.IsChecked   = IsTrueOrFalse   (value); break;
+          case "标点或数字顶屏时,若是引导键,要继续引导吗？"  : checkBox1_Copy8.IsChecked   = IsTrueOrFalse   (value); break;
+          case "前次上屏的是数字再上屏句号*要转成点号*吗？"  : checkBox_Copy29.IsChecked   = IsTrueOrFalse   (value); break;
+          case "候选窗口候选排列方向模式>1时要隐藏编码串行吗？"      
+                                                             : checkBox_Copy38.IsChecked   = IsTrueOrFalse   (value); break;
+          case "候选窗口候选从上到下排列锁定的情况下要使编码区离光标最近吗？"
+                                                             : checkBox_Copy46.IsChecked   = IsTrueOrFalse   (value); break;
         }
       }
     }
@@ -906,14 +856,14 @@ namespace 小科狗配置
       if (value == "")
       {
         hxcds_checkBox.IsChecked = true;
-        color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-        bkColor = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+        color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 255,255, 255));
+        bkColor                  = new SolidColorBrush(Color.FromArgb(255, 255,255, 255));
       }
       else
       {
         hxcds_checkBox.IsChecked = false;
         color_label_5.Background = RGBStringToColor(value);
-        bkColor = RGBStringToColor(value);
+        bkColor                  = RGBStringToColor(value);
       }
     }
 
@@ -988,7 +938,7 @@ namespace 小科狗配置
     {
       if (value.Length > 1)
         checkBox_Copy33.IsChecked = true;
-      comboBox1.SelectedIndex = value switch
+      comboBox1.SelectedIndex     = value switch
       {
         "0" or "10" => 0,
         "1" or "11" => 1,
@@ -1045,7 +995,7 @@ namespace 小科狗配置
       switch (value)
       {
         case "1":
-          radioButton.IsChecked = true; break;
+          radioButton.IsChecked  = true; break;
         case "2":
           radioButton1.IsChecked = true; break;
         case "3":
@@ -1083,120 +1033,120 @@ namespace 小科狗配置
     // 读取控件属性值
     private void GetControlsValue()
     {
-      ReplaceConfig("大键盘码元", textBox_Copy677.Text);
-      ReplaceConfig("小键盘码元", textBox_Copy5.Text);
-      ReplaceConfig("大小键盘万能码元", textBox_Copy6.Text);
-      ReplaceConfig("非编码串首位的大键盘码元", textBox_Copy7.Text);
-      ReplaceConfig("非编码串首位的小键盘码元", textBox_Copy8.Text);
-      ReplaceConfig("最大码长", nud1.Value.ToString());
-      ReplaceConfig("是键首字根码表吗？", 是或不是((bool)checkBox1_Copy55.IsChecked));
-      ReplaceConfig("键首字根", textBox125.Text);
-      ReplaceConfig("顶功小集码元", textBox_Copy675.Text);
       ReplaceConfig("顶功规则", 取顶功规则());
-      ReplaceConfig("重复上屏码元字符串", textBox_Copy1.Text);
-      ReplaceConfig("中英切换要显示提示窗口吗？", 要或不要((bool)checkBox_Copy11.IsChecked));
-      ReplaceConfig("从中文切换到英文时,要上屏编码串吗？", 要或不要((bool)checkBox_Copy12.IsChecked));
-      ReplaceConfig("要启用左Shift键吗？", 要或不要((bool)checkBox_Copy13.IsChecked));
-      ReplaceConfig("要启用右Shift键吗？", 要或不要((bool)checkBox_Copy14.IsChecked));
-      ReplaceConfig("要启用左Ctrl键吗？", 要或不要((bool)checkBox_Copy15.IsChecked));
-      ReplaceConfig("要启用右Ctrl键吗？", 要或不要((bool)checkBox_Copy16.IsChecked));
-      ReplaceConfig("字体名称", textBox_Copy145.Text);
-      ReplaceConfig("D2D回退字体集", textBox_Copy10.Text);
-      ReplaceConfig("候选窗口绘制模式", 取候选窗口绘制模式());
-      ReplaceConfig("GDI字体加粗权值", nud14_Copy.Value.ToString());
-      ReplaceConfig("GDI字体要倾斜吗？", 要或不要((bool)checkBox_Copy314.IsChecked));
-      ReplaceConfig("D2D字体加粗权值", nud14.Value.ToString());
-      ReplaceConfig("D2D字体样式", 取D2D字体样式());
-      ReplaceConfig("候选个数", nud15.Value.ToString());
-      ReplaceConfig("1-26候选的横向偏离", nud16.Value.ToString());
-      ReplaceConfig("候选的高度间距", nud17.Value.ToString());
-      ReplaceConfig("候选的宽度间距", nud18.Value.ToString());
-      ReplaceConfig("候选窗口候选排列方向模式", 取候选窗口候选排列方向模式());
-      ReplaceConfig("候选窗口候选从上到下排列要锁定吗？", 要或不要((bool)checkBox_Copy45.IsChecked));
-      ReplaceConfig("候选窗口候选从上到下排列锁定的情况下要使编码区离光标最近吗？", 要或不要((bool)checkBox_Copy46.IsChecked));
-      ReplaceConfig("候选窗口候选排列方向模式>1时要隐藏编码串行吗？", 要或不要((bool)checkBox_Copy38.IsChecked));
-      ReplaceConfig("要使用嵌入模式吗？", 要或不要((bool)checkBox_Copy44.IsChecked));
-      ReplaceConfig("编码或候选嵌入模式", 取编码或候选嵌入模式());
-      ReplaceConfig("码表标签", textBox_Copy15.Text);
-      ReplaceConfig("码表标签显示模式", comboBox1_Copy.SelectedIndex.ToString());
-      ReplaceConfig("码表标签要左对齐吗？", 要或不要((bool)checkBox_Copy39.IsChecked));
-      ReplaceConfig("竖向候选窗口选中背景色要等宽吗？", 要或不要((bool)checkBox_Copy41.IsChecked));
-      ReplaceConfig("要显示背景图吗？", 要或不要((bool)checkBox_Copy42.IsChecked));
-      ReplaceConfig("高度宽度要完全自动调整吗？", 要或不要((bool)checkBox_Copy40.IsChecked));
-      ReplaceConfig("窗口四个角要圆角吗？", 要或不要((bool)hxc_checkBox.IsChecked));
-      ReplaceConfig("选中项四个角要圆角吗？", 要或不要((bool)hxcbj_checkBox.IsChecked));
-      ReplaceConfig("窗口四个角的圆角半径", nud11.Value.ToString());
-      ReplaceConfig("选中项四个角的圆角半径", nud12.Value.ToString());
-      ReplaceConfig("候选窗口边框线宽度", nud13.Value.ToString());
-      ReplaceConfig("嵌入下划线色", HexToRgb(color_label_1.Background.ToString()));
-      ReplaceConfig("光标色", HexToRgb(color_label_2.Background.ToString()));
-      ReplaceConfig("分隔线色", HexToRgb(color_label_3.Background.ToString()));
-      ReplaceConfig("候选窗口边框色", HexToRgb(color_label_4.Background.ToString()));
-      ReplaceConfig("候选选中色", HexToRgb(color_label_6.Background.ToString()));
-      ReplaceConfig("候选选中字体色", HexToRgb(color_label_7.Background.ToString()));
       ReplaceConfig("背景底色", 取背景底色());
       ReplaceConfig("候选字体色串", bgString);
-      ReplaceConfig("关联中文标点吗？", 要或不要((bool)checkBox_Copy31.IsChecked));
-      ReplaceConfig("大键盘中文标点串", textBox_Copy68.Text);
-      ReplaceConfig("大键盘按下Shift的中文标点串", textBox_Copy69.Text);
-      ReplaceConfig("要开启词语联想吗？", 要或不要((bool)checkBox_Copy4.IsChecked));
-      ReplaceConfig("词语联想上屏字符串长度", 取词语联想上屏字符串长度());
-      ReplaceConfig("词语联想检索范围", 取词语联想检索范围());
-      ReplaceConfig("词语联想要显示词语全部吗？", 要或不要((bool)checkBox_Copy5.IsChecked));
-      ReplaceConfig("词语联想只是匹配首位吗？", 是或不是((bool)checkBox_Copy6.IsChecked));
-      ReplaceConfig("词语联想时标点顶屏要起作用吗？", 要或不要((bool)checkBox_Copy7.IsChecked));
-      ReplaceConfig("要开启Ctrl键清联想吗？", 要或不要((bool)checkBox_Copy10.IsChecked));
-      ReplaceConfig("要显示键首字根吗？", 要或不要((bool)checkBox_Copy34.IsChecked));
-      ReplaceConfig("上屏后候选窗口要立即消失吗？", 要或不要((bool)checkBox_Copy18.IsChecked));
-      ReplaceConfig("超过码长要清屏吗？", 要或不要((bool)checkBox_Copy19.IsChecked));
-      ReplaceConfig("无候选要清屏吗？", 要或不要((bool)checkBox_Copy20.IsChecked));
-      ReplaceConfig("要启用最大码长无候选清屏吗？", 要或不要((bool)checkBox_Copy21.IsChecked));
-      ReplaceConfig("无候选敲空格要上屏编码串吗？", 要或不要((bool)checkBox_Copy22.IsChecked));
-      ReplaceConfig("Shift键上屏编码串吗？", 要或不要((bool)checkBox_Copy23.IsChecked));
-      ReplaceConfig("Space键要上屏临时英文编码串吗？", 要或不要((bool)checkBox_Copy25.IsChecked));
-      ReplaceConfig("Enter键上屏编码串吗？", 要或不要((bool)checkBox_Copy26.IsChecked));
-      ReplaceConfig("Enter键上屏并使首个字母大写吗？", 要或不要((bool)checkBox_Copy27.IsChecked));
-      ReplaceConfig("Backspace键一次性删除前次上屏的内容吗？", 要或不要((bool)checkBox_Copy28.IsChecked));
-      ReplaceConfig("过渡态按1要上屏1吗？", 要或不要((bool)checkBox_Copy30.IsChecked));
-      ReplaceConfig("要启用ESC键自动造词吗？", 要或不要((bool)checkBox_Copy3.IsChecked));
-      ReplaceConfig("要逐码提示检索吗？", 要或不要((bool)checkBox_Copy.IsChecked));
-      ReplaceConfig("要显示逐码提示吗？", 要或不要((bool)checkBox.IsChecked));
-      ReplaceConfig("要显示反查提示吗？", 要或不要((bool)checkBox1.IsChecked));
-      ReplaceConfig("要启用单字模式吗？", 要或不要((bool)checkBox1_Copy.IsChecked));
-      ReplaceConfig("要启用上屏自动增加调频权重吗？", 要或不要((bool)checkBox1_Copy1.IsChecked));
-      ReplaceConfig("调频权重最小码长", nud2.Value.ToString());
-      ReplaceConfig("要启用上屏自动增加调频权重直接到顶吗？", 要或不要((bool)checkBox_Copy1.IsChecked));
-      ReplaceConfig("候选词条要按码长短优先排序吗？", 要或不要((bool)checkBox_Copy2.IsChecked));
-      ReplaceConfig("候选词条要按调频权重检索排序吗？", 要或不要((bool)checkBox1_Copy2.IsChecked));
-      ReplaceConfig("双检索历史重数", nud3.Value.ToString());
-      ReplaceConfig("要启用双检索吗？", 要或不要((bool)checkBox1_Copy3.IsChecked));
-      ReplaceConfig("双检索时编码要完全匹配吗？", 要或不要((bool)checkBox1_Copy4.IsChecked));
-      ReplaceConfig("候选快键字符串", textBox_Copy66.Text);
+      ReplaceConfig("键首字根", textBox125.Text);
+      ReplaceConfig("D2D字体样式", 取D2D字体样式());
+      ReplaceConfig("码表标签", textBox_Copy15.Text);
       ReplaceConfig("候选序号", textBox_Copy67.Text);
-      ReplaceConfig("要码长顶屏吗？", 要或不要((bool)checkBox1_Copy111.IsChecked));
-      ReplaceConfig("要数字顶屏吗？", 要或不要((bool)checkBox1_Copy7.IsChecked));
-      ReplaceConfig("要标点顶屏吗？", 要或不要((bool)checkBox1_Copy6.IsChecked));
-      ReplaceConfig("标点或数字顶屏时,若是引导键,要继续引导吗？", 要或不要((bool)checkBox1_Copy8.IsChecked));
-      ReplaceConfig("要唯一上屏吗？", 要或不要((bool)checkBox1_Copy5.IsChecked));
+      ReplaceConfig("小键盘码元", textBox_Copy5.Text);
+      ReplaceConfig("字体名称", textBox_Copy145.Text);
+      ReplaceConfig("最大码长", nud1.Value.ToString());
+      ReplaceConfig("主码表标识", textBox_Copy22.Text);
+      ReplaceConfig("副码表标识", textBox_Copy23.Text);
+      ReplaceConfig("候选个数", nud15.Value.ToString());
+      ReplaceConfig("大键盘码元", textBox_Copy677.Text);
+      ReplaceConfig("码表引导快键0", textBox_Copy.Text);
+      ReplaceConfig("码表临时快键", textBox_Copy19.Text);
+      ReplaceConfig("码表引导快键1", textBox_Copy12.Text);
+      ReplaceConfig("D2D回退字体集", textBox_Copy10.Text);
+      ReplaceConfig("顶功小集码元", textBox_Copy675.Text);
+      ReplaceConfig("码表引导快键2", textBox_Copy16.Text);
+      ReplaceConfig("候选快键字符串", textBox_Copy66.Text);
+      ReplaceConfig("大小键盘万能码元", textBox_Copy6.Text);
+      ReplaceConfig("大键盘中文标点串", textBox_Copy68.Text);
+      ReplaceConfig("双检索历史重数", nud3.Value.ToString());
+      ReplaceConfig("候选窗口绘制模式", 取候选窗口绘制模式());
+      ReplaceConfig("重复上屏码元字符串", textBox_Copy1.Text);
+      ReplaceConfig("词语联想检索范围", 取词语联想检索范围());
+      ReplaceConfig("候选的高度间距", nud17.Value.ToString());
+      ReplaceConfig("候选的宽度间距", nud18.Value.ToString());
+      ReplaceConfig("D2D字体加粗权值", nud14.Value.ToString());
+      ReplaceConfig("调频权重最小码长", nud2.Value.ToString());
       ReplaceConfig("唯一上屏最小码长", nud4.Value.ToString());
-      ReplaceConfig("往上翻页大键盘英文符号编码串", textBox_Copy21.Text);
+      ReplaceConfig("码表临时快键编码名", textBox_Copy20.Text);
+      ReplaceConfig("码表引导快键0编码名0", textBox_Copy9.Text);
+      ReplaceConfig("码表引导快键0编码名1", textBox_Copy11.Text);
+      ReplaceConfig("码表引导快键1编码名0", textBox_Copy13.Text);
+      ReplaceConfig("码表引导快键1编码名1", textBox_Copy14.Text);
+      ReplaceConfig("码表引导快键2编码名0", textBox_Copy17.Text);
+      ReplaceConfig("码表引导快键2编码名1", textBox_Copy18.Text);
+      ReplaceConfig("1-26候选的横向偏离", nud16.Value.ToString());
+      ReplaceConfig("编码或候选嵌入模式", 取编码或候选嵌入模式());
+      ReplaceConfig("候选窗口边框线宽度", nud13.Value.ToString());
+      ReplaceConfig("GDI字体加粗权值", nud14_Copy.Value.ToString());
+      ReplaceConfig("非编码串首位的大键盘码元", textBox_Copy7.Text);
+      ReplaceConfig("非编码串首位的小键盘码元", textBox_Copy8.Text);
+      ReplaceConfig("窗口四个角的圆角半径", nud11.Value.ToString());
+      ReplaceConfig("选中项四个角的圆角半径", nud12.Value.ToString());
+      ReplaceConfig("大键盘按下Shift的中文标点串", textBox_Copy69.Text);
       ReplaceConfig("往下翻页大键盘英文符号编码串", textBox_Copy2.Text);
       ReplaceConfig("往上翻页小键盘英文符号编码串", textBox_Copy3.Text);
       ReplaceConfig("往下翻页小键盘英文符号编码串", textBox_Copy4.Text);
-      ReplaceConfig("码表临时快键", textBox_Copy19.Text);
-      ReplaceConfig("码表临时快键编码名", textBox_Copy20.Text);
+      ReplaceConfig("往上翻页大键盘英文符号编码串", textBox_Copy21.Text);
+      ReplaceConfig("词语联想上屏字符串长度", 取词语联想上屏字符串长度());
+      ReplaceConfig("光标色", HexToRgb(color_label_2.Background.ToString()));
+      ReplaceConfig("候选窗口候选排列方向模式", 取候选窗口候选排列方向模式());
+      ReplaceConfig("要显示逐码提示吗？", 要或不要((bool)checkBox.IsChecked));
+      ReplaceConfig("分隔线色", HexToRgb(color_label_3.Background.ToString()));
+      ReplaceConfig("要显示反查提示吗？", 要或不要((bool)checkBox1.IsChecked));
+      ReplaceConfig("要数字顶屏吗？", 要或不要((bool)checkBox1_Copy7.IsChecked));
+      ReplaceConfig("要标点顶屏吗？", 要或不要((bool)checkBox1_Copy6.IsChecked));
+      ReplaceConfig("要唯一上屏吗？", 要或不要((bool)checkBox1_Copy5.IsChecked));
+      ReplaceConfig("码表标签显示模式", comboBox1_Copy.SelectedIndex.ToString());
+      ReplaceConfig("候选选中色", HexToRgb(color_label_6.Background.ToString()));
+      ReplaceConfig("要逐码提示检索吗？", 要或不要((bool)checkBox_Copy.IsChecked));
+      ReplaceConfig("要显示背景图吗？", 要或不要((bool)checkBox_Copy42.IsChecked));
+      ReplaceConfig("无候选要清屏吗？", 要或不要((bool)checkBox_Copy20.IsChecked));
+      ReplaceConfig("要启用双检索吗？", 要或不要((bool)checkBox1_Copy3.IsChecked));
+      ReplaceConfig("要码长顶屏吗？", 要或不要((bool)checkBox1_Copy111.IsChecked));
+      ReplaceConfig("嵌入下划线色", HexToRgb(color_label_1.Background.ToString()));
+      ReplaceConfig("关联中文标点吗？", 要或不要((bool)checkBox_Copy31.IsChecked));
+      ReplaceConfig("要启用单字模式吗？", 要或不要((bool)checkBox1_Copy.IsChecked));
+      ReplaceConfig("窗口四个角要圆角吗？", 要或不要((bool)hxc_checkBox.IsChecked));
+      ReplaceConfig("要开启词语联想吗？", 要或不要((bool)checkBox_Copy4.IsChecked));
+      ReplaceConfig("要启用左Ctrl键吗？", 要或不要((bool)checkBox_Copy15.IsChecked));
+      ReplaceConfig("要启用右Ctrl键吗？", 要或不要((bool)checkBox_Copy16.IsChecked));
+      ReplaceConfig("要显示键首字根吗？", 要或不要((bool)checkBox_Copy34.IsChecked));
+      ReplaceConfig("候选窗口边框色", HexToRgb(color_label_4.Background.ToString()));
+      ReplaceConfig("候选选中字体色", HexToRgb(color_label_7.Background.ToString()));
+      ReplaceConfig("超过码长要清屏吗？", 要或不要((bool)checkBox_Copy19.IsChecked));
+      ReplaceConfig("GDI字体要倾斜吗？", 要或不要((bool)checkBox_Copy314.IsChecked));
+      ReplaceConfig("要使用嵌入模式吗？", 要或不要((bool)checkBox_Copy44.IsChecked));
+      ReplaceConfig("要启用左Shift键吗？", 要或不要((bool)checkBox_Copy13.IsChecked));
+      ReplaceConfig("要启用右Shift键吗？", 要或不要((bool)checkBox_Copy14.IsChecked));
+      ReplaceConfig("是键首字根码表吗？", 是或不是((bool)checkBox1_Copy55.IsChecked));
+      ReplaceConfig("码表标签要左对齐吗？", 要或不要((bool)checkBox_Copy39.IsChecked));
+      ReplaceConfig("过渡态按1要上屏1吗？", 要或不要((bool)checkBox_Copy30.IsChecked));
+      ReplaceConfig("Shift键上屏编码串吗？", 要或不要((bool)checkBox_Copy23.IsChecked));
+      ReplaceConfig("Enter键上屏编码串吗？", 要或不要((bool)checkBox_Copy26.IsChecked));
+      ReplaceConfig("选中项四个角要圆角吗？", 要或不要((bool)hxcbj_checkBox.IsChecked));
+      ReplaceConfig("要启用ESC键自动造词吗？", 要或不要((bool)checkBox_Copy3.IsChecked));
+      ReplaceConfig("要开启Ctrl键清联想吗？", 要或不要((bool)checkBox_Copy10.IsChecked));
+      ReplaceConfig("词语联想只是匹配首位吗？", 是或不是((bool)checkBox_Copy6.IsChecked));
+      ReplaceConfig("词语联想要显示词语全部吗？", 要或不要((bool)checkBox_Copy5.IsChecked));
+      ReplaceConfig("中英切换要显示提示窗口吗？", 要或不要((bool)checkBox_Copy11.IsChecked));
+      ReplaceConfig("高度宽度要完全自动调整吗？", 要或不要((bool)checkBox_Copy40.IsChecked));
+      ReplaceConfig("双检索时编码要完全匹配吗？", 要或不要((bool)checkBox1_Copy4.IsChecked));
+      ReplaceConfig("要启用最大码长无候选清屏吗？", 要或不要((bool)checkBox_Copy21.IsChecked));
+      ReplaceConfig("上屏后候选窗口要立即消失吗？", 要或不要((bool)checkBox_Copy18.IsChecked));
+      ReplaceConfig("无候选敲空格要上屏编码串吗？", 要或不要((bool)checkBox_Copy22.IsChecked));
+      ReplaceConfig("候选词条要按码长短优先排序吗？", 要或不要((bool)checkBox_Copy2.IsChecked));
+      ReplaceConfig("词语联想时标点顶屏要起作用吗？", 要或不要((bool)checkBox_Copy7.IsChecked));
+      ReplaceConfig("要启用上屏自动增加调频权重吗？", 要或不要((bool)checkBox1_Copy1.IsChecked));
+      ReplaceConfig("Space键要上屏临时英文编码串吗？", 要或不要((bool)checkBox_Copy25.IsChecked));
+      ReplaceConfig("Enter键上屏并使首个字母大写吗？", 要或不要((bool)checkBox_Copy27.IsChecked));
+      ReplaceConfig("竖向候选窗口选中背景色要等宽吗？", 要或不要((bool)checkBox_Copy41.IsChecked));
+      ReplaceConfig("候选词条要按调频权重检索排序吗？", 要或不要((bool)checkBox1_Copy2.IsChecked));
+      ReplaceConfig("候选窗口候选从上到下排列要锁定吗？", 要或不要((bool)checkBox_Copy45.IsChecked));
+      ReplaceConfig("从中文切换到英文时,要上屏编码串吗？", 要或不要((bool)checkBox_Copy12.IsChecked));
+      ReplaceConfig("要启用上屏自动增加调频权重直接到顶吗？", 要或不要((bool)checkBox_Copy1.IsChecked));
+      ReplaceConfig("Backspace键一次性删除前次上屏的内容吗？", 要或不要((bool)checkBox_Copy28.IsChecked));
       ReplaceConfig("无临时快键时,也要显示主码表标识吗？", 要或不要((bool)checkBox_Copy32.IsChecked));
-      ReplaceConfig("主码表标识", textBox_Copy22.Text);
-      ReplaceConfig("副码表标识", textBox_Copy23.Text);
-      ReplaceConfig("码表引导快键0", textBox_Copy.Text);
-      ReplaceConfig("码表引导快键0编码名0", textBox_Copy9.Text);
-      ReplaceConfig("码表引导快键0编码名1", textBox_Copy11.Text);
-      ReplaceConfig("码表引导快键1", textBox_Copy12.Text);
-      ReplaceConfig("码表引导快键1编码名0", textBox_Copy13.Text);
-      ReplaceConfig("码表引导快键1编码名1", textBox_Copy14.Text);
-      ReplaceConfig("码表引导快键2", textBox_Copy16.Text);
-      ReplaceConfig("码表引导快键2编码名0", textBox_Copy17.Text);
-      ReplaceConfig("码表引导快键2编码名1", textBox_Copy18.Text);
+      ReplaceConfig("标点或数字顶屏时,若是引导键,要继续引导吗？", 要或不要((bool)checkBox1_Copy8.IsChecked));
+      ReplaceConfig("候选窗口候选排列方向模式>1时要隐藏编码串行吗？", 要或不要((bool)checkBox_Copy38.IsChecked));
+      ReplaceConfig("候选窗口候选从上到下排列锁定的情况下要使编码区离光标最近吗？", 要或不要((bool)checkBox_Copy46.IsChecked));
 
       modifiedConfig = Regex.Replace(modifiedConfig, @"《要启用Ctrl\+Space键吗？=.*?》", $"《要启用Ctrl+Space键吗？={要或不要((bool)checkBox_Copy17.IsChecked)}》");
       modifiedConfig = Regex.Replace(modifiedConfig, @"《GDI\+字体样式=.*?》", $"《GDI+字体样式={取GDIp字体样式()}》");
@@ -1282,27 +1232,27 @@ namespace 小科狗配置
 
     private void 方案设置页面()
     {
-      Grid1.Width = 750;
-      Grid2.Width = 0;
-      Grid3.Width = 0;
+      Grid1.Width      = 750;
+      Grid2.Width      = 0;
+      Grid3.Width      = 0;
       Grid1.Visibility = Visibility.Visible;
       Grid2.Visibility = Visibility.Hidden;
       Grid3.Visibility = Visibility.Hidden;
     }
     private void 全局设置页面()
     {
-      Grid1.Width = 0;
-      Grid2.Width = 750;
-      Grid3.Width = 0;
+      Grid1.Width      = 0;
+      Grid2.Width      = 750;
+      Grid3.Width      = 0;
       Grid1.Visibility = Visibility.Hidden;
       Grid2.Visibility = Visibility.Visible;
       Grid3.Visibility = Visibility.Hidden;
     }
     private void 帮助页面()
     {
-      Grid1.Width = 0;
-      Grid2.Width = 0;
-      Grid3.Width = 750;
+      Grid1.Width      = 0;
+      Grid2.Width      = 0;
+      Grid3.Width      = 750;
       Grid1.Visibility = Visibility.Hidden;
       Grid2.Visibility = Visibility.Hidden;
       Grid3.Visibility = Visibility.Visible;
@@ -1311,8 +1261,8 @@ namespace 小科狗配置
     private void RadioButton1_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = sender as RadioButton;
-      StackPanel stackPanel = radioButton.Content as StackPanel;
-      TextBlock textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      StackPanel stackPanel   = radioButton.Content as StackPanel;
+      TextBlock textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
 
       switch (textBlock.Text)
       {
@@ -1358,9 +1308,6 @@ namespace 小科狗配置
         case "临时码表检索":
         case "引导码表检索":
           方案设置页面();
-          //Grid1.Visibility = Visibility.Visible;
-          //Grid2.Visibility = Visibility.Collapsed;
-          //Grid3.Visibility = Visibility.Collapsed;
           ScrollViewerOffset(textBlock.Text, 1);
           break;
         case "状态条":
@@ -1371,13 +1318,11 @@ namespace 小科狗配置
         case "定时关机":
         case "其它选项":
           全局设置页面();
-          //Grid1.Visibility = Visibility.Collapsed;
-          //Grid2.Visibility = Visibility.Visible;
-          //Grid3.Visibility = Visibility.Collapsed;
           ScrollViewerOffset(textBlock.Text, 2);
           break;
         case "关于":
         case "全局设置说明":
+          帮助页面();
           ScrollViewerOffset(textBlock.Text, 3);
           break;
       }
@@ -1427,22 +1372,47 @@ namespace 小科狗配置
       return null;
     }
 
-    private List<double> GetGroupBoxHeights(StackPanel stackPanel)
+
+    private void GroupBox_MouseEnter(object sender, MouseEventArgs e)
     {
-      List<double> groupBoxHeights = new();
+      if (sender is not GroupBox groupBox) return;
+
+      string textFromSource = groupBox.Header.ToString();
 
       foreach (var child in stackPanel.Children)
       {
-        if (child is GroupBox groupBox)
+        if (child is RadioButton radioButton)
         {
-          double groupBoxHeight = groupBox.ActualHeight;
-          groupBoxHeights.Add(groupBoxHeight);
+          var textBlock = FindChildTextBlock(radioButton);
+          if (textBlock != null && textBlock.Text.Equals(textFromSource, StringComparison.OrdinalIgnoreCase))
+          {
+            radioButton.IsChecked = true;
+          }
+          else
+          {
+            radioButton.IsChecked = false;
+          }
         }
       }
-
-      return groupBoxHeights;
     }
 
+    private TextBlock FindChildTextBlock(DependencyObject parent)
+    {
+      for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+      {
+        var child = VisualTreeHelper.GetChild(parent, i);
+        if (child is TextBlock textBlock)
+        {
+          return textBlock;
+        }
+        else
+        {
+          var result = FindChildTextBlock(child);
+          if (result != null) return result;
+        }
+      }
+      return null;
+    }
     #endregion
 
     #region 配色相关
@@ -1456,18 +1426,18 @@ namespace 小科狗配置
       if (Grid1.Visibility == Visibility.Visible)
       {
         canvas = canvas1;
-        thumb = thumb1;
+        thumb  = thumb1;
       }
       else
       {
         canvas = canvas2;
-        thumb = thumb2;
+        thumb  = thumb2;
       }
-      var canvasPosition = e.GetPosition(canvas);
-      double newLeft = canvasPosition.X - thumb.ActualWidth / 2;
-      double newTop = canvasPosition.Y - thumb.ActualHeight / 2;
+      var canvasPosition  = e.GetPosition(canvas);
+      double newLeft      = canvasPosition.X - thumb.ActualWidth / 2;
+      double newTop       = canvasPosition.Y - thumb.ActualHeight / 2;
 
-      double canvasRight = canvas.ActualWidth - thumb.ActualWidth;
+      double canvasRight  = canvas.ActualWidth - thumb.ActualWidth;
       double canvasBottom = canvas.ActualHeight - thumb.ActualHeight;
 
       newLeft = Math.Max(0, Math.Min(newLeft, canvasRight));
@@ -1495,15 +1465,15 @@ namespace 小科狗配置
         thumb = thumb2;
       }
       double newLeft = Canvas.GetLeft(thumb) + e.HorizontalChange;
-      double newTop = Canvas.GetTop(thumb) + e.VerticalChange;
+      double newTop  = Canvas.GetTop(thumb) + e.VerticalChange;
 
       // 计算画布边界
-      double canvasRight = canvas.ActualWidth - thumb.ActualWidth + 5;
+      double canvasRight  = canvas.ActualWidth - thumb.ActualWidth + 5;
       double canvasBottom = canvas.ActualHeight - thumb.ActualHeight + 5;
 
       // 限制 Thumb 在画布内部移动
       newLeft = Math.Max(-6, Math.Min(newLeft, canvasRight));
-      newTop = Math.Max(-6, Math.Min(newTop, canvasBottom));
+      newTop  = Math.Max(-6, Math.Min(newTop, canvasBottom));
 
       Canvas.SetLeft(thumb, newLeft);
       Canvas.SetTop(thumb, newTop);
@@ -1520,17 +1490,17 @@ namespace 小科狗配置
 
       if (Grid1.Visibility == Visibility.Visible)
       {
-        canvas = canvas1;
-        thumb = thumb1;
+        canvas      = canvas1;
+        thumb       = thumb1;
         color_label = color_label_10;
-        rgbTextBox = rgb1;
+        rgbTextBox  = rgb1;
       }
       else
       {
-        canvas = canvas2;
-        thumb = thumb2;
+        canvas      = canvas2;
+        thumb       = thumb2;
         color_label = color_label_11;
-        rgbTextBox = rgb2;
+        rgbTextBox  = rgb2;
       }
 
       Point? thumbPosition = thumb.TranslatePoint(new Point(thumb.ActualWidth / 2, thumb.ActualHeight / 2), canvas);
@@ -1616,12 +1586,12 @@ namespace 小科狗配置
     // 取色器更新取色位图
     private void UpdateBitmap()
     {
-      int width = 255;
-      int height = 255;
+      int width  = 170;
+      int height = 170;
       double hue = hue_slider.Value / 360; // Hue 值现在来自滑动条
       Bitmap.Lock();
       IntPtr backBuffer = Bitmap.BackBuffer;
-      int stride = Bitmap.BackBufferStride;
+      int stride        = Bitmap.BackBufferStride;
 
       for (int y = 0; y < height; y++)
       {
@@ -1641,7 +1611,7 @@ namespace 小科狗配置
         }
       }
 
-      Bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+      Bitmap.AddDirtyRect(new Int32Rect(0, 0, 170,170));
       Bitmap.Unlock();
     }
 
@@ -1667,6 +1637,18 @@ namespace 小科狗配置
 
       // 阻止滚轮事件继续向上冒泡
       e.Handled = true;
+    }
+
+    private void Hue_slider_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      var slider = sender as Slider;
+      if (slider != null)
+      {
+        var point = e.GetPosition(slider);
+        // 计算点击位置相对于Slider的比例
+        double newValue = (point.Y / slider.ActualHeight) * slider.Maximum;
+        slider.Value = slider.Maximum - newValue;  // 反转值，因为Slider垂直方向是从上到下
+      }
     }
 
     // 更新所有候选字色（改为同一个颜色）
@@ -1763,6 +1745,13 @@ namespace 小科狗配置
     private void Color_label_MouseUp(object sender, MouseButtonEventArgs e)
     {
       Label label = sender as Label;
+
+    }
+
+    // 显示颜色的 label 鼠标进入事件
+    private void Color_label_MouseEnter(object sender, MouseEventArgs e)
+    {
+      Label label = sender as Label;
       switch (label.Name)
       {
         case "color_label_1":
@@ -1818,12 +1807,6 @@ namespace 小科狗配置
           color_label_content.Content = "英文字体色";
           break;
       }
-    }
-
-    // 显示颜色的 label 鼠标进入事件
-    private void Color_label_MouseEnter(object sender, MouseEventArgs e)
-    {
-      Label label = sender as Label;
       label.BorderThickness = new Thickness(3);
       color_label_10.Background = label.Background;
       color_label_11.Background = label.Background;
@@ -1836,7 +1819,7 @@ namespace 小科狗配置
     private void Color_label_MouseLeave(object sender, MouseEventArgs e)
     {
       Label label = sender as Label;
-      label.BorderThickness = new Thickness(1);
+      label.BorderThickness = new Thickness(2);
     }
 
     // 候选框圆角、选中项背景圆角 和 候选框边框调节
@@ -1865,35 +1848,29 @@ namespace 小科狗配置
         hxk_border.CornerRadius = new CornerRadius(0);
     }
 
-    private void Hxcds_checkBox_Click(object sender, RoutedEventArgs e)
-    {
-      if (hxcds_checkBox.IsChecked == false)
-        color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-      else
-        color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-    }
+
 
     // 配色列表双击事件
     private void ColorSchemeListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
       if (e.ChangedButton == MouseButton.Left && colorSchemeListBox.SelectedItem != null)
       {
-        var colorScheme = 配色方案[colorSchemeListBox.SelectedIndex];
+        var colorScheme           = 配色方案[colorSchemeListBox.SelectedIndex];
         checkBox_Copy42.IsChecked = colorScheme.显示背景图;
-        hxc_checkBox.IsChecked = colorScheme.显示候选窗圆角;
-        hxcbj_checkBox.IsChecked = colorScheme.显示选中项背景圆角;
-        nud11.Value = colorScheme.候选窗圆角;
-        nud12.Value = colorScheme.选中项圆角;
-        nud13.Value = colorScheme.边框线宽;
-        color_label_1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.下划线色));
-        color_label_2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.光标色));
-        color_label_3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.分隔线色));
-        color_label_4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.窗口边框色));
+        hxc_checkBox.IsChecked    = colorScheme.显示候选窗圆角;
+        hxcbj_checkBox.IsChecked  = colorScheme.显示选中项背景圆角;
+        nud11.Value               = colorScheme.候选窗圆角;
+        nud12.Value               = colorScheme.选中项圆角;
+        nud13.Value               = colorScheme.边框线宽;
+        color_label_1.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.下划线色));
+        color_label_2.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.光标色));
+        color_label_3.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.分隔线色));
+        color_label_4.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorScheme.窗口边框色));
 
         if (colorScheme.窗背景底色 == "")
         {
-          color_label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00000000"));
-          bkColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00000000"));
+          color_label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF"));
+          bkColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF"));
           hxcds_checkBox.IsChecked = true;
         }
         else
@@ -1915,17 +1892,17 @@ namespace 小科狗配置
       if (colorSchemeListBox.SelectedItem != null)
       {
         if (saveButton.Content.ToString() == "保存配色")
-          color_scheme_name_textBox.Text = "";
+          color_scheme_name_textBox.Text  =  "";
         if (saveButton.Content.ToString() == "修改配色")
-          color_scheme_name_textBox.Text = colorSchemeListBox.SelectedItem.ToString();
+          color_scheme_name_textBox.Text  =  colorSchemeListBox.SelectedItem.ToString();
       }
     }
 
     // 新建配色方案
     private void MenuItem_Click_1(object sender, RoutedEventArgs e)
     {
-      saveButton.Content = "保存配色";
-      saveButton.Visibility = Visibility.Visible;
+      saveButton.Content                   = "保存配色";
+      saveButton.Visibility                = Visibility.Visible;
       color_scheme_name_textBox.Visibility = Visibility.Visible;
     }
 
@@ -1940,10 +1917,10 @@ namespace 小科狗配置
         MessageBoxImage.Question);
         return;
       }
-      saveButton.Content = "修改配色";
-      saveButton.Visibility = Visibility.Visible;
+      saveButton.Content                   = "修改配色";
+      saveButton.Visibility                = Visibility.Visible;
       color_scheme_name_textBox.Visibility = Visibility.Visible;
-      color_scheme_name_textBox.Text += colorSchemeListBox.SelectedItem.ToString();
+      color_scheme_name_textBox.Text      += colorSchemeListBox.SelectedItem.ToString();
     }
 
     // 删除选中配色方案
@@ -1983,22 +1960,23 @@ namespace 小科狗配置
       var name = color_scheme_name_textBox.Text.Trim();
       colorScheme = new ColorScheme
       {
-        名称 = name,
-        显示背景图 = (bool)checkBox_Copy42.IsChecked,
-        显示候选窗圆角 = (bool)hxc_checkBox.IsChecked,
+        名称               = name,
+        候选窗圆角         = nud11.Value,
+        选中项圆角         = nud12.Value,
+        边框线宽           = nud13.Value,
+        显示背景图         = (bool)checkBox_Copy42.IsChecked,
+        显示候选窗圆角     = (bool)hxc_checkBox.IsChecked,
         显示选中项背景圆角 = (bool)hxcbj_checkBox.IsChecked,
-        候选窗圆角 = nud11.Value,
-        选中项圆角 = nud12.Value,
-        边框线宽 = nud13.Value,
-        下划线色 = RemoveChars(color_label_1.Background.ToString(), 2),
-        光标色 = RemoveChars(color_label_2.Background.ToString(), 2),
-        分隔线色 = RemoveChars(color_label_3.Background.ToString(), 2),
-        窗口边框色 = RemoveChars(color_label_4.Background.ToString(), 2),
-        窗背景底色 = hxcds_checkBox.IsChecked ==true ? "" : RemoveChars(color_label_5.Background.ToString(), 2),
-        选中背景色 = RemoveChars(color_label_6.Background.ToString(), 2),
-        选中字体色 = RemoveChars(color_label_7.Background.ToString(), 2),
-        编码字体色 = RemoveChars(color_label_8.Background.ToString(), 2),
-        候选字色 = RemoveChars(color_label_9.Background.ToString(), 2),
+        窗背景底色         = hxcds_checkBox.IsChecked ==true ? "" : 
+                             RemoveChars(color_label_5.Background.ToString(), 2),
+        下划线色           = RemoveChars(color_label_1.Background.ToString(), 2),
+        光标色             = RemoveChars(color_label_2.Background.ToString(), 2),
+        分隔线色           = RemoveChars(color_label_3.Background.ToString(), 2),
+        窗口边框色         = RemoveChars(color_label_4.Background.ToString(), 2),
+        选中背景色         = RemoveChars(color_label_6.Background.ToString(), 2),
+        选中字体色         = RemoveChars(color_label_7.Background.ToString(), 2),
+        编码字体色         = RemoveChars(color_label_8.Background.ToString(), 2),
+        候选字色           = RemoveChars(color_label_9.Background.ToString(), 2),
       };
 
       if (saveButton.Content.ToString() == "保存配色")
@@ -2077,6 +2055,8 @@ namespace 小科狗配置
     private void ComboBox3_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       textBox_Copy67.Text = ((ComboBoxItem)comboBox3.SelectedItem).Content.ToString();
+
+      MessageBox.Show(textBox_Copy675.Text);
     }
 
     private void Hxc_checkBox_Checked(object sender, RoutedEventArgs e)
@@ -2104,15 +2084,31 @@ namespace 小科狗配置
 
     private void Hxcds_checkBox_Checked(object sender, RoutedEventArgs e)
     {
+      color_label_5.Visibility = Visibility.Hidden;
       bkColor = (SolidColorBrush)color_label_5.Background;
-      color_label_5.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+      //color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 255,255, 255));
     }
 
     private void Hxcds_checkBox_Unchecked(object sender, RoutedEventArgs e)
     {
+      color_label_5.Visibility = Visibility.Visible;
       color_label_5.Background = bkColor;
     }
+    private void Hxcds_checkBox_Click(object sender, RoutedEventArgs e)
+    {
+      if (hxcds_checkBox.IsChecked == false)
+      {
+        color_label_5.Visibility = Visibility.Visible;
+        //color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 255,255, 255));
+        color_label_5.Background = bkColor;
 
+      }
+      else
+      {
+        color_label_5.Visibility = Visibility.Hidden;
+        color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 255,255, 255));
+      }
+    }
     #endregion
 
     #region 托盘图标
@@ -2299,7 +2295,7 @@ namespace 小科狗配置
       kegText += $"\n在线查找\n";
       foreach (var item in 查找列表)
       {
-        if (item.Enable == "启用")
+        if (item.Enable)
         {
           kegText += $"《在线查找={item.Name}::{item.Value}》\n";
         }
@@ -2308,16 +2304,16 @@ namespace 小科狗配置
       kegText += $"\n运行命令行快键\n";
       foreach (var item in 快键命令)
       {
-        if (item.Enable == "启用")
+        if (item.Enable)
         {
-          kegText += $"《运行命令行快键={item.Value}》\n";
+          kegText += $"《运行命令行快键={item.Value}<命令行={item.CMD}>》》\n";
         }
       }
 
       kegText += $"\n快键\n";
       foreach (var item in 快键)
       {
-        if (item.Enable == "启用")
+        if (item.Enable)
         {
           kegText += $"《{item.Name}={item.Value}》\n";
         }
@@ -2326,7 +2322,7 @@ namespace 小科狗配置
       kegText += $"\n自启\n";
       foreach (var item in 自启)
       {
-        if (item.Enable == "启用")
+        if (item.Enable)
         {
           kegText += $"《自启={item.Value }》\n";
         }
@@ -2335,7 +2331,7 @@ namespace 小科狗配置
       kegText += $"\n自动关机\n";
       foreach (var item in 自动关机)
       {
-        if (item.Enable == "启用")
+        if (item.Enable)
         {
           string[] str = item.Value.Split(':');
           //if (str[0].Length != 2) str[0] = "0" + str[0];
@@ -2348,17 +2344,17 @@ namespace 小科狗配置
       // 写出文件 Keg.txt
       File.WriteAllText(kegFilePath, kegText);
 
-      try
-      {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
-        //Thread.Sleep(200);
-        SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
-      }
-      catch (Exception ex)
-      {
-        MessageBox.Show($"操作失败，请重试！");
-        Console.WriteLine(ex.Message);
-      }
+      //try
+      //{
+      //  IntPtr hWnd = FindWindow("CKegServer_0", null);
+      //  //Thread.Sleep(200);
+      //  SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
+      //}
+      //catch (Exception ex)
+      //{
+      //  MessageBox.Show($"操作失败，请重试！");
+      //  Console.WriteLine(ex.Message);
+      //}
     }
 
     private void 提示文本的位置(string value)
@@ -2437,15 +2433,16 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          Enable = "启用",
+          Enable = true,
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
         };
         查找列表.Add(item);
       }
 
-
-      pattern = "《(运行命令行快键)=(.*)》";
+      
+      //pattern = "《(运行命令行快键)=(.*)》";
+      pattern = "《(运行命令行快键)=(.*)<命令行=(.*)>》";
       matches = Regex.Matches(kegText, pattern);
       if (matches.Count > 0)
       {
@@ -2453,9 +2450,10 @@ namespace 小科狗配置
         {
           var item = new 列表项()
           {
-            Enable = "启用",
+            Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
+            CMD = match.Groups[3].Value,
           };
           快键命令.Add(item);
         }
@@ -2464,9 +2462,10 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = "运行命令行快键=",
-          Value = "<1=LCT><2=x9><3=><4=><命令行=>",
+          Value = "",
+          CMD = "",
         };
         快键命令.Add(item);
       }
@@ -2477,7 +2476,7 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          Enable = "启用",
+          Enable = true,
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
         };
@@ -2492,7 +2491,7 @@ namespace 小科狗配置
         {
           var item = new 列表项()
           {
-            Enable = "启用",
+            Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
           };
@@ -2503,7 +2502,7 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = "自启",
           Value = "当前文件夹的tools\\QInputV2.exe",
         };
@@ -2518,7 +2517,7 @@ namespace 小科狗配置
         {
           var item = new 列表项()
           {
-            Enable = "禁用",
+            Enable = false,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value == "" ? "22:30" : match.Groups[2].Value,
           };
@@ -2529,7 +2528,7 @@ namespace 小科狗配置
       {
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = "自动关机",
           Value = "22:30",
         };
@@ -2542,26 +2541,26 @@ namespace 小科狗配置
     {
       设置项 = new 状态条
       {
-        提示文本的位置 = 取提示文本的位置(),
-        提示文本要隐藏吗 = (bool)checkBox3_Copy.IsChecked,
-        提示文本要显示中英以及大小写状态吗 = (bool)checkBox3_Copy1.IsChecked,
-        提示文本中文字体色 = RemoveChars(color_label_12.Background.ToString(), 2),
-        提示文本英文字体色 = RemoveChars(color_label_13.Background.ToString(), 2),
-        提示文本字体大小 = nud23.Value,
-        提示文本字体名称 = textBox_Copy24.Text,
+        提示文本字体大小                           = nud23.Value,
+        提示文本字体名称                           = textBox_Copy24.Text,
+        提示文本的位置                             = 取提示文本的位置(),
+        提示文本要隐藏吗                           = (bool)checkBox3_Copy.IsChecked,
+        提示文本要显示中英以及大小写状态吗         = (bool)checkBox3_Copy1.IsChecked,
         打字字数统计等数据是要保存在主程文件夹下吗 = (bool)checkBox3_Copy3.IsChecked,
-        快键只在候选窗口显示情况下才起作用吗 = (bool)checkBox3_Copy2.IsChecked,
-        要启用深夜锁屏吗 = (bool)checkBox3_Copy4.IsChecked,
+        快键只在候选窗口显示情况下才起作用吗       = (bool)checkBox3_Copy2.IsChecked,
+        要启用深夜锁屏吗                           = (bool)checkBox3_Copy4.IsChecked,
+        提示文本中文字体色                         = RemoveChars(color_label_12.Background.ToString(), 2),
+        提示文本英文字体色                         = RemoveChars(color_label_13.Background.ToString(), 2),
     };
 
       全局设置 = new()
       {
         状态栏和其它设置 = 设置项,
-        查找列表 = 查找列表,
-        快键命令 = 快键命令,
-        快键 = 快键,
-        自启 = 自启,
-        自动关机 = 自动关机
+        查找列表         = 查找列表,
+        快键命令         = 快键命令,
+        快键             = 快键,
+        自启             = 自启,
+        自动关机         = 自动关机
       };
 
       string jsonString = JsonConvert.SerializeObject(全局设置, Formatting.Indented);
@@ -2586,21 +2585,21 @@ namespace 小科狗配置
       全局设置 = JsonConvert.DeserializeObject<GlobalSettings>(jsonString);
       查找列表 = 全局设置.查找列表;
       快键命令 = 全局设置.快键命令;
-      快键 = 全局设置.快键;
-      自启 = 全局设置.自启;
+      快键     = 全局设置.快键;
+      自启     = 全局设置.自启;
       自动关机 = 全局设置.自动关机;
-      设置项 = 全局设置.状态栏和其它设置;
+      设置项   = 全局设置.状态栏和其它设置;
 
       提示文本的位置(设置项.提示文本的位置);
-      checkBox3_Copy.IsChecked = 设置项.提示文本要隐藏吗;
+      checkBox3_Copy.IsChecked  = 设置项.提示文本要隐藏吗;
+      nud23.Value               = 设置项.提示文本字体大小;
+      textBox_Copy24.Text       = 设置项.提示文本字体名称;
+      checkBox3_Copy4.IsChecked = 设置项.要启用深夜锁屏吗;
       checkBox3_Copy1.IsChecked = 设置项.提示文本要显示中英以及大小写状态吗;
+      checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
+      checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
       color_label_12.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色));
       color_label_13.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色));
-      nud23.Value = 设置项.提示文本字体大小;
-      textBox_Copy24.Text = 设置项.提示文本字体名称;
-      checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
-      checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
-      checkBox3_Copy4.IsChecked = 设置项.要启用深夜锁屏吗;
 
       listView3.ItemsSource = 查找列表; // ListView的数据
       listView4.ItemsSource = 快键命令;
@@ -2627,6 +2626,8 @@ namespace 小科狗配置
       }
     }
 
+
+
     // listView 选中事件
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -2635,61 +2636,61 @@ namespace 小科狗配置
         if (listView.SelectedItem is 列表项 selectedItem)
         {
           // 在线查找 列表
-          if (listView == listView3)
-          {
-            textBox_Copy25.Text = selectedItem.Name;
-            textBox_Copy26.Text = selectedItem.Value;
-          }
+          //if (listView == listView3)
+          //{
+          //  textBox_Copy25.Text = selectedItem.Name;
+          //  textBox_Copy26.Text = selectedItem.Value;
+          //}
 
           // 快捷命令 列表
-          else if (listView == listView4)
-          {
-            string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><命令行=(.*?)>";
-            Match match = Regex.Match(selectedItem.Value, pattern);
-            if (match.Success)
-            {
-              t1.Text = match.Groups[1].Value;
-              t2.Text = match.Groups[2].Value;
-              t3.Text = match.Groups[3].Value;
-              t4.Text = match.Groups[4].Value;
-              tc.Text = match.Groups[5].Value;
-            }
-          }
+          //else if (listView == listView4)
+          //{
+          //  string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><命令行=(.*?)>";
+          //  Match match = Regex.Match(selectedItem.Value, pattern);
+          //  if (match.Success)
+          //  {
+          //    t1.Text = match.Groups[1].Value;
+          //    t2.Text = match.Groups[2].Value;
+          //    t3.Text = match.Groups[3].Value;
+          //    t4.Text = match.Groups[4].Value;
+          //    tc.Text = match.Groups[5].Value;
+          //  }
+          //}
 
           // 快捷键 列表
-          else if (listView == listView5)
-          {
-            string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
-            Match match = Regex.Match(selectedItem.Value, pattern);
-            if (match.Success)
-            {
-              t5.Text = match.Groups[1].Value;
-              t6.Text = match.Groups[2].Value;
-              t7.Text = match.Groups[3].Value;
-              t8.Text = match.Groups[4].Value;
-            }
-            for (int i = 0; i < comboBox4.Items.Count; i++)
-            {
-              string name = (comboBox4.Items[i] as ComboBoxItem)?.Content?.ToString();
-              if (name == selectedItem.Name)
-                comboBox4.SelectedIndex = i;
-            }
-          }
+          //else if (listView == listView5)
+          //{
+          //  string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
+          //  Match match = Regex.Match(selectedItem.Value, pattern);
+          //  if (match.Success)
+          //  {
+          //    t5.Text = match.Groups[1].Value;
+          //    t6.Text = match.Groups[2].Value;
+          //    t7.Text = match.Groups[3].Value;
+          //    t8.Text = match.Groups[4].Value;
+          //  }
+          //  for (int i = 0; i < comboBox4.Items.Count; i++)
+          //  {
+          //    string name = (comboBox4.Items[i] as ComboBoxItem)?.Content?.ToString();
+          //    if (name == selectedItem.Name)
+          //      comboBox4.SelectedIndex = i;
+          //  }
+          //}
 
           // 自启应用 列表
-          else if (listView == listView6)
-          {
-            textBox_Copy37.Text = selectedItem.Value;
-          }
+          //else if (listView == listView6)
+          //{
+          //  textBox_Copy37.Text = selectedItem.Value;
+          //}
 
-          // 定时关机 列表
-          else if (listView == listView7)
-          {
-            var value = selectedItem.Value;
-            string[] strings = value.Split(':');
-            nud24.Value = int.Parse(strings[0].ToString());
-            nud25.Value = int.Parse(strings[1].ToString());
-          }
+          //// 定时关机 列表
+          //else if (listView == listView7)
+          //{
+          //  var value = selectedItem.Value;
+          //  string[] strings = value.Split(':');
+          //  nud24.Value = int.Parse(strings[0].ToString());
+          //  nud25.Value = int.Parse(strings[1].ToString());
+          //}
         }
       }
     }
@@ -2701,77 +2702,239 @@ namespace 小科狗配置
       {
         if (listView.SelectedItem is 列表项 selectedItem)
         {
-          selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+          selectedItem.Enable = selectedItem.Enable == true;
         }
       }
     }
 
-    // 右键 启用/禁用选中项
-    private void ListView3_MenuItem1_Click(object sender, RoutedEventArgs e)
+    private object GetDataItem(object sender, RoutedEventArgs e)
     {
-      if (listView3.SelectedItem is 列表项 selectedItem)
-        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
-    }
-    private void ListView4_MenuItem1_Click(object sender, RoutedEventArgs e)
-    {
-      if (listView4.SelectedItem is 列表项 selectedItem)
-        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
-    }
-    private void ListView5_MenuItem1_Click(object sender, RoutedEventArgs e)
-    {
-      if (listView5.SelectedItem is 列表项 selectedItem)
-        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
-    }
-    private void ListView6_MenuItem1_Click(object sender, RoutedEventArgs e)
-    {
-      if (listView6.SelectedItem is 列表项 selectedItem)
-        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
-    }
-    private void ListView7_MenuItem1_Click(object sender, RoutedEventArgs e)
-    {
-      if (listView7.SelectedItem is 列表项 selectedItem)
-        selectedItem.Enable = selectedItem.Enable == "启用" ? "禁用" : "启用";
+      // 获取点击按钮的父级容器（即ListViewItem）
+      var listViewItem = sender as FrameworkElement;
+      while (listViewItem != null && listViewItem is not ListViewItem)
+      {
+        listViewItem = VisualTreeHelper.GetParent(listViewItem) as FrameworkElement;
+      }
+      if (listViewItem == null || listViewItem is not ListViewItem item) return null;
+
+      // 获取绑定到按钮的数据项
+      var dataItem = item.DataContext;
+      if (dataItem == null) return null;
+
+      return dataItem;
     }
 
-    // 右键 删除选中项
-    private void ListView3_MenuItem4_Click(object sender, RoutedEventArgs e)
+    private void HotKeyControl_HotKeyPressed(object sender, RoutedEventArgs e)
     {
-      if (listView3.SelectedItem is 列表项 selectedItem)
-        删除列表项(3, selectedItem);
+      HotKeyControl hotKeyControl = sender as HotKeyControl;
+      var dataItem = GetDataItem(sender, e);
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        listitem.Value = hotKeyControl.HotKey;
+      }
     }
-    private void ListView4_MenuItem4_Click(object sender, RoutedEventArgs e)
+    private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (listView4.SelectedItem is 列表项 selectedItem)
-        删除列表项(4, selectedItem);
+      // sender是触发事件的TextBox控件
+      TextBox textBox = sender as TextBox;
+
+      // 确保textBox不是null
+      if (textBox != null)
+      {
+        // 获取TextBox的DataContext，它应该是一个列表项实例
+
+        // 确保item不是null
+        if (textBox.DataContext is 列表项 item)
+        {
+          // 更新列表项的Name属性
+          item.Name = textBox.Text;
+        }
+      }
     }
-    private void ListView5_MenuItem4_Click(object sender, RoutedEventArgs e)
+    private void TextBox2_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (listView5.SelectedItem is 列表项 selectedItem)
-        删除列表项(5, selectedItem);
+      // sender是触发事件的TextBox控件
+      TextBox textBox = sender as TextBox;
+
+      // 确保textBox不是null
+      if (textBox != null)
+      {
+        // 获取TextBox的DataContext，它应该是一个列表项实例
+
+        // 确保item不是null
+        if (textBox.DataContext is 列表项 item)
+        {
+          item.Value = textBox.Text;
+        }
+      }
     }
-    private void ListView6_MenuItem4_Click(object sender, RoutedEventArgs e)
+
+    private void TextBox3_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (listView6.SelectedItem is 列表项 selectedItem)
-        删除列表项(6, selectedItem);
+      // sender是触发事件的TextBox控件
+      TextBox textBox = sender as TextBox;
+
+      // 确保textBox不是null
+      if (textBox != null)
+      {
+        // 获取TextBox的DataContext，它应该是一个列表项实例
+
+        // 确保item不是null
+        if (textBox.DataContext is 列表项 item)
+        {
+          item.CMD = textBox.Text;
+        }
+      }
     }
-    private void ListView7_MenuItem4_Click(object sender, RoutedEventArgs e)
+
+    private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
-      if (listView7.SelectedItem is 列表项 selectedItem)
-        删除列表项(7, selectedItem);
+      var dataItem = GetDataItem(sender, e);
+
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        listitem.Enable = listitem.Enable == true;
+      }
     }
+    private void DelButton3_Click(object sender, RoutedEventArgs e)
+    {
+      var dataItem = GetDataItem(sender, e);
+
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        删除列表项(3, listitem);
+      }
+    }
+    private void DelButton4_Click(object sender, RoutedEventArgs e)
+    {
+      var dataItem = GetDataItem(sender, e);
+
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        删除列表项(4, listitem);
+      }
+    }
+
+    private void DelButton5_Click(object sender, RoutedEventArgs e)
+    {
+      var dataItem = GetDataItem(sender, e);
+
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        删除列表项(5, listitem);
+      }
+    }
+    private void DelButton6_Click(object sender, RoutedEventArgs e)
+    {
+      var dataItem = GetDataItem(sender, e);
+
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        删除列表项(6, listitem);
+      }
+    }
+    private void DelButton7_Click(object sender, RoutedEventArgs e)
+    {
+      var dataItem = GetDataItem(sender, e);
+
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        删除列表项(7, listitem);
+      }
+    }
+
+    // 鼠标进入 ListViewItem 时触发
+    private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
+    {
+      // 寻找事件源中的 Button 控件
+      if (sender is ListViewItem item)
+      {
+        Button delButton = FindChild<Button>(item, "delButton");
+        if (delButton != null)
+        {
+          delButton.Visibility = Visibility.Visible;  // 显示按钮
+        }
+      }
+    }
+
+    // 鼠标离开 ListViewItem 时触发
+    private void ListViewItem_MouseLeave(object sender, MouseEventArgs e)
+    {
+      // 寻找事件源中的 Button 控件
+      if (sender is ListViewItem item)
+      {
+        Button delButton = FindChild<Button>(item, "delButton");
+        if (delButton != null)
+        {
+          delButton.Visibility = Visibility.Hidden;  // 隐藏按钮
+        }
+      }
+    }
+
+    // 递归查找子控件的帮助方法
+    public static T FindChild<T>(DependencyObject parent, string childName)
+       where T : DependencyObject
+    {
+      // 确认传入的参数有效
+      if (parent == null) return null;
+
+      T foundChild = null;
+
+      int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+      for (int i = 0; i < childrenCount; i++)
+      {
+        var child = VisualTreeHelper.GetChild(parent, i);
+        // 确认子控件是正确的类型
+        if (child is not T)
+        {
+          // 如果不是，递归查找
+          foundChild = FindChild<T>(child, childName);
+          if (foundChild != null) break;
+        }
+        else if (!string.IsNullOrEmpty(childName))
+        {
+          // 检查控件的名称是否匹配
+          if (child is FrameworkElement frameworkElement && frameworkElement.Name == childName)
+          {
+            foundChild = (T)child;
+            break;
+          }
+        }
+        else
+        {
+          // 名称不重要，返回第一个找到的匹配类型的子控件
+          foundChild = (T)child;
+          break;
+        }
+      }
+
+      return foundChild;
+    }
+
+
+
+
+
 
     // listView 删除
-    private void 删除列表项(int listViewNum, 列表项 selectedItem)
+    private void 删除列表项(int listViewNum, 列表项 listViewItem)
     {
       var result = MessageBox.Show("您确定要删除吗？", "删除操作", MessageBoxButton.OKCancel, MessageBoxImage.Question);
       if (result == MessageBoxResult.OK)
         switch (listViewNum)
         {
-          case 3: 查找列表.Remove(selectedItem); break;
-          case 4: 快键命令.Remove(selectedItem); break;
-          case 5: 快键.Remove(selectedItem); break;
-          case 6: 自启.Remove(selectedItem); break;
-          case 7: 自动关机.Remove(selectedItem); break;
+          case 3: 查找列表.Remove(listViewItem); break;
+          case 4: 快键命令.Remove(listViewItem); break;
+          case 5: 快键.Remove(listViewItem); break;
+          case 6: 自启.Remove(listViewItem); break;
+          case 7: 自动关机.Remove(listViewItem); break;
         }
     }
 
@@ -2782,11 +2945,14 @@ namespace 小科狗配置
       // 在线查找 列表
       if (btn == add_button1)
       {
+        ScrollViewerOffset("在线查找", 2);
         var item = new 列表项()
         {
-          Enable = "禁用",
-          Name = textBox_Copy25.Text,
-          Value = textBox_Copy26.Text,
+          Enable = false,
+          //Name = textBox_Copy25.Text,
+          //Value = textBox_Copy26.Text,
+          Name = "",
+          Value = ""
         };
         查找列表.Insert(0, item);
       }
@@ -2794,11 +2960,13 @@ namespace 小科狗配置
       // 快捷命令 列表
       if (btn == add_button2)
       {
+        ScrollViewerOffset("快捷命令", 2);
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = "运行命令行快键",
-          Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>",
+          //Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>",
+          Value = "",
         };
         快键命令.Insert(0, item);
       }
@@ -2806,11 +2974,13 @@ namespace 小科狗配置
       // 快捷键 列表
       if (btn == add_button3)
       {
+        ScrollViewerOffset("快捷键", 2);
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(),
-          Value = $"<1={t5.Text}><2={t6.Text}><3={t7.Text}><4={t8.Text}>",
+          //Value = $"<1={t5.Text}><2={t6.Text}><3={t7.Text}><4={t8.Text}>",
+          Value = "",
         };
         快键.Insert(0, item);
       }
@@ -2818,11 +2988,13 @@ namespace 小科狗配置
       // 自启应用 列表
       if (btn == add_button4)
       {
+        ScrollViewerOffset("自启动应用", 2);
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = "自启",
-          Value = textBox_Copy37.Text,
+          //Value = textBox_Copy37.Text,
+          Value = "",
         };
         自启.Insert(0, item);
       }
@@ -2830,11 +3002,12 @@ namespace 小科狗配置
       // 定时关机 列表
       if (btn == add_button5)
       {
+        ScrollViewerOffset("定时关机", 2);
         var item = new 列表项()
         {
-          Enable = "禁用",
+          Enable = false,
           Name = "自动关机",
-          Value = $"{nud24.Value}:{nud25.Value}"
+          Value = $"22:30"
         };
         自动关机.Insert(0, item);
       }
@@ -2843,61 +3016,61 @@ namespace 小科狗配置
     // listView 修改
     private void Modify_button_Click(object sender, RoutedEventArgs e)
     {
-      var btn = sender as Button;
-      // 在线查找 列表
-      if (btn == modify_button1)
-      {
-        if (listView3.SelectedItem is 列表项 selectedItem)
-        {
-          //selectedItem.Enable = "启用";
-          selectedItem.Name = textBox_Copy25.Text;
-          selectedItem.Value = textBox_Copy26.Text;
-        }
-      }
+      //var btn = sender as Button;
+      //// 在线查找 列表
+      //if (btn == modify_button1)
+      //{
+      //  if (listView3.SelectedItem is 列表项 selectedItem)
+      //  {
+      //    //selectedItem.Enable = "启用";
+      //    selectedItem.Name = textBox_Copy25.Text;
+      //    selectedItem.Value = textBox_Copy26.Text;
+      //  }
+      //}
 
       // 快捷命令 列表
-      if (btn == modify_button2)
-      {
-        if (listView4.SelectedItem is 列表项 selectedItem)
-        {
-          //selectedItem.Enable = "启用";
-          selectedItem.Name = "运行命令行快键";
-          selectedItem.Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>";
-        }
-      }
+      //if (btn == modify_button2)
+      //{
+      //  if (listView4.SelectedItem is 列表项 selectedItem)
+      //  {
+      //    //selectedItem.Enable = "启用";
+      //    selectedItem.Name = "运行命令行快键";
+      //    selectedItem.Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>";
+      //  }
+      //}
 
       // 快捷键 列表
-      if (btn == modify_button3)
-      {
-        if (listView5.SelectedItem is 列表项 selectedItem)
-        {
-          //selectedItem.Enable = "启用";
-          selectedItem.Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString();
-          selectedItem.Value = $"<1={t5.Text}><2={t6.Text}><3={t7.Text}><4={t8.Text}>";
-        }
-      }
+      //if (btn == modify_button3)
+      //{
+      //  if (listView5.SelectedItem is 列表项 selectedItem)
+      //  {
+      //    //selectedItem.Enable = "启用";
+      //    selectedItem.Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString();
+      //    selectedItem.Value = $"<1={t5.Text}><2={t6.Text}><3={t7.Text}><4={t8.Text}>";
+      //  }
+      //}
 
       // 自启应用 列表
-      if (btn == modify_button4)
-      {
-        if (listView6.SelectedItem is 列表项 selectedItem)
-        {
-          //selectedItem.Enable = "启用";
-          selectedItem.Name = "自启";
-          selectedItem.Value = textBox_Copy37.Text;
-        }
-      }
+      //if (btn == modify_button4)
+      //{
+      //  if (listView6.SelectedItem is 列表项 selectedItem)
+      //  {
+      //    //selectedItem.Enable = "启用";
+      //    selectedItem.Name = "自启";
+      //    selectedItem.Value = textBox_Copy37.Text;
+      //  }
+      //}
 
-      // 定时关机 列表
-      if (btn == modify_button5)
-      {
-        if (listView7.SelectedItem is 列表项 selectedItem)
-        {
-          //selectedItem.Enable = "禁用";
-          selectedItem.Name = "自动关机";
-          selectedItem.Value = $"{nud24.Value}:{nud25.Value}";
-        }
-      }
+      //// 定时关机 列表
+      //if (btn == modify_button5)
+      //{
+      //  if (listView7.SelectedItem is 列表项 selectedItem)
+      //  {
+      //    //selectedItem.Enable = "禁用";
+      //    selectedItem.Name = "自动关机";
+      //    selectedItem.Value = $"{nud24.Value}:{nud25.Value}";
+      //  }
+      //}
 
     }
 
@@ -2973,6 +3146,8 @@ namespace 小科狗配置
       image.Source = new BitmapImage(new Uri(skin));
     }
 
+
+
     private void SaveButton1_Click(object sender, RoutedEventArgs e)
     {
       if (skinListBox.SelectedIndex > 0)
@@ -2998,16 +3173,18 @@ namespace 小科狗配置
       }
     }
 
-    private void Ttext_TextChanged(object sender, TextChangedEventArgs e)
-    {
-      t2.IsEnabled = t1.Text != "";
-      t3.IsEnabled = t2.Text != "";
-      t4.IsEnabled = t3.Text != "";
 
-      t6.IsEnabled = t5.Text != "";
-      t7.IsEnabled = t6.Text != "";
-      t8.IsEnabled = t7.Text != "";
-    }
+
+    //private void Ttext_TextChanged(object sender, TextChangedEventArgs e)
+    //{
+    //  t2.IsEnabled = t1.Text != "";
+    //  t3.IsEnabled = t2.Text != "";
+    //  t4.IsEnabled = t3.Text != "";
+
+    //  t6.IsEnabled = t5.Text != "";
+    //  t7.IsEnabled = t6.Text != "";
+    //  t8.IsEnabled = t7.Text != "";
+    //}
 
 
 
@@ -3033,35 +3210,23 @@ namespace 小科狗配置
       }
     }
 
-    private void hotKeyControl_HotKeyPressed_1(object sender, RoutedEventArgs e)
-    {
 
-    }
 
-    private void Button_Click_2(object sender, RoutedEventArgs e)
-    {
-      Clipboard.SetText(hotKeyControl.HotKey);
-    }
+    //private void Df_button_Click(object sender, RoutedEventArgs e)
+    //{
 
-    private void Df_button_Click(object sender, RoutedEventArgs e)
-    {
-
-      OpenFileDialog openFileDialog = new()
-      {
-        Filter = "应用 (*.exe)|*.exe|所有文件 (*.*)|*.*",
-        Title = "选择一个文件"
-      };
-      if (openFileDialog.ShowDialog() == FormsDialogResult.OK)
-        textBox_Copy37.Text = openFileDialog.FileName;
-    }
+    //  OpenFileDialog openFileDialog = new()
+    //  {
+    //    Filter = "应用 (*.exe)|*.exe|所有文件 (*.*)|*.*",
+    //    Title = "选择一个文件"
+    //  };
+    //  if (openFileDialog.ShowDialog() == FormsDialogResult.OK)
+    //    textBox_Copy37.Text = openFileDialog.FileName;
+    //}
 
     #endregion
 
-    private void HotKeyControl_HotKeyPressed(object sender, RoutedEventArgs e)
-    {
-      string hotKey = ((HotKeyControl)sender).HotKey;
-      Console.WriteLine($"当前热键：{hotKey}");
-    }
+
 
   }
 }
