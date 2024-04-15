@@ -20,7 +20,7 @@ namespace 小科狗配置
 
     protected override void OnStartup(StartupEventArgs e)
     {
-      const string appName = "App";
+      const string appName = "小科狗配置";
       bool createdNew;
 
       mutex = new Mutex(true, appName, out createdNew);

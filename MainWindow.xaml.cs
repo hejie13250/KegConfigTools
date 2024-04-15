@@ -2050,8 +2050,6 @@ namespace 小科狗配置
     private void ComboBox3_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       textBox_Copy67.Text = ((ComboBoxItem)comboBox3.SelectedItem).Content.ToString();
-
-      MessageBox.Show(textBox_Copy675.Text);
     }
 
     private void Hxc_checkBox_Checked(object sender, RoutedEventArgs e)
