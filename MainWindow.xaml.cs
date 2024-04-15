@@ -1,47 +1,42 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using Newtonsoft.Json;
-using System.Threading;
-using System.Reflection;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.ComponentModel;
-using System.Windows.Controls;
-using System.Collections.Generic;
 using System.Windows.Media.Imaging;
-using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Windows.Controls.Primitives;
-using Path              = System.IO.Path;
-using Point             = System.Windows.Point;
-using Window            = System.Windows.Window;
-using Clipboard         = System.Windows.Clipboard;
-using MessageBox        = System.Windows.MessageBox;
-using Color             = System.Windows.Media.Color;
-using MenuItem          = System.Windows.Forms.MenuItem;
-using Label             = System.Windows.Controls.Label;
-using Button            = System.Windows.Controls.Button;
-using GroupBox          = System.Windows.Controls.GroupBox;
-using ListView          = System.Windows.Controls.ListView;
-using RadioButton       = System.Windows.Controls.RadioButton;
-using Thumb             = System.Windows.Controls.Primitives.Thumb;
-using ColorConverter    = System.Windows.Media.ColorConverter;
-using MouseEventArgs    = System.Windows.Input.MouseEventArgs;
-using OpenFileDialog    = System.Windows.Forms.OpenFileDialog;
+using Button = System.Windows.Controls.Button;
+using Clipboard = System.Windows.Clipboard;
+using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
 using FormsDialogResult = System.Windows.Forms.DialogResult;
-using System.Windows.Data;
-using System.Numerics;
+using GroupBox = System.Windows.Controls.GroupBox;
+using Label = System.Windows.Controls.Label;
+using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
-using CheckBox = System.Windows.Controls.CheckBox;
-using System.Windows.Shapes;
+using MenuItem = System.Windows.Forms.MenuItem;
+using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Path = System.IO.Path;
+using Point = System.Windows.Point;
+using RadioButton = System.Windows.Controls.RadioButton;
 using TextBox = System.Windows.Controls.TextBox;
+using Thumb = System.Windows.Controls.Primitives.Thumb;
+using Window = System.Windows.Window;
 namespace 小科狗配置
 {
   /// <summary>
@@ -103,10 +98,10 @@ namespace 小科狗配置
     #region 全局变量定义
     SolidColorBrush bkColor               = new ((Color) ColorConverter.ConvertFromString("#FFFFFFFF"));  // 候选框无背景色时的值
     readonly string appPath               = Environment.CurrentDirectory;
-    readonly string settingConfigFile     = "KegConfigToolSetting.ini";  // 窗口配置文件
+    readonly string settingConfigFile     = "窗口配置.ini";
     readonly string schemeFilePath        = "配色方案.json";
     readonly string globalSettingFilePath = "全局设置.json";
-    string labelName                      = "方案名称";                  // 当前方案名称
+    string labelName                      = "方案名称";
     string zh_en                          = "中c：";
     int select_color_label_num            = 0;       // 用于记录当前选中的 select_color_label
     readonly string kegPath;                         // 小科狗主程序目录
@@ -209,7 +204,7 @@ namespace 小科狗配置
 
     public MainWindow()
     {
-      settingConfigFile = appPath + "\\KegConfigToolSetting.ini";
+      settingConfigFile = appPath + "\\窗口配置.ini";
 
       // 获取小科狗主程序目录
       kegPath = GetValue("window", "keg_path");
@@ -2254,9 +2249,9 @@ namespace 小科狗配置
     // 数据统计
     private void Run_button_Click(object sender, RoutedEventArgs e)
     {
-      string path = appPath + "\\小科狗打字统计.exe";
+      string path = appPath + "\\小科狗统计.exe";
       if (File.Exists(path)) Process.Start(path);
-      else MessageBox.Show($"请将 “小科狗打字统计.exe” 移到本应用所在目录内！");
+      else MessageBox.Show($"请将 “小科狗统计.exe” 移到本应用所在目录内！");
     }
 
     // 恢复全局设置
@@ -2344,17 +2339,17 @@ namespace 小科狗配置
       // 写出文件 Keg.txt
       File.WriteAllText(kegFilePath, kegText);
 
-      //try
-      //{
-      //  IntPtr hWnd = FindWindow("CKegServer_0", null);
-      //  //Thread.Sleep(200);
-      //  SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
-      //}
-      //catch (Exception ex)
-      //{
-      //  MessageBox.Show($"操作失败，请重试！");
-      //  Console.WriteLine(ex.Message);
-      //}
+      try
+      {
+        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        //Thread.Sleep(200);
+        SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"操作失败，请重试！");
+        Console.WriteLine(ex.Message);
+      }
     }
 
     private void 提示文本的位置(string value)

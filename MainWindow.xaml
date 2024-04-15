@@ -4833,7 +4833,7 @@
                             <GridView AllowsColumnReorder="True">
                               <GridViewColumn
                                 Width="425"
-                                DisplayMemberBinding="{Binding Value}"
+                                DisplayMemberBinding="{Binding Name}"
                                 Header="名称" />
                               <GridViewColumn Width="195" Header="热键">
                                 <GridViewColumn.CellTemplate>
@@ -5094,7 +5094,7 @@
                         Grid.Row="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="快键只在候选窗口显示情况下才起作用，方案  查找  状态条和打开文字配置快键除外：" />
+                        Content="方案、查找、状态条和打开文字配置快键快键只在候选窗口显示情况下才起作用，除外：" />
                       <CheckBox
                         x:Name="checkBox3_Copy2"
                         Grid.Row="1"
