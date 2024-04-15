@@ -44,8 +44,8 @@ namespace 小科狗配置
         Tuple.Create("RightShift"     , "RSH"),
         Tuple.Create("LeftCtrl"       , "LCT"),
         Tuple.Create("RightCtrl"      , "RCT"),
-        Tuple.Create("Lwin"           , "LWI"),
-        Tuple.Create("Rwin"           , "RWI"),
+        Tuple.Create("LWin"           , "LWI"),
+        Tuple.Create("RWin"           , "RWI"),
         Tuple.Create("Capital"        , "CAP"),
         Tuple.Create("Oem3"           , "`"  ),
         Tuple.Create("D0"             , "0"  ),
@@ -262,7 +262,7 @@ namespace 小科狗配置
         string pattern = "";
         switch (pressedKeys.Count)
         {
-          case 1: break;
+          case 1: pattern = "(.*)"; break;
           case 2: pattern = "(.*)#(.*)"; break;
           case 3: pattern = "(.*)#(.*)#(.*)"; break;
           case 4: pattern = "(.*)#(.*)#(.*)#(.*)"; break;

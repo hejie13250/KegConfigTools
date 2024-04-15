@@ -4833,7 +4833,7 @@
                             <GridView AllowsColumnReorder="True">
                               <GridViewColumn
                                 Width="425"
-                                DisplayMemberBinding="{Binding Name}"
+                                DisplayMemberBinding="{Binding Value}"
                                 Header="名称" />
                               <GridViewColumn Width="195" Header="热键">
                                 <GridViewColumn.CellTemplate>

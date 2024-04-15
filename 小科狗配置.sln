@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "小科狗配置", "小科�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotKey", "..\HotKey\HotKey.csproj", "{13E02ECE-236F-468A-A6DC-D37F72B9F56C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "小科狗统计", "..\小科狗统计\小科狗统计\小科狗统计.csproj", "{AD44700D-C319-41C4-9CA2-39B483704E7A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +31,6 @@ Global
 		{13E02ECE-236F-468A-A6DC-D37F72B9F56C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13E02ECE-236F-468A-A6DC-D37F72B9F56C}.Release|x64.ActiveCfg = Release|Any CPU
 		{13E02ECE-236F-468A-A6DC-D37F72B9F56C}.Release|x64.Build.0 = Release|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Debug|x64.Build.0 = Debug|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Release|x64.ActiveCfg = Release|Any CPU
-		{AD44700D-C319-41C4-9CA2-39B483704E7A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

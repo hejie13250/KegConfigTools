@@ -16,27 +16,27 @@ namespace 小科狗配置
   /// </summary>
   public partial class App : Application
   {
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool SetForegroundWindow(IntPtr hWnd);
+    private static Mutex mutex = null;
 
     protected override void OnStartup(StartupEventArgs e)
     {
-      base.OnStartup(e);
+      const string appName = "App";
+      bool createdNew;
 
-      _ = new Mutex(true, "小科狗配置", out bool isNewInstance);
+      mutex = new Mutex(true, appName, out createdNew);
 
-      if (!isNewInstance)
+      if (!createdNew)
       {
-        // 已有实例运行，将焦点设置到已有实例
-        IntPtr mainWindowHandle = Process.GetCurrentProcess().MainWindowHandle;
-        if (mainWindowHandle != IntPtr.Zero)
-        {
-          SetForegroundWindow(mainWindowHandle);
-        }
-        Shutdown();
+        // 应用程序的另一个实例已经在运行
+        //MessageBox.Show("应用程序已在运行。");
+        Current.Shutdown(); // 关闭当前实例
+        return;
       }
+
+      base.OnStartup(e);
+      // 其他启动逻辑
     }
+
 
 
     public new void Exit()
