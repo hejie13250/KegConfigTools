@@ -616,7 +616,6 @@
                   HorizontalContentAlignment="Right"
                   Background="Transparent"
                   ClickMode="Press"
-                  Content="　　　　　　　　　　▼"
                   Focusable="false"
                   IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                   Style="{StaticResource RoundedToggleButton}" />
@@ -914,7 +913,17 @@
                   VerticalAlignment="Center"
                   FontSize="14"
                   Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="{Binding Header, ElementName=groupBox_21}" />
+                  Text="{Binding Header, ElementName=groupBox_20}" />
+              </StackPanel>
+            </RadioButton>
+            <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock
+                  Margin="20,0,0,0"
+                  VerticalAlignment="Center"
+                  FontSize="14"
+                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                  Text="{Binding Header, ElementName=groupBox_28}" />
               </StackPanel>
             </RadioButton>
             <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
@@ -4589,7 +4598,7 @@
                                         Text="{Binding Name}"
                                         TextChanged="TextBox1_TextChanged"
                                         TextWrapping="NoWrap"
-                                        ToolTip="网址或可执行文件路径" />
+                                        ToolTip="在线查找名称" />
                                     </Border>
                                   </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -4611,7 +4620,7 @@
                                         Text="{Binding Value}"
                                         TextChanged="TextBox2_TextChanged"
                                         TextWrapping="NoWrap"
-                                        ToolTip="带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py" />
+                                        ToolTip="网址或可执行文件路径，带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py" />
                                     </Border>
                                   </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -4639,6 +4648,113 @@
                                       VerticalAlignment="Center"
                                       BorderThickness="0"
                                       Click="DelButton3_Click"
+                                      Style="{DynamicResource RoundButton}"
+                                      Visibility="Hidden" />
+                                  </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                              </GridViewColumn>
+
+                            </GridView>
+                          </ListView.View>
+                        </ListView>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </GroupBox>
+                <GroupBox
+                  x:Name="groupBox_28"
+                  Header="外部工具"
+                  MouseEnter="GroupBox_MouseEnter"
+                  Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                  <Border Style="{StaticResource CustomBorderStyle}">
+                    <Grid>
+                      <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                        <ListView
+                          x:Name="listView8"
+                          Margin="10,10,10,10"
+                          d:ItemsSource="{d:SampleData ItemCount=3}"
+                          BorderBrush="Black"
+                          BorderThickness="1,1,1,1"
+                          ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                          PreviewMouseWheel="控件禁止响应滚轮事件"
+                          Style="{DynamicResource ListViewStyle}">
+                          <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                              <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                              <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                            </Style>
+                          </ListView.ItemContainerStyle>
+                          <ListView.View>
+                            <GridView AllowsColumnReorder="True">
+                              <GridViewColumn Width="160" Header="名称">
+                                <GridViewColumn.CellTemplate>
+                                  <DataTemplate>
+                                    <Border
+                                      Background="White"
+                                      BorderBrush="DarkGray"
+                                      BorderThickness="2"
+                                      CornerRadius="6">
+                                      <TextBox
+                                        x:Name="nameTextBox"
+                                        Width="145"
+                                        Height="18"
+                                        Margin="6,4,6,0"
+                                        BorderThickness="0"
+                                        Text="{Binding Name}"
+                                        TextChanged="TextBox1_TextChanged"
+                                        TextWrapping="NoWrap"
+                                        ToolTip="外部工具名称" />
+                                    </Border>
+                                  </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                              </GridViewColumn>
+                              <GridViewColumn Width="460" Header="命令">
+                                <GridViewColumn.CellTemplate>
+                                  <DataTemplate>
+                                    <Border
+                                      Background="White"
+                                      BorderBrush="DarkGray"
+                                      BorderThickness="2"
+                                      CornerRadius="6">
+                                      <TextBox
+                                        x:Name="cmdTextBox"
+                                        Width="435"
+                                        Height="18"
+                                        Margin="6,4,6,0"
+                                        BorderThickness="0"
+                                        Text="{Binding Value}"
+                                        TextChanged="TextBox2_TextChanged"
+                                        TextWrapping="NoWrap"
+                                        ToolTip="外部工具的可执行文件路径" />
+                                    </Border>
+                                  </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                              </GridViewColumn>
+
+
+                              <GridViewColumn Width="45" Header="启用">
+                                <GridViewColumn.CellTemplate>
+                                  <DataTemplate>
+                                    <CheckBox
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Click="CheckBox_Click"
+                                      IsChecked="{Binding Enable}"
+                                      Style="{DynamicResource CheckBoxStyle}" />
+                                  </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                              </GridViewColumn>
+                              <GridViewColumn Width="25" Header="删除">
+                                <GridViewColumn.CellTemplate>
+                                  <DataTemplate>
+                                    <Button
+                                      x:Name="delButton"
+                                      Width="25"
+                                      Height="25"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      BorderThickness="0"
+                                      Click="DelButton7_Click"
                                       Style="{DynamicResource RoundButton}"
                                       Visibility="Hidden" />
                                   </DataTemplate>
@@ -4831,6 +4947,7 @@
                     </Grid>
                   </Border>
                 </GroupBox>
+
 
                 <GroupBox
                   x:Name="groupBox_23"
@@ -5087,6 +5204,14 @@
                 Content="添加在线查找"
                 Style="{DynamicResource RoundButton2}" />
               <Button
+                x:Name="add_button6"
+                Width="auto"
+                Height="24"
+                Margin="10,0,0,0"
+                Click="Add_button_Click"
+                Content="添加外部工具"
+                Style="{DynamicResource RoundButton2}" />
+              <Button
                 x:Name="add_button2"
                 Width="auto"
                 Height="24"
@@ -5104,7 +5229,7 @@
                 Style="{DynamicResource RoundButton2}" />
               <ComboBox
                 x:Name="comboBox4"
-                Width="145"
+                Width="120"
                 Height="24"
                 Margin="5,0,0,0"
                 SelectedIndex="0"

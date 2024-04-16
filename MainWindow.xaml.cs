@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -168,6 +169,7 @@ namespace 小科狗配置
 
     // 用于 listView 数据绑定
     public ObservableCollection<列表项> 查找列表 { get; set; }
+    public ObservableCollection<列表项> 外部工具 { get; set; }
     public ObservableCollection<列表项> 快键命令 { get; set; }
     public ObservableCollection<列表项> 自动关机 { get; set; }
     public ObservableCollection<列表项> 快键     { get; set; }
@@ -180,6 +182,7 @@ namespace 小科狗配置
     {
       public 状态条 状态栏和其它设置               { get; set; }
       public ObservableCollection<列表项> 查找列表 { get; set; }
+      public ObservableCollection<列表项> 外部工具 { get; set; }
       public ObservableCollection<列表项> 快键命令 { get; set; }
       public ObservableCollection<列表项> 快键     { get; set; }
       public ObservableCollection<列表项> 自启     { get; set; }
@@ -191,6 +194,7 @@ namespace 小科狗配置
     {
       状态栏和其它设置 = new(),
       查找列表         = new ObservableCollection<列表项>(),
+      外部工具         = new ObservableCollection<列表项>(),
       快键命令         = new ObservableCollection<列表项>(),
       快键             = new ObservableCollection<列表项>(),
       自启             = new ObservableCollection<列表项>()
@@ -229,12 +233,14 @@ namespace 小科狗配置
       toolTipTextBlock.Text = $"{zh_en}{labelName}";
 
       查找列表  = new ObservableCollection<列表项>();
+      外部工具  = new ObservableCollection<列表项>();
       快键命令  = new ObservableCollection<列表项>();
       快键      = new ObservableCollection<列表项>();
       自启      = new ObservableCollection<列表项>();
       自动关机  = new ObservableCollection<列表项>();
 
       listView3.DataContext = 查找列表;
+      listView8.DataContext = 外部工具;
       listView4.DataContext = 快键命令;
       listView5.DataContext = 快键;
       listView6.DataContext = 自启;
@@ -1308,6 +1314,7 @@ namespace 小科狗配置
           break;
         case "状态条":
         case "在线查找":
+        case "外部工具":
         case "快捷命令":
         case "快捷键":
         case "自启动应用":
@@ -2229,6 +2236,12 @@ namespace 小科狗配置
     private void Default_button_Click(object sender, RoutedEventArgs e)
     {
       File.Delete(globalSettingFilePath);
+      查找列表.Clear();
+      外部工具.Clear();
+      快键命令.Clear();
+      快键.Clear();
+      自启.Clear();
+      自动关机.Clear();
       LoadKegTxt("Keg_bak.txt");
     }
 
@@ -2260,52 +2273,37 @@ namespace 小科狗配置
 
       kegText += $"\n在线查找\n";
       foreach (var item in 查找列表)
-      {
         if (item.Enable)
-        {
           kegText += $"《在线查找={item.Name}::{item.Value}》\n";
-        }
-      }
+
+      kegText += $"\n外部工具动态菜单\n";
+      foreach (var item in 外部工具)
+        if (item.Enable)
+          kegText += $"《外部工具={item.Name}::{item.Value}》\n";
 
       kegText += $"\n运行命令行快键\n";
       foreach (var item in 快键命令)
-      {
         if (item.Enable)
-        {
           kegText += $"《运行命令行快键={item.Value}<命令行={item.CMD}>》》\n";
-        }
-      }
 
       kegText += $"\n快键\n";
       foreach (var item in 快键)
-      {
         if (item.Enable)
-        {
           kegText += $"《{item.Name}={item.Value}》\n";
-        }
-      }
 
       kegText += $"\n自启\n";
       foreach (var item in 自启)
-      {
         if (item.Enable)
-        {
           kegText += $"《自启={item.Value }》\n";
-        }
-      }
 
       kegText += $"\n自动关机\n";
       foreach (var item in 自动关机)
-      {
         if (item.Enable)
         {
           string[] str = item.Value.Split(':');
-          //if (str[0].Length != 2) str[0] = "0" + str[0];
           if (str[1].Length != 2) str[1] = "0" + str[1];
-
           kegText += $"《自动关机={str[0]}{str[1]}》\n";
         }
-      }
 
       // 写出文件 Keg.txt
       File.WriteAllText(kegFilePath, kegText);
@@ -2313,7 +2311,6 @@ namespace 小科狗配置
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null);
-        //Thread.Sleep(200);
         SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
       }
       catch (Exception ex)
@@ -2406,8 +2403,23 @@ namespace 小科狗配置
         查找列表.Add(item);
       }
 
-      
-      //pattern = "《(运行命令行快键)=(.*)》";
+      pattern = "《外部工具=(.*?)::(.*)》";
+      matches = Regex.Matches(kegText, pattern);
+      if (matches.Count > 0)
+      {
+        foreach (Match match in matches)
+        {
+          var item = new 列表项()
+          {
+            Enable = true,
+            Name = match.Groups[1].Value,
+            Value = match.Groups[2].Value,
+          };
+          外部工具.Add(item);
+        }
+      }
+
+
       pattern = "《(运行命令行快键)=(.*)<命令行=(.*)>》";
       matches = Regex.Matches(kegText, pattern);
       if (matches.Count > 0)
@@ -2523,6 +2535,7 @@ namespace 小科狗配置
       {
         状态栏和其它设置 = 设置项,
         查找列表         = 查找列表,
+        外部工具         = 外部工具,
         快键命令         = 快键命令,
         快键             = 快键,
         自启             = 自启,
@@ -2540,9 +2553,10 @@ namespace 小科狗配置
       {
         状态栏和其它设置 = new(),
         查找列表 = new ObservableCollection<列表项>(),
+        外部工具 = new ObservableCollection<列表项>(),
         快键命令 = new ObservableCollection<列表项>(),
-        快键 = new ObservableCollection<列表项>(),
-        自启 = new ObservableCollection<列表项>(),
+        快键     = new ObservableCollection<列表项>(),
+        自启     = new ObservableCollection<列表项>(),
         自动关机 = new ObservableCollection<列表项>()
       };
 
@@ -2550,6 +2564,7 @@ namespace 小科狗配置
       string jsonString = File.ReadAllText(globalSettingFilePath);
       全局设置 = JsonConvert.DeserializeObject<GlobalSettings>(jsonString);
       查找列表 = 全局设置.查找列表;
+      外部工具 = 全局设置.外部工具;
       快键命令 = 全局设置.快键命令;
       快键     = 全局设置.快键;
       自启     = 全局设置.自启;
@@ -2568,6 +2583,7 @@ namespace 小科狗配置
       color_label_11.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色));
 
       listView3.ItemsSource = 查找列表; // ListView的数据
+      listView8.ItemsSource = 外部工具;
       listView4.ItemsSource = 快键命令;
       listView5.ItemsSource = 快键;
       listView6.ItemsSource = 自启;
@@ -2747,7 +2763,16 @@ namespace 小科狗配置
         删除列表项(7, listitem);
       }
     }
+    private void DelButton8_Click(object sender, RoutedEventArgs e)
+    {
+      var dataItem = GetDataItem(sender, e);
 
+      // 检查dataItem是否是列表项的实例
+      if (dataItem is 列表项 listitem)
+      {
+        删除列表项(8, listitem);
+      }
+    }
     // 鼠标进入 ListViewItem 时触发
     private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
     {
@@ -2824,6 +2849,7 @@ namespace 小科狗配置
         switch (listViewNum)
         {
           case 3: 查找列表.Remove(listViewItem); break;
+          case 8: 外部工具.Remove(listViewItem); break;
           case 4: 快键命令.Remove(listViewItem); break;
           case 5: 快键.Remove(listViewItem); break;
           case 6: 自启.Remove(listViewItem); break;
@@ -2842,12 +2868,22 @@ namespace 小科狗配置
         var item = new 列表项()
         {
           Enable = false,
-          //Name = textBox_Copy25.Text,
-          //Value = textBox_Copy26.Text,
           Name = "",
           Value = ""
         };
         查找列表.Insert(0, item);
+      }
+
+      if (btn == add_button6)
+      {
+        ScrollViewerOffset("外部工具", 2);
+        var item = new 列表项()
+        {
+          Enable = false,
+          Name = "",
+          Value = ""
+        };
+        外部工具.Insert(0, item);
       }
 
       // 快捷命令 列表
@@ -2858,7 +2894,6 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = "运行命令行快键",
-          //Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>",
           Value = "",
         };
         快键命令.Insert(0, item);
@@ -2872,7 +2907,6 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(),
-          //Value = $"<1={t5.Text}><2={t6.Text}><3={t7.Text}><4={t8.Text}>",
           Value = "",
         };
         快键.Insert(0, item);
@@ -2886,7 +2920,6 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = "自启",
-          //Value = textBox_Copy37.Text,
           Value = "",
         };
         自启.Insert(0, item);
