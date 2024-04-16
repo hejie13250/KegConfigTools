@@ -4148,7 +4148,8 @@
                 Height="24"
                 Click="Run_button_Click"
                 Content="数据统计"
-                Style="{DynamicResource RoundButton2}" />
+                Style="{DynamicResource RoundButton2}"
+                ToolTip="打开小科狗打字数据统计" />
               <Button
                 x:Name="default_button"
                 Width="70"
@@ -4166,7 +4167,7 @@
                 Click="Apply2_button_Click"
                 Content="重新读取"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="将当前方案内修改项更新到服务端" />
+                ToolTip="将小科狗主目录读取全局设置" />
               <Button
                 x:Name="apply3_button"
                 Width="70"
@@ -4175,7 +4176,7 @@
                 Click="Apply3_button_Click"
                 Content="应用设置"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="将当前方案内修改项更新到服务端" />
+                ToolTip="保存全局设置并更新到服务端" />
 
 
             </StackPanel>
@@ -4555,6 +4556,7 @@
                       <StackPanel Grid.Row="1" Margin="0,0,0,0">
                         <ListView
                           x:Name="listView3"
+                          Margin="10,10,10,10"
                           d:ItemsSource="{d:SampleData ItemCount=3}"
                           BorderBrush="Black"
                           BorderThickness="1,1,1,1"
@@ -4570,7 +4572,7 @@
                           <ListView.View>
                             <GridView AllowsColumnReorder="True">
 
-                              <GridViewColumn Width="170" Header="名称">
+                              <GridViewColumn Width="160" Header="名称">
                                 <GridViewColumn.CellTemplate>
                                   <DataTemplate>
                                     <Border
