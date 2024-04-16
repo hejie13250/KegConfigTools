@@ -2620,74 +2620,6 @@ namespace 小科狗配置
     }
 
 
-
-    // listView 选中事件
-    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-      if (sender is ListView listView)
-      {
-        if (listView.SelectedItem is 列表项 selectedItem)
-        {
-          // 在线查找 列表
-          //if (listView == listView3)
-          //{
-          //  textBox_Copy25.Text = selectedItem.Name;
-          //  textBox_Copy26.Text = selectedItem.Value;
-          //}
-
-          // 快捷命令 列表
-          //else if (listView == listView4)
-          //{
-          //  string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><命令行=(.*?)>";
-          //  Match match = Regex.Match(selectedItem.Value, pattern);
-          //  if (match.Success)
-          //  {
-          //    t1.Text = match.Groups[1].Value;
-          //    t2.Text = match.Groups[2].Value;
-          //    t3.Text = match.Groups[3].Value;
-          //    t4.Text = match.Groups[4].Value;
-          //    tc.Text = match.Groups[5].Value;
-          //  }
-          //}
-
-          // 快捷键 列表
-          //else if (listView == listView5)
-          //{
-          //  string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
-          //  Match match = Regex.Match(selectedItem.Value, pattern);
-          //  if (match.Success)
-          //  {
-          //    t5.Text = match.Groups[1].Value;
-          //    t6.Text = match.Groups[2].Value;
-          //    t7.Text = match.Groups[3].Value;
-          //    t8.Text = match.Groups[4].Value;
-          //  }
-          //  for (int i = 0; i < comboBox4.Items.Count; i++)
-          //  {
-          //    string name = (comboBox4.Items[i] as ComboBoxItem)?.Content?.ToString();
-          //    if (name == selectedItem.Name)
-          //      comboBox4.SelectedIndex = i;
-          //  }
-          //}
-
-          // 自启应用 列表
-          //else if (listView == listView6)
-          //{
-          //  textBox_Copy37.Text = selectedItem.Value;
-          //}
-
-          //// 定时关机 列表
-          //else if (listView == listView7)
-          //{
-          //  var value = selectedItem.Value;
-          //  string[] strings = value.Split(':');
-          //  nud24.Value = int.Parse(strings[0].ToString());
-          //  nud25.Value = int.Parse(strings[1].ToString());
-          //}
-        }
-      }
-    }
-
     // 列表双击 启用/禁用选中项
     private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
@@ -2911,11 +2843,6 @@ namespace 小科狗配置
       return foundChild;
     }
 
-
-
-
-
-
     // listView 删除
     private void 删除列表项(int listViewNum, 列表项 listViewItem)
     {
@@ -3006,66 +2933,6 @@ namespace 小科狗配置
       }
     }
 
-    // listView 修改
-    private void Modify_button_Click(object sender, RoutedEventArgs e)
-    {
-      //var btn = sender as Button;
-      //// 在线查找 列表
-      //if (btn == modify_button1)
-      //{
-      //  if (listView3.SelectedItem is 列表项 selectedItem)
-      //  {
-      //    //selectedItem.Enable = "启用";
-      //    selectedItem.Name = textBox_Copy25.Text;
-      //    selectedItem.Value = textBox_Copy26.Text;
-      //  }
-      //}
-
-      // 快捷命令 列表
-      //if (btn == modify_button2)
-      //{
-      //  if (listView4.SelectedItem is 列表项 selectedItem)
-      //  {
-      //    //selectedItem.Enable = "启用";
-      //    selectedItem.Name = "运行命令行快键";
-      //    selectedItem.Value = $"<1={t1.Text}><2={t2.Text}><3={t3.Text}><4={t4.Text}><命令行={tc.Text}>";
-      //  }
-      //}
-
-      // 快捷键 列表
-      //if (btn == modify_button3)
-      //{
-      //  if (listView5.SelectedItem is 列表项 selectedItem)
-      //  {
-      //    //selectedItem.Enable = "启用";
-      //    selectedItem.Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString();
-      //    selectedItem.Value = $"<1={t5.Text}><2={t6.Text}><3={t7.Text}><4={t8.Text}>";
-      //  }
-      //}
-
-      // 自启应用 列表
-      //if (btn == modify_button4)
-      //{
-      //  if (listView6.SelectedItem is 列表项 selectedItem)
-      //  {
-      //    //selectedItem.Enable = "启用";
-      //    selectedItem.Name = "自启";
-      //    selectedItem.Value = textBox_Copy37.Text;
-      //  }
-      //}
-
-      //// 定时关机 列表
-      //if (btn == modify_button5)
-      //{
-      //  if (listView7.SelectedItem is 列表项 selectedItem)
-      //  {
-      //    //selectedItem.Enable = "禁用";
-      //    selectedItem.Name = "自动关机";
-      //    selectedItem.Value = $"{nud24.Value}:{nud25.Value}";
-      //  }
-      //}
-
-    }
 
     private void CheckBox3_Copy1_CheckedChanged(object sender, RoutedEventArgs e)
     {
@@ -3139,8 +3006,6 @@ namespace 小科狗配置
       image.Source = new BitmapImage(new Uri(skin));
     }
 
-
-
     private void SaveButton1_Click(object sender, RoutedEventArgs e)
     {
       if (skinListBox.SelectedIndex > 0)
@@ -3166,23 +3031,8 @@ namespace 小科狗配置
       }
     }
 
-
-
-    //private void Ttext_TextChanged(object sender, TextChangedEventArgs e)
-    //{
-    //  t2.IsEnabled = t1.Text != "";
-    //  t3.IsEnabled = t2.Text != "";
-    //  t4.IsEnabled = t3.Text != "";
-
-    //  t6.IsEnabled = t5.Text != "";
-    //  t7.IsEnabled = t6.Text != "";
-    //  t8.IsEnabled = t7.Text != "";
-    //}
-
-
-
     // 提示文本位置
-    private void RadioButton3_Click(object sender, RoutedEventArgs e)
+    private void RadioButton_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = (RadioButton)sender;
 
@@ -3193,7 +3043,7 @@ namespace 小科狗配置
           case "顶部":
             toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             break;
-          case "中部":
+          case "中间":
             toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             break;
           case "底部":
@@ -3202,20 +3052,6 @@ namespace 小科狗配置
         }
       }
     }
-
-
-
-    //private void Df_button_Click(object sender, RoutedEventArgs e)
-    //{
-
-    //  OpenFileDialog openFileDialog = new()
-    //  {
-    //    Filter = "应用 (*.exe)|*.exe|所有文件 (*.*)|*.*",
-    //    Title = "选择一个文件"
-    //  };
-    //  if (openFileDialog.ShowDialog() == FormsDialogResult.OK)
-    //    textBox_Copy37.Text = openFileDialog.FileName;
-    //}
 
     #endregion
 

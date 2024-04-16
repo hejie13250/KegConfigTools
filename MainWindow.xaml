@@ -2161,7 +2161,6 @@
                         Height="24"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        IsReadOnly="True"
                         Style="{DynamicResource RoundTextBox}"
                         Text="霞鹜文楷 GB 屏幕阅读版 R"
                         TextWrapping="NoWrap"
@@ -4408,7 +4407,6 @@
                             Height="24"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            IsReadOnly="True"
                             Style="{DynamicResource RoundTextBox}"
                             Text="楷体"
                             TextWrapping="NoWrap"
@@ -4443,7 +4441,7 @@
                             Margin="10,5,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            Click="RadioButton3_Click"
+                            Click="RadioButton_Click"
                             Content="顶部"
                             IsChecked="True" />
                           <RadioButton
@@ -4452,7 +4450,7 @@
                             Margin="10,5,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            Click="RadioButton3_Click"
+                            Click="RadioButton_Click"
                             Content="中间"
                             IsChecked="False" />
                           <RadioButton
@@ -4461,7 +4459,7 @@
                             Margin="10,5,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            Click="RadioButton3_Click"
+                            Click="RadioButton_Click"
                             Content="底部"
                             IsChecked="False" />
                         </StackPanel>

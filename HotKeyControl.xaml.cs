@@ -95,6 +95,9 @@ namespace 小科狗配置
         Tuple.Create("NumPad8"        , "x8" ),
         Tuple.Create("NumPad9"        , "x9" ),
         Tuple.Create("Decimal"        , "x." ),
+    }; 
+    private List<Tuple<string, string>> keyMap2 = new List<Tuple<string, string>>()
+    {
         Tuple.Create("A"              , "a"  ),
         Tuple.Create("B"              , "b"  ),
         Tuple.Create("C"              , "c"  ),
@@ -282,7 +285,8 @@ namespace 小科狗配置
         // 转换按键字符串名称
         foreach (var key in keyMap)
           hoKey = hoKey.Replace(key.Item1, key.Item2);
-
+        foreach (var key in keyMap2)
+          hoKey = hoKey.Replace("#" + key.Item1, "#" + key.Item2);
         txtHotKey.Text = hoKey.Trim('#', '#').Replace('#', '+');
 
         string pattern = "";
