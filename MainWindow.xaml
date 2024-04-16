@@ -3157,7 +3157,7 @@
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="启用右 Shift 键：" />
+                        Content="启用左 Shift 键：" />
                       <Label
                         x:Name="label4_Copy37"
                         Grid.Row="3"
@@ -3171,14 +3171,14 @@
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="启用右 Ctrl 键：" />
+                        Content="启用左 Ctrl 键：" />
                       <Label
                         x:Name="label4_Copy39"
                         Grid.Row="5"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="启用左 Ctrl 键：" />
+                        Content="启用右 Ctrl 键：" />
                       <Label
                         x:Name="label4_Copy40"
                         Grid.Row="6"
@@ -3684,7 +3684,7 @@
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        Content="码表引导快键 2 ：" />
+                        Content="候选词条要按码长短优先排序：" />
                       <Label
                         x:Name="label4_Copy22"
                         Grid.Row="9"
