@@ -2279,7 +2279,7 @@ namespace 小科狗配置
       kegText += $"\n外部工具动态菜单\n";
       foreach (var item in 外部工具)
         if (item.Enable)
-          kegText += $"《外部工具={item.Name}::{item.Value}》\n";
+          kegText += $"《外部工具={item.Name}:{item.Value}》\n";
 
       kegText += $"\n运行命令行快键\n";
       foreach (var item in 快键命令)
@@ -2403,7 +2403,7 @@ namespace 小科狗配置
         查找列表.Add(item);
       }
 
-      pattern = "《外部工具=(.*?)::(.*)》";
+      pattern = "《外部工具=(.*?):(.*)》";
       matches = Regex.Matches(kegText, pattern);
       if (matches.Count > 0)
       {
