@@ -388,8 +388,7 @@
           </Style>
         </Setter.Value>
       </Setter>
-      <Setter Property="Margin"
-              Value="0,0,0,0" />
+      <Setter Property="Margin" Value="0,0,0,0" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="HorizontalContentAlignment" Value="Left" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -5037,7 +5036,7 @@
                         Grid.Row="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="方案、查找、状态条和打开文字配置快键快键只在候选窗口显示情况下才起作用，除外：" />
+                        Content="快键只在候选窗口显示情况下才起作用，方案、查找、状态条和打开文字配置快键除外：" />
                       <CheckBox
                         x:Name="checkBox3_Copy2"
                         Grid.Row="1"
