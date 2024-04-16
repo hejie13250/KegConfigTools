@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -1487,14 +1488,14 @@ namespace 小科狗配置
       {
         canvas      = canvas1;
         thumb       = thumb1;
-        color_label = color_label_10;
+        //color_label = color_label_10;
         rgbTextBox  = rgb1;
       }
       else
       {
         canvas      = canvas2;
         thumb       = thumb2;
-        color_label = color_label_11;
+        //color_label = color_label_11;
         rgbTextBox  = rgb2;
       }
 
@@ -1514,13 +1515,11 @@ namespace 小科狗配置
 
         var c_color = new SolidColorBrush(color);
         rgbTextBox.RGBText = $"({color.R}, {color.G}, {color.B})";
-        color_label.Background = c_color;
+        // 更新Thumb的BorderBrush，取反色
+        var f_color = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
+        thumb.BorderBrush = f_color; 
         // 更新对应标签的背景颜色
         SetColorLableColor(c_color);
-
-
-        // 更新Thumb的BorderBrush，取反色
-        thumb.BorderBrush = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
       }
 
     }
@@ -1528,15 +1527,18 @@ namespace 小科狗配置
     // 更新对应标签的背景颜色
     private void SetColorLableColor(SolidColorBrush c_color)
     {
-      Label[] colorLabels = { color_label_1, color_label_2, color_label_3, color_label_4, color_label_5, color_label_6, color_label_7, color_label_8, color_label_9, color_label_10, color_label_11, color_label_12, color_label_13 };
+      Label[] colorLabels = { color_label_1, color_label_2, color_label_3, color_label_4, color_label_5, color_label_6, color_label_7, color_label_8, color_label_9, color_label_10, color_label_11 };
 
       for (int i = 1; i <= colorLabels.Length; i++)
-        if (i == select_color_label_num)
+        if (i == select_color_label_num){
           colorLabels[i - 1].Background = c_color;
-      color_label_10.Background = c_color;
-      color_label_11.Background = c_color;
+          var currentColor = ((SolidColorBrush)colorLabels[i - 1].Background).Color;
+          // 计算反色
+          var invertedColor = Color.FromArgb(255, (byte)~currentColor.R, (byte)~currentColor.G, (byte)~currentColor.B);
+          colorLabels[i - 1].BorderBrush = new SolidColorBrush(invertedColor);
+        }
 
-      if (select_color_label_num == 12 || select_color_label_num == 13)
+      if (select_color_label_num == 10 || select_color_label_num == 11)
         toolTipTextBlock.Foreground = c_color;
     }
 
@@ -1736,75 +1738,44 @@ namespace 小科狗配置
       return $"({r}, {g}, {b})";
     }
 
-    // 显示颜色的 label 鼠标放开事件
-    private void Color_label_MouseUp(object sender, MouseButtonEventArgs e)
-    {
-      Label label = sender as Label;
-
-    }
-
     // 显示颜色的 label 鼠标进入事件
     private void Color_label_MouseEnter(object sender, MouseEventArgs e)
     {
+
+      SolidColorBrush color1 = new((Color)ColorConverter.ConvertFromString("#FF000000"));  // 黑色
+      SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000"));  // 红色
+      color_label_001.Foreground = color1;
+      color_label_002.Foreground = color1;
+      color_label_003.Foreground = color1;
+      color_label_004.Foreground = color1;
+      color_label_005.Foreground = color1;
+      color_label_006.Foreground = color1;
+      color_label_007.Foreground = color1;
+      color_label_008.Foreground = color1;
+      color_label_009.Foreground = color1;
+      color_label_010.Foreground = color1;
+      color_label_011.Foreground = color1;
+
       Label label = sender as Label;
       switch (label.Name)
       {
-        case "color_label_1":
-          color_label_content.Content = "嵌入下划线色";
-          select_color_label_num = 1;
-          break;
-        case "color_label_2":
-          select_color_label_num = 2;
-          color_label_content.Content = "光标色";
-          break;
-        case "color_label_3":
-          color_label_content.Content = "分隔线色";
-          select_color_label_num = 3;
-          break;
-        case "color_label_4":
-          select_color_label_num = 4;
-          color_label_content.Content = "候选窗口边框色";
-          break;
-        case "color_label_5":
-          select_color_label_num = 5;
-          color_label_content.Content = "候选窗背景底色";
-          break;
-        case "color_label_6":
-          select_color_label_num = 6;
-          color_label_content.Content = "候选选中背景色";
-          break;
-        case "color_label_7":
-          select_color_label_num = 7;
-          color_label_content.Content = "候选选中字体色";
-          break;
-        case "color_label_8":
-          select_color_label_num = 8;
-          color_label_content.Content = "编码字体色";
-          break;
-        case "color_label_9":
-          select_color_label_num = 9;
-          color_label_content.Content = "候选字体色";
-          break;
-        case "color_label_10":
-          select_color_label_num = 0;
-          color_label_content.Content = "";
-          break;
-        case "color_label_11":
-          select_color_label_num = 0;
-          color_label_content1.Content = "";
-          break;
-        case "color_label_12":
-          select_color_label_num = 12;
-          color_label_content.Content = "中文字体色";
-          break;
-        case "color_label_13":
-          select_color_label_num = 13;
-          color_label_content.Content = "英文字体色";
-          break;
+        case "color_label_1": select_color_label_num  = 1 ; color_label_001.Foreground = color2; break;
+        case "color_label_2": select_color_label_num  = 2 ; color_label_002.Foreground = color2; break;
+        case "color_label_3": select_color_label_num  = 3 ; color_label_003.Foreground = color2; break;
+        case "color_label_4": select_color_label_num  = 4 ; color_label_004.Foreground = color2; break;
+        case "color_label_5": select_color_label_num  = 5 ; color_label_005.Foreground = color2; break;
+        case "color_label_6": select_color_label_num  = 6 ; color_label_006.Foreground = color2; break;
+        case "color_label_7": select_color_label_num  = 7 ; color_label_007.Foreground = color2; break;
+        case "color_label_8": select_color_label_num  = 8 ; color_label_008.Foreground = color2; break;
+        case "color_label_9": select_color_label_num  = 9 ; color_label_009.Foreground = color2; break;
+        case "color_label_10": select_color_label_num = 10; color_label_010.Foreground = color2; break;
+        case "color_label_11": select_color_label_num = 11; color_label_011.Foreground = color2; break;
       }
+      var currentColor = ((SolidColorBrush)label.Background).Color;
+      // 计算反色
+      var invertedColor = Color.FromArgb(255, (byte)~currentColor.R, (byte)~currentColor.G, (byte)~currentColor.B);
       label.BorderThickness = new Thickness(3);
-      color_label_10.Background = label.Background;
-      color_label_11.Background = label.Background;
+      label.BorderBrush = new SolidColorBrush(invertedColor);
       var hex = RemoveChars(label.Background.ToString(), 2);
       var rgb = HexToRgb(hex);
       rgb1.RGBText = rgb;
@@ -2079,7 +2050,8 @@ namespace 小科狗配置
     {
       color_label_5.Visibility = Visibility.Hidden;
       bkColor = (SolidColorBrush)color_label_5.Background;
-      //color_label_5.Background = new SolidColorBrush(Color.FromArgb(255, 255,255, 255));
+      color_label_005.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"));  // 黑色
+      select_color_label_num = 0;
     }
 
     private void Hxcds_checkBox_Unchecked(object sender, RoutedEventArgs e)
@@ -2087,6 +2059,7 @@ namespace 小科狗配置
       color_label_5.Visibility = Visibility.Visible;
       color_label_5.Background = bkColor;
     }
+
     private void Hxcds_checkBox_Click(object sender, RoutedEventArgs e)
     {
       if (hxcds_checkBox.IsChecked == false)
@@ -2277,8 +2250,8 @@ namespace 小科狗配置
       kegText += $"《提示文本的位置={取提示文本的位置()}》\n";
       kegText += $"《提示文本要隐藏吗？={要或不要((bool)checkBox3_Copy.IsChecked)}》\n";
       kegText += $"《提示文本要显示中英以及大小写状态吗？={要或不要((bool)checkBox3_Copy1.IsChecked)}》\n";
-      kegText += $"《提示文本中文字体色={HexToRgb(color_label_12.Background.ToString())}》\n";
-      kegText += $"《提示文本英文字体色={HexToRgb(color_label_13.Background.ToString())}》\n";
+      kegText += $"《提示文本中文字体色={HexToRgb(color_label_10.Background.ToString())}》\n";
+      kegText += $"《提示文本英文字体色={HexToRgb(color_label_11.Background.ToString())}》\n";
       kegText += $"《提示文本字体大小={nud23.Value}》\n";
       kegText += $"《提示文本字体名称={textBox_Copy24.Text}》\n";
       kegText += $"《打字字数统计等数据是要保存在主程文件夹下吗？={是或不是((bool)checkBox3_Copy3.IsChecked) }》\n";
@@ -2410,8 +2383,8 @@ namespace 小科狗配置
           case "提示文本的位置": 提示文本的位置(value); break;
           case "提示文本要隐藏吗？": checkBox3_Copy.IsChecked = IsTrueOrFalse(value); break;
           case "提示文本要显示中英以及大小写状态吗？": checkBox3_Copy1.IsChecked = IsTrueOrFalse(value); break;
-          case "提示文本中文字体色": color_label_12.Background = RGBStringToColor(value); break;
-          case "提示文本英文字体色": color_label_13.Background = RGBStringToColor(value); break;
+          case "提示文本中文字体色": color_label_10.Background = RGBStringToColor(value); break;
+          case "提示文本英文字体色": color_label_11.Background = RGBStringToColor(value); break;
           case "提示文本字体大小": nud23.Value = int.Parse(value); break;
           case "提示文本字体名称": textBox_Copy24.Text = value; break;
           case "打字字数统计等数据是要保存在主程文件夹下吗？": checkBox3_Copy3.IsChecked = IsTrueOrFalse(value); break;
@@ -2542,8 +2515,8 @@ namespace 小科狗配置
         打字字数统计等数据是要保存在主程文件夹下吗 = (bool)checkBox3_Copy3.IsChecked,
         快键只在候选窗口显示情况下才起作用吗       = (bool)checkBox3_Copy2.IsChecked,
         要启用深夜锁屏吗                           = (bool)checkBox3_Copy4.IsChecked,
-        提示文本中文字体色                         = RemoveChars(color_label_12.Background.ToString(), 2),
-        提示文本英文字体色                         = RemoveChars(color_label_13.Background.ToString(), 2),
+        提示文本中文字体色                         = RemoveChars(color_label_10.Background.ToString(), 2),
+        提示文本英文字体色                         = RemoveChars(color_label_11.Background.ToString(), 2),
     };
 
       全局设置 = new()
@@ -2591,8 +2564,8 @@ namespace 小科狗配置
       checkBox3_Copy1.IsChecked = 设置项.提示文本要显示中英以及大小写状态吗;
       checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
       checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
-      color_label_12.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色));
-      color_label_13.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色));
+      color_label_10.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色));
+      color_label_11.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色));
 
       listView3.ItemsSource = 查找列表; // ListView的数据
       listView4.ItemsSource = 快键命令;

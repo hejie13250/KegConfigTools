@@ -360,8 +360,7 @@
       <Setter Property="Width" Value="730" />
       <Setter Property="Height" Value="auto" />
       <Setter Property="Margin" Value="10,10,10,10" />
-      <Setter Property="Background" Value="#FFF2F2F2" />
-      <Setter Property="Foreground" Value="Green" />
+      <Setter Property="Background" Value="#fff2f2f2" />
     </Style>
     <Style x:Key="CustomBorderStyle" TargetType="{x:Type Border}">
       <Setter Property="Width" Value="720" />
@@ -389,8 +388,8 @@
           </Style>
         </Setter.Value>
       </Setter>
-      <Setter Property="Margin" Value="0,0,0,0" />
-
+      <Setter Property="Margin"
+              Value="0,0,0,0" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="HorizontalContentAlignment" Value="Left" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -443,7 +442,7 @@
                   </Setter.Value>
                 </Setter>
                 <Setter Property="Padding" Value="4,-1,0,0" />
-                <Setter Property="Foreground" Value="#8F8F8F" />
+                <Setter Property="Foreground" Value="Black" />
               </Trigger>
               <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="border" Property="Background" Value="Green" />
@@ -566,7 +565,6 @@
               <Border
                 x:Name="TrackBackground"
                 Width="20"
-                Margin="0,3"
                 HorizontalAlignment="Center"
                 BorderBrush="Gray"
                 BorderThickness="1">
@@ -683,7 +681,7 @@
       <ColumnDefinition Width="150" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    <Grid Background="Black">
+    <Grid Background="#fff2f2f2">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="50" />
@@ -693,7 +691,6 @@
           <TextBlock
             Margin="15,15,0,20"
             FontSize="13"
-            Foreground="#8F8F8F"
             Text="小科狗配置工具" />
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
@@ -1280,19 +1277,19 @@
                             Value="2" />
 
                           <Label
-                            x:Name="color_label_01"
+                            x:Name="color_label_001"
                             Grid.Row="4"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="嵌入下划线色：" />
                           <Label
-                            x:Name="color_label_02"
+                            x:Name="color_label_002"
                             Grid.Row="5"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="光标色：" />
                           <Label
-                            x:Name="color_label_04"
+                            x:Name="color_label_004"
                             Grid.Row="7"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -1312,37 +1309,37 @@
                             ToolTip="选中后使用对话框背景色"
                             Unchecked="Hxcds_checkBox_Unchecked" />
                           <Label
-                            x:Name="color_label_05"
+                            x:Name="color_label_005"
                             Grid.Row="8"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="候选窗背景底色：" />
                           <Label
-                            x:Name="color_label_06"
+                            x:Name="color_label_006"
                             Grid.Row="9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="候选选中背景色：" />
                           <Label
-                            x:Name="color_label_07"
+                            x:Name="color_label_007"
                             Grid.Row="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="候选选中字体色：" />
                           <Label
-                            x:Name="color_label_03"
+                            x:Name="color_label_003"
                             Grid.Row="6"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="分隔线色：" />
                           <Label
-                            x:Name="color_label_08"
+                            x:Name="color_label_008"
                             Grid.Row="11"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="编码字体色：" />
                           <Label
-                            x:Name="color_checkBox_09"
+                            x:Name="color_label_009"
                             x:Uid="String1"
                             Grid.Row="12"
                             HorizontalAlignment="Left"
@@ -1705,6 +1702,7 @@
                                 x:Name="hue_slider"
                                 Width="24"
                                 Height="170"
+                                Margin="5,0,0,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
                                 IsSnapToTickEnabled="True"
@@ -1720,28 +1718,12 @@
                                 Value="0" />
                             </StackPanel>
                             <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
-                              <Label
-                                x:Name="color_label_10"
-                                Width="46"
-                                Height="46"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                Background="Red"
-                                BorderBrush="Black"
-                                BorderThickness="1,1,1,1"
-                                MouseEnter="Color_label_MouseEnter"
-                                MouseLeave="Color_label_MouseLeave"
-                                Style="{StaticResource RoundedLabel}"
-                                TabIndex="3115"
-                                Tag="" />
-                              <StackPanel Orientation="Vertical">
+                              <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
                                 <Label
-                                  x:Name="color_label_content"
-                                  Height="26"
-                                  Margin="5,0,0,0"
+                                  Height="auto"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Bottom"
-                                  Foreground="Red" />
+                                  Content="自定义：" />
                                 <local:RGBTextBox
                                   x:Name="rgb1"
                                   Height="20"
@@ -1749,45 +1731,7 @@
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Center"
                                   ValueChanged="RGB_ValueChanged" />
-                                <!--<StackPanel Orientation="Horizontal">
-                                  <Label
-                                    x:Name="color11_label"
-                                    Height="auto"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Content="RGB:" />
-                                  <TextBox
-                                    x:Name="color_textBox_1"
-                                    Width="33"
-                                    Height="18"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    PreviewTextInput="TextBox_PreviewTextInput"
-                                    Text="255"
-                                    TextWrapping="NoWrap" />
 
-                                  <TextBox
-                                    x:Name="g1"
-                                    Width="33"
-                                    Height="18"
-                                    Margin="5,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    KeyDown="TextBox_KeyDown"
-                                    Text="255"
-                                    TextWrapping="NoWrap" />
-                                  <TextBox
-                                    x:Name="b1"
-                                    Width="33"
-                                    Height="18"
-                                    Margin="5,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    KeyDown="TextBox_KeyDown"
-                                    Text="255"
-                                    TextWrapping="NoWrap" />
-
-                                </StackPanel>-->
                               </StackPanel>
                             </StackPanel>
                           </StackPanel>
@@ -4329,19 +4273,19 @@
                           VerticalAlignment="Center"
                           Content="显示中英以及大小写状态：" />
                         <Label
-                          x:Name="color_label_01_Copy"
+                          x:Name="color_label_010"
                           Grid.Row="2"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Center"
                           Content="提示文本中文字体色：" />
                         <Label
-                          x:Name="color_label_02_Copy"
+                          x:Name="color_label_011"
                           Grid.Row="3"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Center"
                           Content="提示文本英文字体色：" />
                         <Label
-                          x:Name="color_label_12"
+                          x:Name="color_label_10"
                           Grid.Row="2"
                           Grid.Column="1"
                           Width="50"
@@ -4357,7 +4301,7 @@
                           TabIndex="3107"
                           Tag="" />
                         <Label
-                          x:Name="color_label_13"
+                          x:Name="color_label_11"
                           Grid.Row="3"
                           Grid.Column="1"
                           Width="50"
@@ -4503,6 +4447,22 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom">
                         <StackPanel Orientation="Vertical">
+                          <!--<StackPanel Orientation="Horizontal">
+                            <Label
+                              Height="auto"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Bottom"
+                              Content="当前取色项为："
+                              Foreground="Red" />
+                            <Label
+                              x:Name="color_label_content1"
+                              Height="26"
+                              Margin="5,0,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Bottom"
+                              Foreground="Red" />
+                          </StackPanel>-->
+
                           <StackPanel Orientation="Horizontal">
                             <Canvas
                               x:Name="canvas2"
@@ -4542,8 +4502,9 @@
                               x:Name="hue_slider1"
                               Width="24"
                               Height="170"
+                              Margin="5,0,0,0"
                               HorizontalAlignment="Right"
-                              VerticalAlignment="Bottom"
+                              VerticalAlignment="Top"
                               IsSnapToTickEnabled="True"
                               LargeChange="1"
                               Maximum="360"
@@ -4560,29 +4521,13 @@
                               </Slider.Background>
                             </Slider>
                           </StackPanel>
-                          <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
-                            <Label
-                              x:Name="color_label_11"
-                              Width="46"
-                              Height="46"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Bottom"
-                              Background="Red"
-                              BorderBrush="Black"
-                              BorderThickness="1,1,1,1"
-                              MouseEnter="Color_label_MouseEnter"
-                              MouseLeave="Color_label_MouseLeave"
-                              Style="{StaticResource RoundedLabel}"
-                              TabIndex="3115"
-                              Tag="" />
-                            <StackPanel Orientation="Vertical">
+                          <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
                               <Label
-                                x:Name="color_label_content1"
-                                Height="26"
-                                Margin="5,0,0,0"
+                                Height="auto"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Foreground="Red" />
+                                Content="自定义：" />
                               <local:RGBTextBox
                                 x:Name="rgb2"
                                 Height="20"
@@ -5261,6 +5206,7 @@
                 VerticalAlignment="Top"
                 Click="CheckBox2_Click"
                 Content="确认后直接退出 "
+                IsChecked="True"
                 Style="{DynamicResource CheckBoxStyle}" />
 
 

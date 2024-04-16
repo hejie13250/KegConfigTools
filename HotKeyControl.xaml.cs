@@ -285,8 +285,10 @@ namespace 小科狗配置
         // 转换按键字符串名称
         foreach (var key in keyMap)
           hoKey = hoKey.Replace(key.Item1, key.Item2);
-        foreach (var key in keyMap2)
-          hoKey = hoKey.Replace("#" + key.Item1, "#" + key.Item2);
+        // 组合键转换最后一个字母键为大写
+        if (pressedKeys.Count > 1)
+            hoKey = CapitalizeLastLetter(hoKey);
+
         txtHotKey.Text = hoKey.Trim('#', '#').Replace('#', '+');
 
         string pattern = "";
@@ -314,7 +316,27 @@ namespace 小科狗配置
       }
       HotKeyPressed?.Invoke(this, new RoutedEventArgs());
     }
+    public string CapitalizeLastLetter(string input)
+    {
+      if (string.IsNullOrEmpty(input))
+        return input;
 
+      // 取得字符串的最后一个字符
+      char lastChar = input[input.Length - 1];
+
+      // 检查最后一个字符是否为字母
+      if (char.IsLetter(lastChar))
+      {
+        // 如果是字母，将它转换为大写
+        lastChar = char.ToUpper(lastChar);
+
+        // 返回除最后一个字符之外的所有字符加上转化后的大写字符
+        return input.Substring(0, input.Length - 1) + lastChar;
+      }
+
+      // 如果最后一个字符不是字母，直接返回原字符串
+      return input;
+    }
 
   }
 }
