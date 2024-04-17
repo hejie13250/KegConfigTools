@@ -1088,7 +1088,6 @@
                 Margin="5,0,0,0"
                 Click="Restor_default_button_Click"
                 Content="重新读取"
-                IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="从服务端重新读取当前方案的配置" />
 
@@ -1098,7 +1097,6 @@
                 Margin="5,0,0,0"
                 Click="Loading_templates_button_Click"
                 Content="加载模板"
-                IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="从服务端读取默认的配置模板" />
               <!--<Button
@@ -1116,7 +1114,6 @@
                 Margin="5,0,0,0"
                 Click="Set_as_default_Click"
                 Content="设为默认"
-                IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="将当前方案设为所有进程默认方案" />
 
@@ -1126,7 +1123,6 @@
                 Margin="5,0,0,0"
                 Click="Apply_button_Click"
                 Content="应用修改"
-                IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="将当前方案内修改项更新到服务端" />
               <Button
@@ -1135,7 +1131,6 @@
                 Margin="5,0,0,0"
                 Click="Apply_save_button_Click"
                 Content="保存内存数据"
-                IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="点击后服务端将保存内存数据到到数据库" />
               <Button
@@ -1144,7 +1139,6 @@
                 Margin="5,0,0,0"
                 Click="Apply_All_button_Click"
                 Content="更新内存数据"
-                IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="点击后服务端将从数据库重新读取配置" />
 

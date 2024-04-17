@@ -105,7 +105,7 @@ namespace 小科狗配置
     readonly string kegPath;                         // 小科狗主程序目录
     string bgString;                                 // 存放字体色串
     string currentConfig, modifiedConfig;            // 存少当前配置和当前修改的配置
-    readonly string dbPath, kegFilePath;             // Keg.db 和 Keg.txt 文件路径
+    readonly string kegFilePath;             // Keg.db 和 Keg.txt 文件路径
     //NotifyIcon notifyIcon;                           // 托盘图标
     #endregion
 
@@ -207,6 +207,14 @@ namespace 小科狗配置
     {
       InitializeComponent();
 
+      restor_default_button   .Visibility = Visibility.Collapsed;
+      loading_templates_button.Visibility = Visibility.Collapsed;
+      set_as_default_button   .Visibility = Visibility.Collapsed;
+      apply_button            .Visibility = Visibility.Collapsed;
+      apply_save_button       .Visibility = Visibility.Collapsed;
+      apply_all_button        .Visibility = Visibility.Collapsed;
+      comboBox                .Visibility = Visibility.Collapsed;
+
       settingConfigFile = appPath + "\\窗口配置.ini";
 
       // 获取小科狗主程序目录
@@ -218,7 +226,7 @@ namespace 小科狗配置
         else Close();
       }
       kegFilePath = kegPath + "\\Keg.txt";
-      dbPath = kegPath + "\\Keg.db";
+      //dbPath = kegPath + "\\Keg.db";
 
       toolTipTextBlock.Text = $"{zh_en}{labelName}";
 
@@ -401,7 +409,16 @@ namespace 小科狗配置
     private void GetList_button_Click(object sender, RoutedEventArgs e)
     {
       LoadTableNames();
+
+      restor_default_button   .Visibility = Visibility.Visible;
+      loading_templates_button.Visibility = Visibility.Visible;
+      set_as_default_button   .Visibility = Visibility.Visible;
+      apply_button            .Visibility = Visibility.Visible;
+      apply_save_button       .Visibility = Visibility.Visible;
+      apply_all_button        .Visibility = Visibility.Visible;
+      comboBox                .Visibility = Visibility.Visible;
     }
+
     private void LoadTableNames()
     {
       try
@@ -510,15 +527,6 @@ namespace 小科狗配置
 
       currentConfig = GetConfig(labelName);
       SetControlsValue();
-      
-      restor_default_button.IsEnabled     = true;
-      loading_templates_button.IsEnabled  = true;
-      set_as_default_button.IsEnabled     = true;
-      apply_button.IsEnabled              = true;
-      apply_save_button.IsEnabled         = true;
-      apply_all_button.IsEnabled          = true;
-      //res_button.IsEnabled                = true;
-      getList_button.IsEnabled            = true;
     }
 
     // 加载默认设置
@@ -1653,8 +1661,7 @@ namespace 小科狗配置
 
     private void Hue_slider_MouseUp(object sender, MouseButtonEventArgs e)
     {
-      var slider = sender as Slider;
-      if (slider != null)
+      if (sender is Slider slider)
       {
         var point = e.GetPosition(slider);
         // 计算点击位置相对于Slider的比例
@@ -2622,12 +2629,8 @@ namespace 小科狗配置
     private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
       if (sender is ListView listView)
-      {
         if (listView.SelectedItem is 列表项 selectedItem)
-        {
           selectedItem.Enable = selectedItem.Enable == true;
-        }
-      }
     }
 
     private object GetDataItem(object sender, RoutedEventArgs e)
@@ -2653,73 +2656,38 @@ namespace 小科狗配置
       var dataItem = GetDataItem(sender, e);
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
-        listitem.Value = hotKeyControl.HotKey;
-      }
+      listitem.Value = hotKeyControl.HotKey;
     }
     private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)
     {
-      // sender是触发事件的TextBox控件
-      TextBox textBox = sender as TextBox;
-
-      // 确保textBox不是null
-      if (textBox != null)
+      if (sender is TextBox textBox)
       {
         // 获取TextBox的DataContext，它应该是一个列表项实例
-
         // 确保item不是null
         if (textBox.DataContext is 列表项 item)
-        {
-          // 更新列表项的Name属性
-          item.Name = textBox.Text;
-        }
+        item.Name = textBox.Text;
       }
     }
     private void TextBox2_TextChanged(object sender, TextChangedEventArgs e)
     {
-      // sender是触发事件的TextBox控件
-      TextBox textBox = sender as TextBox;
-
-      // 确保textBox不是null
-      if (textBox != null)
-      {
-        // 获取TextBox的DataContext，它应该是一个列表项实例
-
-        // 确保item不是null
+      if (sender is TextBox textBox)
         if (textBox.DataContext is 列表项 item)
-        {
           item.Value = textBox.Text;
-        }
-      }
     }
 
     private void TextBox3_TextChanged(object sender, TextChangedEventArgs e)
     {
-      // sender是触发事件的TextBox控件
-      TextBox textBox = sender as TextBox;
-
-      // 确保textBox不是null
-      if (textBox != null)
-      {
-        // 获取TextBox的DataContext，它应该是一个列表项实例
-
-        // 确保item不是null
+      if (sender is TextBox textBox)
         if (textBox.DataContext is 列表项 item)
-        {
           item.CMD = textBox.Text;
-        }
-      }
     }
 
     private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
       var dataItem = GetDataItem(sender, e);
-
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
         listitem.Enable = listitem.Enable == true;
-      }
     }
     private void DelButton3_Click(object sender, RoutedEventArgs e)
     {
@@ -2727,9 +2695,7 @@ namespace 小科狗配置
 
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
         删除列表项(3, listitem);
-      }
     }
     private void DelButton4_Click(object sender, RoutedEventArgs e)
     {
@@ -2737,9 +2703,7 @@ namespace 小科狗配置
 
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
         删除列表项(4, listitem);
-      }
     }
 
     private void DelButton5_Click(object sender, RoutedEventArgs e)
@@ -2748,9 +2712,7 @@ namespace 小科狗配置
 
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
         删除列表项(5, listitem);
-      }
     }
     private void DelButton6_Click(object sender, RoutedEventArgs e)
     {
@@ -2758,9 +2720,7 @@ namespace 小科狗配置
 
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
-        删除列表项(6, listitem);
-      }
+      删除列表项(6, listitem);
     }
     private void DelButton7_Click(object sender, RoutedEventArgs e)
     {
@@ -2768,9 +2728,7 @@ namespace 小科狗配置
 
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
-        删除列表项(7, listitem);
-      }
+      删除列表项(7, listitem);
     }
     private void DelButton8_Click(object sender, RoutedEventArgs e)
     {
@@ -2778,9 +2736,7 @@ namespace 小科狗配置
 
       // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
-      {
-        删除列表项(8, listitem);
-      }
+      删除列表项(8, listitem);
     }
     // 鼠标进入 ListViewItem 时触发
     private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
@@ -2790,9 +2746,7 @@ namespace 小科狗配置
       {
         Button delButton = FindChild<Button>(item, "delButton");
         if (delButton != null)
-        {
-          delButton.Visibility = Visibility.Visible;  // 显示按钮
-        }
+        delButton.Visibility = Visibility.Visible;
       }
     }
 
@@ -2804,9 +2758,7 @@ namespace 小科狗配置
       {
         Button delButton = FindChild<Button>(item, "delButton");
         if (delButton != null)
-        {
-          delButton.Visibility = Visibility.Hidden;  // 隐藏按钮
-        }
+        delButton.Visibility = Visibility.Hidden;
       }
     }
 
