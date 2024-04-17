@@ -39,11 +39,11 @@ namespace 小科狗配置
 
 
 
-    public new void Exit()
-    {
-      this.MainWindow.Close();
-      Application.Current.Shutdown();
-    }
+    //public new void Exit()
+    //{
+    //  this.MainWindow.Close();
+    //  Application.Current.Shutdown();
+    //}
   }
 
 }

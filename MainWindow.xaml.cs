@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,7 +18,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -30,7 +27,6 @@ using GroupBox = System.Windows.Controls.GroupBox;
 using Label = System.Windows.Controls.Label;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
-using MenuItem = System.Windows.Forms.MenuItem;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Path = System.IO.Path;
@@ -110,7 +106,7 @@ namespace 小科狗配置
     string bgString;                                 // 存放字体色串
     string currentConfig, modifiedConfig;            // 存少当前配置和当前修改的配置
     readonly string dbPath, kegFilePath;             // Keg.db 和 Keg.txt 文件路径
-    NotifyIcon notifyIcon;                           // 托盘图标
+    //NotifyIcon notifyIcon;                           // 托盘图标
     #endregion
 
     #region 全局设置界面列表项定义
@@ -209,6 +205,8 @@ namespace 小科狗配置
 
     public MainWindow()
     {
+      InitializeComponent();
+
       settingConfigFile = appPath + "\\窗口配置.ini";
 
       // 获取小科狗主程序目录
@@ -220,24 +218,16 @@ namespace 小科狗配置
         else Close();
       }
       kegFilePath = kegPath + "\\Keg.txt";
-      dbPath      = kegPath + "\\Keg.db";
+      dbPath = kegPath + "\\Keg.db";
 
-      InitializeComponent();
-      Loaded += MainWindow_Loaded;
-    }
-
-    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-      // 读取 setting.ini
-      LoadSettingConfig();
       toolTipTextBlock.Text = $"{zh_en}{labelName}";
 
-      查找列表  = new ObservableCollection<列表项>();
-      外部工具  = new ObservableCollection<列表项>();
-      快键命令  = new ObservableCollection<列表项>();
-      快键      = new ObservableCollection<列表项>();
-      自启      = new ObservableCollection<列表项>();
-      自动关机  = new ObservableCollection<列表项>();
+      查找列表 = new ObservableCollection<列表项>();
+      外部工具 = new ObservableCollection<列表项>();
+      快键命令 = new ObservableCollection<列表项>();
+      快键 = new ObservableCollection<列表项>();
+      自启 = new ObservableCollection<列表项>();
+      自动关机 = new ObservableCollection<列表项>();
 
       listView3.DataContext = 查找列表;
       listView8.DataContext = 外部工具;
@@ -246,12 +236,21 @@ namespace 小科狗配置
       listView6.DataContext = 自启;
       listView7.DataContext = 自动关机;
 
+      Loaded += MainWindow_Loaded;
+    }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+      // 读取 setting.ini
+      LoadSettingConfig();
+
+
       Bitmap      = new WriteableBitmap(170, 170, 170, 170, PixelFormats.Bgra32, null);
       DataContext = this;
       LoadImages();
       UpdateBitmap();       // 生成 取色图
-      InitIcon();           // 载入托盘图标
-      LoadTableNames();     // 载入码表方案名称
+      //InitIcon();           // 载入托盘图标
+      //LoadTableNames();     // 载入码表方案名称
       LoadJson();           // 读取 配色方案.jsonString
       LoadHxFile();         // 读取 候选序号.txt
       ReadKegText();        // 读取 全局设置
@@ -398,6 +397,11 @@ namespace 小科狗配置
     #endregion
 
     #region 顶部控件事件
+    // 载入码表方案名称
+    private void GetList_button_Click(object sender, RoutedEventArgs e)
+    {
+      LoadTableNames();
+    }
     private void LoadTableNames()
     {
       try
@@ -419,6 +423,8 @@ namespace 小科狗配置
       // 将每行作为一个项添加到ComboBox中
       foreach (string line in lines)
         comboBox.Items.Add(line);
+      comboBox.SelectedIndex = 0;
+      getList_button.Visibility = Visibility.Collapsed;
     }
     private string GetConfig(string labelName)
     {
@@ -458,38 +464,39 @@ namespace 小科狗配置
     }
 
     // 删除Keg.db内所有方案配置
-    private void Res_button_Click(object sender, RoutedEventArgs e)
-    {
-      var result = MessageBox.Show(
-      $"如果你的方案配置出了问题，确定后将删除 Keg.db 内所有方案的配置！",
-      "清除操作",
-      MessageBoxButton.OKCancel,
-      MessageBoxImage.Question);
+    //private void Res_button_Click(object sender, RoutedEventArgs e)
+    //{
+    //  var result = MessageBox.Show(
+    //  $"如果你的方案配置出了问题，确定后将删除 Keg.db 内所有方案的配置！",
+    //  "清除操作",
+    //  MessageBoxButton.OKCancel,
+    //  MessageBoxImage.Question);
 
-      if (result == MessageBoxResult.OK)
-      {
-        // 连接到SQLite数据库
-        using var conn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
-        conn.Open();
+    //  if (result == MessageBoxResult.OK)
+    //  {
+    //    // 连接到SQLite数据库
+    //    using var conn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+    //    conn.Open();
 
-        // 创建命令对象
-        var cmd = new SQLiteCommand("SELECT name FROM sqlite_master WHERE type='table';", conn);
+    //    // 创建命令对象
+    //    var cmd = new SQLiteCommand("SELECT name FROM sqlite_master WHERE type='table';", conn);
 
-        // 执行命令，获取数据表名
-        var tables = cmd.ExecuteReader();
-        while (tables.Read())
-        {
-          string tableName = tables.GetString(0);
+    //    // 执行命令，获取数据表名
+    //    var tables = cmd.ExecuteReader();
+    //    while (tables.Read())
+    //    {
+    //      string tableName = tables.GetString(0);
 
-          // 更新每个表中的配置值
-          var updateCmd = new SQLiteCommand($"UPDATE {tableName} SET value='' WHERE key='配置';", conn);
-          updateCmd.ExecuteNonQuery();
-        }
+    //      // 更新每个表中的配置值
+    //      var updateCmd = new SQLiteCommand($"UPDATE {tableName} SET value='' WHERE key='配置';", conn);
+    //      updateCmd.ExecuteNonQuery();
+    //    }
 
-        // 提交事务
-        conn.Close();
-      }
-    }
+    //    // 提交事务
+    //    conn.Close();
+    //  }
+    //}
+
     private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
     {
       comboBox.Focus();
@@ -510,7 +517,8 @@ namespace 小科狗配置
       apply_button.IsEnabled              = true;
       apply_save_button.IsEnabled         = true;
       apply_all_button.IsEnabled          = true;
-      res_button.IsEnabled                = true;
+      //res_button.IsEnabled                = true;
+      getList_button.IsEnabled            = true;
     }
 
     // 加载默认设置
@@ -615,21 +623,21 @@ namespace 小科狗配置
     }
 
     // 关闭窗口后直接退出
-    private void CheckBox2_Click(object sender, RoutedEventArgs e)
-    {
-      if (checkBox2.IsChecked == true)
-        SetValue("window", "closed", "1");
-      else
-        SetValue("window", "closed", "0");
-    }
+    //private void CheckBox2_Click(object sender, RoutedEventArgs e)
+    //{
+    //  if (checkBox2.IsChecked == true)
+    //    SetValue("window", "closed", "1");
+    //  else
+    //    SetValue("window", "closed", "0");
+    //}
 
     // 窗口置顶
-    private void CheckBox3_Click(object sender, RoutedEventArgs e)
-    {
-      this.Topmost = (bool)checkBox2.IsChecked;
-      var topmost = checkBox2.IsChecked == true ? "1" : "0";
-      SetValue("window", "topmost", topmost);
-    }
+    //private void CheckBox3_Click(object sender, RoutedEventArgs e)
+    //{
+    //  this.Topmost = (bool)checkBox2.IsChecked;
+    //  var topmost = checkBox2.IsChecked == true ? "1" : "0";
+    //  SetValue("window", "topmost", topmost);
+    //}
 
     // 获取已修改项
     public static string GetDifferences(string modifiedConfig, string currentConfig)
@@ -664,7 +672,7 @@ namespace 小科狗配置
     // 读取 setting.ini
     private void LoadSettingConfig()
     {
-      checkBox2.IsChecked = GetValue("window", "closed") == "1";
+      //checkBox2.IsChecked = GetValue("window", "closed") == "1";
       bool isNumberValid  = int.TryParse(GetValue("window", "height"), out int height);
       nud22.Value         = isNumberValid ? height : 600;
       this.Width          = 900;
@@ -1488,7 +1496,7 @@ namespace 小科狗配置
     {
       Canvas canvas;
       Thumb thumb;
-      Label color_label;
+      //Label color_label;
       RGBTextBox rgbTextBox;
 
       if (Grid1.Visibility == Visibility.Visible)
@@ -2087,78 +2095,78 @@ namespace 小科狗配置
     #region 托盘图标
 
     // 加载托盘图标
-    private void InitIcon(){
-      // 阻止默认的关闭行为
-      //this.Closing += MainWindow_Closing;
+    //private void InitIcon(){
+    //  // 阻止默认的关闭行为
+    //  //this.Closing += MainWindow_Closing;
 
-      notifyIcon = new NotifyIcon
-      {
-        Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath),
-        Tag = this,
-        Visible = true
-    };
+    //  notifyIcon = new NotifyIcon
+    //  {
+    //    Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath),
+    //    Tag = this,
+    //    Visible = true
+    //};
 
-      MenuItem menuItem1 = new("显示配置窗口"); menuItem1.Click += MenuItem1_Click;
-      MenuItem menuItem5 = new("显示/隐藏壮态条"); menuItem5.Click += MenuItem5_Click;
-      MenuItem menuItem4 = new("重启服务端"); menuItem4.Click += MenuItem4_Click;
-      MenuItem menuItem2 = new("关于"); menuItem2.Click += MenuItem2_Click;
-      MenuItem menuItem3 = new("退出"); menuItem3.Click += MenuItem3_Click;
+    //  MenuItem menuItem1 = new("显示配置窗口"); menuItem1.Click += MenuItem1_Click;
+    //  MenuItem menuItem5 = new("显示/隐藏壮态条"); menuItem5.Click += MenuItem5_Click;
+    //  MenuItem menuItem4 = new("重启服务端"); menuItem4.Click += MenuItem4_Click;
+    //  MenuItem menuItem2 = new("关于"); menuItem2.Click += MenuItem2_Click;
+    //  MenuItem menuItem3 = new("退出"); menuItem3.Click += MenuItem3_Click;
 
 
 
-      MenuItem[] menuItems = new MenuItem[] {
-        menuItem1,  //显示配置窗口
-        //menuItem5,  //显示/隐藏壮态条
-        //menuItem4,  //重启服务端
-        //menuItem2,  //关于
-        menuItem3   //退出
-      };
-      notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
-      // 添加托盘图标双击事件处理
-      notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
-    }
+    //  MenuItem[] menuItems = new MenuItem[] {
+    //    menuItem1,  //显示配置窗口
+    //    //menuItem5,  //显示/隐藏壮态条
+    //    //menuItem4,  //重启服务端
+    //    //menuItem2,  //关于
+    //    menuItem3   //退出
+    //  };
+    //  notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
+    //  // 添加托盘图标双击事件处理
+    //  notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
+    //}
 
     // 发送Ctrl+F1组合键
-    private void MenuItem5_Click(object sender, EventArgs e)
-    {
-      SendKeys.SendWait("^(F1)");
-    }
+    //private void MenuItem5_Click(object sender, EventArgs e)
+    //{
+    //  SendKeys.SendWait("^(F1)");
+    //}
 
     // 查找并关闭所有名为“KegServer”的进程
-    private void MenuItem4_Click(object sender, EventArgs e)
-    {
-      foreach (var process in Process.GetProcessesByName("KegServer"))
-      {
-        process.Kill();
-        process.WaitForExit(); // 等待进程关闭
-      }
-    }
+    //private void MenuItem4_Click(object sender, EventArgs e)
+    //{
+    //  foreach (var process in Process.GetProcessesByName("KegServer"))
+    //  {
+    //    process.Kill();
+    //    process.WaitForExit(); // 等待进程关闭
+    //  }
+    //}
 
     // 退出
-    private void MenuItem3_Click(object sender, EventArgs e)
-    {
-      notifyIcon.Dispose();
-      //this.Close();
-      ((App)System.Windows.Application.Current).Exit();
-    }
+    //private void MenuItem3_Click(object sender, EventArgs e)
+    //{
+    //  notifyIcon.Dispose();
+    //  //this.Close();
+    //  ((App)System.Windows.Application.Current).Exit();
+    //}
 
     // 显示主窗口
-    private void MenuItem1_Click(object sender, System.EventArgs e) {
-      this.Visibility= Visibility.Visible;
-    }
+    //private void MenuItem1_Click(object sender, System.EventArgs e) {
+    //  this.Visibility= Visibility.Visible;
+    //}
 
     // 关于
-    private void MenuItem2_Click(object sender, System.EventArgs e)
-    {
-      MessageBox.Show("本工具用于小科狗码表方案配置", "说明");
-    }
+    //private void MenuItem2_Click(object sender, System.EventArgs e)
+    //{
+    //  MessageBox.Show("本工具用于小科狗码表方案配置", "说明");
+    //}
 
     // 托盘图标双击事件
-    private void NotifyIcon_DoubleClick(object sender, EventArgs e)
-    {
-      this.Visibility = Visibility.Visible;
-      this.WindowState = WindowState.Normal;
-    }
+    //private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+    //{
+    //  this.Visibility = Visibility.Visible;
+    //  this.WindowState = WindowState.Normal;
+    //}
 
     #endregion
 
@@ -2190,10 +2198,11 @@ namespace 小科狗配置
     // 确定
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      if (checkBox2.IsChecked == true)
-        ((App)System.Windows.Application.Current).Exit();
-      else
-        this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
+      //if (checkBox2.IsChecked == true)
+      //  ((App)System.Windows.Application.Current).Exit();
+      //else
+      //  this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
+      this.Close();
     }
 
     // 设置窗口高度
@@ -2225,12 +2234,12 @@ namespace 小科狗配置
     #region 全局设置
 
     // 数据统计
-    private void Run_button_Click(object sender, RoutedEventArgs e)
-    {
-      string path = appPath + "\\小科狗统计.exe";
-      if (File.Exists(path)) Process.Start(path);
-      else MessageBox.Show($"请将 “小科狗统计.exe” 移到本应用所在目录内！");
-    }
+    //private void Run_button_Click(object sender, RoutedEventArgs e)
+    //{
+    //  string path = appPath + "\\小科狗统计.exe";
+    //  if (File.Exists(path)) Process.Start(path);
+    //  else MessageBox.Show($"请将 “小科狗统计.exe” 移到本应用所在目录内！");
+    //}
 
     // 恢复全局设置
     private void Default_button_Click(object sender, RoutedEventArgs e)
@@ -2284,7 +2293,7 @@ namespace 小科狗配置
       kegText += $"\n运行命令行快键\n";
       foreach (var item in 快键命令)
         if (item.Enable)
-          kegText += $"《运行命令行快键={item.Value}<命令行={item.CMD}>》》\n";
+          kegText += $"《运行命令行快键={item.Value}<命令行={item.CMD}>》\n";
 
       kegText += $"\n快键\n";
       foreach (var item in 快键)
@@ -2862,7 +2871,7 @@ namespace 小科狗配置
     {
       var btn = sender as Button;
       // 在线查找 列表
-      if (btn == add_button1)
+      if (btn == add_button3)
       {
         ScrollViewerOffset("在线查找", 2);
         var item = new 列表项()
@@ -2872,9 +2881,11 @@ namespace 小科狗配置
           Value = ""
         };
         查找列表.Insert(0, item);
+        listView3.Focus();
+        listView3.SelectedIndex = 0;
       }
 
-      if (btn == add_button6)
+      if (btn == add_button8)
       {
         ScrollViewerOffset("外部工具", 2);
         var item = new 列表项()
@@ -2884,10 +2895,12 @@ namespace 小科狗配置
           Value = ""
         };
         外部工具.Insert(0, item);
+        listView8.Focus();
+        listView8.SelectedIndex = 0;
       }
 
       // 快捷命令 列表
-      if (btn == add_button2)
+      if (btn == add_button4)
       {
         ScrollViewerOffset("快捷命令", 2);
         var item = new 列表项()
@@ -2897,10 +2910,12 @@ namespace 小科狗配置
           Value = "",
         };
         快键命令.Insert(0, item);
+        listView4.Focus();
+        listView4.SelectedIndex = 0;
       }
 
       // 快捷键 列表
-      if (btn == add_button3)
+      if (btn == add_button5)
       {
         ScrollViewerOffset("快捷键", 2);
         var item = new 列表项()
@@ -2910,10 +2925,12 @@ namespace 小科狗配置
           Value = "",
         };
         快键.Insert(0, item);
+        listView5.Focus();
+        listView5.SelectedIndex = 0;
       }
 
       // 自启应用 列表
-      if (btn == add_button4)
+      if (btn == add_button6)
       {
         ScrollViewerOffset("自启动应用", 2);
         var item = new 列表项()
@@ -2923,10 +2940,12 @@ namespace 小科狗配置
           Value = "",
         };
         自启.Insert(0, item);
+        listView6.Focus();
+        listView6.SelectedIndex = 0;
       }
 
       // 定时关机 列表
-      if (btn == add_button5)
+      if (btn == add_button7)
       {
         ScrollViewerOffset("定时关机", 2);
         var item = new 列表项()
@@ -2936,6 +2955,8 @@ namespace 小科狗配置
           Value = $"22:30"
         };
         自动关机.Insert(0, item);
+        listView7.Focus();
+        listView7.SelectedIndex = 0;
       }
     }
 
@@ -3011,6 +3032,8 @@ namespace 小科狗配置
       string skin = kegPath + "\\skin\\" + selectedItem + ".png";
       image.Source = new BitmapImage(new Uri(skin));
     }
+
+
 
     private void SaveButton1_Click(object sender, RoutedEventArgs e)
     {

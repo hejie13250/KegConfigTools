@@ -1,9 +1,6 @@
-﻿using System;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.ComponentModel;
 
 namespace 小科狗配置
 {

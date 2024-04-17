@@ -906,16 +906,7 @@
                   Text="{Binding Header, ElementName=groupBox_20}" />
               </StackPanel>
             </RadioButton>
-            <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock
-                  Margin="20,0,0,0"
-                  VerticalAlignment="Center"
-                  FontSize="14"
-                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="{Binding Header, ElementName=groupBox_20}" />
-              </StackPanel>
-            </RadioButton>
+
             <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
               <StackPanel Orientation="Horizontal">
                 <TextBlock
@@ -933,9 +924,20 @@
                   VerticalAlignment="Center"
                   FontSize="14"
                   Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                  Text="{Binding Header, ElementName=groupBox_21}" />
+              </StackPanel>
+            </RadioButton>
+            <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock
+                  Margin="20,0,0,0"
+                  VerticalAlignment="Center"
+                  FontSize="14"
+                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
                   Text="{Binding Header, ElementName=groupBox_22}" />
               </StackPanel>
             </RadioButton>
+
             <RadioButton Click="RadioButton2_Click" Style="{DynamicResource RadioButtonStyle}">
               <StackPanel Orientation="Horizontal">
                 <TextBlock
@@ -1063,13 +1065,23 @@
               Margin="11,0,0,0"
               Background="#FFF2F2F2"
               Orientation="Horizontal">
+              <Button
+                x:Name="getList_button"
+                Height="24"
+                Click="GetList_button_Click"
+                Content="获取列表"
+                Style="{DynamicResource RoundButton2}"
+                ToolTip="从服务端获取方案列表" />
               <ComboBox
                 x:Name="comboBox"
                 Width="145"
                 Height="24"
+                Margin="5,0,0,0"
                 MouseEnter="ComboBox_MouseEnter"
                 SelectionChanged="ComboBox_SelectionChanged"
                 Style="{DynamicResource RoundComboBox}" />
+
+
               <Button
                 x:Name="restor_default_button"
                 Height="24"
@@ -1078,7 +1090,7 @@
                 Content="重新读取"
                 IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="重新读取当前方案的配置" />
+                ToolTip="从服务端重新读取当前方案的配置" />
 
               <Button
                 x:Name="loading_templates_button"
@@ -1088,8 +1100,8 @@
                 Content="加载模板"
                 IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="从服务端读取配置模板" />
-              <Button
+                ToolTip="从服务端读取默认的配置模板" />
+              <!--<Button
                 x:Name="res_button"
                 Height="24"
                 Margin="5,0,0,0"
@@ -1097,7 +1109,7 @@
                 Content="清空配置"
                 IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="删除Keg.db内所有方案的配置" />
+                ToolTip="删除Keg.db内所有方案的配置" />-->
               <Button
                 x:Name="set_as_default_button"
                 Height="24"
@@ -1125,7 +1137,7 @@
                 Content="保存内存数据"
                 IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="将当前方案配置保存到数据库" />
+                ToolTip="点击后服务端将保存内存数据到到数据库" />
               <Button
                 x:Name="apply_all_button"
                 Height="24"
@@ -1134,7 +1146,7 @@
                 Content="更新内存数据"
                 IsEnabled="False"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="将当前方案全部更新到服务端" />
+                ToolTip="点击后服务端将从数据库重新读取配置" />
 
             </StackPanel>
             <ScrollViewer
@@ -2911,6 +2923,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 
                       </Grid.RowDefinitions>
                       <Grid.ColumnDefinitions>
@@ -2937,29 +2950,32 @@
 
 
                       <Label
-                        x:Name="label7"
                         Grid.Row="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        Content="候选序号：" />
-
+                        Content="预设候选序号：" />
+                      <Label
+                        Grid.Row="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="自定候选序号：" />
                       <ComboBox
                         x:Name="comboBox3"
-                        Grid.RowSpan="2"
+                        Grid.Row="1"
                         Grid.Column="1"
-                        Width="145"
+                        Width="435"
                         Height="24"
-                        Margin="0,28,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="0,3,0,0"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         SelectionChanged="ComboBox3_SelectionChanged"
                         Style="{DynamicResource RoundComboBox}" />
                       <TextBox
                         x:Name="textBox_Copy67"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="1"
                         Width="435"
-                        Margin="0,30,0,0"
+                        Margin="0,3,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Style="{DynamicResource RoundTextBox2}"
@@ -2983,14 +2999,14 @@
 
                       <CheckBox
                         x:Name="checkBox1_Copy111"
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{DynamicResource CheckBoxStyle}" />
                       <local:NumericUpDown
                         x:Name="nud4"
-                        Grid.Row="7"
+                        Grid.Row="8"
                         Grid.Column="1"
                         Width="60"
                         HorizontalAlignment="Left"
@@ -3001,28 +3017,28 @@
                         Value="4" />
                       <CheckBox
                         x:Name="checkBox1_Copy5"
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{DynamicResource CheckBoxStyle}" />
                       <CheckBox
                         x:Name="checkBox1_Copy6"
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{DynamicResource CheckBoxStyle}" />
                       <CheckBox
                         x:Name="checkBox1_Copy7"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{DynamicResource CheckBoxStyle}" />
                       <CheckBox
                         x:Name="checkBox1_Copy8"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -3030,42 +3046,42 @@
 
                       <Label
                         x:Name="label4_Copy42"
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="启用码长顶屏：" />
                       <Label
                         x:Name="label4_Copy43"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="启用数字顶屏：" />
                       <Label
                         x:Name="label4_Copy44"
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="启用标点顶屏：" />
                       <Label
                         x:Name="label4_Copy45"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="标点或数字顶屏时，若是引导键，要继续引导：" />
                       <Label
                         x:Name="label4_Copy46"
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="启用唯一上屏：" />
                       <Label
                         x:Name="label4_Copy416"
-                        Grid.Row="7"
+                        Grid.Row="8"
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -4151,23 +4167,22 @@
               Margin="10,0,0,0"
               Background="#FFF2F2F2"
               Orientation="Horizontal">
-              <Button
+              <!--<Button
                 x:Name="run_button"
                 Width="70"
                 Height="24"
                 Click="Run_button_Click"
                 Content="数据统计"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="打开小科狗打字数据统计" />
+                ToolTip="打开小科狗打字数据统计" />-->
               <Button
                 x:Name="default_button"
                 Width="70"
                 Height="24"
-                Margin="5,0,0,0"
                 Click="Default_button_Click"
                 Content="恢复默认"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="从备份文件中读取全局设置" />
+                ToolTip="从备份文件“Keg_bak.txt”中恢复全局设置" />
               <Button
                 x:Name="apply2_button"
                 Width="70"
@@ -4176,7 +4191,7 @@
                 Click="Apply2_button_Click"
                 Content="重新读取"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="将小科狗主目录读取全局设置" />
+                ToolTip="从“全局设置.json”中读取全局设置" />
               <Button
                 x:Name="apply3_button"
                 Width="70"
@@ -4754,7 +4769,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       BorderThickness="0"
-                                      Click="DelButton7_Click"
+                                      Click="DelButton8_Click"
                                       Style="{DynamicResource RoundButton}"
                                       Visibility="Hidden" />
                                   </DataTemplate>
@@ -5196,15 +5211,14 @@
               Background="#FFF2F2F2"
               Orientation="Horizontal">
               <Button
-                x:Name="add_button1"
+                x:Name="add_button3"
                 Width="auto"
                 Height="24"
-                Margin="10,0,0,0"
                 Click="Add_button_Click"
                 Content="添加在线查找"
                 Style="{DynamicResource RoundButton2}" />
               <Button
-                x:Name="add_button6"
+                x:Name="add_button8"
                 Width="auto"
                 Height="24"
                 Margin="10,0,0,0"
@@ -5212,7 +5226,7 @@
                 Content="添加外部工具"
                 Style="{DynamicResource RoundButton2}" />
               <Button
-                x:Name="add_button2"
+                x:Name="add_button4"
                 Width="auto"
                 Height="24"
                 Margin="10,0,0,0"
@@ -5220,7 +5234,7 @@
                 Content="添加快捷命令"
                 Style="{DynamicResource RoundButton2}" />
               <Button
-                x:Name="add_button3"
+                x:Name="add_button5"
                 Width="auto"
                 Height="24"
                 Margin="10,0,0,0"
@@ -5259,7 +5273,7 @@
               </ComboBox>
 
               <Button
-                x:Name="add_button4"
+                x:Name="add_button6"
                 Width="auto"
                 Height="24"
                 Margin="10,0,0,0"
@@ -5268,7 +5282,7 @@
                 Style="{DynamicResource RoundButton2}" />
 
               <Button
-                x:Name="add_button5"
+                x:Name="add_button7"
                 Width="auto"
                 Height="24"
                 Margin="10,0,0,0"
@@ -5324,7 +5338,7 @@
               VerticalAlignment="Top"
               Click="CheckBox3_Click"
               Content="窗口置顶" />-->
-              <CheckBox
+              <!--<CheckBox
                 x:Name="checkBox2"
                 Height="20"
                 Margin="15,10,0,0"
@@ -5333,7 +5347,7 @@
                 Click="CheckBox2_Click"
                 Content="确认后直接退出 "
                 IsChecked="True"
-                Style="{DynamicResource CheckBoxStyle}" />
+                Style="{DynamicResource CheckBoxStyle}" />-->
 
 
             </StackPanel>
