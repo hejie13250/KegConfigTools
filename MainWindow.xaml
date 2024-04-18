@@ -12,8 +12,7 @@
   BorderThickness="2,2,2,2"
   MouseDown="Window_MouseDown"
   ResizeMode="NoResize"
-  SizeChanged="Window_SizeChanged"
-  Topmost="False"
+  Topmost="True"
   WindowStartupLocation="CenterScreen"
   WindowStyle="None"
   mc:Ignorable="d">
@@ -5306,7 +5305,7 @@
                 Click="OpenWebPage_Click"
                 Content="GitHup"
                 Style="{DynamicResource RoundButton2}" />
-              <Label
+              <!--<Label
                 x:Name="label5d"
                 Height="26"
                 Margin="10,0,0,0"
@@ -5323,7 +5322,7 @@
                 TabIndex="3106"
                 ToolTip=""
                 ValueChanged="Nud22_ValueChanged"
-                Value="900" />
+                Value="900" />-->
               <!--<CheckBox Style="{DynamicResource CheckBoxStyle}"
               x:Name="checkBox3"
               Height="20"

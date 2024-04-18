@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -209,6 +208,8 @@ namespace 小科狗配置
     public MainWindow()
     {
       InitializeComponent();
+      this.Width = 900;
+      this.Height = 735;
 
       restor_default_button   .Visibility = Visibility.Collapsed;
       loading_templates_button.Visibility = Visibility.Collapsed;
@@ -260,8 +261,8 @@ namespace 小科狗配置
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
-      this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
-      this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
+      //this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
+      //this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
 
       // 读取 setting.ini
       LoadSettingConfig();
@@ -696,9 +697,10 @@ namespace 小科狗配置
     private void LoadSettingConfig()
     {
       //checkBox2.IsChecked = GetValue("window", "closed") == "1";
-      bool isNumberValid  = int.TryParse(GetValue("window", "height"), out int height);
-      nud22.Value         = isNumberValid ? height : 600;
-      this.Width          = 900;
+      //bool isNumberValid  = int.TryParse(GetValue("window", "height"), out int height);
+      //nud22.Value         = isNumberValid ? height : 600;
+      //this.Width          = 900;
+      //this.Height         = 735;
       Grid1.Height        = this.Height - 50;
       Grid2.Height        = this.Height - 50;
       Grid3.Height        = this.Height - 50;
@@ -2210,14 +2212,15 @@ namespace 小科狗配置
       this.WindowState = WindowState.Minimized;
     }
 
-    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-      Grid1.Height = this.Height - 50;
-      Grid2.Height = this.Height - 50;
-      Grid3.Height = this.Height - 50;
+    //private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    //{
+    //  Grid1.Height = this.Height - 50;
+    //  Grid2.Height = this.Height - 50;
+    //  Grid3.Height = this.Height - 50;
+    //}
 
-    }
-    // 确定
+
+    // 退出
     private void Button_Click(object sender, RoutedEventArgs e)
     {
       //if (checkBox2.IsChecked == true)
@@ -2228,23 +2231,23 @@ namespace 小科狗配置
     }
 
     // 设置窗口高度
-    private void Nud22_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
-    {
-      if (nud22 != null)
-      {
-        int height = (int)e.NewValue;
-        if (height < 500)
-          height = 500;
-        this.Height = height;
-      }
-    }
+    //private void Nud22_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
+    //{
+    //  if (nud22 != null)
+    //  {
+    //    int height = (int)e.NewValue;
+    //    if (height < 500)
+    //      height = 500;
+    //    this.Height = height;
+    //  }
+    //}
 
     // 窗口高度写入配置文件
-    private void Nud22_LostFocus(object sender, RoutedEventArgs e)
-    {
-      if (nud22 != null)
-        SetValue("window", "height", nud22.Value.ToString());
-    }
+    //private void Nud22_LostFocus(object sender, RoutedEventArgs e)
+    //{
+    //  if (nud22 != null)
+    //    SetValue("window", "height", nud22.Value.ToString());
+    //}
 
     private void OpenWebPage_Click(object sender, RoutedEventArgs e)
     {
