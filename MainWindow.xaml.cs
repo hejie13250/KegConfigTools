@@ -95,10 +95,13 @@ namespace 小科狗配置
 
     #region 全局变量定义
     SolidColorBrush bkColor               = new ((Color) ColorConverter.ConvertFromString("#FFFFFFFF"));  // 候选框无背景色时的值
-    readonly string appPath               = Environment.CurrentDirectory;
+    //readonly string appPath               = Environment.CurrentDirectory;
+    //readonly string appPath               = Directory.GetCurrentDirectory();
+    readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     readonly string settingConfigFile     = "窗口配置.ini";
     readonly string schemeFilePath        = "配色方案.json";
     readonly string globalSettingFilePath = "全局设置.json";
+    readonly string kegBakPath            = "Keg_bak.txt";
     string labelName                      = "方案名称";
     string zh_en                          = "中c：";
     int select_color_label_num            = 0;       // 用于记录当前选中的 select_color_label
@@ -215,7 +218,12 @@ namespace 小科狗配置
       apply_all_button        .Visibility = Visibility.Collapsed;
       comboBox                .Visibility = Visibility.Collapsed;
 
-      settingConfigFile = appPath + "\\窗口配置.ini";
+      settingConfigFile     = $"{appPath}\\configs\\窗口配置.ini";
+      schemeFilePath        = $"{appPath}\\configs\\配色方案.json";
+      globalSettingFilePath = $"{appPath}\\configs\\全局设置.json";
+      kegBakPath            = $"{appPath}\\configs\\Keg_bak.txt";
+
+      if (!Directory.Exists($"{appPath}\\configs")) Directory.CreateDirectory($"{appPath}\\configs");
 
       // 获取小科狗主程序目录
       kegPath = GetValue("window", "keg_path");
@@ -245,10 +253,16 @@ namespace 小科狗配置
       listView7.DataContext = 自动关机;
 
       Loaded += MainWindow_Loaded;
+
     }
+
+
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
+      this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
+      this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
+
       // 读取 setting.ini
       LoadSettingConfig();
 
@@ -262,6 +276,7 @@ namespace 小科狗配置
       LoadJson();           // 读取 配色方案.jsonString
       LoadHxFile();         // 读取 候选序号.txt
       ReadKegText();        // 读取 全局设置
+
     }
 
     // 获取版本号
@@ -438,10 +453,10 @@ namespace 小科狗配置
       string[] lines = multiLineString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
       // 将每行作为一个项添加到ComboBox中
+      comboBox.Items.Clear();
       foreach (string line in lines)
         comboBox.Items.Add(line);
       comboBox.SelectedIndex = 0;
-      getList_button.Visibility = Visibility.Collapsed;
     }
     private string GetConfig(string labelName)
     {
@@ -698,7 +713,7 @@ namespace 小科狗配置
     // 读取候选序号
     private void LoadHxFile()
     {
-      string file = "候选序号.txt"; string numStr =
+      string file = $"{appPath}\\configs\\候选序号.txt"; string numStr =
 @"<1=🥑¹sp><2=🍑²sp><3=🍋³sp><4=🍍⁴sp><5=🍈⁵sp><6=🍐⁶sp><7=🍊⁷sp ><8=⁸sp🍑 ><9=⁹sp🍉><10=¹⁰sp🍊>
 <1=¹sp><2=²sp><3=³sp><4=⁴sp><5=⁵sp><6=⁶sp><7=⁷sp ><8=⁸sp ><9=⁹sp><10=¹⁰sp>
 <1=①sp><2=②sp><3=③sp><4=④sp><5=⑤sp><6=⑥sp><7=⑦sp><8=⑧sp><9=⑨sp><10=⑩sp>
@@ -2258,7 +2273,7 @@ namespace 小科狗配置
       快键.Clear();
       自启.Clear();
       自动关机.Clear();
-      LoadKegTxt("Keg_bak.txt");
+      LoadKegTxt(kegBakPath);
     }
 
     // 重新读取全局设置
@@ -2372,7 +2387,7 @@ namespace 小科狗配置
       }
       else
       {
-        File.Copy(kegFilePath, "Keg_bak.txt", true);
+        File.Copy(kegFilePath, kegBakPath, true);
         LoadKegTxt(kegFilePath);
         SaveGlobalSettingJson();
       }
@@ -2415,6 +2430,7 @@ namespace 小科狗配置
           Enable = true,
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
+          CMD = "",
         };
         查找列表.Add(item);
       }
@@ -2430,6 +2446,7 @@ namespace 小科狗配置
             Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
+            CMD = "",
           };
           外部工具.Add(item);
         }
@@ -2473,6 +2490,7 @@ namespace 小科狗配置
           Enable = true,
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
+          CMD = "",
         };
         快键.Add(item);
       }
@@ -2488,6 +2506,7 @@ namespace 小科狗配置
             Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
+            CMD = "",
           };
           自启.Add(item);
         }
@@ -2499,6 +2518,7 @@ namespace 小科狗配置
           Enable = false,
           Name = "自启",
           Value = "当前文件夹的tools\\QInputV2.exe",
+          CMD = "",
         };
         自启.Add(item);
       }
@@ -2514,6 +2534,7 @@ namespace 小科狗配置
             Enable = false,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value == "" ? "22:30" : match.Groups[2].Value,
+            CMD = "",
           };
           自动关机.Add(item);
         }
@@ -2525,6 +2546,7 @@ namespace 小科狗配置
           Enable = false,
           Name = "自动关机",
           Value = "22:30",
+          CMD = "",
         };
         自动关机.Add(item);
       }
@@ -2830,7 +2852,8 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = "",
-          Value = ""
+          Value = "",
+          CMD = ""
         };
         查找列表.Insert(0, item);
         listView3.Focus();
@@ -2844,7 +2867,8 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = "",
-          Value = ""
+          Value = "",
+          CMD = ""
         };
         外部工具.Insert(0, item);
         listView8.Focus();
@@ -2860,6 +2884,7 @@ namespace 小科狗配置
           Enable = false,
           Name = "运行命令行快键",
           Value = "",
+          CMD = ""
         };
         快键命令.Insert(0, item);
         listView4.Focus();
@@ -2875,6 +2900,7 @@ namespace 小科狗配置
           Enable = false,
           Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(),
           Value = "",
+          CMD = ""
         };
         快键.Insert(0, item);
         listView5.Focus();
@@ -2890,6 +2916,7 @@ namespace 小科狗配置
           Enable = false,
           Name = "自启",
           Value = "",
+          CMD = ""
         };
         自启.Insert(0, item);
         listView6.Focus();
@@ -2904,7 +2931,8 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = "自动关机",
-          Value = $"22:30"
+          Value = $"22:30",
+          CMD = ""
         };
         自动关机.Insert(0, item);
         listView7.Focus();
