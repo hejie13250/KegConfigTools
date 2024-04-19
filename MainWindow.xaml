@@ -5295,23 +5295,24 @@
             </Grid.RowDefinitions>
 
             <StackPanel
+              Height="24"
               Margin="10,0,0,0"
               Background="#FFF2F2F2"
               Orientation="Horizontal">
-              <Button
+              <!--<Button
                 Width="70"
                 Height="24"
                 HorizontalAlignment="Right"
                 Click="OpenWebPage_Click"
                 Content="GitHup"
-                Style="{DynamicResource RoundButton2}" />
-              <!--<Label
-                x:Name="label5d"
+                Style="{DynamicResource RoundButton2}" />-->
+              <Label
+                x:Name="versionLabel"
                 Height="26"
-                Margin="10,0,0,0"
+                Margin="0,0,0,0"
                 HorizontalAlignment="Left"
-                Content="窗口高度：" />
-              <local:NumericUpDown
+                Content="当前版本：" />
+              <!--<local:NumericUpDown
                 x:Name="nud22"
                 Width="60"
                 Margin="0,8,0,0"

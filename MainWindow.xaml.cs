@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -42,6 +43,41 @@ namespace 小科狗配置
   /// 
   public partial class MainWindow : Window
   {
+    #region 消息接口定义
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    [DllImport("user32.dll", SetLastError = true)]
+    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
+
+    //const uint NORMAL = 0x0000;
+    //const uint BLOCK = 0x0001;
+    const uint ABORTIFHUNG = 0x0002;
+    //const uint NOTIMEOUTIFNOTHUNG = 0x0008;
+    //uint flags = (uint)(ABORTIFHUNG | BLOCK);
+    readonly uint flags = (uint)(ABORTIFHUNG);
+    readonly uint timeout = 500;
+
+    const int WM_USER = 0x0400;               // 根据Windows API定义
+    //const uint KWM_RESETPIPLE   = (uint)WM_USER + 200;  //重置双轮流通信命名管道
+    const uint KWM_RESET        = (uint)WM_USER + 201;  //重置配置
+    //const uint KWM_SET0         = (uint)WM_USER + 202;  //权重全置为0
+    const uint KWM_GETSET       = (uint)WM_USER + 203;  //由剪切板指定方案名,从而获得该方案的配置
+    //const uint KWM_INSERT       = (uint)WM_USER + 204;  //根据剪切板的带方案名(第一行数据)的词条插入词条
+    const uint KWM_UPBASE       = (uint)WM_USER + 205;  //更新内存数据库 
+    const uint KWM_SAVEBASE     = (uint)WM_USER + 206;  //保存内存数据库
+    //const uint KWM_GETDATAPATH  = (uint)WM_USER + 207;  //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
+    const uint KWM_GETDEF       = (uint)WM_USER + 208;  //把默认无方案名的配置模板吐到剪切板
+    const uint KWM_SET2ALL      = (uint)WM_USER + 209;  //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
+    //const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;  //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
+    const uint KWM_UPQJSET      = (uint)WM_USER + 211;  //读取说明文本更新全局设置
+    const uint KWM_UPPFSET      = (uint)WM_USER + 212;  //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
+    const uint KWM_GETALLNAME   = (uint)WM_USER + 213;  //把所有方案名吐到剪切板,一行一个方案名
+    //const uint KWM_GETALLZSTJ   = (uint)WM_USER + 214;  //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
+    const uint KWM_GETPATH      = (uint)WM_USER + 215; //获得小科狗夹子的路径 吐到剪切板
+    #endregion
+
     #region 配色方案相关定义
     public WriteableBitmap Bitmap     { get; set; } // 定义取色器背景图
     public WriteableBitmap Hue_bitmap { get; set; } // 定义取色器色相滑块背景图
@@ -109,6 +145,7 @@ namespace 小科狗配置
     string currentConfig, modifiedConfig;            // 存少当前配置和当前修改的配置
     readonly string kegFilePath;             // Keg.db 和 Keg.txt 文件路径
     //NotifyIcon notifyIcon;                           // 托盘图标
+
     #endregion
 
     #region 全局设置界面列表项定义
@@ -210,7 +247,7 @@ namespace 小科狗配置
       InitializeComponent();
       this.Width = 900;
       this.Height = 735;
-
+      versionLabel.Content = $"当前版本：v {GetAssemblyVersion()}";
       restor_default_button   .Visibility = Visibility.Collapsed;
       loading_templates_button.Visibility = Visibility.Collapsed;
       set_as_default_button   .Visibility = Visibility.Collapsed;
@@ -226,19 +263,28 @@ namespace 小科狗配置
 
       if (!Directory.Exists($"{appPath}\\configs")) Directory.CreateDirectory($"{appPath}\\configs");
 
+      
+
       // 获取小科狗主程序目录
       kegPath = GetValue("window", "keg_path");
-      if (!File.Exists(kegPath + "\\KegServer.exe"))
+      if (!File.Exists(kegPath + "KegServer.exe"))
       {
         kegPath = GetKegPath();
-        if (File.Exists(kegPath + "\\KegServer.exe")) SetValue("window", "keg_path", kegPath);
+        if (File.Exists(kegPath + "KegServer.exe")) SetValue("window", "keg_path", kegPath);
         else Close();
       }
-      kegFilePath = kegPath + "\\Keg.txt";
-      //dbPath = kegPath + "\\Keg.db";
 
+      kegFilePath = kegPath + "Keg.txt";
       toolTipTextBlock.Text = $"{zh_en}{labelName}";
 
+      Loaded += MainWindow_Loaded;
+
+    }
+
+
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
       查找列表 = new ObservableCollection<列表项>();
       外部工具 = new ObservableCollection<列表项>();
       快键命令 = new ObservableCollection<列表项>();
@@ -252,32 +298,14 @@ namespace 小科狗配置
       listView5.DataContext = 快键;
       listView6.DataContext = 自启;
       listView7.DataContext = 自动关机;
-
-      Loaded += MainWindow_Loaded;
-
-    }
-
-
-
-    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-      //this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
-      //this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
-
-      // 读取 setting.ini
-      LoadSettingConfig();
-
-
-      Bitmap      = new WriteableBitmap(170, 170, 170, 170, PixelFormats.Bgra32, null);
+      Bitmap = new WriteableBitmap(170, 170, 170, 170, PixelFormats.Bgra32, null);
       DataContext = this;
+      LoadSettingConfig();  // 读取 窗口配置.ini
       LoadImages();
       UpdateBitmap();       // 生成 取色图
-      //InitIcon();           // 载入托盘图标
-      //LoadTableNames();     // 载入码表方案名称
       LoadJson();           // 读取 配色方案.jsonString
       LoadHxFile();         // 读取 候选序号.txt
       ReadKegText();        // 读取 全局设置
-
     }
 
     // 获取版本号
@@ -289,37 +317,7 @@ namespace 小科狗配置
     }
     #endregion
 
-    #region 消息接口定义
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-    [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
 
-    //const uint NORMAL = 0x0000;
-    //const uint BLOCK = 0x0001;
-    const uint ABORTIFHUNG = 0x0002;
-    //const uint NOTIMEOUTIFNOTHUNG = 0x0008;
-    //uint flags = (uint)(ABORTIFHUNG | BLOCK);
-    readonly uint flags   = (uint)(ABORTIFHUNG);
-    readonly uint timeout = 500;
-
-    const int WM_USER           = 0x0400;               // 根据Windows API定义
-    //const uint KWM_RESETPIPLE   = (uint)WM_USER + 200;  //重置双轮流通信命名管道
-    const uint KWM_RESET        = (uint)WM_USER + 201;  //重置配置
-    //const uint KWM_SET0         = (uint)WM_USER + 202;  //权重全置为0
-    const uint KWM_GETSET       = (uint)WM_USER + 203;  //由剪切板指定方案名,从而获得该方案的配置
-    //const uint KWM_INSERT       = (uint)WM_USER + 204;  //根据剪切板的带方案名(第一行数据)的词条插入词条
-    const uint KWM_UPBASE       = (uint)WM_USER + 205;  //更新内存数据库 
-    const uint KWM_SAVEBASE     = (uint)WM_USER + 206;  //保存内存数据库
-    //const uint KWM_GETDATAPATH  = (uint)WM_USER + 207;  //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
-    const uint KWM_GETDEF       = (uint)WM_USER + 208;  //把默认无方案名的配置模板吐到剪切板
-    const uint KWM_SET2ALL      = (uint)WM_USER + 209;  //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
-    //const uint KWM_GETWRITEPATH = (uint)WM_USER + 210;  //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
-    const uint KWM_UPQJSET      = (uint)WM_USER + 211;  //读取说明文本更新全局设置
-    const uint KWM_UPPFSET      = (uint)WM_USER + 212;  //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
-    const uint KWM_GETALLNAME   = (uint)WM_USER + 213;  //把所有方案名吐到剪切板,一行一个方案名
-    //const uint KWM_GETALLZSTJ   = (uint)WM_USER + 214;  //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
-    #endregion
 
     #region 读写配置文件项
     // 读写配置项 API
@@ -440,7 +438,7 @@ namespace 小科狗配置
       try
       {
         //把所有方案名吐到剪切板,一行一个方案名
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_GETALLNAME, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
       }
       catch (Exception ex)
@@ -465,7 +463,7 @@ namespace 小科狗配置
       {
         Clipboard.SetText(labelName);
 
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_GETSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
       }
       catch (Exception ex)
@@ -485,7 +483,7 @@ namespace 小科狗配置
       try
       {
         Clipboard.SetText(labelName);
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_SAVEBASE, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
       }
       catch (Exception ex)
@@ -566,7 +564,7 @@ namespace 小科狗配置
 
       try
       {
-        IntPtr hWnd   = FindWindow("CKegServer_0", null);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_GETDEF, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
         var str       = Clipboard.GetText();
         currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{labelName}>配置");
@@ -591,7 +589,7 @@ namespace 小科狗配置
       try
       {
         Clipboard.SetText($"《所有进程默认初始方案={labelName}》");
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_SET2ALL, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
       }
       catch (Exception ex)
@@ -611,9 +609,10 @@ namespace 小科狗配置
 
       try
       {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        
         Clipboard.SetText(updataStr);
-        Thread.Sleep(200);
+        //Thread.Sleep(200);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_RESET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
         currentConfig = modifiedConfig;
       }
@@ -635,8 +634,8 @@ namespace 小科狗配置
     {
       try
       {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
         // 更新内存数据库 
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_UPBASE, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult); 
       }
       catch (Exception ex)
@@ -683,14 +682,21 @@ namespace 小科狗配置
     #region 读取配置各项值到控件
     // 显示对话框，并获取用户选择的文件夹路径
     private string GetKegPath(){
-      FolderBrowserDialog folderBrowserDialog = new()
+      string kegPath = "";
+      try
       {
-        Description = "选择小科狗主程序目录"
-      };
-
-      if (folderBrowserDialog.ShowDialog() == FormsDialogResult.OK)
-        return folderBrowserDialog.SelectedPath;
-      return null;
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
+        SendMessageTimeout(hWnd, KWM_GETPATH, IntPtr.Zero, IntPtr.Zero, flags, timeout, out _);
+        Thread.Sleep(200);
+        kegPath = Clipboard.GetText();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"操作失败，请重试！");
+        Console.WriteLine(ex.Message);
+        this.Close();
+      }
+      return kegPath;
     }
 
     // 读取 setting.ini
@@ -2344,7 +2350,7 @@ namespace 小科狗配置
 
       try
       {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
+        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
       }
       catch (Exception ex)
@@ -2958,7 +2964,7 @@ namespace 小科狗配置
     private void LoadImages()
     {
       // 获取应用的相对路径并转换为绝对路径
-      string directoryPath = kegPath + "\\skin\\";
+      string directoryPath = kegPath + "skin\\";
       
       // 设置皮肤图片路径
       string skin = $"{directoryPath}Keg.png";
@@ -3012,7 +3018,7 @@ namespace 小科狗配置
     private void SkinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       string selectedItem = (string)skinListBox.SelectedItem;
-      string skin = kegPath + "\\skin\\" + selectedItem + ".png";
+      string skin = kegPath + "skin\\" + selectedItem + ".png";
       image.Source = new BitmapImage(new Uri(skin));
     }
 
@@ -3023,14 +3029,15 @@ namespace 小科狗配置
       if (skinListBox.SelectedIndex > 0)
       {
         string selectedItem = (string)skinListBox.SelectedItem;
-        string selectedSkin = kegPath + "\\skin\\" + selectedItem + ".png";
+        string selectedSkin = kegPath + "skin\\" + selectedItem + ".png";
 
         try
         {
-          IntPtr hWnd = FindWindow("CKegServer_0", null);
+          
           Clipboard.SetText(selectedSkin);
-          Thread.Sleep(200);
+          //Thread.Sleep(200);
           // KWM_UPPFSET 更新皮肤文件路径
+          IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
           SendMessageTimeout(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
 
           SetValue("skin", "path", selectedSkin);

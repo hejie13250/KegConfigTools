@@ -38,15 +38,10 @@ F1-F12可以使用单键
 
 进入英文长句态，以S或Q开头，后面跟数字，进入数字或金额大写转化</System:String>
 
-    <System:String x:Key="TextBoxText2" xml:space="preserve">1、本工具已经开源，用于小科狗输入平台配置输入方案，主要是因太闲了打发时间才写了这个；
-2、将“KegConfigTool.zip”内的“skin”和“tools”都解压到小科狗安装目录内；
-3、运行“tools\KegConfigTool\小科狗配置.exe”即可，也可以加入小科狗自启；
-4、第一次使用建议把每个方案都点一下“加载模板”，然后再设置，最后应用，这么做是为了把Keg.db内的配置换成最新的；</System:String>
-
-
-
-
-
+    <System:String x:Key="TextBoxText2" xml:space="preserve">1、本工具已经开源，用于小科狗输入平台配置输入方案另一个用工具于将打字数据以图表的方式显示出来，主要是因太闲了打发时间才写了这个；
+2、小科狗配置开源地址：“https://github.com/hejie13250/KegConfigTools”；
+3、小科狗配置开源地址：“https://github.com/hejie13250/KegStatistics”；
+4、本人QQ：411718848，工具发布于 QQ 群：641858743。</System:String>
 
 
   </Application.Resources>
