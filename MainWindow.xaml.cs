@@ -245,7 +245,7 @@ namespace 小科狗配置
     public MainWindow()
     {
       InitializeComponent();
-      this.Width = 900;
+      this.Width = 910;
       this.Height = 735;
       versionLabel.Content = $"当前版本：v {GetAssemblyVersion()}";
       restor_default_button   .Visibility = Visibility.Collapsed;
