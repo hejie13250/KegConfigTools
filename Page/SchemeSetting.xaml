@@ -1,0 +1,3072 @@
+﻿<Page
+  x:Class="小科狗配置.SchemeSetting"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:小科狗配置"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Title="SchemeSetting"
+  mc:Ignorable="d">
+
+  <Grid x:Name="Grid1">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+      <Button
+        x:Name="getList_button"
+        Height="24"
+        Click="GetList_button_Click"
+        Content="获取列表"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从服务端获取方案列表" />
+      <ComboBox
+        x:Name="comboBox"
+        Width="145"
+        Height="24"
+        Margin="5,0,0,0"
+        MouseEnter="ComboBox_MouseEnter"
+        SelectionChanged="ComboBox_SelectionChanged"
+        Style="{DynamicResource RoundComboBox}" />
+
+
+      <Button
+        x:Name="restor_default_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Restor_default_button_Click"
+        Content="重新读取"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从服务端重新读取当前方案的配置" />
+
+      <Button
+        x:Name="loading_templates_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Loading_templates_button_Click"
+        Content="加载模板"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从服务端读取默认的配置模板" />
+      <!--<Button
+                x:Name="res_button"
+                Height="24"
+                Margin="5,0,0,0"
+                Click="Res_button_Click"
+                Content="清空配置"
+                IsEnabled="False"
+                Style="{DynamicResource RoundButton2}"
+                ToolTip="删除Keg.db内所有方案的配置" />-->
+      <Button
+        x:Name="set_as_default_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Set_as_default_Click"
+        Content="设为默认"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="将当前方案设为所有进程默认方案" />
+
+      <Button
+        x:Name="apply_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Apply_button_Click"
+        Content="应用修改"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="将当前方案内修改项更新到服务端" />
+      <Button
+        x:Name="apply_save_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Apply_save_button_Click"
+        Content="保存内存数据"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="点击后服务端将保存内存数据到到数据库" />
+      <Button
+        x:Name="apply_all_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Apply_All_button_Click"
+        Content="更新内存数据"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="点击后服务端将从数据库重新读取配置" />
+
+    </StackPanel>
+    <ScrollViewer
+      x:Name="scrollViewer1"
+      Grid.Row="1"
+      HorizontalAlignment="Left"
+      VerticalScrollBarVisibility="Hidden">
+      <StackPanel x:Name="stackPanel1" Orientation="Vertical">
+        <GroupBox
+          x:Name="groupBox_01"
+          Height="370"
+          Header="候选框配色"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}"
+          TabIndex="3100">
+
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Height="348">
+              <StackPanel Orientation="Horizontal">
+                <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="140" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                  </Grid.ColumnDefinitions>
+                  <Label
+                    x:Name="label123_Copy9"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="显示背景图：" />
+                  <Label
+                    x:Name="label223_Copy9"
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选窗圆角：" />
+                  <Label
+                    x:Name="labe1l23_Copy9"
+                    Grid.Row="3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选窗边框线宽度：" />
+                  <Label
+                    x:Name="label23_Copy9"
+                    Grid.Row="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="选中项背景圆角：" />
+
+                  <CheckBox
+                    x:Name="checkBox_Copy42"
+                    x:Uid="String1"
+                    Grid.Column="1"
+                    Width="32"
+                    Height="21"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource CheckBoxStyle}"
+                    TabIndex="3101" />
+                  <CheckBox
+                    x:Name="hxc_checkBox"
+                    x:Uid="String1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="32"
+                    Height="21"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Checked="Hxc_checkBox_Checked"
+                    IsChecked="True"
+                    Style="{DynamicResource CheckBoxStyle}"
+                    TabIndex="3102"
+                    Unchecked="Hxc_checkBox_Unchecked" />
+                  <CheckBox
+                    x:Name="hxcbj_checkBox"
+                    x:Uid="String1"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="32"
+                    Height="21"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Checked="Hxcbj_checkBox_Checked"
+                    IsChecked="True"
+                    Style="{DynamicResource CheckBoxStyle}"
+                    TabIndex="3104"
+                    Unchecked="Hxcbj_checkBox_Unchecked" />
+
+                  <local:NumericUpDown
+                    x:Name="nud11"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Width="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    IsEnabled="{Binding IsChecked, ElementName=hxc_checkBox}"
+                    MaxValue="50"
+                    MinValue="1"
+                    TabIndex="3103"
+                    ValueChanged="Nud11_ValueChanged"
+                    Value="15" />
+
+                  <local:NumericUpDown
+                    x:Name="nud12"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Width="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    IsEnabled="{Binding IsChecked, ElementName=hxcbj_checkBox}"
+                    MaxValue="50"
+                    MinValue="1"
+                    TabIndex="3105"
+                    ToolTip=""
+                    ValueChanged="Nud11_ValueChanged"
+                    Value="10" />
+
+                  <local:NumericUpDown
+                    x:Name="nud13"
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Width="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    MaxValue="10"
+                    MinValue="1"
+                    TabIndex="3106"
+                    ToolTip=""
+                    ValueChanged="Nud11_ValueChanged"
+                    Value="2" />
+
+                  <Label
+                    x:Name="color_label_001"
+                    Grid.Row="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="嵌入下划线色：" />
+                  <Label
+                    x:Name="color_label_002"
+                    Grid.Row="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="光标色：" />
+                  <Label
+                    x:Name="color_label_004"
+                    Grid.Row="7"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选窗边框色：" />
+                  <CheckBox
+                    x:Name="hxcds_checkBox"
+                    x:Uid="String1"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Width="32"
+                    Height="21"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Checked="Hxcds_checkBox_Checked"
+                    Style="{DynamicResource CheckBoxStyle}"
+                    TabIndex="3104"
+                    ToolTip="选中后使用对话框背景色"
+                    Unchecked="Hxcds_checkBox_Unchecked" />
+                  <Label
+                    x:Name="color_label_005"
+                    Grid.Row="8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选窗背景底色：" />
+                  <Label
+                    x:Name="color_label_006"
+                    Grid.Row="9"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选选中背景色：" />
+                  <Label
+                    x:Name="color_label_007"
+                    Grid.Row="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选选中字体色：" />
+                  <Label
+                    x:Name="color_label_003"
+                    Grid.Row="6"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="分隔线色：" />
+                  <Label
+                    x:Name="color_label_008"
+                    Grid.Row="11"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="编码字体色：" />
+                  <Label
+                    x:Name="color_label_009"
+                    x:Uid="String1"
+                    Grid.Row="12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="候选字体色："
+                    TabIndex="3115" />
+
+                  <Label
+                    x:Name="color_label_1"
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FFFF0000"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3107"
+                    Tag="" />
+                  <Label
+                    x:Name="color_label_2"
+                    Grid.Row="5"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF0066CC"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3105"
+                    Tag="" />
+                  <Label
+                    x:Name="color_label_3"
+                    Grid.Row="6"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FFDAF692"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3109" />
+                  <Label
+                    x:Name="color_label_4"
+                    Grid.Row="7"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF222222"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3104"
+                    Tag="" />
+                  <Label
+                    x:Name="color_label_5"
+                    Grid.Row="8"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF0066CC"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3111"
+                    Tag="" />
+                  <Label
+                    x:Name="color_label_6"
+                    Grid.Row="9"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF66ED0D"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3112" />
+                  <Label
+                    x:Name="color_label_7"
+                    Grid.Row="10"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF333333"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3113"
+                    Tag="" />
+
+                  <Label
+                    x:Name="color_label_8"
+                    Grid.Row="11"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FF9ACFFF"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3114"
+                    Tag="" />
+                  <Label
+                    x:Name="color_label_9"
+                    Grid.Row="12"
+                    Grid.Column="2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FFE6CFD8"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{StaticResource RoundedLabel}"
+                    TabIndex="3116"
+                    Tag="" />
+                </Grid>
+
+                <Border
+                  Width="130"
+                  Margin="5,0,5,10"
+                  VerticalAlignment="Bottom"
+                  BorderBrush="#FFABADB3"
+                  BorderThickness="1,1,1,1">
+                  <Grid
+                    Width="130"
+                    Height="220"
+                    VerticalAlignment="Bottom">
+
+                    <StackPanel Orientation="Vertical">
+                      <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
+                        <TextBlock
+                          x:Name="label4_Copy"
+                          Width="NaN"
+                          Height="auto"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Text="小科狗" />
+                        <Label
+                          x:Name="hxz_label_gb"
+                          Width="2"
+                          Height="12"
+                          Margin="2,0,0,0"
+                          HorizontalAlignment="Left"
+                          BorderBrush="{Binding ElementName=color_label_2, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                          BorderThickness="2" />
+                      </StackPanel>
+                      <StackPanel>
+                        <Label
+                          x:Name="hxz_label_xhx"
+                          Width="15"
+                          Height="2"
+                          Margin="28,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          BorderBrush="{Binding ElementName=color_label_1, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                          BorderThickness="0,2" />
+                      </StackPanel>
+                      <Border
+                        x:Name="hxk_border"
+                        Width="105"
+                        Margin="18,4,0,0"
+                        Padding="0,0,0,5"
+                        HorizontalAlignment="Left"
+                        Background="{Binding ElementName=color_label_5, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                        BorderBrush="{Binding ElementName=color_label_4, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                        BorderThickness="{Binding ElementName=nud13, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                        CornerRadius="{Binding ElementName=nud11, Path=Value, UpdateSourceTrigger=PropertyChanged}">
+                        <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+
+                          <TextBlock
+                            x:Name="hxz_label_0"
+                            Height="auto"
+                            Margin="10,3,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="{Binding ElementName=color_label_8, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Text="mg" />
+
+                          <Label
+                            x:Name="hxz_label_fgx"
+                            Width="88"
+                            Height="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="{Binding ElementName=color_label_3, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            BorderThickness="0,1,0,0" />
+
+                          <TextBlock
+                            x:Name="hxz_label_1"
+                            Height="auto"
+                            Margin="10,3,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Text="1. 光" />
+                          <TextBlock
+                            x:Name="hxz_label_2"
+                            Height="auto"
+                            Margin="10,3,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Text="2. 周 d" />
+                          <Border
+                            x:Name="hxz_border"
+                            Margin="5,0,5,0"
+                            Background="{Binding ElementName=color_label_6, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}">
+                            <StackPanel Orientation="Horizontal">
+                              <TextBlock
+                                x:Name="hxz_label_3"
+                                Height="auto"
+                                Margin="5,3,0,3"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Foreground="{Binding ElementName=color_label_7, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                                Text="3. 狗 j" />
+                            </StackPanel>
+                          </Border>
+                          <TextBlock
+                            x:Name="hxz_label_4"
+                            Height="auto"
+                            Margin="10,3,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Text="4. 硅 g" />
+                          <TextBlock
+                            x:Name="hxz_label_5"
+                            Height="auto"
+                            Margin="10,3,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Text="5. 冉 t" />
+                          <TextBlock
+                            x:Name="hxz_label_6"
+                            Height="auto"
+                            Margin="10,3,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Text="6. 磋 u" />
+                        </StackPanel>
+                      </Border>
+                    </StackPanel>
+
+
+
+                  </Grid>
+                </Border>
+                <Grid
+                  Width="100"
+                  Height="220"
+                  Margin="5,0,5,10"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Bottom">
+                  <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
+                    <ListBox
+                      x:Name="colorSchemeListBox"
+                      Width="100"
+                      Height="166"
+                      HorizontalAlignment="Left"
+                      d:ItemsSource="{d:SampleData ItemCount=5}"
+                      MouseDoubleClick="ColorSchemeListBox_MouseDoubleClick"
+                      SelectionChanged="ColorSchemeListBox_SelectionChanged"
+                      Style="{StaticResource RoundedListBox}">
+                      <ListBox.ContextMenu>
+                        <ContextMenu x:Name="listBoxContextMenu">
+                          <MenuItem Click="MenuItem_Click_1" Header="新建" />
+                          <MenuItem Click="MenuItem_Click_2" Header="修改" />
+                          <MenuItem Click="MenuItem_Click_3" Header="删除" />
+                        </ContextMenu>
+                      </ListBox.ContextMenu>
+                    </ListBox>
+                    <TextBox
+                      x:Name="color_scheme_name_textBox"
+                      Width="100"
+                      Height="24"
+                      Margin="0,3,0,3"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Style="{DynamicResource RoundTextBox}"
+                      Text=""
+                      TextWrapping="NoWrap" />
+                    <Button
+                      x:Name="saveButton"
+                      Width="100"
+                      Height="24"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Click="SaveButton_Click"
+                      Content="保存配色"
+                      Style="{DynamicResource RoundButton2}" />
+
+                  </StackPanel>
+
+
+                </Grid>
+                <Grid
+                  Width="210"
+                  Height="220"
+                  Margin="5,0,5,10"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Bottom">
+                  <StackPanel Orientation="Vertical">
+                    <local:ColorPicker
+                      x:Name="colorPicker"
+                      Height="145"
+                      HorizontalAlignment="Left" />
+                    <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                      <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                        <Label
+                          Height="auto"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Bottom"
+                          Content="自定义：" />
+                        <local:RGBTextBox
+                          x:Name="rgbTextBox"
+                          Height="20"
+                          Margin="7,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          ValueChanged="RGB_ValueChanged" />
+
+                      </StackPanel>
+                    </StackPanel>
+                  </StackPanel>
+                </Grid>
+
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_02"
+          Header="候选框样式"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label3"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选字个数：" />
+
+              <local:NumericUpDown
+                x:Name="nud15"
+                Grid.Column="1"
+                Width="62"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="26"
+                MinValue="1"
+                TabIndex="3105"
+                Value="5" />
+              <Label
+                x:Name="label23_Copy5"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选的横向偏离：" />
+
+
+              <StackPanel
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="-10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <RadioButton
+                  x:Name="radioButton8"
+                  Height="16"
+                  Margin="10,3,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="横向单行"
+                  IsChecked="True" />
+                <RadioButton
+                  x:Name="radioButton12"
+                  Height="16"
+                  Margin="10,2,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="横向双行"
+                  IsChecked="False" />
+                <RadioButton
+                  x:Name="radioButton13"
+                  Height="16"
+                  Margin="10,2,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="竖向多行"
+                  IsChecked="True" />
+              </StackPanel>
+              <CheckBox
+                x:Name="checkBox_Copy38"
+                x:Uid="String1"
+                Grid.Row="12"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label23_Copy7"
+                Grid.Row="13"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="码表标签左对齐：" />
+              <local:NumericUpDown
+                x:Name="nud16"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="62"
+                Margin="1,1,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="10000"
+                MinValue="0"
+                TabIndex="3105"
+                Value="0" />
+              <Label
+                x:Name="label23_Copy10"
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选的高度间距：" />
+              <Label
+                x:Name="label230"
+                Grid.Row="3"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选的宽度间距：" />
+              <Label
+                x:Name="label231"
+                Grid.Row="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选窗口候选排列方向模式：" />
+              <Label
+                x:Name="label232"
+                Grid.Row="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="竖向候选窗口选中背景色要等宽：" />
+              <Label
+                x:Name="label233"
+                Grid.Row="6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="高度宽度自动调整：" />
+              <Label
+                x:Name="label234"
+                Grid.Row="7"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选窗口候选从上到下排列要锁定：" />
+              <Label
+                x:Name="label235"
+                Grid.Row="8"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="从上到下排列锁定时使编码区离光标最近：" />
+              <Label
+                x:Name="label236"
+                Grid.Row="9"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="使用嵌入模式：" />
+              <Label
+                x:Name="label237"
+                Grid.Row="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="编码或候选嵌入模式：" />
+              <Label
+                x:Name="label238"
+                Grid.Row="11"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="隐藏候选窗口：" />
+              <Label
+                x:Name="label239"
+                Grid.Row="12"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选窗口为非单行时隐藏编码串行：" />
+              <local:NumericUpDown
+                x:Name="nud17"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="62"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="10000"
+                MinValue="0"
+                TabIndex="3105"
+                Value="0" />
+              <local:NumericUpDown
+                x:Name="nud18"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="62"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="10000"
+                MinValue="0"
+                TabIndex="3105"
+                Value="0" />
+              <CheckBox
+                x:Name="checkBox_Copy45"
+                x:Uid="String1"
+                Grid.Row="7"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy46"
+                x:Uid="String1"
+                Grid.Row="8"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy44"
+                x:Uid="String1"
+                Grid.Row="9"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <ComboBox
+                x:Name="comboBox1"
+                Grid.Row="10"
+                Grid.Column="1"
+                Width="145"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IsChecked, ElementName=checkBox_Copy44}"
+                SelectedIndex="1"
+                Style="{DynamicResource RoundComboBox}">
+                <ComboBoxItem Content="编码" />
+                <ComboBoxItem Content="选中候选" />
+                <ComboBoxItem Content="编码和选中候选" />
+                <ComboBoxItem Content="编码和所有候选" />
+                <ComboBoxItem Content="所有候选" />
+
+
+              </ComboBox>
+              <Label
+                x:Name="label23_Copy6"
+                Grid.Row="14"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="码表标签：" />
+              <TextBox
+                x:Name="textBox_Copy15"
+                Grid.Row="14"
+                Grid.Column="1"
+                Width="145"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="🐅️"
+                TextWrapping="NoWrap" />
+              <Label
+                x:Name="label23_Copy8"
+                Grid.Row="15"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="码表标签的显示模式：" />
+              <ComboBox
+                x:Name="comboBox1_Copy"
+                Grid.Row="15"
+                Grid.Column="1"
+                Width="145"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                SelectedIndex="2"
+                Style="{DynamicResource RoundComboBox}">
+                <ComboBoxItem Content="不显示" />
+                <ComboBoxItem Content="显示状态" />
+                <ComboBoxItem Content="显示码表标签" />
+                <ComboBoxItem Content="状态和码表标签" />
+                <ComboBoxItem Content="状态、标签和翻页信息" />
+                <ComboBoxItem Content="显示翻页信息" />
+
+              </ComboBox>
+              <CheckBox
+                x:Name="checkBox_Copy39"
+                x:Uid="String1"
+                Grid.Row="13"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy40"
+                x:Uid="String1"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy41"
+                x:Uid="String1"
+                Grid.Row="5"
+                Grid.Column="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy33"
+                x:Uid="String1"
+                Grid.Row="11"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_03"
+          Header="字体和渲染"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <Label
+                x:Name="label23"
+                Grid.Row="8"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选框字体名称：" />
+              <TextBox
+                x:Name="textBox_Copy145"
+                Grid.Row="8"
+                Grid.Column="1"
+                Width="400"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Style="{DynamicResource RoundTextBox}"
+                Text="霞鹜文楷 GB 屏幕阅读版 R"
+                TextWrapping="NoWrap"
+                ToolTip="若创建指定字体对象失败，就采用plane0字体，还失败则采用黑体" />
+              <Label
+                x:Name="label23_Copy"
+                Grid.Row="9"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="D2D回退字体集：" />
+              <TextBox
+                x:Name="textBox_Copy10"
+                Grid.Row="9"
+                Grid.Column="1"
+                Width="435"
+                Height="auto"
+                Margin="0,2,0,0"
+                HorizontalAlignment="Left"
+                Style="{DynamicResource RoundTextBox2}"
+                Text="Segoe UI Emoji+小科狗字体+黑体+plane2+plane13+全宋体-1+全宋体-2+全宋体-3+全宋体-F+全宋体-X+全宋体(调和)+plane0"
+                TextWrapping="Wrap"
+                ToolTip="注:回退字体集也就是后备字体集。字体名间请用+连接,排在前面的字体优先填补回退映射空位" />
+
+
+              <StackPanel
+                Grid.Column="1"
+                Margin="-10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <RadioButton
+                  x:Name="radioButton9"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="Direct2D"
+                  IsChecked="True" />
+                <RadioButton
+                  x:Name="radioButton10"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="GDI"
+                  IsChecked="False" />
+                <RadioButton
+                  x:Name="radioButton11"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="GDI+"
+                  IsChecked="False" />
+
+              </StackPanel>
+              <Label
+                x:Name="label23_Copy1"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="D2D字体加粗权值：" />
+              <local:NumericUpDown
+                x:Name="nud14"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="62"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton9}"
+                MaxValue="10"
+                MinValue="1"
+                TabIndex="3105"
+                Value="0" />
+              <CheckBox
+                x:Name="checkBox_Copy314"
+                x:Uid="String1"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton10}"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+
+
+
+              <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="-10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton9}"
+                Orientation="Horizontal">
+                <RadioButton
+                  x:Name="radioButton6"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  VerticalAlignment="Top"
+                  Content="正体"
+                  IsChecked="True" />
+                <RadioButton
+                  x:Name="radioButton7"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  VerticalAlignment="Top"
+                  Content="斜体"
+                  IsChecked="False" />
+              </StackPanel>
+              <Label
+                x:Name="label23_Copy2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选窗口绘制模式：" />
+              <Label
+                x:Name="label23_Copy4"
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="D2D字体样式：" />
+              <Label
+                x:Name="label23_Copy11"
+                Grid.Row="3"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="GDI字体加粗权值：" />
+              <local:NumericUpDown
+                x:Name="nud14_Copy"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="62"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton10}"
+                MaxValue="1000"
+                MinValue="0"
+                TabIndex="3105"
+                Value="100" />
+              <Label
+                x:Name="label23_Copy3"
+                Grid.Row="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="GDI字体使用斜体：" />
+              <StackPanel
+                Grid.Row="5"
+                Grid.Column="1"
+                Margin="-10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton11}"
+                Orientation="Horizontal">
+                <RadioButton
+                  x:Name="radioButton14"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="常规"
+                  IsChecked="True" />
+                <RadioButton
+                  x:Name="radioButton15"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="粗体" />
+                <RadioButton
+                  x:Name="radioButton16"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="斜体" />
+                <RadioButton
+                  x:Name="radioButton17"
+                  Height="16"
+                  Margin="10,5,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="粗斜体" />
+              </StackPanel>
+
+
+              <Label
+                x:Name="label23_Copy12"
+                Grid.Row="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="GDI+字体样式：" />
+
+              <CheckBox
+                x:Name="checkBox19"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="False"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton11}"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox20"
+                Grid.Row="7"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="False"
+                IsEnabled="{Binding IsChecked, ElementName=radioButton11}"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+
+              <Label
+                x:Name="label23_Copy13"
+                Grid.Row="6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="GDI+字体下划线：" />
+              <Label
+                x:Name="label23_Copy213"
+                Grid.Row="7"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="GDI+字体删除线：" />
+              <Button
+                x:Name="button3_Copy"
+                Grid.Row="8"
+                Grid.Column="1"
+                Width="30"
+                Height="24"
+                Margin="405,0,0,0"
+                Padding="1,-5,1,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="Button3_Copy_Click"
+                Content="..."
+                Style="{DynamicResource RoundButton2}" />
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+        <GroupBox
+          x:Name="groupBox_04"
+          Header="码元设置"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label122"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="大键盘码元：" />
+              <TextBox
+                x:Name="textBox_Copy677"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="abcdefghijklmnopqrstuvwxyz" />
+              <Label
+                x:Name="label122_Copy"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="小键盘码元：" />
+              <TextBox
+                x:Name="textBox_Copy5"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="" />
+              <Label
+                x:Name="label122_Copy1"
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="大小键盘万能码元：" />
+              <TextBox
+                x:Name="textBox_Copy6"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="" />
+              <Label
+                x:Name="label122_Copy2"
+                Grid.Row="3"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="非编码串首位的大键盘码元：" />
+              <TextBox
+                x:Name="textBox_Copy7"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="" />
+              <Label
+                x:Name="label122_Copy3"
+                Grid.Row="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="非编码串首位的小键盘码元：" />
+              <TextBox
+                x:Name="textBox_Copy8"
+                Grid.Row="4"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="" />
+              <Label
+                x:Name="label122_Copy4"
+                Grid.Row="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="最大码长：" />
+              <local:NumericUpDown
+                x:Name="nud1"
+                Grid.Row="5"
+                Grid.Column="1"
+                Width="60"
+                Margin="1,2,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="1000"
+                MinValue="0"
+                ToolTip="0-1000"
+                Value="5" />
+              <Label
+                x:Name="label1212_Copy4"
+                Grid.Row="6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="是键首字根码表：" />
+              <Label
+                x:Name="label1221_Copy4"
+                Grid.Row="7"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="键首字根：" />
+              <TextBox
+                x:Name="textBox125"
+                Grid.Row="7"
+                Grid.Column="1"
+                Width="435"
+                Height="auto"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Style="{DynamicResource RoundTextBox2}"
+                Text="a𠃌b女c火d口e木f一g土h八i丶j亻k水l艹m⼤n十o日p镸q目rㄡs讠t㇒u𰀁v⼔w宀x𥝌y⺌z金"
+                TextWrapping="Wrap" />
+              <CheckBox
+                x:Name="checkBox1_Copy55"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_05"
+          Header="标点设置"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox
+                x:Name="checkBox_Copy31"
+                x:Uid="String1"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label78"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="关联中文标点：" />
+              <Label
+                x:Name="label8"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="大键盘中文标点串：" />
+              <Label
+                x:Name="label82"
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="大键盘按下Shift的中文标点串：" />
+              <TextBox
+                x:Name="textBox_Copy68"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="435"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Center"
+                Style="{DynamicResource RoundTextBox2}"
+                Text="&lt;`=~&gt;&lt;1=1&gt;&lt;2=2&gt;&lt;3=3&gt;&lt;4=4&gt;&lt;5=5&gt;&lt;6=6&gt;&lt;7=7&gt;&lt;8=8&gt;&lt;9=9&gt;&lt;0=0&gt;&lt;-=-&gt;&lt;===&gt;&lt;[=[&gt;&lt;]=]&gt;&lt;;=；&gt;&lt;'=‘’&gt;&lt;\=\&gt;&lt;,=，&gt;&lt;.=。&gt;&lt;/=、&gt;"
+                TextWrapping="Wrap"
+                ToolTip="中英书名号分别用+[]+ 和-[]-替代" />
+              <TextBox
+                x:Name="textBox_Copy69"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="435"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Center"
+                Style="{DynamicResource RoundTextBox2}"
+                Text="&lt;`=~&gt;&lt;1=！&gt;&lt;2=@&gt;&lt;3=#&gt;&lt;4=￥&gt;&lt;5=%&gt;&lt;6=……&gt;&lt;7=&amp;&gt;&lt;8=*&gt;&lt;9=（&gt;&lt;0=）&gt;&lt;-=——&gt;&lt;==+&gt;&lt;[={&gt;&lt;]=}&gt;&lt;;=：&gt;&lt;'=“”&gt;&lt;\=|&gt;&lt;,=+[&gt;&lt;.=]+&gt;&lt;/=？&gt;"
+                TextWrapping="Wrap"
+                ToolTip="中英书名号分别用+[]+ 和-[]-替代" />
+            </Grid>
+          </Border>
+        </GroupBox>
+
+        <GroupBox
+          x:Name="groupBox_06"
+          Header="动作设置"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox
+                x:Name="checkBox_Copy34"
+                x:Uid="String1"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy18"
+                x:Uid="String1"
+                Grid.Row="1"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy19"
+                x:Uid="String1"
+                Grid.Row="2"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy20"
+                x:Uid="String1"
+                Grid.Row="3"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy21"
+                x:Uid="String1"
+                Grid.Row="4"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy22"
+                x:Uid="String1"
+                Grid.Row="5"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy23"
+                x:Uid="String1"
+                Grid.Row="6"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy24"
+                x:Uid="String1"
+                Grid.Row="7"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy25"
+                x:Uid="String1"
+                Grid.Row="8"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy26"
+                x:Uid="String1"
+                Grid.Row="9"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy27"
+                x:Uid="String1"
+                Grid.Row="10"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy28"
+                x:Uid="String1"
+                Grid.Row="11"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy29"
+                x:Uid="String1"
+                Grid.Row="12"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy30"
+                x:Uid="String1"
+                Grid.Row="13"
+                Grid.Column="5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+              <Label
+                x:Name="label4_Copy41"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="显示键首字根：" />
+              <Label
+                x:Name="label4_Copy47"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="上屏后候选窗口立即消失：" />
+              <Label
+                x:Name="label4_Copy48"
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="超过码长时立即清屏：" />
+              <Label
+                x:Name="label4_Copy49"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="无候选时立即清屏：" />
+              <Label
+                x:Name="label4_Copy50"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用最大码长无候选时清屏：" />
+              <Label
+                x:Name="label4_Copy51"
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="无候选敲空格上屏编码串：" />
+              <Label
+                x:Name="label4_Copy52"
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Shift 键上屏编码串：" />
+              <Label
+                x:Name="label4_Copy53"
+                Grid.Row="7"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Shift 键 + 字母键进入临时英文长句态：" />
+              <Label
+                x:Name="label4_Copy54"
+                Grid.Row="8"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Space 键上屏临时英文编码串：" />
+              <Label
+                x:Name="label4_Copy55"
+                Grid.Row="9"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Enter 键上屏编码串：" />
+              <Label
+                x:Name="label_Copy1"
+                Grid.Row="10"
+                Grid.Column="0"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Enter 键上屏时首个字母大写：" />
+              <Label
+                x:Name="label4_Copy56"
+                Grid.Row="11"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Backspace 键一次性删除前次上屏的内容：" />
+              <Label
+                x:Name="label_Copy114"
+                Grid.Row="12"
+                Grid.Column="0"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="前次上屏的是数字再上屏句号*要转成点号*：" />
+              <Label
+                x:Name="label4_Copy546"
+                Grid.Row="13"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="过渡态按 1 要上屏 1：" />
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_07"
+          Header="顶功设置"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label1"
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="顶功小集码元：" />
+              <TextBox
+                x:Name="textBox_Copy675"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}" />
+              <StackPanel Grid.Row="1" Grid.Column="1">
+                <RadioButton
+                  x:Name="radioButton454"
+                  Height="16"
+                  Margin="0,5,0,0"
+                  Content="大集连小集码元顶屏"
+                  IsChecked="True" />
+                <RadioButton
+                  x:Name="radioButton455"
+                  Height="16"
+                  Margin="0,5,0,0"
+                  Content="小集码元接大集码元顶屏"
+                  IsChecked="False" />
+                <RadioButton
+                  x:Name="radioButton456"
+                  Height="16"
+                  Margin="0,5,0,0"
+                  Content="小集接大集或大集接小集码元顶屏" />
+              </StackPanel>
+              <Label
+                x:Name="label1_Copy"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="顶功规则：" />
+            </Grid>
+          </Border>
+
+        </GroupBox>
+
+        <GroupBox
+          x:Name="groupBox_08"
+          Header="上屏设置"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选快键字符串：" />
+              <TextBox
+                x:Name="textBox_Copy66"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=sp&gt;&lt;2=;&gt;&lt;3='&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="左Shift用ls、右Shift用rs、左ctrl用lc、右ctrl用rc、空格键用sp、回车键用en、Tab键用ta以及CapsLock键用ca代替" />
+
+
+
+              <Label
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="预设候选序号：" />
+              <Label
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="自定候选序号：" />
+              <ComboBox
+                x:Name="comboBox3"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                SelectionChanged="ComboBox3_SelectionChanged"
+                Style="{DynamicResource RoundComboBox}" />
+              <TextBox
+                x:Name="textBox_Copy67"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="435"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Style="{DynamicResource RoundTextBox2}"
+                Text="&lt;1=¹sp&gt;&lt;2=²sp&gt;&lt;3=³sp&gt;&lt;4=⁴sp&gt;&lt;5=⁵sp&gt;&lt;6=⁶sp&gt;&lt;7=⁷sp &gt;&lt;8=⁸sp &gt;&lt;9=⁹sp&gt;&lt;10=¹⁰sp&gt;"
+                TextWrapping="Wrap"
+                ToolTip="空格用sp代替,Tab用ta代替" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <CheckBox
+                x:Name="checkBox1_Copy111"
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <local:NumericUpDown
+                x:Name="nud4"
+                Grid.Row="8"
+                Grid.Column="1"
+                Width="60"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="9"
+                MinValue="1"
+                ToolTip="唯一上屏最小码长大于 0"
+                Value="4" />
+              <CheckBox
+                x:Name="checkBox1_Copy5"
+                Grid.Row="7"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox1_Copy6"
+                Grid.Row="5"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox1_Copy7"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox1_Copy8"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+              <Label
+                x:Name="label4_Copy42"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用码长顶屏：" />
+              <Label
+                x:Name="label4_Copy43"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用数字顶屏：" />
+              <Label
+                x:Name="label4_Copy44"
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用标点顶屏：" />
+              <Label
+                x:Name="label4_Copy45"
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="标点或数字顶屏时，若是引导键，要继续引导：" />
+              <Label
+                x:Name="label4_Copy46"
+                Grid.Row="7"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用唯一上屏：" />
+              <Label
+                x:Name="label4_Copy416"
+                Grid.Row="8"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="唯一上屏最小码长：" />
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_09"
+          Header="中英切换"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox
+                x:Name="checkBox_Copy11"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy12"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy13"
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy14"
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy15"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy16"
+                Grid.Row="5"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy17"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label4_Copy31"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="中英切换显示提示窗口：" />
+              <Label
+                x:Name="label4_Copy32"
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="从中文切换到英文时上屏编码串：" />
+              <Label
+                x:Name="label4_Copy33"
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用左 Shift 键：" />
+              <Label
+                x:Name="label4_Copy37"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用右 Shift 键：" />
+              <Label
+                x:Name="label4_Copy38"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用左 Ctrl 键：" />
+              <Label
+                x:Name="label4_Copy39"
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用右 Ctrl 键：" />
+              <Label
+                x:Name="label4_Copy40"
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用 Ctrl + Space 键：" />
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_10"
+          Header="翻页按键"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label12"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="上翻页大键盘符号：" />
+              <TextBox
+                x:Name="textBox_Copy21"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="-["
+                TextWrapping="NoWrap" />
+              <Label
+                x:Name="label12_Copy"
+                Grid.Row="1"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="下翻页大键盘符号：" />
+              <TextBox
+                x:Name="textBox_Copy2"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="=]"
+                TextWrapping="NoWrap" />
+              <Label
+                x:Name="label12_Copy1"
+                Grid.Row="2"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="上翻页小键盘符号：" />
+              <TextBox
+                x:Name="textBox_Copy3"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="+"
+                TextWrapping="NoWrap" />
+              <Label
+                x:Name="label12_Copy2"
+                Grid.Row="3"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="下翻页小键盘符号：" />
+              <TextBox
+                x:Name="textBox_Copy4"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="-"
+                TextWrapping="NoWrap" />
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+        <GroupBox
+          x:Name="groupBox_11"
+          Header="词语联想"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox
+                x:Name="checkBox_Copy4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+              <StackPanel
+                Grid.Row="7"
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <RadioButton
+                  x:Name="radioButton"
+                  Width="120"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="仅单字上屏联想" />
+                <RadioButton
+                  x:Name="radioButton1"
+                  Width="120"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="仅词上屏联想"
+                  IsChecked="False" />
+                <RadioButton
+                  x:Name="radioButton2"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="单字和词上屏皆联想"
+                  IsChecked="True" />
+              </StackPanel>
+
+              <StackPanel
+                Grid.Row="8"
+                Grid.Column="1"
+                Margin="0,5,0,0"
+                Orientation="Horizontal">
+                <RadioButton
+                  x:Name="radioButton3"
+                  Width="120"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="只检索 key=1#*" />
+                <RadioButton
+                  x:Name="radioButton4"
+                  Width="120"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="不检索 key=1#*"
+                  IsChecked="False" />
+                <RadioButton
+                  x:Name="radioButton5"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="检索除 key=0#* 外所有"
+                  IsChecked="True" />
+              </StackPanel>
+
+              <CheckBox
+                x:Name="checkBox_Copy5"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy6"
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy7"
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <CheckBox
+                x:Name="checkBox_Copy8"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="上屏词条精准匹配key=1*的值进行词语联想吗？该项仅对词语联想检索范围=1时有效" />
+              <CheckBox
+                x:Name="checkBox_Copy9"
+                Grid.Row="5"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="精准匹配key=1*的值时要词语模糊联想吗？该项仅对词语联想检索范围=1时有效" />
+              <CheckBox
+                x:Name="checkBox_Copy10"
+                Grid.Row="6"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label_Copy"
+                Grid.Row="0"
+                Grid.Column="0"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="开启词语联想：" />
+              <Label
+                x:Name="label4_Copy26"
+                Grid.Row="8"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="词语联想检索范围：" />
+              <Label
+                x:Name="label4_Copy27"
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="词语联想要显示词语全部：" />
+              <Label
+                x:Name="label4_Copy28"
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="词语联想只是匹配首位：" />
+              <Label
+                x:Name="label4_Copy29"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="词语联想时标点顶屏要起作用：" />
+              <Label
+                x:Name="label4_Copy30"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="上屏词条精准匹配key=1*的值进行词语联想：" />
+              <Label
+                x:Name="label4_Copy34"
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="精准匹配key=1*的值时要词语模糊联想：" />
+              <Label
+                x:Name="label4_Copy35"
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="开启Ctrl键清除联想：" />
+              <Label
+                x:Name="label4_Copy36"
+                Grid.Row="7"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="词语联想上屏字符串长度：" />
+            </Grid>
+          </Border>
+        </GroupBox>
+
+        <GroupBox
+          x:Name="groupBox_14"
+          Header="码表调频与检索"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox
+                x:Name="checkBox_Copy"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="用来控制检索数据库的" />
+              <CheckBox
+                x:Name="checkBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="英文就不要了，用来候选窗口显示的" />
+              <CheckBox
+                x:Name="checkBox1"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="是否要显示反查提示" />
+              <CheckBox
+                x:Name="checkBox1_Copy"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="是否要启用单字模式" />
+              <CheckBox
+                x:Name="checkBox1_Copy1"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+              <local:NumericUpDown
+                x:Name="nud2"
+                Grid.Row="5"
+                Grid.Column="1"
+                Width="60"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="100"
+                MinValue="0"
+                ToolTip="0-100"
+                Value="1" />
+              <CheckBox
+                x:Name="checkBox_Copy1"
+                Grid.Row="6"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="False"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="是否启用上屏自动增加调频权重直接到顶" />
+              <CheckBox
+                x:Name="checkBox_Copy2"
+                Grid.Row="8"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="候选词条是否要按码长短优先排序" />
+              <CheckBox
+                x:Name="checkBox1_Copy2"
+                Grid.Row="7"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="候选词条要按调频权重检索排序" />
+              <CheckBox
+                x:Name="checkBox1_Copy3"
+                Grid.Row="9"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="双检索要有相应格式的码表支持，格式如：key=hao，value=好&gt;#你#我#我们#，用第一次上屏的“你”或“我”+编码“hao”检索出“好”，也可用连续两次单字上屏组成的“我们”+编码“hao”检索出“好”" />
+              <CheckBox
+                x:Name="checkBox1_Copy4"
+                Grid.Row="10"
+                Grid.Column="1"
+                Margin="1,2,3,1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label"
+                Grid.Row="11"
+                Grid.Column="0"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="双检索历史重数：" />
+              <local:NumericUpDown
+                x:Name="nud3"
+                Grid.Row="11"
+                Grid.Column="1"
+                Width="60"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                MaxValue="9"
+                MinValue="0"
+                ToolTip="注:=1时,先双检索前二次上屏组成的,再双检索最后一次上屏的,最后补空检索,不同重数检索逻辑以此类推"
+                Value="1" />
+              <Label
+                x:Name="label4_Copy14"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="逐码提示检索：" />
+              <Label
+                x:Name="label4_Copy15"
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="显示逐码提示：" />
+              <Label
+                x:Name="label4_Copy16"
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="显示反查提示：" />
+              <Label
+                x:Name="label4_Copy17"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用单字模式：" />
+              <Label
+                x:Name="label4_Copy18"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用上屏自动增加调频权重：" />
+              <Label
+                x:Name="label4_Copy20"
+                Grid.Row="10"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="双检索时编码要完全匹配：" />
+              <Label
+                x:Name="label4_Copy21"
+                Grid.Row="8"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="候选词条要按码长短优先排序：" />
+              <Label
+                x:Name="label4_Copy22"
+                Grid.Row="9"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="启用双检索模式：" />
+              <Label
+                x:Name="label4_Copy23"
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="调频权重最小码长：" />
+              <Label
+                x:Name="label4_Copy24"
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="调频权重一次到顶：" />
+              <Label
+                x:Name="label4_Copy25"
+                Grid.Row="7"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="候选词条要按调频权重检索排序：" />
+
+            </Grid>
+          </Border>
+
+        </GroupBox>
+
+        <GroupBox
+          x:Name="groupBox_15"
+          Header="重复上屏"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label2"
+                Grid.Row="0"
+                Grid.Column="0"
+                Height="26"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="重复上屏码元：" />
+              <TextBox
+                x:Name="textBox_Copy1"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text=""
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_16"
+          Header="自动造词"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label4_Copy19"
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用 Esc 键自动造词：" />
+              <CheckBox
+                x:Name="checkBox_Copy3"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}"
+                ToolTip="中文态打出编码按返回键,然后打一些字，再按返回键（窗口隐藏），编码与这些字符自动成词" />
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+
+
+
+        <GroupBox
+          x:Name="groupBox_17"
+          Header="临时码表检索"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label4_Copy9"
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="码表临时快键：" />
+              <Label
+                x:Name="label4_Copy10"
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="码表临时快键编码名：" />
+              <TextBox
+                x:Name="textBox_Copy19"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="\"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy20"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=\&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy22"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="👉"
+                TextChanged="TextBox_Copy22_TextChanged"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy23"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="2."
+                TextChanged="TextBox_Copy23_TextChanged"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <Label
+                x:Name="label4_Copy11"
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="主码表标识：" />
+              <Label
+                x:Name="label4_Copy12"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="副码表标识：" />
+              <Label
+                x:Name="label4_Copy13"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="无临时快键时也要显示主码表标识：" />
+              <CheckBox
+                x:Name="checkBox_Copy32"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_18"
+          Header="引导码表检索"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <Label
+                x:Name="label4"
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 0 ：" />
+              <Label
+                x:Name="label4_Copy1"
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 0 编码名 0 ：" />
+              <Label
+                x:Name="label4_Copy2"
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 0 编码名 1 ：" />
+              <TextBox
+                x:Name="textBox_Copy"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="`"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy9"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy11"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <Label
+                x:Name="label4_Copy3"
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 1 ：" />
+              <Label
+                x:Name="label4_Copy4"
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 1 编码名 0 ：" />
+              <Label
+                x:Name="label4_Copy5"
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 1 编码名 1 ：" />
+              <TextBox
+                x:Name="textBox_Copy12"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="["
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy13"
+                Grid.Row="4"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy14"
+                Grid.Row="5"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <Label
+                x:Name="label4_Copy6"
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 2 ：" />
+              <Label
+                x:Name="label4_Copy7"
+                Grid.Row="7"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 2 编码名 0 ：" />
+              <Label
+                x:Name="label4_Copy8"
+                Grid.Row="8"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="码表引导快键 2 编码名 1 ：" />
+              <TextBox
+                x:Name="textBox_Copy16"
+                Grid.Row="6"
+                Grid.Column="1"
+                Width="60"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="]"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy17"
+                Grid.Row="7"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+              <TextBox
+                x:Name="textBox_Copy18"
+                Grid.Row="8"
+                Grid.Column="1"
+                Width="435"
+                Height="24"
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource RoundTextBox}"
+                Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
+                TextWrapping="NoWrap"
+                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏" />
+
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+
+
+
+
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>

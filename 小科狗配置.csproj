@@ -258,16 +258,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="HotKeyControl.xaml.cs">
+    <Compile Include="Contorl\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Base.cs" />
+    <Compile Include="Page\Abort.xaml.cs">
+      <DependentUpon>Abort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page\GlobalSetting.xaml.cs">
+      <DependentUpon>GlobalSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Contorl\HotKeyControl.xaml.cs">
       <DependentUpon>HotKeyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RGBTextBox.xaml.cs">
+    <Compile Include="Contorl\RGBTextBox.xaml.cs">
       <DependentUpon>RGBTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeControl.xaml.cs">
+    <Compile Include="Page\SchemeSetting.xaml.cs">
+      <DependentUpon>SchemeSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Contorl\TimeControl.xaml.cs">
       <DependentUpon>TimeControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="HotKeyControl.xaml">
+    <Page Include="Contorl\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Abort.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\GlobalSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Contorl\HotKeyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -283,11 +308,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NumericUpDown.xaml">
+    <Page Include="Contorl\NumericUpDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RGBTextBox.xaml">
+    <Page Include="Contorl\RGBTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\SchemeSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,13 +324,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimeControl.xaml">
+    <Page Include="Contorl\TimeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NumericUpDown.xaml.cs">
+    <Compile Include="Contorl\NumericUpDown.xaml.cs">
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -341,7 +370,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="hue.png" />
+    <Resource Include="Contorl\hue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="skin01.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -14,7 +14,7 @@ namespace 小科狗配置
 {
   public partial class HotKeyControl : UserControl
   {
-    private List<Key> pressedKeys = new List<Key>();
+    private readonly List<Key> pressedKeys = new();
 
     public string HotKey
     {
@@ -24,7 +24,7 @@ namespace 小科狗配置
 
 
     // 键与缩写的映射表，使用Tuple<string, string>来存储
-    private List<Tuple<string, string>> keyMap = new List<Tuple<string, string>>()
+    private readonly List<Tuple<string, string>> keyMap = new()
     {
         Tuple.Create("PageUp"         , "PU" ),
         Tuple.Create("Next"           , "PD" ),
@@ -86,36 +86,6 @@ namespace 小科狗配置
         Tuple.Create("NumPad9"        , "x9" ),
         Tuple.Create("Decimal"        , "x." ),
     }; 
-    private List<Tuple<string, string>> keyMap2 = new List<Tuple<string, string>>()
-    {
-        Tuple.Create("A"              , "a"  ),
-        Tuple.Create("B"              , "b"  ),
-        Tuple.Create("C"              , "c"  ),
-        Tuple.Create("D"              , "d"  ),
-        Tuple.Create("E"              , "e"  ),
-        Tuple.Create("F"              , "f"  ),
-        Tuple.Create("G"              , "g"  ),
-        Tuple.Create("H"              , "h"  ),
-        Tuple.Create("I"              , "i"  ),
-        Tuple.Create("J"              , "j"  ),
-        Tuple.Create("K"              , "k"  ),
-        Tuple.Create("L"              , "l"  ),
-        Tuple.Create("M"              , "m"  ),
-        Tuple.Create("N"              , "n"  ),
-        Tuple.Create("O"              , "o"  ),
-        Tuple.Create("P"              , "p"  ),
-        Tuple.Create("Q"              , "q"  ),
-        Tuple.Create("R"              , "r"  ),
-        Tuple.Create("S"              , "s"  ),
-        Tuple.Create("T"              , "t"  ),
-        Tuple.Create("U"              , "u"  ),
-        Tuple.Create("V"              , "v"  ),
-        Tuple.Create("W"              , "w"  ),
-        Tuple.Create("X"              , "x"  ),
-        Tuple.Create("Y"              , "y"  ),
-        Tuple.Create("Z"              , "z"  ),
-    };
-
 
     public HotKeyControl()
     {
@@ -224,7 +194,7 @@ namespace 小科狗配置
       else
       {
         // 如果没有按键按下，启动一个定时器来更新HotKey
-        DispatcherTimer timer = new DispatcherTimer()
+        DispatcherTimer timer = new()
         {
           Interval = TimeSpan.FromMilliseconds(200) // 延迟100毫秒
         };

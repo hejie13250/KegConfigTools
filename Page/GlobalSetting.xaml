@@ -1,0 +1,1048 @@
+﻿<Page
+  x:Class="小科狗配置.GlobalSetting"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:小科狗配置"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Title="GlobalSetting"
+  mc:Ignorable="d">
+
+  <Grid x:Name="Grid2">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="35" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+      <!--<Button
+                x:Name="run_button"
+                Width="70"
+                Height="24"
+                Click="Run_button_Click"
+                Content="数据统计"
+                Style="{DynamicResource RoundButton2}"
+                ToolTip="打开小科狗打字数据统计" />-->
+      <Button
+        x:Name="default_button"
+        Width="70"
+        Height="24"
+        Click="Default_button_Click"
+        Content="恢复默认"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从备份文件“Keg_bak.txt”中恢复全局设置" />
+      <Button
+        x:Name="apply2_button"
+        Width="70"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Apply2_button_Click"
+        Content="重新读取"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从“全局设置.json”中读取全局设置" />
+      <Button
+        x:Name="apply3_button"
+        Width="70"
+        Height="24"
+        Margin="5,0,0,0"
+        Click="Apply3_button_Click"
+        Content="应用设置"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="保存全局设置并更新到服务端" />
+
+
+    </StackPanel>
+
+    <ScrollViewer
+      x:Name="scrollViewer2"
+      Grid.Row="1"
+      HorizontalAlignment="Left"
+      VerticalScrollBarVisibility="Hidden">
+      <StackPanel x:Name="stackPanel2" Orientation="Vertical">
+
+        <GroupBox
+          x:Name="groupBox_19"
+          Height="auto"
+          Header="状态条"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+
+            <StackPanel Height="350" Orientation="Horizontal">
+              <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="190" />
+                </Grid.ColumnDefinitions>
+
+
+                <Grid
+                  Grid.Row="7"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="1"
+                  Width="185"
+                  Height="126"
+                  Margin="20,10,0,0"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Top">
+                  <Image
+                    x:Name="image"
+                    Width="175"
+                    Height="125"
+                    Margin="3,3,3,3" />
+                  <TextBlock
+                    x:Name="toolTipTextBlock"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontFamily="{Binding Text, ElementName=textBox_Copy24}"
+                    FontSize="{Binding Value, ElementName=nud23}"
+                    Foreground="Black"
+                    Text="中c：方案名称" />
+
+
+                </Grid>
+
+                <CheckBox
+                  x:Name="checkBox3_Copy"
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Checked="CheckBox3_Copy_CheckedChanged"
+                  Style="{DynamicResource CheckBoxStyle}"
+                  Unchecked="CheckBox3_Copy_CheckedChanged" />
+                <CheckBox
+                  x:Name="checkBox3_Copy1"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Checked="CheckBox3_Copy1_CheckedChanged"
+                  IsChecked="True"
+                  Style="{DynamicResource CheckBoxStyle}"
+                  Unchecked="CheckBox3_Copy1_CheckedChanged" />
+                <Label
+                  x:Name="label_011_Copy"
+                  Grid.Row="0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="隐藏提示文本：" />
+                <Label
+                  x:Name="label_012_Copy"
+                  Grid.Row="1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="显示中英以及大小写状态：" />
+                <Label
+                  x:Name="color_label_01"
+                  Grid.Row="2"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="提示文本中文字体色：" />
+                <Label
+                  x:Name="color_label_02"
+                  Grid.Row="3"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="提示文本英文字体色：" />
+                <Label
+                  x:Name="color_label_1"
+                  Grid.Row="2"
+                  Grid.Column="1"
+                  Width="50"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Background="Black"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  MouseEnter="Color_label_MouseEnter"
+                  MouseLeave="Color_label_MouseLeave"
+                  Style="{StaticResource RoundedLabel}"
+                  TabIndex="3107"
+                  Tag="" />
+                <Label
+                  x:Name="color_label_2"
+                  Grid.Row="3"
+                  Grid.Column="1"
+                  Width="50"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Background="#FFFF0000"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  MouseEnter="Color_label_MouseEnter"
+                  MouseLeave="Color_label_MouseLeave"
+                  Style="{StaticResource RoundedLabel}"
+                  TabIndex="3105"
+                  Tag="" />
+                <Label
+                  x:Name="label23_Copy14"
+                  Grid.Row="4"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="提示文本字体大小：" />
+                <local:NumericUpDown
+                  x:Name="nud23"
+                  Grid.Row="4"
+                  Grid.Column="1"
+                  Width="50"
+                  Height="22"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  MaxValue="72"
+                  MinValue="8"
+                  TabIndex="3106"
+                  ToolTip=""
+                  Value="20" />
+                <Label
+                  x:Name="label23_Copy15"
+                  Grid.Row="5"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="字体名称：" />
+                <StackPanel
+                  Grid.Row="5"
+                  Grid.Column="1"
+                  Orientation="Horizontal">
+                  <TextBox
+                    x:Name="textBox_Copy24"
+                    Width="150"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource RoundTextBox}"
+                    Text="楷体"
+                    TextWrapping="NoWrap"
+                    ToolTip="若创建指定字体对象失败，就采用plane0字体，还失败则采用黑体" />
+                  <Button
+                    x:Name="button3_Copy1"
+                    Width="27"
+                    Height="24"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Click="Button3_Copy_Click"
+                    Content="..."
+                    Style="{DynamicResource RoundButton2}" />
+                </StackPanel>
+                <Label
+                  x:Name="label5"
+                  Grid.Row="6"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="文本位置：" />
+                <StackPanel
+                  Grid.Row="6"
+                  Grid.Column="1"
+                  Margin="-10,0,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Orientation="Horizontal">
+                  <RadioButton
+                    x:Name="radioButton18"
+                    Height="16"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="RadioButton_Click"
+                    Content="顶部"
+                    IsChecked="True" />
+                  <RadioButton
+                    x:Name="radioButton19"
+                    Height="16"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="RadioButton_Click"
+                    Content="中间"
+                    IsChecked="False" />
+                  <RadioButton
+                    x:Name="radioButton20"
+                    Height="16"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="RadioButton_Click"
+                    Content="底部"
+                    IsChecked="False" />
+                </StackPanel>
+                <Label
+                  Grid.Row="7"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Content="状态条预览：" />
+              </Grid>
+
+              <Grid
+                Width="120"
+                Height="220"
+                Margin="5,0,5,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom">
+
+                <Button
+                  x:Name="saveButton1"
+                  Width="120"
+                  Height="24"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Click="SaveButton1_Click"
+                  Content="应用皮肤"
+                  Style="{DynamicResource RoundButton2}" />
+
+                <ListBox
+                  x:Name="skinListBox"
+                  Width="120"
+                  Margin="0,29,0,0"
+                  HorizontalAlignment="Center"
+                  d:ItemsSource="{d:SampleData ItemCount=5}"
+                  SelectionChanged="SkinListBox_SelectionChanged"
+                  Style="{StaticResource RoundedListBox}" />
+              </Grid>
+              <Grid
+                Width="210"
+                Height="220"
+                Margin="5,0,5,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical">
+                  <local:ColorPicker x:Name="colorPicker" Height="145" />
+                  <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                      <Label
+                        Height="auto"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Content="自定义：" />
+                      <local:RGBTextBox
+                        x:Name="rgbTextBox"
+                        Height="20"
+                        Margin="7,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        ValueChanged="RGB_ValueChanged" />
+
+                    </StackPanel>
+                  </StackPanel>
+                </StackPanel>
+              </Grid>
+
+            </StackPanel>
+
+
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_20"
+          Header="在线查找"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid>
+              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                <ListView
+                  x:Name="listView3"
+                  Margin="10,10,10,10"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseWheel="控件禁止响应滚轮事件"
+                  Style="{DynamicResource ListViewStyle}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                      <EventSetter Event="UIElement.MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="UIElement.MouseLeave" Handler="ListViewItem_MouseLeave" />
+                    </Style>
+                  </ListView.ItemContainerStyle>
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+
+                      <GridViewColumn Width="160" Header="名称">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+
+                            <TextBox
+                              x:Name="nameTextBox"
+                              Width="145"
+                              Height="24"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              Style="{DynamicResource RoundTextBox}"
+                              Text="{Binding Name}"
+                              TextChanged="TextBox1_TextChanged"
+                              TextWrapping="NoWrap"
+                              ToolTip="在线查找名称" />
+
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="460" Header="命令">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <TextBox
+                              x:Name="cmdTextBox"
+                              Width="447"
+                              Height="24"
+                              BorderThickness="0"
+                              Style="{DynamicResource RoundTextBox}"
+                              Text="{Binding Value}"
+                              TextChanged="TextBox2_TextChanged"
+                              TextWrapping="NoWrap"
+                              ToolTip="网址或可执行文件路径，带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py" />
+
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="45" Header="启用">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <CheckBox
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Click="CheckBox_Click"
+                              IsChecked="{Binding Enable}"
+                              Style="{DynamicResource CheckBoxStyle}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="25" Header="删除">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <Button
+                              x:Name="delButton"
+                              Width="25"
+                              Height="25"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              BorderThickness="0"
+                              Click="DelButton3_Click"
+                              Style="{DynamicResource RoundButton}"
+                              Visibility="Hidden" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_28"
+          Header="外部工具"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid>
+              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                <ListView
+                  x:Name="listView8"
+                  Margin="10,10,10,10"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseWheel="控件禁止响应滚轮事件"
+                  Style="{DynamicResource ListViewStyle}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                      <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                    </Style>
+                  </ListView.ItemContainerStyle>
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                      <GridViewColumn Width="160" Header="名称">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+
+                            <TextBox
+                              x:Name="nameTextBox"
+                              Width="145"
+                              Height="24"
+                              BorderThickness="0"
+                              Style="{DynamicResource RoundTextBox}"
+                              Text="{Binding Name}"
+                              TextChanged="TextBox1_TextChanged"
+                              TextWrapping="NoWrap"
+                              ToolTip="外部工具名称" />
+
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="460" Header="命令">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+
+                            <TextBox
+                              x:Name="cmdTextBox"
+                              Width="447"
+                              Height="24"
+                              BorderThickness="0"
+                              Style="{DynamicResource RoundTextBox}"
+                              Text="{Binding Value}"
+                              TextChanged="TextBox2_TextChanged"
+                              TextWrapping="NoWrap"
+                              ToolTip="外部工具的可执行文件路径" />
+
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+
+                      <GridViewColumn Width="45" Header="启用">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <CheckBox
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Click="CheckBox_Click"
+                              IsChecked="{Binding Enable}"
+                              Style="{DynamicResource CheckBoxStyle}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="25" Header="删除">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <Button
+                              x:Name="delButton"
+                              Width="25"
+                              Height="25"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              BorderThickness="0"
+                              Click="DelButton8_Click"
+                              Style="{DynamicResource RoundButton}"
+                              Visibility="Hidden" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_21"
+          Header="快捷命令"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid>
+              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                <ListView
+                  x:Name="listView4"
+                  Margin="10,10,10,10"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseWheel="控件禁止响应滚轮事件"
+                  Style="{DynamicResource ListViewStyle}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                      <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                    </Style>
+                  </ListView.ItemContainerStyle>
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                      <GridViewColumn Width="427" Header="命令">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+
+                            <TextBox
+                              x:Name="cmdTextBox"
+                              Width="413"
+                              Height="24"
+                              BorderThickness="0"
+                              Style="{DynamicResource RoundTextBox}"
+                              Text="{Binding CMD}"
+                              TextChanged="TextBox3_TextChanged"
+                              TextWrapping="NoWrap" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="195" Header="热键">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <local:HotKeyControl
+                              x:Name="hotKeyControl"
+                              Width="180"
+                              Height="25"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              FontSize="12"
+                              HotKey="{Binding Value}"
+                              HotKeyPressed="HotKeyControl_HotKeyPressed"
+                              TabIndex="3103" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="45" Header="启用">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <CheckBox
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Click="CheckBox_Click"
+                              IsChecked="{Binding Enable}"
+                              Style="{DynamicResource CheckBoxStyle}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="25" Header="删除">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <Button
+                              x:Name="delButton"
+                              Width="25"
+                              Height="25"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              BorderThickness="0"
+                              Click="DelButton4_Click"
+                              Style="{DynamicResource RoundButton}"
+                              Visibility="Hidden" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+        <GroupBox
+          x:Name="groupBox_22"
+          Header="快捷键"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid>
+              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                <ListView
+                  x:Name="listView5"
+                  Margin="10,10,10,10"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseWheel="控件禁止响应滚轮事件"
+                  Style="{DynamicResource ListViewStyle}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                      <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                    </Style>
+                  </ListView.ItemContainerStyle>
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                      <GridViewColumn
+                        Width="427"
+                        DisplayMemberBinding="{Binding Name}"
+                        Header="名称" />
+                      <GridViewColumn Width="195" Header="热键">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <local:HotKeyControl
+                              x:Name="hotKeyControl"
+                              Width="180"
+                              Height="25"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              FontSize="12"
+                              HotKey="{Binding Value}"
+                              HotKeyPressed="HotKeyControl_HotKeyPressed"
+                              TabIndex="3103" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="45" Header="启用">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <CheckBox
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Click="CheckBox_Click"
+                              IsChecked="{Binding Enable}"
+                              Style="{DynamicResource CheckBoxStyle}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="25" Header="删除">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <Button
+                              x:Name="delButton"
+                              Width="25"
+                              Height="25"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              BorderThickness="0"
+                              Click="DelButton5_Click"
+                              Style="{DynamicResource RoundButton}"
+                              Visibility="Hidden" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+        <GroupBox
+          x:Name="groupBox_23"
+          Header="自启动应用"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid>
+              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                <ListView
+                  x:Name="listView6"
+                  Margin="10,10,10,10"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseWheel="控件禁止响应滚轮事件"
+                  Style="{DynamicResource ListViewStyle}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                      <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                    </Style>
+                  </ListView.ItemContainerStyle>
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+
+                      <GridViewColumn Width="622" Header="命令">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+
+                            <TextBox
+                              x:Name="cmdTextBox"
+                              Width="607"
+                              Height="24"
+                              BorderThickness="0"
+                              Style="{DynamicResource RoundTextBox}"
+                              Text="{Binding Value}"
+                              TextChanged="TextBox2_TextChanged"
+                              TextWrapping="NoWrap" />
+
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="45" Header="启用">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <CheckBox
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Click="CheckBox_Click"
+                              IsChecked="{Binding Enable}"
+                              Style="{DynamicResource CheckBoxStyle}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="25" Header="删除">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <Button
+                              x:Name="delButton"
+                              Width="25"
+                              Height="25"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              BorderThickness="0"
+                              Click="DelButton6_Click"
+                              Style="{DynamicResource RoundButton}"
+                              Visibility="Hidden" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+
+        <GroupBox
+          x:Name="groupBox_26"
+          Header="定时关机"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid>
+              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                <ListView
+                  x:Name="listView7"
+                  Margin="10,10,10,10"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseWheel="控件禁止响应滚轮事件"
+                  Style="{DynamicResource ListViewStyle}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                      <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
+                    </Style>
+                  </ListView.ItemContainerStyle>
+
+
+
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                      <GridViewColumn
+                        Width="427"
+                        DisplayMemberBinding="{Binding Name}"
+                        Header="名称" />
+
+                      <GridViewColumn Width="195" Header="时间">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <local:TimeControl
+                              x:Name="hotKeyControl"
+                              Width="180"
+                              Height="25"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              FontSize="12"
+                              Time="{Binding Value}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="45" Header="启用">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <CheckBox
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Click="CheckBox_Click"
+                              IsChecked="{Binding Enable}"
+                              Style="{DynamicResource CheckBoxStyle}" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+                      <GridViewColumn Width="25" Header="删除">
+                        <GridViewColumn.CellTemplate>
+                          <DataTemplate>
+                            <Button
+                              x:Name="delButton"
+                              Width="25"
+                              Height="25"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              BorderThickness="0"
+                              Click="DelButton7_Click"
+                              Style="{DynamicResource RoundButton}"
+                              Visibility="Hidden" />
+                          </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                      </GridViewColumn>
+
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </GroupBox>
+
+        <GroupBox
+          x:Name="groupBox_24"
+          Header="其它选项"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
+
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="630" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Label
+                x:Name="label23_Copy158"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="打字统计数据保存位置由 C:\SiKegInput 转到主程序文件夹：" />
+              <CheckBox
+                x:Name="checkBox3_Copy3"
+                Grid.Column="1"
+                Height="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label23_Copy159"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="快键只在候选窗口显示情况下才起作用，方案、查找、状态条和打开文字配置快键除外：" />
+              <CheckBox
+                x:Name="checkBox3_Copy2"
+                Grid.Row="1"
+                Grid.Column="1"
+                Height="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsChecked="True"
+                Style="{DynamicResource CheckBoxStyle}" />
+              <Label
+                x:Name="label23_Copy160"
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="启用深夜锁屏（22点-次日8点之间锁屏）：" />
+              <CheckBox
+                x:Name="checkBox3_Copy4"
+                Grid.Row="2"
+                Grid.Column="1"
+                Height="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CheckBoxStyle}" />
+
+
+
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+      </StackPanel>
+    </ScrollViewer>
+
+    <StackPanel
+      Grid.Row="2"
+      Margin="10,0,0,0"
+      Orientation="Horizontal">
+      <Button
+        x:Name="add_button3"
+        Width="auto"
+        Height="24"
+        Click="Add_button_Click"
+        Content="添加在线查找"
+        Style="{DynamicResource RoundButton2}" />
+      <Button
+        x:Name="add_button8"
+        Width="auto"
+        Height="24"
+        Margin="10,0,0,0"
+        Click="Add_button_Click"
+        Content="添加外部工具"
+        Style="{DynamicResource RoundButton2}" />
+      <Button
+        x:Name="add_button4"
+        Width="auto"
+        Height="24"
+        Margin="10,0,0,0"
+        Click="Add_button_Click"
+        Content="添加快捷命令"
+        Style="{DynamicResource RoundButton2}" />
+      <Button
+        x:Name="add_button5"
+        Width="auto"
+        Height="24"
+        Margin="10,0,0,0"
+        Click="Add_button_Click"
+        Content="添加快捷键"
+        Style="{DynamicResource RoundButton2}" />
+      <ComboBox
+        x:Name="comboBox4"
+        Width="120"
+        Height="24"
+        Margin="5,0,0,0"
+        SelectedIndex="0"
+        Style="{DynamicResource RoundComboBox}">
+        <ComboBoxItem Content="换皮肤快键" />
+        <ComboBoxItem Content="在线查找快键" />
+        <ComboBoxItem Content="方案选择快键" />
+        <ComboBoxItem Content="手动加词条快键" />
+        <ComboBoxItem Content="候选窗口调大快键" />
+        <ComboBoxItem Content="候选窗口调小快键" />
+        <ComboBoxItem Content="上屏反查字段快键" />
+        <ComboBoxItem Content="调整词条置顶快键" />
+        <ComboBoxItem Content="删除方案或词条快键" />
+        <ComboBoxItem Content="进入英文长句态快键" />
+        <ComboBoxItem Content="上屏后再取坐标快键" />
+        <ComboBoxItem Content="截图候选窗口上屏快键" />
+        <ComboBoxItem Content="截图选中候选上屏快键" />
+        <ComboBoxItem Content="截图选中反查上屏快键" />
+        <ComboBoxItem Content="设置截候选图上屏快键" />
+        <ComboBoxItem Content="设置上屏反查字段快键" />
+        <ComboBoxItem Content="打开文字配置界面快键" />
+        <ComboBoxItem Content="显示或隐藏状态条快键" />
+        <ComboBoxItem Content="显示或隐藏反查字段快键" />
+        <ComboBoxItem Content="状态栏回到主屏右下角快键" />
+        <ComboBoxItem Content="获取使用说明重新配置快键" />
+        <ComboBoxItem Content="锁定当前进程为TSF跟随快键" />
+      </ComboBox>
+
+      <Button
+        x:Name="add_button6"
+        Width="auto"
+        Height="24"
+        Margin="10,0,0,0"
+        Click="Add_button_Click"
+        Content="添加自启应用"
+        Style="{DynamicResource RoundButton2}" />
+
+      <Button
+        x:Name="add_button7"
+        Width="auto"
+        Height="24"
+        Margin="10,0,0,0"
+        Click="Add_button_Click"
+        Content="添加定时关机"
+        Style="{DynamicResource RoundButton2}" />
+
+
+
+    </StackPanel>
+  </Grid>
+</Page>

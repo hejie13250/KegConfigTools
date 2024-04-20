@@ -79,7 +79,7 @@
             <Grid>
               <Border
                 x:Name="border"
-                Background="#FFFF"
+                Background="#00FFFFFF"
                 BorderBrush="DarkGray"
                 BorderThickness="2"
                 CornerRadius="6" />
