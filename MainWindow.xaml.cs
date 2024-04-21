@@ -58,6 +58,7 @@ namespace 小科狗配置
       InitializeComponent();
 
       title.Text = $"{title.Text} v {GetAssemblyVersion()}";
+      Base.GetKegPath();
 
       this.Width = 930;
       this.Height = 800;
@@ -65,6 +66,7 @@ namespace 小科狗配置
       frame2.Height = this.Height - 50;
       frame3.Height = this.Height - 50;
       frame4.Height = this.Height - 50;
+      frame5.Height = this.Height - 50;
 
       方案设置页面();
 
@@ -72,8 +74,8 @@ namespace 小科狗配置
       frame2.Navigated += Frame2_Navigated;
       frame3.Navigated += Frame3_Navigated;
       frame4.Navigated += Frame4_Navigated;
+      frame5.Navigated += Frame5_Navigated;
 
-      //this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
     }
 
     // 获取版本号
@@ -82,30 +84,6 @@ namespace 小科狗配置
       Assembly assembly = Assembly.GetExecutingAssembly();
       Version version = assembly.GetName().Version;
       return version.ToString().Substring(0, 5);
-    }
-
-    void MainWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-      var hWnd = new WindowInteropHelper(this).Handle;
-      GlassEffect.MARGINS margins = new()
-      {
-        cxLeftWidth = -1,
-        cxRightWidth = -1,
-        cyTopHeight = -1,
-        cyBottomHeight = -1
-      };
-
-      GlassEffect.DwmExtendFrameIntoClientArea(hWnd, ref margins);
-
-      GlassEffect.DWM_BLURBEHIND bb = new()
-      {
-        dwFlags = 0x1,
-        fEnable = true,
-        hRgnBlur = IntPtr.Zero,
-        fTransitionOnMaximized = true,
-      };
-
-      GlassEffect.DwmEnableBlurBehindWindow(hWnd, ref bb);
     }
     #endregion
 
@@ -122,22 +100,11 @@ namespace 小科狗配置
 
       switch (textBlock.Text)
       {
-        case "方案设置":
-          方案设置页面();
-          ScrollViewerOffset("候选框配色", 1);
-          break;
-        case "全局设置":
-          全局设置页面(); 
-          ScrollViewerOffset("状态条", 2);
-          break;
-        case "帮助":
-          帮助页面(); 
-          ScrollViewerOffset("关于", 3);
-          break;
-        case "打字统计":
-          打字统计();
-          ScrollViewerOffset("曲线图", 4);
-          break;
+        case "方案设置": 方案设置页面(); ScrollViewerOffset("候选框配色", 1); break;
+        case "全局设置": 全局设置页面(); ScrollViewerOffset("状态条"    , 2); break;
+        case "帮助"    : 帮助页面    (); ScrollViewerOffset("关于"      , 3); break;
+        case "打字统计": 打字统计    (); ScrollViewerOffset("曲线图"    , 4); break;
+        case "码表设置": 码表设置    (); ScrollViewerOffset("码表修改"  , 5); break;
       }
     }
 
@@ -189,49 +156,98 @@ namespace 小科狗配置
           打字统计();
           ScrollViewerOffset(textBlock.Text, 4);
           break;
+        case "码表修改":
+          码表设置();
+          ScrollViewerOffset(textBlock.Text, 5);
+          break;
       }
     }
 
+
     private void 方案设置页面()
     {
-      SetPageVisibility(Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, radioButtonStackPanel1);
+      SetPageVisibility(
+      Visibility.Visible,
+      Visibility.Collapsed,
+      Visibility.Collapsed, 
+      Visibility.Collapsed,
+      Visibility.Collapsed,
+      radioButtonStackPanel1
+      );
     }
 
     private void 全局设置页面()
     {
-      SetPageVisibility(Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, radioButtonStackPanel2);
+      SetPageVisibility(
+      Visibility.Collapsed,
+      Visibility.Visible,
+      Visibility.Collapsed,
+      Visibility.Collapsed,
+      Visibility.Collapsed,
+      radioButtonStackPanel2
+      );
     }
 
     private void 帮助页面()
     {
-      SetPageVisibility(Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, radioButtonStackPanel3);
+      SetPageVisibility(
+      Visibility.Collapsed,
+      Visibility.Collapsed, 
+      Visibility.Visible,
+      Visibility.Collapsed, 
+      Visibility.Collapsed, 
+      radioButtonStackPanel3
+      );
     }
 
     private void 打字统计()
     {
-      SetPageVisibility(Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, radioButtonStackPanel4);
+      SetPageVisibility(
+      Visibility.Collapsed,
+      Visibility.Collapsed, 
+      Visibility.Collapsed,
+      Visibility.Visible,
+      Visibility.Collapsed,
+      radioButtonStackPanel4
+      );
     }
 
-    private void SetPageVisibility(Visibility frame1Visibility, Visibility frame2Visibility, Visibility frame3Visibility, Visibility frame4Visibility, StackPanel activePanel)
+    private void 码表设置()
+    {
+      SetPageVisibility(
+      Visibility.Collapsed, 
+      Visibility.Collapsed, 
+      Visibility.Collapsed, 
+      Visibility.Collapsed, 
+      Visibility.Visible, 
+      radioButtonStackPanel5
+      );
+    }
+
+    private void SetPageVisibility(Visibility frame1Visibility, Visibility frame2Visibility, Visibility frame3Visibility, Visibility frame4Visibility, Visibility frame5Visibility, StackPanel activePanel)
     {
       frame1.Width = frame1Visibility == Visibility.Visible ? 770 : 0;
       frame2.Width = frame2Visibility == Visibility.Visible ? 770 : 0;
       frame3.Width = frame3Visibility == Visibility.Visible ? 770 : 0;
       frame4.Width = frame4Visibility == Visibility.Visible ? 770 : 0;
+      frame5.Width = frame5Visibility == Visibility.Visible ? 770 : 0;
 
       frame1.Visibility = frame1Visibility;
       frame2.Visibility = frame2Visibility;
       frame3.Visibility = frame3Visibility;
       frame4.Visibility = frame4Visibility;
+      frame5.Visibility = frame5Visibility;
 
       radioButtonStackPanel1.Visibility = Visibility.Collapsed;
       radioButtonStackPanel2.Visibility = Visibility.Collapsed;
       radioButtonStackPanel3.Visibility = Visibility.Collapsed;
       radioButtonStackPanel4.Visibility = Visibility.Collapsed;
+      radioButtonStackPanel5.Visibility = Visibility.Collapsed;
 
       activePanel.Visibility = Visibility.Visible;
       radioButtonStackPanel = activePanel;
     }
+
     /// <summary>
     /// 点击左侧的控件偏移右侧滚动条（滚动页面）
     /// </summary>
@@ -266,7 +282,12 @@ namespace 小科狗配置
         var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
         groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
-
+      else if (n == 5)
+      {
+        var page = frame5.Content as Page;
+        var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
+        groupBox = FindGroupBox(content, groupBoxStackPanel);
+      }
       // 如果找到了GroupBox，将其滚动到视图中
       groupBox?.BringIntoView();
     }
@@ -313,7 +334,11 @@ namespace 小科狗配置
       if (e.Content is KegStatistics page)
         page.NameOfSelectedGroupBoxChanged += Frame_NameOfSelectedGroupBoxChanged;
     }
-
+    private void Frame5_Navigated(object sender, NavigationEventArgs e)
+    {
+      if (e.Content is KegStatistics page)
+        page.NameOfSelectedGroupBoxChanged += Frame_NameOfSelectedGroupBoxChanged;
+    }
 
 
     private void Frame_NameOfSelectedGroupBoxChanged(object sender, string e)

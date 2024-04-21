@@ -1,4 +1,4 @@
-﻿<Page
+﻿<local:BasePage
   x:Class="小科狗配置.SchemeSetting"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -541,7 +541,7 @@
                           <TextBlock
                             x:Name="hxz_label_1"
                             Height="auto"
-                            Margin="10,0,0,0"
+                            Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="18"
@@ -550,7 +550,7 @@
                           <TextBlock
                             x:Name="hxz_label_2"
                             Height="auto"
-                            Margin="10,0,0,0"
+                            Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
@@ -558,14 +558,14 @@
                             Text="2. 周 d" />
                           <Border
                             x:Name="hxz_border"
-                            Margin="5,0,5,0"
+                            Margin="5,1,5,0"
                             Background="{Binding ElementName=color_label_6, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                             <StackPanel Orientation="Horizontal">
                               <TextBlock
                                 x:Name="hxz_label_3"
                                 Height="auto"
-                                Margin="5,0,0,0"
+                                Margin="5,1,0,1"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 FontSize="18"
@@ -576,7 +576,7 @@
                           <TextBlock
                             x:Name="hxz_label_4"
                             Height="auto"
-                            Margin="10,0,0,0"
+                            Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
@@ -585,7 +585,7 @@
                           <TextBlock
                             x:Name="hxz_label_5"
                             Height="auto"
-                            Margin="10,0,0,0"
+                            Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
@@ -594,7 +594,7 @@
                           <TextBlock
                             x:Name="hxz_label_6"
                             Height="auto"
-                            Margin="10,0,0,3"
+                            Margin="10,1,0,3"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
@@ -3073,4 +3073,4 @@
       </StackPanel>
     </ScrollViewer>
   </Grid>
-</Page>
+</local:BasePage>

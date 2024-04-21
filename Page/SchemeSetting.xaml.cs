@@ -1,19 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -22,55 +17,20 @@ using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
-using FormsDialogResult = System.Windows.Forms.DialogResult;
 using GroupBox = System.Windows.Controls.GroupBox;
 using Label = System.Windows.Controls.Label;
-using ListView = System.Windows.Controls.ListView;
-using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Path = System.IO.Path;
-using Point = System.Windows.Point;
-using RadioButton = System.Windows.Controls.RadioButton;
-using TextBox = System.Windows.Controls.TextBox;
-using Thumb = System.Windows.Controls.Primitives.Thumb;
-using Window = System.Windows.Window;
-using Page = System.Windows.Controls.Page;
 
 namespace 小科狗配置
 {
   /// <summary>
   /// SchemeSetting.xaml 的交互逻辑
   /// </summary>
-  public partial class SchemeSetting : Page, INotifyPropertyChanged
+  public partial class SchemeSetting : BasePage
   {
-
     #region 获取GroupBox的Header用于主窗口导航事件
-    public event EventHandler<string> NameOfSelectedGroupBoxChanged;
-
-    private string _NameOfSelectedGroupBox;
-    public string NameOfSelectedGroupBox
-    {
-      get { return _NameOfSelectedGroupBox; }
-      set
-      {
-        if (_NameOfSelectedGroupBox != value)
-        {
-          _NameOfSelectedGroupBox = value;
-          OnPropertyChanged(nameof(NameOfSelectedGroupBox));
-          // 触发事件
-          NameOfSelectedGroupBoxChanged?.Invoke(this, _NameOfSelectedGroupBox);
-        }
-      }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-
     private void GroupBox_MouseEnter(object sender, MouseEventArgs e)
     {
       if (sender is not GroupBox groupBox) return;
@@ -353,7 +313,7 @@ namespace 小科狗配置
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       labelName = comboBox.SelectedValue as string;
-      //toolTipTextBlock.Text = $"{zh_en}{labelName}";
+
 
       currentConfig = GetConfig(labelName);
       SetControlsValue();

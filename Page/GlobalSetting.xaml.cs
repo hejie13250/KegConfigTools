@@ -7,67 +7,38 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using WpfAnimatedGif;
+using static System.Net.WebRequestMethods;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
+using File = System.IO.File;
+using GroupBox = System.Windows.Controls.GroupBox;
+using Label = System.Windows.Controls.Label;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using Page = System.Windows.Controls.Page;
 using Path = System.IO.Path;
 using RadioButton = System.Windows.Controls.RadioButton;
 using TextBox = System.Windows.Controls.TextBox;
-using static 小科狗配置.MainWindow;
-using System.Windows.Controls.Primitives;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Windows.Forms;
-using Label = System.Windows.Controls.Label;
-using GroupBox = System.Windows.Controls.GroupBox;
-using WpfAnimatedGif;
 
 namespace 小科狗配置
 {
   /// <summary>
   /// GlobalSetting.xaml 的交互逻辑
   /// </summary>
-  public partial class GlobalSetting : Page, INotifyPropertyChanged
+  public partial class GlobalSetting : BasePage
   {
     #region 获取GroupBox的Header用于主窗口导航事件
-    public event EventHandler<string> NameOfSelectedGroupBoxChanged;
-
-    private string _NameOfSelectedGroupBox;
-    public string NameOfSelectedGroupBox
-    {
-      get { return _NameOfSelectedGroupBox; }
-      set
-      {
-        if (_NameOfSelectedGroupBox != value)
-        {
-          _NameOfSelectedGroupBox = value;
-          OnPropertyChanged(nameof(NameOfSelectedGroupBox));
-          // 触发事件
-          NameOfSelectedGroupBoxChanged?.Invoke(this, _NameOfSelectedGroupBox);
-        }
-      }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-
     private void GroupBox_MouseEnter(object sender, MouseEventArgs e)
     {
       if (sender is not GroupBox groupBox) return;
@@ -212,7 +183,7 @@ namespace 小科狗配置
       kegPath = Base.GetValue("window", "keg_path");
       if (!File.Exists(kegPath + "KegServer.exe"))
       {
-        kegPath = Base.GetKegPath();
+        kegPath = Base.kegPath;
         //kegPath = Base.GetProcessPath("KegServer");
         if (File.Exists(kegPath + "KegServer.exe")) Base.SetValue("window", "keg_path", kegPath);
         else ((App)System.Windows.Application.Current).Exit();
@@ -666,7 +637,7 @@ namespace 小科狗配置
         {
           Enable = false,
           Name = "自启",
-          Value = "当前文件夹的tools\\QInputV2.exe",
+          Value = "",
           CMD = "",
         };
         自启.Add(item);
@@ -837,7 +808,6 @@ namespace 小科狗配置
     {
       HotKeyControl hotKeyControl = sender as HotKeyControl;
       var dataItem = GetDataItem(sender, e);
-      // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
         listitem.Value = hotKeyControl.HotKey;
     }
@@ -845,8 +815,6 @@ namespace 小科狗配置
     {
       if (sender is TextBox textBox)
       {
-        // 获取TextBox的DataContext，它应该是一个列表项实例
-        // 确保item不是null
         if (textBox.DataContext is 列表项 item)
           item.Name = textBox.Text;
       }
@@ -868,59 +836,13 @@ namespace 小科狗配置
     private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
       var dataItem = GetDataItem(sender, e);
-      // 检查dataItem是否是列表项的实例
       if (dataItem is 列表项 listitem)
         listitem.Enable = listitem.Enable == true;
     }
-    private void DelButton3_Click(object sender, RoutedEventArgs e)
-    {
-      var dataItem = GetDataItem(sender, e);
 
-      // 检查dataItem是否是列表项的实例
-      if (dataItem is 列表项 listitem)
-        删除列表项(3, listitem);
-    }
-    private void DelButton4_Click(object sender, RoutedEventArgs e)
-    {
-      var dataItem = GetDataItem(sender, e);
 
-      // 检查dataItem是否是列表项的实例
-      if (dataItem is 列表项 listitem)
-        删除列表项(4, listitem);
-    }
 
-    private void DelButton5_Click(object sender, RoutedEventArgs e)
-    {
-      var dataItem = GetDataItem(sender, e);
 
-      // 检查dataItem是否是列表项的实例
-      if (dataItem is 列表项 listitem)
-        删除列表项(5, listitem);
-    }
-    private void DelButton6_Click(object sender, RoutedEventArgs e)
-    {
-      var dataItem = GetDataItem(sender, e);
-
-      // 检查dataItem是否是列表项的实例
-      if (dataItem is 列表项 listitem)
-        删除列表项(6, listitem);
-    }
-    private void DelButton7_Click(object sender, RoutedEventArgs e)
-    {
-      var dataItem = GetDataItem(sender, e);
-
-      // 检查dataItem是否是列表项的实例
-      if (dataItem is 列表项 listitem)
-        删除列表项(7, listitem);
-    }
-    private void DelButton8_Click(object sender, RoutedEventArgs e)
-    {
-      var dataItem = GetDataItem(sender, e);
-
-      // 检查dataItem是否是列表项的实例
-      if (dataItem is 列表项 listitem)
-        删除列表项(8, listitem);
-    }
     // 鼠标进入 ListViewItem 时触发
     private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
     {
@@ -985,121 +907,81 @@ namespace 小科狗配置
       return foundChild;
     }
 
+
+    // 列表项删除按钮通过 Tag 来判定
+    private void DelButton_Click(object sender, RoutedEventArgs e)
+    {
+      var button = sender as Button;
+      if (button == null) return;
+
+      var dataItem = GetDataItem(sender, e);
+      if (dataItem is 列表项 listitem)
+      {
+        if (int.TryParse(button.Tag.ToString(), out int listViewNum))
+        {
+          删除列表项(listViewNum, listitem);
+        }
+      }
+    }
+
     // listView 删除
     private void 删除列表项(int listViewNum, 列表项 listViewItem)
     {
       var result = MessageBox.Show("您确定要删除吗？", "删除操作", MessageBoxButton.OKCancel, MessageBoxImage.Question);
       if (result == MessageBoxResult.OK)
+      {
         switch (listViewNum)
         {
           case 3: 查找列表.Remove(listViewItem); break;
-          case 8: 外部工具.Remove(listViewItem); break;
           case 4: 快键命令.Remove(listViewItem); break;
           case 5: 快键.Remove(listViewItem); break;
           case 6: 自启.Remove(listViewItem); break;
           case 7: 自动关机.Remove(listViewItem); break;
+          case 8: 外部工具.Remove(listViewItem); break;
         }
+      }
+    }
+
+    // 列表项添加按钮
+    private void Add_button_Click(object sender, RoutedEventArgs e)
+    {
+      if (sender is Button btn)
+        AddNewItem(btn);
     }
 
     // listView 添加
-    private void Add_button_Click(object sender, RoutedEventArgs e)
+    private void AddNewItem(Button btn)
     {
-      var btn = sender as Button;
-      // 在线查找 列表
-      if (btn == add_button3)
+      // 根据按钮创建新的列表项
+      列表项 item = new()
       {
-        //ScrollViewerOffset("在线查找", 2);
-        var item = new 列表项()
-        {
-          Enable = false,
-          Name = "",
-          Value = "",
-          CMD = ""
-        };
-        查找列表.Insert(0, item);
-        listView3.Focus();
-        listView3.SelectedIndex = 0;
-      }
+        Enable = false,
+        Name = "",
+        Value = "",
+        CMD = ""
+      };
 
-      if (btn == add_button8)
-      {
-        //ScrollViewerOffset("外部工具", 2);
-        var item = new 列表项()
-        {
-          Enable = false,
-          Name = "",
-          Value = "",
-          CMD = ""
-        };
-        外部工具.Insert(0, item);
-        listView8.Focus();
-        listView8.SelectedIndex = 0;
-      }
-
-      // 快捷命令 列表
-      if (btn == add_button4)
-      {
-        //ScrollViewerOffset("快捷命令", 2);
-        var item = new 列表项()
-        {
-          Enable = false,
-          Name = "运行命令行快键",
-          Value = "",
-          CMD = ""
-        };
-        快键命令.Insert(0, item);
-        listView4.Focus();
-        listView4.SelectedIndex = 0;
-      }
-
-      // 快捷键 列表
-      if (btn == add_button5)
-      {
-        //ScrollViewerOffset("快捷键", 2);
-        var item = new 列表项()
-        {
-          Enable = false,
-          Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(),
-          Value = "",
-          CMD = ""
-        };
-        快键.Insert(0, item);
-        listView5.Focus();
-        listView5.SelectedIndex = 0;
-      }
-
-      // 自启应用 列表
-      if (btn == add_button6)
-      {
-        //ScrollViewerOffset("自启动应用", 2);
-        var item = new 列表项()
-        {
-          Enable = false,
-          Name = "自启",
-          Value = "",
-          CMD = ""
-        };
-        自启.Insert(0, item);
-        listView6.Focus();
-        listView6.SelectedIndex = 0;
-      }
-
-      // 定时关机 列表
-      if (btn == add_button7)
-      {
-        //ScrollViewerOffset("定时关机", 2);
-        var item = new 列表项()
-        {
-          Enable = false,
-          Name = "自动关机",
-          Value = $"22:30",
-          CMD = ""
-        };
-        自动关机.Insert(0, item);
-        listView7.Focus();
-        listView7.SelectedIndex = 0;
+      switch(btn.Content){
+        case "添加在线查找": 查找列表.Insert(0, item); FocusAndSelect(listView3); break;
+        case "添加快捷命令": item.Name = "运行命令行快键";
+                             快键命令.Insert(0, item); FocusAndSelect(listView4); break;
+        case "添加快捷键"  : item.Name = (comboBox4.SelectedItem as ComboBoxItem)?.Content?.ToString(); 
+                             快键.Insert(0, item); FocusAndSelect(listView5); break;
+        case "添加自启应用": item.Name = "自启";
+                             自启.Insert(0, item); FocusAndSelect(listView6); break;
+        case "添加定时关机": item.Name = "自动关机"; item.Value = "22:30";
+                             自动关机.Insert(0, item); FocusAndSelect(listView7); break;
+        case "添加外部工具": 外部工具.Insert(0, item); FocusAndSelect(listView8); break;
       }
     }
+
+    private void FocusAndSelect(ListView listView)
+    {
+      // 设置焦点并选择第一项
+      listView.Focus();
+      listView.SelectedIndex = 0;
+    }
+
 
 
     private void CheckBox3_Copy1_CheckedChanged(object sender, RoutedEventArgs e)
@@ -1121,24 +1003,21 @@ namespace 小科狗配置
       // 设置皮肤图片路径
       string skin = $"{directoryPath}Keg.png";
       string skinBackup = $"{directoryPath}默认.png";
-      //Console.WriteLine(skin);
+
       // 将皮肤图片设置为图像源
       try
       {
         SetImage(Base.GetValue("skin", "path")); 
-        //DisplayImage.Source = new BitmapImage(new Uri(Base.GetValue("skin", "path")));
       }
       catch
       {
         SetImage(skin);
-        //DisplayImage.Source = new BitmapImage(new Uri(skin));
       }
 
       // 如果备份皮肤文件不存在，则复制当前皮肤文件作为备份
       if (!File.Exists(skinBackup))
-      {
         File.Copy(skin, skinBackup);
-      }
+
 
       // 定义支持的图片扩展名数组
       var imageExtensions = new[] { ".png", ".gif" };
@@ -1162,7 +1041,7 @@ namespace 小科狗配置
       {
         // 若默认皮肤文件不存在，则直接使用所有符合条件的文件列表
         files = allFiles.ToList();
-      }
+    }
 
       // 遍历处理后的图片文件集合
       foreach (var file in files)
@@ -1208,7 +1087,7 @@ namespace 小科狗配置
 
     private void SaveButton1_Click(object sender, RoutedEventArgs e)
     {
-      if (skinListBox.SelectedIndex > 0)
+      if (skinListBox.SelectedIndex >= 0)
       {
         string selectedItem = (string)skinListBox.SelectedItem;
         string selectedSkin = kegPath + "skin\\" + selectedItem;

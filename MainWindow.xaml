@@ -469,6 +469,40 @@
               </RadioButton>
             </StackPanel>
 
+            <Border
+              Margin="10"
+              BorderBrush="#8F8F8F"
+              BorderThickness="0,1,0,0" />
+
+            <RadioButton
+              Click="RadioButton1_Click"
+              GroupName="Group"
+              Style="{DynamicResource RadioButtonStyle}">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock
+                  Margin="10,0,0,0"
+                  VerticalAlignment="Center"
+                  FontSize="18"
+                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                  Text="码表设置" />
+              </StackPanel>
+            </RadioButton>
+
+            <StackPanel x:Name="radioButtonStackPanel5" Orientation="Vertical">
+              <RadioButton
+                Click="RadioButton2_Click"
+                GroupName="Group"
+                Style="{DynamicResource RadioButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                    Text="码表修改" />
+                </StackPanel>
+              </RadioButton>
+
+            </StackPanel>
 
             <Border
               Margin="10"
@@ -548,6 +582,14 @@
           VerticalAlignment="Top"
           NavigationUIVisibility="Hidden"
           Source="Page/KegStatistics.xaml" />
+        <Frame
+          x:Name="frame5"
+          VerticalAlignment="Top"
+          NavigationUIVisibility="Hidden"
+          Source="Page/ModiflyTable.xaml" />
+
+
+
       </StackPanel>
 
 

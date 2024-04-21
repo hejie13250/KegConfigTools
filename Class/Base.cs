@@ -18,7 +18,7 @@ namespace 小科狗配置
   public static class Base
   {
     static readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
+    public static string kegPath;                        // 小科狗主程序目录
 
 
 
@@ -98,9 +98,8 @@ namespace 小科狗配置
     /// 获取小科狗主目录
     /// </summary>
     /// <returns></returns>
-    public static string GetKegPath()
+    public static void GetKegPath()
     {
-      string kegPath = "";
       try
       {
         IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
@@ -114,7 +113,7 @@ namespace 小科狗配置
         Console.WriteLine(ex.Message);
         ((App)System.Windows.Application.Current).Exit();
       }
-      return kegPath;
+      //return kegPath;
     }
 
 

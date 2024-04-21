@@ -1,4 +1,4 @@
-﻿<Page
+﻿<local:BasePage
   x:Class="小科狗配置.GlobalSetting"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -24,14 +24,7 @@
       Margin="10,0,0,0"
       VerticalAlignment="Top"
       Orientation="Horizontal">
-      <!--<Button
-                x:Name="run_button"
-                Width="70"
-                Height="24"
-                Click="Run_button_Click"
-                Content="数据统计"
-                Style="{DynamicResource RoundButton2}"
-                ToolTip="打开小科狗打字数据统计" />-->
+
       <Button
         x:Name="default_button"
         Width="70"
@@ -430,8 +423,9 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               BorderThickness="0"
-                              Click="DelButton3_Click"
+                              Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
+                              Tag="3"
                               Visibility="Hidden" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -529,8 +523,9 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               BorderThickness="0"
-                              Click="DelButton8_Click"
+                              Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
+                              Tag="8"
                               Visibility="Hidden" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -622,8 +617,9 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               BorderThickness="0"
-                              Click="DelButton4_Click"
+                              Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
+                              Tag="4"
                               Visibility="Hidden" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -703,8 +699,9 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               BorderThickness="0"
-                              Click="DelButton5_Click"
+                              Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
+                              Tag="5"
                               Visibility="Hidden" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -784,8 +781,9 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               BorderThickness="0"
-                              Click="DelButton6_Click"
+                              Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
+                              Tag="6"
                               Visibility="Hidden" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -868,8 +866,9 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               BorderThickness="0"
-                              Click="DelButton7_Click"
+                              Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
+                              Tag="7"
                               Visibility="Hidden" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -1045,4 +1044,4 @@
 
     </StackPanel>
   </Grid>
-</Page>
+</local:BasePage>

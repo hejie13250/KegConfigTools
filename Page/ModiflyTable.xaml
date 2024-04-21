@@ -1,0 +1,124 @@
+﻿<local:BasePage
+  x:Class="小科狗配置.ModiflyTable"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:小科狗配置"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Title="ModiflyTable"
+  FontFamily="小科狗字体"
+  FontSize="14"
+  TextOptions.TextRenderingMode="ClearType"
+  UseLayoutRounding="True"
+  mc:Ignorable="d">
+
+  <Grid x:Name="Grid1">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel
+      Margin="10,0,0,0"
+      VerticalAlignment="Top"
+      Orientation="Horizontal">
+      <Button
+        x:Name="getList_button"
+        Height="24"
+        Content="获取列表"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从服务端获取方案列表" Click="GetList_button_Click" />
+      <ComboBox
+        x:Name="comboBox"
+        Width="145"
+        Height="24"
+        Margin="5,0,0,0"
+        MouseEnter="ComboBox_MouseEnter"
+        SelectionChanged="ComboBox_SelectionChanged"
+        Style="{DynamicResource RoundComboBox}" />
+
+
+      <Button
+        x:Name="reload_button"
+        Height="24"
+        Margin="5,0,0,0"
+        Content="重新读取"
+        Style="{DynamicResource RoundButton2}"
+        ToolTip="从服务端重新读取当前方案的配置" Click="Reload_button_Click" />
+
+
+    </StackPanel>
+    <ScrollViewer
+      x:Name="scrollViewer1"
+      Grid.Row="1"
+      HorizontalAlignment="Left"
+      VerticalScrollBarVisibility="Hidden">
+      <StackPanel x:Name="groupBoxStackPanel" Orientation="Vertical">
+
+        <GroupBox
+          x:Name="groupBox_02"
+          Header="候选框样式"
+          MouseEnter="GroupBox_MouseEnter"
+          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}">
+            <Grid
+              Height="500"
+              Margin="10,10,10,10"
+              HorizontalAlignment="Left">
+              <!--<Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>-->
+
+              <DataGrid
+                Name="dataGrid"
+                AutoGenerateColumns="False"
+                LoadingRow="DataGrid_LoadingRow">
+                <DataGrid.Columns>
+                  <DataGridTextColumn Binding="{Binding Key}" Header="key" />
+                  <DataGridTextColumn Binding="{Binding Value}" Header="value" />
+                  <DataGridTextColumn Binding="{Binding Weight}" Header="weight" />
+                  <DataGridTextColumn Binding="{Binding FC}" Header="fc" />
+                </DataGrid.Columns>
+              </DataGrid>
+
+
+
+
+
+
+
+
+            </Grid>
+          </Border>
+        </GroupBox>
+
+
+
+
+
+
+
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</local:BasePage>
