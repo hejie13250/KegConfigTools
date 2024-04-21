@@ -6,6 +6,10 @@
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   Title="SchemeSetting"
+  FontFamily="小科狗字体"
+  FontSize="14"
+  TextOptions.TextRenderingMode="ClearType"
+  UseLayoutRounding="True"
   mc:Ignorable="d">
 
   <Grid x:Name="Grid1">
@@ -14,7 +18,10 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
-    <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+    <StackPanel
+      Margin="10,0,0,0"
+      VerticalAlignment="Top"
+      Orientation="Horizontal">
       <Button
         x:Name="getList_button"
         Height="24"
@@ -98,17 +105,16 @@
       Grid.Row="1"
       HorizontalAlignment="Left"
       VerticalScrollBarVisibility="Hidden">
-      <StackPanel x:Name="stackPanel1" Orientation="Vertical">
+      <StackPanel x:Name="groupBoxStackPanel" Orientation="Vertical">
         <GroupBox
           x:Name="groupBox_01"
-          Height="370"
           Header="候选框配色"
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}"
           TabIndex="3100">
 
           <Border Style="{StaticResource CustomBorderStyle}">
-            <Grid Height="348">
+            <Grid>
               <StackPanel Orientation="Horizontal">
                 <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
 
@@ -134,6 +140,8 @@
                     <ColumnDefinition Width="140" />
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="270" />
+                    <ColumnDefinition Width="185" />
                   </Grid.ColumnDefinitions>
                   <Label
                     x:Name="label123_Copy9"
@@ -455,18 +463,22 @@
                     Style="{StaticResource RoundedLabel}"
                     TabIndex="3116"
                     Tag="" />
-                </Grid>
 
-                <Border
-                  Width="130"
-                  Margin="5,0,5,10"
-                  VerticalAlignment="Bottom"
-                  BorderBrush="#FFABADB3"
-                  BorderThickness="1,1,1,1">
-                  <Grid
-                    Width="130"
-                    Height="220"
-                    VerticalAlignment="Bottom">
+
+
+
+                  <Border
+                    Grid.Row="4"
+                    Grid.RowSpan="13"
+                    Grid.Column="3"
+                    Width="190"
+                    Height="240"
+                    Margin="20,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    BorderBrush="#FFABADB3"
+                    BorderThickness="1,1,1,1">
+
 
                     <StackPanel Orientation="Vertical">
                       <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
@@ -481,7 +493,7 @@
                           x:Name="hxz_label_gb"
                           Width="2"
                           Height="12"
-                          Margin="2,0,0,0"
+                          Margin="1,0,0,0"
                           HorizontalAlignment="Left"
                           BorderBrush="{Binding ElementName=color_label_2, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                           BorderThickness="2" />
@@ -489,9 +501,9 @@
                       <StackPanel>
                         <Label
                           x:Name="hxz_label_xhx"
-                          Width="15"
+                          Width="14"
                           Height="2"
-                          Margin="28,0,0,0"
+                          Margin="33,0,0,0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
                           BorderBrush="{Binding ElementName=color_label_1, Path=Background, UpdateSourceTrigger=PropertyChanged}"
@@ -499,8 +511,8 @@
                       </StackPanel>
                       <Border
                         x:Name="hxk_border"
-                        Width="105"
-                        Margin="18,4,0,0"
+                        Width="120"
+                        Margin="30,4,0,0"
                         Padding="0,0,0,5"
                         HorizontalAlignment="Left"
                         Background="{Binding ElementName=color_label_5, Path=Background, UpdateSourceTrigger=PropertyChanged}"
@@ -520,9 +532,8 @@
 
                           <Label
                             x:Name="hxz_label_fgx"
-                            Width="88"
                             Height="1"
-                            HorizontalAlignment="Center"
+                            Margin="5,0,5,3"
                             VerticalAlignment="Center"
                             BorderBrush="{Binding ElementName=color_label_3, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             BorderThickness="0,1,0,0" />
@@ -530,17 +541,19 @@
                           <TextBlock
                             x:Name="hxz_label_1"
                             Height="auto"
-                            Margin="10,3,0,3"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
+                            FontSize="18"
                             Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="1. 光" />
                           <TextBlock
                             x:Name="hxz_label_2"
                             Height="auto"
-                            Margin="10,3,0,3"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            FontSize="18"
                             Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="2. 周 d" />
                           <Border
@@ -552,9 +565,10 @@
                               <TextBlock
                                 x:Name="hxz_label_3"
                                 Height="auto"
-                                Margin="5,3,0,3"
+                                Margin="5,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
+                                FontSize="18"
                                 Foreground="{Binding ElementName=color_label_7, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                                 Text="3. 狗 j" />
                             </StackPanel>
@@ -562,25 +576,28 @@
                           <TextBlock
                             x:Name="hxz_label_4"
                             Height="auto"
-                            Margin="10,3,0,3"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            FontSize="18"
                             Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="4. 硅 g" />
                           <TextBlock
                             x:Name="hxz_label_5"
                             Height="auto"
-                            Margin="10,3,0,3"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            FontSize="18"
                             Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="5. 冉 t" />
                           <TextBlock
                             x:Name="hxz_label_6"
                             Height="auto"
-                            Margin="10,3,0,3"
+                            Margin="10,0,0,3"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            FontSize="18"
                             Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="6. 磋 u" />
                         </StackPanel>
@@ -589,20 +606,18 @@
 
 
 
-                  </Grid>
-                </Border>
-                <Grid
-                  Width="100"
-                  Height="220"
-                  Margin="5,0,5,10"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Bottom">
-                  <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
+
+                  </Border>
+
+                  <StackPanel
+                    Grid.RowSpan="16"
+                    Grid.Column="4"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical">
                     <ListBox
                       x:Name="colorSchemeListBox"
-                      Width="100"
-                      Height="166"
-                      HorizontalAlignment="Left"
+                      Height="137"
+                      Margin="0,0,2,5"
                       d:ItemsSource="{d:SampleData ItemCount=5}"
                       MouseDoubleClick="ColorSchemeListBox_MouseDoubleClick"
                       SelectionChanged="ColorSchemeListBox_SelectionChanged"
@@ -615,43 +630,33 @@
                         </ContextMenu>
                       </ListBox.ContextMenu>
                     </ListBox>
-                    <TextBox
-                      x:Name="color_scheme_name_textBox"
-                      Width="100"
-                      Height="24"
-                      Margin="0,3,0,3"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Style="{DynamicResource RoundTextBox}"
-                      Text=""
-                      TextWrapping="NoWrap" />
-                    <Button
-                      x:Name="saveButton"
-                      Width="100"
-                      Height="24"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Click="SaveButton_Click"
-                      Content="保存配色"
-                      Style="{DynamicResource RoundButton2}" />
+                    <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                      <TextBox
+                        x:Name="color_scheme_name_textBox"
+                        Width="108"
+                        Height="24"
+                        Margin="0,0,5,0"
+                        VerticalAlignment="Top"
+                        Style="{DynamicResource RoundTextBox}"
+                        Text=""
+                        TextWrapping="NoWrap" />
+                      <Button
+                        x:Name="saveButton"
+                        Width="70"
+                        Height="24"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="SaveButton_Click"
+                        Content="保存配色"
+                        Style="{DynamicResource RoundButton2}" />
 
-                  </StackPanel>
-
-
-                </Grid>
-                <Grid
-                  Width="210"
-                  Height="220"
-                  Margin="5,0,5,10"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Bottom">
-                  <StackPanel Orientation="Vertical">
+                    </StackPanel>
                     <local:ColorPicker
                       x:Name="colorPicker"
-                      Height="145"
+                      Height="155"
                       HorizontalAlignment="Left" />
                     <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
-                      <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                      <StackPanel Orientation="Horizontal">
                         <Label
                           Height="auto"
                           HorizontalAlignment="Left"
@@ -659,8 +664,8 @@
                           Content="自定义：" />
                         <local:RGBTextBox
                           x:Name="rgbTextBox"
-                          Height="20"
-                          Margin="7,0,0,0"
+                          Height="24"
+                          Margin="8,0,0,0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Center"
                           ValueChanged="RGB_ValueChanged" />
@@ -669,7 +674,6 @@
                     </StackPanel>
                   </StackPanel>
                 </Grid>
-
               </StackPanel>
             </Grid>
           </Border>
@@ -700,7 +704,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -1020,7 +1024,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
 
@@ -1052,7 +1056,7 @@
                 x:Name="textBox_Copy10"
                 Grid.Row="9"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="auto"
                 Margin="0,2,0,0"
                 HorizontalAlignment="Left"
@@ -1299,7 +1303,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -1310,7 +1314,7 @@
               <TextBox
                 x:Name="textBox_Copy677"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -1326,7 +1330,7 @@
                 x:Name="textBox_Copy5"
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,2,0,0"
                 HorizontalAlignment="Left"
@@ -1343,7 +1347,7 @@
                 x:Name="textBox_Copy6"
                 Grid.Row="2"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,2,0,0"
                 HorizontalAlignment="Left"
@@ -1360,7 +1364,7 @@
                 x:Name="textBox_Copy7"
                 Grid.Row="3"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,2,0,0"
                 HorizontalAlignment="Left"
@@ -1377,7 +1381,7 @@
                 x:Name="textBox_Copy8"
                 Grid.Row="4"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,2,0,0"
                 HorizontalAlignment="Left"
@@ -1418,7 +1422,7 @@
                 x:Name="textBox125"
                 Grid.Row="7"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="auto"
                 Margin="0,5,0,0"
                 HorizontalAlignment="Left"
@@ -1451,7 +1455,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <CheckBox
@@ -1484,7 +1488,7 @@
                 x:Name="textBox_Copy68"
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Margin="0,5,0,0"
                 HorizontalAlignment="Center"
                 Style="{DynamicResource RoundTextBox2}"
@@ -1495,7 +1499,7 @@
                 x:Name="textBox_Copy69"
                 Grid.Row="2"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Center"
                 Style="{DynamicResource RoundTextBox2}"
@@ -1533,7 +1537,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <CheckBox
@@ -1770,7 +1774,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -1784,7 +1788,7 @@
                 x:Name="textBox_Copy675"
                 Grid.Row="0"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -1840,7 +1844,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -1851,7 +1855,7 @@
               <TextBox
                 x:Name="textBox_Copy66"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -1876,7 +1880,7 @@
                 x:Name="comboBox3"
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Center"
@@ -1887,7 +1891,7 @@
                 x:Name="textBox_Copy67"
                 Grid.Row="2"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
@@ -1984,7 +1988,7 @@
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Content="标点或数字顶屏时，若是引导键，要继续引导：" />
+                Content="标点或数字顶屏时，若是引导键也要引导：" />
               <Label
                 x:Name="label4_Copy46"
                 Grid.Row="7"
@@ -2021,7 +2025,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <CheckBox
@@ -2143,7 +2147,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -2245,7 +2249,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <CheckBox
@@ -2308,7 +2312,7 @@
                   Height="22"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
-                  Content="检索除 key=0#* 外所有"
+                  Content="检索除 key=0#* 外"
                   IsChecked="True" />
               </StackPanel>
 
@@ -2448,7 +2452,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <CheckBox
@@ -2669,7 +2673,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -2707,7 +2711,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -2750,7 +2754,7 @@
 
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <Label
@@ -2783,7 +2787,7 @@
                 x:Name="textBox_Copy20"
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -2796,7 +2800,7 @@
                 x:Name="textBox_Copy22"
                 Grid.Row="2"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -2810,7 +2814,7 @@
                 x:Name="textBox_Copy23"
                 Grid.Row="3"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -2857,7 +2861,7 @@
           Header="引导码表检索"
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
-          <Border Style="{StaticResource CustomBorderStyle}">
+          <Border Margin="0,5,0,25" Style="{StaticResource CustomBorderStyle}">
             <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
 
               <Grid.RowDefinitions>
@@ -2872,7 +2876,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
 
@@ -2913,7 +2917,7 @@
                 x:Name="textBox_Copy9"
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -2926,7 +2930,7 @@
                 x:Name="textBox_Copy11"
                 Grid.Row="2"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -2973,7 +2977,7 @@
                 x:Name="textBox_Copy13"
                 Grid.Row="4"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -2986,7 +2990,7 @@
                 x:Name="textBox_Copy14"
                 Grid.Row="5"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -3033,7 +3037,7 @@
                 x:Name="textBox_Copy17"
                 Grid.Row="7"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"
@@ -3046,7 +3050,7 @@
                 x:Name="textBox_Copy18"
                 Grid.Row="8"
                 Grid.Column="1"
-                Width="435"
+                Width="400"
                 Height="24"
                 Margin="0,3,0,0"
                 HorizontalAlignment="Left"

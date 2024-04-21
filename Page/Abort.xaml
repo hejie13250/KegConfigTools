@@ -6,6 +6,10 @@
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   Title="Abort"
+  FontFamily="小科狗字体"
+  FontSize="14"
+  TextOptions.TextRenderingMode="ClearType"
+  UseLayoutRounding="True"
   mc:Ignorable="d">
 
   <Grid x:Name="Grid3">
@@ -25,12 +29,12 @@
                 Click="OpenWebPage_Click"
                 Content="GitHup"
                 Style="{DynamicResource RoundButton2}" />-->
-      <Label
+      <!--<Label
         x:Name="versionLabel"
         Height="26"
         Margin="0,0,0,0"
         HorizontalAlignment="Left"
-        Content="当前版本：" />
+        Content="当前版本：" />-->
       <!--<local:NumericUpDown
                 x:Name="nud22"
                 Width="60"
@@ -69,7 +73,8 @@
       Grid.Row="1"
       HorizontalAlignment="Left"
       VerticalScrollBarVisibility="Hidden">
-      <StackPanel x:Name="stackPanel3" Orientation="Vertical">
+      <StackPanel x:Name="groupBoxStackPanel" Orientation="Vertical">
+
         <GroupBox
           x:Name="groupBox_25"
           Header="关于"
@@ -94,7 +99,7 @@
           Header="全局设置说明"
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
-          <Border Style="{StaticResource CustomBorderStyle}">
+          <Border Style="{StaticResource CustomBorderStyle}" Margin="0,5,0,25">
             <Grid>
               <StackPanel Orientation="Vertical">
                 <TextBox

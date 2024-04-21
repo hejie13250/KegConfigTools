@@ -50,7 +50,7 @@
                 Background="DarkGray"
                 CornerRadius="4" />
               <TextBlock
-                Margin="0,-2,0,0"
+                Margin="0,-4,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="22"
@@ -324,7 +324,7 @@
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
               CornerRadius="6">
-              <ScrollViewer VerticalScrollBarVisibility="Hidden">
+              <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
                 <ItemsPresenter />
               </ScrollViewer>
             </Border>
@@ -353,7 +353,7 @@
               Value="#fff2f2f2" />-->
     </Style>
     <Style x:Key="CustomBorderStyle" TargetType="{x:Type Border}">
-      <Setter Property="Width" Value="720" />
+      <Setter Property="Width" Value="730" />
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="CornerRadius" Value="20,20,20,20" />
       <Setter Property="Background" Value="#CCFFFFFF" />
@@ -620,7 +620,7 @@
                   Style="{StaticResource RoundedToggleButton}" />
                 <ContentPresenter
                   Name="ContentSite"
-                  Margin="3"
+                  Margin="3,1,3,3"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="{TemplateBinding SelectionBoxItem}"
@@ -655,7 +655,7 @@
                       BorderBrush="DarkGray"
                       BorderThickness="2"
                       CornerRadius="6" />
-                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                    <ScrollViewer Margin="6,6,6,6" SnapsToDevicePixels="True">
                       <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                     </ScrollViewer>
                   </Grid>
@@ -706,8 +706,7 @@ F1-F12可以使用单键
 
     <System:String x:Key="TextBoxText2" xml:space="preserve">1、本工具用于小科狗输入平台配置输入方案，另一个用于将打字数据以图表的方式显示出来，主要是因太闲了打发时间才写了这个；
 2、小科狗配置开源地址：“https://github.com/hejie13250/KegConfigTools”；
-3、小科狗配置开源地址：“https://github.com/hejie13250/KegStatistics”；
-4、本人QQ：411718848，工具发布于 QQ 群：641858743。</System:String>
+3、本人QQ：411718848，工具发布于 QQ 群：641858743。</System:String>
 
 
 

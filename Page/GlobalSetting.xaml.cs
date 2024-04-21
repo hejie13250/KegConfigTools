@@ -33,6 +33,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms;
 using Label = System.Windows.Controls.Label;
 using GroupBox = System.Windows.Controls.GroupBox;
+using WpfAnimatedGif;
 
 namespace 小科狗配置
 {
@@ -212,6 +213,7 @@ namespace 小科狗配置
       if (!File.Exists(kegPath + "KegServer.exe"))
       {
         kegPath = Base.GetKegPath();
+        //kegPath = Base.GetProcessPath("KegServer");
         if (File.Exists(kegPath + "KegServer.exe")) Base.SetValue("window", "keg_path", kegPath);
         else ((App)System.Windows.Application.Current).Exit();
       }
@@ -1121,8 +1123,16 @@ namespace 小科狗配置
       string skinBackup = $"{directoryPath}默认.png";
       //Console.WriteLine(skin);
       // 将皮肤图片设置为图像源
-      try { image.Source = new BitmapImage(new Uri(Base.GetValue("skin", "path"))); }
-      catch { image.Source = new BitmapImage(new Uri(skin)); }
+      try
+      {
+        SetImage(Base.GetValue("skin", "path")); 
+        //DisplayImage.Source = new BitmapImage(new Uri(Base.GetValue("skin", "path")));
+      }
+      catch
+      {
+        SetImage(skin);
+        //DisplayImage.Source = new BitmapImage(new Uri(skin));
+      }
 
       // 如果备份皮肤文件不存在，则复制当前皮肤文件作为备份
       if (!File.Exists(skinBackup))
@@ -1158,7 +1168,7 @@ namespace 小科狗配置
       foreach (var file in files)
       {
         // 从文件路径中提取图片名称
-        var imageName = Path.GetFileNameWithoutExtension(file);
+        var imageName = Path.GetFileName(file);
 
         // 将图片名称添加到皮肤列表框中
         skinListBox.Items.Add(imageName);
@@ -1168,8 +1178,32 @@ namespace 小科狗配置
     private void SkinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       string selectedItem = (string)skinListBox.SelectedItem;
-      string skin = kegPath + "skin\\" + selectedItem + ".png";
-      image.Source = new BitmapImage(new Uri(skin));
+      string selectedImagePath = kegPath + "skin\\" + selectedItem;
+
+      SetImage(selectedImagePath);
+    }
+
+
+    private void SetImage(string imagePath){
+      if (!string.IsNullOrEmpty(imagePath))
+      {
+        BitmapImage image = new();
+        image.BeginInit();
+        image.UriSource = new Uri(imagePath);
+        image.EndInit();
+
+        // 检查文件扩展名以确定是否为GIF
+        if (Path.GetExtension(imagePath).Equals(".gif", StringComparison.OrdinalIgnoreCase))
+        {
+          ImageBehavior.SetAnimatedSource(DisplayImage, image);
+        }
+        else
+        {
+          // 清除动画状态
+          ImageBehavior.SetAnimatedSource(DisplayImage, null);
+          DisplayImage.Source = image;
+        }
+      }
     }
 
     private void SaveButton1_Click(object sender, RoutedEventArgs e)
@@ -1177,7 +1211,7 @@ namespace 小科狗配置
       if (skinListBox.SelectedIndex > 0)
       {
         string selectedItem = (string)skinListBox.SelectedItem;
-        string selectedSkin = kegPath + "skin\\" + selectedItem + ".png";
+        string selectedSkin = kegPath + "skin\\" + selectedItem;
 
         try
         {

@@ -38,6 +38,7 @@ using Thumb = System.Windows.Controls.Primitives.Thumb;
 using Window = System.Windows.Window;
 using System.Windows.Navigation;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using System.Windows.Interop;
 
 namespace 小科狗配置
 {
@@ -47,96 +48,97 @@ namespace 小科狗配置
   /// 
   public partial class MainWindow : Window
   {
-
-
+    static readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    StackPanel radioButtonStackPanel;
 
     #region 初始化
     public MainWindow()
     {
+      if (!Directory.Exists($"{appPath}\\configs")) Directory.CreateDirectory($"{appPath}\\configs");
       InitializeComponent();
 
-      this.Width = 920;
-      this.Height = 735;
-      frame1.Width = 750;
-      frame2.Width = 0;
-      frame3.Width = 0;
-      frame1.Visibility = Visibility.Visible;
-      frame2.Visibility = Visibility.Hidden;
-      frame3.Visibility = Visibility.Hidden;
+      title.Text = $"{title.Text} v {GetAssemblyVersion()}";
+
+      this.Width = 930;
+      this.Height = 800;
       frame1.Height = this.Height - 50;
       frame2.Height = this.Height - 50;
       frame3.Height = this.Height - 50;
-      stacPanel1.Visibility = Visibility.Visible;
-      stacPanel2.Visibility = Visibility.Collapsed;
-      stacPanel3.Visibility = Visibility.Collapsed;
+      frame4.Height = this.Height - 50;
+
+      方案设置页面();
 
       frame1.Navigated += Frame1_Navigated;
       frame2.Navigated += Frame2_Navigated;
       frame3.Navigated += Frame3_Navigated;
+      frame4.Navigated += Frame4_Navigated;
+
+      //this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+    }
+
+    // 获取版本号
+    public string GetAssemblyVersion()
+    {
+      Assembly assembly = Assembly.GetExecutingAssembly();
+      Version version = assembly.GetName().Version;
+      return version.ToString().Substring(0, 5);
+    }
+
+    void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+      var hWnd = new WindowInteropHelper(this).Handle;
+      GlassEffect.MARGINS margins = new()
+      {
+        cxLeftWidth = -1,
+        cxRightWidth = -1,
+        cyTopHeight = -1,
+        cyBottomHeight = -1
+      };
+
+      GlassEffect.DwmExtendFrameIntoClientArea(hWnd, ref margins);
+
+      GlassEffect.DWM_BLURBEHIND bb = new()
+      {
+        dwFlags = 0x1,
+        fEnable = true,
+        hRgnBlur = IntPtr.Zero,
+        fTransitionOnMaximized = true,
+      };
+
+      GlassEffect.DwmEnableBlurBehindWindow(hWnd, ref bb);
     }
     #endregion
 
 
-    #region 页面导航
-
-    private void 方案设置页面()
-    {
-      //this.framePage.Navigate(new Uri("Page/SchemeSetting.xaml", UriKind.Relative));
-      frame1.Width = 750;
-      frame2.Width = 0;
-      frame3.Width = 0;
-      frame1.Visibility = Visibility.Visible;
-      frame2.Visibility = Visibility.Hidden;
-      frame3.Visibility = Visibility.Hidden;
-    }
-    private void 全局设置页面()
-    {
-      //this.framePage.Navigate(new Uri("Page/GlobalSetting.xaml", UriKind.Relative));
-      frame1.Width = 0;
-      frame2.Width = 750;
-      frame3.Width = 0;
-      frame1.Visibility = Visibility.Hidden;
-      frame2.Visibility = Visibility.Visible;
-      frame3.Visibility = Visibility.Hidden;
-    }
-    private void 帮助页面()
-    {
-      //this.framePage.Navigate(new Uri("Page/Abort.xaml", UriKind.Relative));
-      frame1.Width = 0;
-      frame2.Width = 0;
-      frame3.Width = 750;
-      frame1.Visibility = Visibility.Hidden;
-      frame2.Visibility = Visibility.Hidden;
-      frame3.Visibility = Visibility.Visible; 
-    }
 
 
+
+    #region 点击 RadioButton 跳转到指定的 GroupBox
     private void RadioButton1_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = sender as RadioButton;
       StackPanel stackPanel   = radioButton.Content as StackPanel;
       TextBlock textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
 
-
       switch (textBlock.Text)
       {
         case "方案设置":
           方案设置页面();
-          stacPanel1.Visibility = stacPanel1.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
           ScrollViewerOffset("候选框配色", 1);
           break;
         case "全局设置":
-          全局设置页面();
-          stacPanel2.Visibility = stacPanel2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+          全局设置页面(); 
           ScrollViewerOffset("状态条", 2);
           break;
         case "帮助":
-          帮助页面();
-          stacPanel3.Visibility = stacPanel3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+          帮助页面(); 
           ScrollViewerOffset("关于", 3);
           break;
+        case "打字统计":
+          打字统计();
+          ScrollViewerOffset("曲线图", 4);
+          break;
       }
-
     }
 
     private void RadioButton2_Click(object sender, RoutedEventArgs e)
@@ -182,10 +184,54 @@ namespace 小科狗配置
           帮助页面();
           ScrollViewerOffset(textBlock.Text, 3);
           break;
+        case "曲线图":
+        case "今日和累计数据":
+          打字统计();
+          ScrollViewerOffset(textBlock.Text, 4);
+          break;
       }
     }
 
+    private void 方案设置页面()
+    {
+      SetPageVisibility(Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, radioButtonStackPanel1);
+    }
 
+    private void 全局设置页面()
+    {
+      SetPageVisibility(Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, radioButtonStackPanel2);
+    }
+
+    private void 帮助页面()
+    {
+      SetPageVisibility(Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, Visibility.Collapsed, radioButtonStackPanel3);
+    }
+
+    private void 打字统计()
+    {
+      SetPageVisibility(Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, Visibility.Visible, radioButtonStackPanel4);
+    }
+
+    private void SetPageVisibility(Visibility frame1Visibility, Visibility frame2Visibility, Visibility frame3Visibility, Visibility frame4Visibility, StackPanel activePanel)
+    {
+      frame1.Width = frame1Visibility == Visibility.Visible ? 770 : 0;
+      frame2.Width = frame2Visibility == Visibility.Visible ? 770 : 0;
+      frame3.Width = frame3Visibility == Visibility.Visible ? 770 : 0;
+      frame4.Width = frame4Visibility == Visibility.Visible ? 770 : 0;
+
+      frame1.Visibility = frame1Visibility;
+      frame2.Visibility = frame2Visibility;
+      frame3.Visibility = frame3Visibility;
+      frame4.Visibility = frame4Visibility;
+
+      radioButtonStackPanel1.Visibility = Visibility.Collapsed;
+      radioButtonStackPanel2.Visibility = Visibility.Collapsed;
+      radioButtonStackPanel3.Visibility = Visibility.Collapsed;
+      radioButtonStackPanel4.Visibility = Visibility.Collapsed;
+
+      activePanel.Visibility = Visibility.Visible;
+      radioButtonStackPanel = activePanel;
+    }
     /// <summary>
     /// 点击左侧的控件偏移右侧滚动条（滚动页面）
     /// </summary>
@@ -199,20 +245,26 @@ namespace 小科狗配置
       if (n == 1)
       {
         var page = frame1.Content as Page;
-        var stackPanel = page?.FindName("stackPanel1") as StackPanel;
-        groupBox = FindGroupBox(content, stackPanel);
+        var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
+        groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
       else if (n == 2)
       {
         var page = frame2.Content as Page;
-        var stackPanel = page?.FindName("stackPanel2") as StackPanel;
-        groupBox = FindGroupBox(content, stackPanel);
+        var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
+        groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
       else if (n == 3)
       {
         var page = frame3.Content as Page;
-        var stackPanel = page?.FindName("stackPanel3") as StackPanel;
-        groupBox = FindGroupBox(content, stackPanel);
+        var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
+        groupBox = FindGroupBox(content, groupBoxStackPanel);
+      }
+      else if (n == 4)
+      {
+        var page = frame4.Content as Page;
+        var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
+        groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
 
       // 如果找到了GroupBox，将其滚动到视图中
@@ -226,9 +278,9 @@ namespace 小科狗配置
     /// <param name="content">GroupBox的content</param>
     /// <param name="stackPanel">GroupBox所在的StackPanel容器</param>
     /// <returns></returns>
-    private GroupBox FindGroupBox(string content, StackPanel stackPanel)
+    private GroupBox FindGroupBox(string content, StackPanel groupBoxStackPanel)
     {
-      foreach (var child in stackPanel.Children)
+      foreach (var child in groupBoxStackPanel.Children)
       {
         if (child is GroupBox groupBox && groupBox.Header.ToString() == content)
         {
@@ -238,8 +290,9 @@ namespace 小科狗配置
       return null;
     }
 
+    #endregion
 
-
+    #region 鼠标移到 GroupBox 时选中指定 RadioButton
     private void Frame1_Navigated(object sender, NavigationEventArgs e)
     {
       if (e.Content is SchemeSetting page)
@@ -255,9 +308,17 @@ namespace 小科狗配置
       if (e.Content is Abort page)
         page.NameOfSelectedGroupBoxChanged += Frame_NameOfSelectedGroupBoxChanged;
     }
+    private void Frame4_Navigated(object sender, NavigationEventArgs e)
+    {
+      if (e.Content is KegStatistics page)
+        page.NameOfSelectedGroupBoxChanged += Frame_NameOfSelectedGroupBoxChanged;
+    }
+
+
+
     private void Frame_NameOfSelectedGroupBoxChanged(object sender, string e)
     {
-      foreach (var child in stackPanel.Children)
+      foreach (var child in radioButtonStackPanel.Children)
       {
         if (child is RadioButton radioButton)
         {
@@ -289,6 +350,7 @@ namespace 小科狗配置
       }
       return null;
     }
+
     #endregion
 
     #region 窗口相关

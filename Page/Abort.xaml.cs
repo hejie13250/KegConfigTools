@@ -65,15 +65,7 @@ namespace 小科狗配置
     public Abort()
     {
       InitializeComponent();
-      versionLabel.Content = $"当前版本：v {GetAssemblyVersion()}";
-    }
 
-    // 获取版本号
-    public string GetAssemblyVersion()
-    {
-      Assembly assembly = Assembly.GetExecutingAssembly();
-      Version version = assembly.GetName().Version;
-      return version.ToString().Substring(0, 3);
     }
 
 

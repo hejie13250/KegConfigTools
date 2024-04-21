@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -117,7 +118,19 @@ namespace 小科狗配置
     }
 
 
-
+    public static string GetProcessPath(string processName)
+    {
+      Process[] processes = Process.GetProcessesByName(processName);
+      if (processes.Length > 0)
+      {
+        // 注意：如果有多个同名进程，这里只返回第一个进程的路径
+        return processes[0].MainModule.FileName;
+      }
+      else
+      {
+        return string.Empty;
+      }
+    }
 
 
 
