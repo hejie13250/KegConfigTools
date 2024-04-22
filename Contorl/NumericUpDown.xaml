@@ -6,57 +6,115 @@
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   Width="60"
-  d:DesignHeight="22"
+  d:DesignHeight="24"
   MouseWheel="UserControl_MouseWheel"
   mc:Ignorable="d">
   <UserControl.Resources>
-    <Style x:Key="LeftRoundCorner" TargetType="{x:Type RepeatButton}">
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type RepeatButton}">
-            <Grid x:Name="grid">
-              <Border
-                x:Name="border"
-                Background="#FFABADB3"
-                CornerRadius="8,0,0,8" />
-              <TextBlock
-                Margin="3,0,0,0"
-                FontSize="16"
-                Text="-" />
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-    <Style x:Key="RightRoundCorner" TargetType="{x:Type RepeatButton}">
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type RepeatButton}">
-            <Grid x:Name="grid">
-              <Border
-                x:Name="border"
-                Background="#FFABADB3"
-                CornerRadius="0,8,8,0" />
-              <TextBlock Margin="1,3,0,0" Text="+" />
 
+    <Style x:Key="LRepeatButton" TargetType="{x:Type RepeatButton}">
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type RepeatButton}">
+            <Grid>
+              <Border
+                x:Name="border"
+                Background="DarkGray"
+                CornerRadius="8,0,0,8" />
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                  <VisualState x:Name="Normal">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="DarkGray"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="Green"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="Black"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
             </Grid>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
     </Style>
+    <Style x:Key="RRepeatButton" TargetType="{x:Type RepeatButton}">
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type RepeatButton}">
+            <Grid>
+              <Border
+                x:Name="border"
+                Background="DarkGray"
+                CornerRadius="0,8,8,0" />
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                  <VisualState x:Name="Normal">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="DarkGray"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="Green"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <Storyboard>
+                      <ColorAnimation
+                        Storyboard.TargetName="border"
+                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                        To="Black"
+                        Duration="0" />
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
   </UserControl.Resources>
   <Grid>
-    <TextBox
-      Height="22"
-      Margin="12,0,12,0"
-      Padding="0,2,0,0"
-      Background="#00FFFFFF"
+    <TextBox Margin="12,0,12,0"
+                 Padding="0,1,0,0"
+                 Background="#00FFFFFF"
       Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
     <RepeatButton
       Width="12"
@@ -64,13 +122,17 @@
       HorizontalAlignment="Left"
       Click="Decrease_Click"
       FontSize="15"
-      Style="{DynamicResource LeftRoundCorner}" />
+      Style="{DynamicResource LRepeatButton}">
+      <Image Width="8" Source="{StaticResource 减}" />
+    </RepeatButton>
     <RepeatButton
       Width="12"
       Padding="0,-1,0,0"
       HorizontalAlignment="Right"
       Click="Increase_Click"
-      Style="{DynamicResource RightRoundCorner}" />
+      Style="{DynamicResource RRepeatButton}">
+      <Image Width="8" Source="{StaticResource 加}" />
+    </RepeatButton>
 
   </Grid>
 </UserControl>

@@ -23,16 +23,7 @@
                 x:Name="border"
                 Background="DarkGray"
                 CornerRadius="7" />
-              <TextBlock
-                Margin="0,-2,0,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="12"
-                Text="×">
-                <TextBlock.Foreground>
-                  <SolidColorBrush Color="White" />
-                </TextBlock.Foreground>
-              </TextBlock>
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
               <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup>
                   <VisualState x:Name="Normal">
@@ -121,12 +112,15 @@
       Text="点击输入热键" />
     <Button
       x:Name="delBtn"
-      Width="14"
+      Width="auto"
+      Height="auto"
       Margin="0,0,4,0"
       HorizontalAlignment="Right"
       Click="Button_Click"
       MouseEnter="TxtHotKey_MouseEnter"
       Style="{DynamicResource RoundButton}"
-      Visibility="Hidden" />
+      Visibility="Hidden">
+      <Image Height="10" Source="{StaticResource 删}" />
+    </Button>
   </Grid>
 </UserControl>

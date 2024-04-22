@@ -25,9 +25,10 @@
       <Button
         x:Name="getList_button"
         Height="24"
+        Click="GetList_button_Click"
         Content="获取列表"
         Style="{DynamicResource RoundButton2}"
-        ToolTip="从服务端获取方案列表" Click="GetList_button_Click" />
+        ToolTip="从服务端获取方案列表" />
       <ComboBox
         x:Name="comboBox"
         Width="145"
@@ -42,9 +43,10 @@
         x:Name="reload_button"
         Height="24"
         Margin="5,0,0,0"
+        Click="Reload_button_Click"
         Content="重新读取"
         Style="{DynamicResource RoundButton2}"
-        ToolTip="从服务端重新读取当前方案的配置" Click="Reload_button_Click" />
+        ToolTip="从服务端重新读取当前方案的配置" />
 
 
     </StackPanel>
@@ -61,50 +63,184 @@
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
-            <Grid
-              Height="500"
-              Margin="10,10,10,10"
-              HorizontalAlignment="Left">
-              <!--<Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-              </Grid.RowDefinitions>
+            <Grid Height="500" Margin="10,10,10,10">
+
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="500" />
                 <ColumnDefinition Width="*" />
-              </Grid.ColumnDefinitions>-->
+              </Grid.ColumnDefinitions>
 
-              <DataGrid
-                Name="dataGrid"
-                AutoGenerateColumns="False"
-                LoadingRow="DataGrid_LoadingRow">
-                <DataGrid.Columns>
-                  <DataGridTextColumn Binding="{Binding Key}" Header="key" />
-                  <DataGridTextColumn Binding="{Binding Value}" Header="value" />
-                  <DataGridTextColumn Binding="{Binding Weight}" Header="weight" />
-                  <DataGridTextColumn Binding="{Binding FC}" Header="fc" />
-                </DataGrid.Columns>
-              </DataGrid>
+              <StackPanel Grid.Row="0" Orientation="Vertical">
+                <StackPanel
+                  Height="24"
+                  Margin="0,0,0,5"
+                  Orientation="Horizontal">
 
+                  <Button
+                    x:Name="button"
+                    Width="24"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource RoundButton2}"
+                    ToolTip="第一页">
+                    <Image
+                      Height="20"
+                      Margin="2,2,2,2"
+                      Source="{StaticResource 第一页}" />
+                  </Button>
+                  <Button
+                    x:Name="button1"
+                    Width="24"
+                    Height="24"
+                    Margin="5,0,5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource RoundButton2}"
+                    ToolTip="上一页">
+                    <Image
+                      Height="20"
+                      Margin="2,2,2,2"
+                      Source="{StaticResource 上一页}" />
+                  </Button>
 
+                  <TextBox
+                    x:Name="textBlock"
+                    Height="24"
+                    Padding="5,0,5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource RoundTextBox}"
+                    Text="5/35"
+                    TextWrapping="Wrap" />
+                  <Button
+                    x:Name="button2"
+                    Width="24"
+                    Height="24"
+                    Margin="5,0,5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource RoundButton2}"
+                    ToolTip="下一页">
+                    <Image
+                      Height="20"
+                      Margin="2,2,2,2"
+                      Source="{StaticResource 下一页}" />
+                  </Button>
+                  <Button
+                    x:Name="button3"
+                    Width="24"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource RoundButton2}"
+                    ToolTip="最后一页">
+                    <Image
+                      Height="20"
+                      Margin="2,2,2,2"
+                      Source="{StaticResource 最后一页}" />
+                  </Button>
+                  <Button
+                    x:Name="button4"
+                    Width="24"
+                    Height="24"
+                    Margin="5,0,5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource RoundButton2}"
+                    ToolTip="刷新">
+                    <Image
+                      Height="20"
+                      Margin="2,2,2,2"
+                      Source="{StaticResource 刷新}" />
+                  </Button>
+                  <TextBox
+                    x:Name="textBox1"
+                    Width="264"
+                    Height="24"
+                    Padding="5,0,5,0"
+                    IsReadOnly="True"
+                    Style="{DynamicResource RoundTextBox}"
+                    Text="词条总数："
+                    TextWrapping="Wrap" />
+                </StackPanel>
 
+                <ListView
+                  x:Name="listView"
+                  Height="300"
+                          d:ItemsSource="{d:SampleData ItemCount=3}"
+                  Background="Transparent"
+                  BorderBrush="Black"
+                  BorderThickness="1,1,1,1"
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">
+                  <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDel}" Value="True">
+                          <Setter Property="Background" Value="#FFB6C1" />
+                          <!--  标记删除时背景改为红色  -->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsAdd}" Value="True">
+                          <Setter Property="Background" Value="#90EE90" />
+                          <!--  标记新增时背景改为绿色  -->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMod}" Value="True">
+                          <Setter Property="Background" Value="#FFFF00" />
+                          <!--  标记修改时背景改为黄色  -->
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ListView.ItemContainerStyle>
+                  <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                      <GridViewColumn
+                        Width="auto"
+                        DisplayMemberBinding="{Binding Key}"
+                        Header="key" />
+                      <GridViewColumn
+                        Width="auto"
+                        DisplayMemberBinding="{Binding Value}"
+                        Header="value" />
+                      <GridViewColumn
+                        Width="auto"
+                        DisplayMemberBinding="{Binding Weight}"
+                        Header="weight" />
+                      <GridViewColumn
+                        Width="auto"
+                        DisplayMemberBinding="{Binding FC}"
+                        Header="fc" />
+                    </GridView>
+                  </ListView.View>
+                </ListView>
+              </StackPanel>
 
+              <StackPanel Orientation="Vertical"
+                          Grid.Column="1">
+                <Button
+                  x:Name="del_button"
+                  Height="24"
+                  Click="Del_button_Click"
+                  Content="删除"
+                  Style="{DynamicResource RoundButton2}"
+                  ToolTip="将选中项标计为删除" />
 
+                <Button
+                  x:Name="add_button"
+                  Height="24"
+                  HorizontalAlignment="Left"
+                  Click="Add_button_Click"
+                  Content="添加"
+                  Style="{DynamicResource RoundButton2}" />
 
+                <Button
+                  x:Name="mod_button"
+                  Height="24"
+                  HorizontalAlignment="Left"
+                  Click="Mod_button_Click"
+                  Content="修改"
+                  Style="{DynamicResource RoundButton2}" />
+
+              </StackPanel>
 
 
             </Grid>

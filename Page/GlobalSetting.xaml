@@ -238,8 +238,12 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Click="Button3_Copy_Click"
-                    Content="..."
-                    Style="{DynamicResource RoundButton2}" />
+                    Style="{DynamicResource RoundButton2}">
+                    <Image
+                      Height="14"
+                      Margin="2,2,2,2"
+                      Source="{StaticResource 三点}" />
+                  </Button>
                 </StackPanel>
                 <Label
                   x:Name="label5"
@@ -384,12 +388,12 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="460" Header="命令">
+                      <GridViewColumn Width="450" Header="命令">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <TextBox
                               x:Name="cmdTextBox"
-                              Width="447"
+                              Width="437"
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
@@ -413,7 +417,7 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="30" Header="删除">
+                      <GridViewColumn Width="40" Header="删除">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <Button
@@ -426,7 +430,9 @@
                               Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
                               Tag="3"
-                              Visibility="Hidden" />
+                              Visibility="Hidden">
+                              <Image Height="14" Source="{StaticResource 删除}" />
+                            </Button>
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
@@ -481,13 +487,13 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="460" Header="命令">
+                      <GridViewColumn Width="450" Header="命令">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
 
                             <TextBox
                               x:Name="cmdTextBox"
-                              Width="447"
+                              Width="437"
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
@@ -513,7 +519,7 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="30" Header="删除">
+                      <GridViewColumn Width="40" Header="删除">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <Button
@@ -526,7 +532,9 @@
                               Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
                               Tag="8"
-                              Visibility="Hidden" />
+                              Visibility="Hidden">
+                              <Image Height="14" Source="{StaticResource 删除}" />
+                            </Button>
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
@@ -563,13 +571,13 @@
                   </ListView.ItemContainerStyle>
                   <ListView.View>
                     <GridView AllowsColumnReorder="True">
-                      <GridViewColumn Width="427" Header="命令">
+                      <GridViewColumn Width="417" Header="命令">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
 
                             <TextBox
                               x:Name="cmdTextBox"
-                              Width="413"
+                              Width="403"
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
@@ -607,7 +615,7 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="30" Header="删除">
+                      <GridViewColumn Width="40" Header="删除">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <Button
@@ -620,7 +628,9 @@
                               Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
                               Tag="4"
-                              Visibility="Hidden" />
+                              Visibility="Hidden">
+                              <Image Height="14" Source="{StaticResource 删除}" />
+                            </Button>
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
@@ -658,7 +668,7 @@
                   <ListView.View>
                     <GridView AllowsColumnReorder="True">
                       <GridViewColumn
-                        Width="427"
+                        Width="417"
                         DisplayMemberBinding="{Binding Name}"
                         Header="名称" />
                       <GridViewColumn Width="195" Header="热键">
@@ -689,7 +699,7 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="30" Header="删除">
+                      <GridViewColumn Width="40" Header="删除">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <Button
@@ -702,7 +712,9 @@
                               Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
                               Tag="5"
-                              Visibility="Hidden" />
+                              Visibility="Hidden">
+                              <Image Height="14" Source="{StaticResource 删除}" />
+                            </Button>
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
@@ -742,13 +754,13 @@
                   <ListView.View>
                     <GridView AllowsColumnReorder="True">
 
-                      <GridViewColumn Width="622" Header="命令">
+                      <GridViewColumn Width="612" Header="命令">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
 
                             <TextBox
                               x:Name="cmdTextBox"
-                              Width="607"
+                              Width="597"
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
@@ -771,7 +783,7 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="30" Header="删除">
+                      <GridViewColumn Width="40" Header="删除">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <Button
@@ -784,7 +796,9 @@
                               Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
                               Tag="6"
-                              Visibility="Hidden" />
+                              Visibility="Hidden">
+                              <Image Height="14" Source="{StaticResource 删除}" />
+                            </Button>
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
@@ -821,12 +835,10 @@
                     </Style>
                   </ListView.ItemContainerStyle>
 
-
-
                   <ListView.View>
                     <GridView AllowsColumnReorder="True">
                       <GridViewColumn
-                        Width="427"
+                        Width="417"
                         DisplayMemberBinding="{Binding Name}"
                         Header="名称" />
 
@@ -856,7 +868,7 @@
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
-                      <GridViewColumn Width="30" Header="删除">
+                      <GridViewColumn Width="40" Header="删除">
                         <GridViewColumn.CellTemplate>
                           <DataTemplate>
                             <Button
@@ -869,7 +881,9 @@
                               Click="DelButton_Click"
                               Style="{DynamicResource RoundButton}"
                               Tag="7"
-                              Visibility="Hidden" />
+                              Visibility="Hidden">
+                              <Image Height="14" Source="{StaticResource 删除}" />
+                            </Button>
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>

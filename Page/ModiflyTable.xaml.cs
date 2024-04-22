@@ -14,6 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SQLite;
 using System.Data;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using static 小科狗配置.GlobalSetting;
+using static 小科狗配置.ModiflyTable;
 
 namespace 小科狗配置
 {
@@ -32,79 +37,92 @@ namespace 小科狗配置
 
     #endregion
 
-    public class MyDataItem
+    public class ListViewDataItem : INotifyPropertyChanged
     {
-      public string Key { get; set; }
-      public string Value { get; set; }
-      public double Weight { get; set; }
-      public string FC { get; set; }
+
+      private string _key;
+      private string _value;
+      private double _weight;
+      private string _fc;
+      private bool _isDel;
+      private bool _isMod;
+      private bool _isAdd;
+
+      public string Key
+      {
+        get => _key;
+        set => SetProperty(ref _key, value);
+      }
+
+      public string Value
+      {
+        get => _value;
+        set => SetProperty(ref _value, value);
+      }
+
+      public double Weight
+      {
+        get => _weight;
+        set => SetProperty(ref _weight, value);
+      }
+
+      public string FC
+      {
+        get => _fc;
+        set => SetProperty(ref _fc, value);
+      }
+
+      public bool IsDel
+      {
+        get => _isDel;
+        set => SetProperty(ref _isDel, value);
+      }
+      public bool IsMod
+      {
+        get => _isMod;
+        set => SetProperty(ref _isMod, value);
+      }
+      public bool IsAdd
+      {
+        get => _isAdd;
+        set => SetProperty(ref _isAdd, value);
+      }
+      public event PropertyChangedEventHandler PropertyChanged;
+
+      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+      {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+      }
+
+      protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+      {
+        if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
+        storage = value;
+        OnPropertyChanged(propertyName);
+        return true;
+      }
     }
 
+    public ObservableCollection<ListViewDataItem> listViewDataItems { get; set; }
     // 设置行头为行号，从1开始计数
-    private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
-    {
-      e.Row.Header = (e.Row.GetIndex() + 1).ToString();
-    }
-
 
 
     readonly string dbPath; // Keg.db 
-    string labelName;       //方案名称
-
-
+    string tableName;       // 表名称
+    int pageCount;          // 页码
 
     public ModiflyTable()
     {
       dbPath = Base.kegPath + "Keg.db";
       InitializeComponent();
-
-      //List<MyDataItem> items = new()
-      //  {
-      //      new MyDataItem { Key = "Alpha", Value = "100", Weight = 2.5, FC = "X" },
-      //      new MyDataItem { Key = "Beta", Value = "200", Weight = 3.6, FC = "Y" },
-      //      new MyDataItem { Key = "Gamma", Value = "300", Weight = 4.7, FC = "Z" },
-      //      new MyDataItem { Key = "Delta", Value = "400", Weight = 5.8, FC = "W" },
-      //      new MyDataItem { Key = "Epsilon", Value = "500", Weight = 6.9, FC = "V" },
-      //      new MyDataItem { Key = "Alpha", Value = "100", Weight = 2.5, FC = "X" },
-      //      new MyDataItem { Key = "Beta", Value = "200", Weight = 3.6, FC = "Y" },
-      //      new MyDataItem { Key = "Gamma", Value = "300", Weight = 4.7, FC = "Z" },
-      //      new MyDataItem { Key = "Delta", Value = "400", Weight = 5.8, FC = "W" },
-      //      new MyDataItem { Key = "Epsilon", Value = "500", Weight = 6.9, FC = "V" },
-      //      new MyDataItem { Key = "Alpha", Value = "100", Weight = 2.5, FC = "X" },
-      //      new MyDataItem { Key = "Beta", Value = "200", Weight = 3.6, FC = "Y" },
-      //      new MyDataItem { Key = "Gamma", Value = "300", Weight = 4.7, FC = "Z" },
-      //      new MyDataItem { Key = "Delta", Value = "400", Weight = 5.8, FC = "W" },
-      //      new MyDataItem { Key = "Epsilon", Value = "500", Weight = 6.9, FC = "V" },
-      //      new MyDataItem { Key = "Alpha", Value = "100", Weight = 2.5, FC = "X" },
-      //  };
-      //dataGrid.ItemsSource = items;
-    }
-
-
-    private void GetList_button_Click(object sender, RoutedEventArgs e)
-    {
       LoadTableNames();
-    }
-
-    private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
-    {
-      comboBox.Focus();
-    }
-
-    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-      labelName = comboBox.SelectedValue as string;
-      LoadDataGridWithTopRecords(labelName);
-    }
-
-
-    private void Reload_button_Click(object sender, RoutedEventArgs e)
-    {
-
+      //listViewDataItems = new ObservableCollection<ListViewDataItem>();
     }
 
     #region 读写db
-    //从 db 读取表名到 ComboBox
+    /// <summary>
+    /// 从 db 读取表名到 ComboBox
+    /// </summary>
     private void LoadTableNames()
     {
       SQLiteConnection connection = new ($"Data Source={dbPath}");
@@ -131,11 +149,31 @@ namespace 小科狗配置
       }
     }
 
-    // FROM COMPANY LIMIT 3 OFFSET 2;
-    private DataTable GetTopRecordsFromTable(string tableName)
+    /// <summary>
+    /// 获取指定表内词条总数
+    /// </summary>
+    /// <param name="tableName">表名称</param>
+    /// <returns></returns>
+    private int GetTableRowCount(string tableName)
     {
       using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT * FROM '{tableName}' LIMIT 10"; // Select top 100 records
+      string query = $"SELECT COUNT(*) FROM '{tableName}'";
+      connection.Open();
+      using SQLiteCommand command = new SQLiteCommand(query, connection);
+      int rowCount = Convert.ToInt32(command.ExecuteScalar());
+      return rowCount;
+    }
+
+    /// <summary>
+    /// 从指定表内获取指定条数的数据
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <param name="limit"></param>
+    /// <returns></returns>
+    private DataTable GetTopRecordsFromTable(int offset, int limit)
+    {
+      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
+      string query = $"SELECT * FROM '{tableName}' LIMIT {limit} OFFSET {offset}";
       connection.Open();
       using SQLiteDataAdapter adapter = new(query, connection);
       DataTable dataTable = new();
@@ -143,92 +181,94 @@ namespace 小科狗配置
       return dataTable;
     }
 
-    private void PopulateDataGridFromTable(string tableName)
-    {
-      DataTable dataTable = GetTopRecordsFromTable(tableName);
-
-      dataGrid.Columns.Clear(); // Clear existing columns
-
-      foreach (DataColumn column in dataTable.Columns)
-      {
-        dataGrid.Columns.Add(new DataGridTextColumn
-        {
-          Header = column.ColumnName,
-          Binding = new Binding(column.ColumnName)
-        });
-      }
-
-      dataGrid.ItemsSource = dataTable.DefaultView;
-    }
-
-    // 调用此方法可将指定表格中的前 100 条记录填充到 DataGrid 中
-    private void LoadDataGridWithTopRecords(string tableName)
-    {
-      PopulateDataGridFromTable(tableName);
-    }
-
-    // Example usage:
-    private void LoadDataGrid()
-    {
-      string tableName = "YourTableNameHere"; // Specify your table name
-      LoadDataGridWithTopRecords(tableName);
-    }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // 从指定表 labelName 内读取 key 列为"配置"时 value 的值
-    private string GetConfig(string labelName)
-    {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT value FROM '{labelName}' WHERE key = '配置'";
-      connection.Open();
-      using SQLiteCommand command = new(query, connection);
-
-      string result;
-      using (SQLiteDataReader reader = command.ExecuteReader())
-      {
-        if (reader.Read()) result = reader["value"].ToString();
-        else result = null;
-      }
-      connection.Close();
-      return result;
-    }
-
-    // 保存配置到数据库
-    // 更新指定表 labelName 内 key 列为 "配置" 时 value 列的值为 value
-    //private void SaveConfig(String value)
-    //{
-    //  string connectionString = $"Data Source={dbPath};Version=3;";
-    //  using SQLiteConnection connection = new(connectionString);
-    //  string updateQuery = $"UPDATE '{labelName}' SET value = @Value WHERE key = '配置'";
-    //  connection.Open();
-    //  using SQLiteCommand command = new(updateQuery, connection);
-    //  command.Parameters.AddWithValue("@Value", value);
-    //  int rowsAffected = command.ExecuteNonQuery();
-    //  connection.Close();
-    //}
 
     #endregion
 
+    /// <summary>
+    /// 将数据填充到 ListView
+    /// </summary>
+    /// <param name="tableName"></param>
+    private void PopulateListView(DataTable dataTable)
+    {
+      listViewDataItems = new ObservableCollection<ListViewDataItem>();
+
+      foreach (DataRow row in dataTable.Rows)
+      {
+        listViewDataItems.Add(new ListViewDataItem
+        {
+          Key = row["Key"].ToString(),
+          Value = row["Value"].ToString(),
+          Weight = Convert.ToDouble(row["Weight"]),
+          FC = row["FC"].ToString()
+        });
+      }
+
+      listView.ItemsSource = listViewDataItems;
+    }
+
+
+    private void GetList_button_Click(object sender, RoutedEventArgs e)
+    {
+
+      //listViewDataItems.Clear();
+      //LoadTableNames();
+    }
+
+    private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
+    {
+      comboBox.Focus();
+    }
+
+    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      tableName = comboBox.SelectedValue as string;
+      int count = GetTableRowCount(tableName);
+      pageCount = (int)(Math.Ceiling((decimal)(count / 5000)));
+      textBox1.Text = $"词条总数：{count}   共计 {pageCount} 页";
+
+      DataTable dataTable = GetTopRecordsFromTable(0, 5000);
+
+      PopulateListView(dataTable);
+    }
+
+
+    private void Reload_button_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void Del_button_Click(object sender, RoutedEventArgs e)
+    {
+
+      foreach (ListViewDataItem item in listView.SelectedItems)
+      {
+        item.IsDel = true;
+      }
+    }
+
+    private void Add_button_Click(object sender, RoutedEventArgs e)
+    {
+      ListViewDataItem newItem = new()
+      {
+        Key = "新键",
+        Value = "新值",
+        Weight = 1450,
+        FC = "90EE90",
+        IsAdd = true
+      };
+
+      listViewDataItems.Add(newItem);
+    }
+
+    private void Mod_button_Click(object sender, RoutedEventArgs e)
+    {
+      foreach (ListViewDataItem item in listView.SelectedItems)
+      {
+        item.IsMod = true;
+      }
+    }
   }
 }

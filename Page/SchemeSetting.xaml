@@ -1038,7 +1038,7 @@
                 x:Name="textBox_Copy145"
                 Grid.Row="8"
                 Grid.Column="1"
-                Width="400"
+                Width="364"
                 Height="24"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -1272,13 +1272,17 @@
                 Grid.Column="1"
                 Width="30"
                 Height="24"
-                Margin="405,0,0,0"
+                Margin="369,0,0,0"
                 Padding="1,-5,1,1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="Button3_Copy_Click"
-                Content="..."
-                Style="{DynamicResource RoundButton2}" />
+                Style="{DynamicResource RoundButton2}">
+                <Image
+                  Height="14"
+                  Margin="2,2,2,2"
+                  Source="{StaticResource 三点}" />
+              </Button>
             </Grid>
           </Border>
         </GroupBox>
