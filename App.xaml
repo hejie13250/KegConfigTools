@@ -262,7 +262,7 @@
                 x:Name="border"
                 Background="DarkGray"
                 CornerRadius="4" />
-              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5,0,5,0" />
               <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup>
                   <VisualState x:Name="Normal">
@@ -279,7 +279,7 @@
                       <ColorAnimation
                         Storyboard.TargetName="border"
                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Green"
+                        To="#90EE90"
                         Duration="0" />
                     </Storyboard>
                   </VisualState>
@@ -288,7 +288,7 @@
                       <ColorAnimation
                         Storyboard.TargetName="border"
                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Black"
+                        To="#FFFF00"
                         Duration="0" />
                     </Storyboard>
                   </VisualState>

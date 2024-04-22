@@ -111,7 +111,7 @@
           Header="候选框配色"
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}"
-          TabIndex="3100">
+          TabIndex="3100" Margin="10,0,10,10">
 
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>

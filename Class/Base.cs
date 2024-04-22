@@ -134,7 +134,21 @@ namespace 小科狗配置
 
 
 
-
+    // 扩展方法，用于获取字体支持的字符集
+    //public static HashSet<char> GetCharSet(this System.Drawing.Font font)
+    //{
+    //  HashSet<char> result = new HashSet<char>();
+    //  // 中文字符的 Unicode 范围
+    //  for (int i = 0x4E00; i <= 0x9FFF; i++)
+    //  {
+    //    char c = (char)i;
+    //    if (font.FontFamily.GetCellAscent(System.Drawing.FontStyle.Regular) != 0)
+    //    {
+    //      result.Add(c);
+    //    }
+    //  }
+    //  return result;
+    //}
 
 
 

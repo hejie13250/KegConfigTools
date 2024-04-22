@@ -23,7 +23,7 @@
         <GroupBox
           Header="曲线图"
           MouseEnter="GroupBox_MouseEnter"
-          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          Style="{StaticResource HiddenBorderGroupBoxStyle}" Margin="10,0,10,10">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
               <StackPanel Orientation="Vertical">

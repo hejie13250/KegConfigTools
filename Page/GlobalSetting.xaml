@@ -67,7 +67,7 @@
           Height="auto"
           Header="状态条"
           MouseEnter="GroupBox_MouseEnter"
-          Style="{StaticResource HiddenBorderGroupBoxStyle}">
+          Style="{StaticResource HiddenBorderGroupBoxStyle}" Margin="10,0,10,10">
           <Border Style="{StaticResource CustomBorderStyle}">
 
             <StackPanel Orientation="Horizontal">

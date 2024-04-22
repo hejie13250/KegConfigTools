@@ -39,6 +39,7 @@ using Window = System.Windows.Window;
 using System.Windows.Navigation;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Windows.Interop;
+using System.Xml.Linq;
 
 namespace 小科狗配置
 {
@@ -49,7 +50,13 @@ namespace 小科狗配置
   public partial class MainWindow : Window
   {
     static readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    StackPanel radioButtonStackPanel;
+    StackPanel leftStackPanel;
+
+    readonly string[] _方案设置页面 = new string[] { "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置", "顶功设置", "上屏设置", "中英切换", "翻页按键", "词语联想", "码表调频与检索", "重复上屏", "自动造词", "临时码表检索", "引导码表检索" };
+    readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
+    readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
+    readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
+    readonly string[] _码表设置     = new string[] { "码表修改" };
 
     #region 初始化
     public MainWindow()
@@ -57,11 +64,11 @@ namespace 小科狗配置
       if (!Directory.Exists($"{appPath}\\configs")) Directory.CreateDirectory($"{appPath}\\configs");
       InitializeComponent();
 
-      title.Text = $"{title.Text} v {GetAssemblyVersion()}";
-      Base.GetKegPath();
+      title.Text = $"{title.Text} v {GetAssemblyVersion()}";  // 标题加上版本号
+      Base.GetKegPath();                                      // 获取小科狗主程序目录
 
-      this.Width = 930;
-      this.Height = 800;
+      this.Width    = 930;
+      this.Height   = 800;
       frame1.Height = this.Height - 50;
       frame2.Height = this.Height - 50;
       frame3.Height = this.Height - 50;
@@ -82,17 +89,13 @@ namespace 小科狗配置
     public string GetAssemblyVersion()
     {
       Assembly assembly = Assembly.GetExecutingAssembly();
-      Version version = assembly.GetName().Version;
-      return version.ToString().Substring(0, 5);
+      Version  version  = assembly.GetName().Version;
+      return   version.ToString().Substring(0, 5);
     }
     #endregion
 
-
-
-
-
     #region 点击 RadioButton 跳转到指定的 GroupBox
-    private void RadioButton1_Click(object sender, RoutedEventArgs e)
+    private void LeftRadioButton1_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = sender as RadioButton;
       StackPanel stackPanel   = radioButton.Content as StackPanel;
@@ -100,67 +103,27 @@ namespace 小科狗配置
 
       switch (textBlock.Text)
       {
-        case "方案设置": 方案设置页面(); ScrollViewerOffset("候选框配色", 1); break;
-        case "全局设置": 全局设置页面(); ScrollViewerOffset("状态条"    , 2); break;
-        case "帮助"    : 帮助页面    (); ScrollViewerOffset("关于"      , 3); break;
-        case "打字统计": 打字统计    (); ScrollViewerOffset("曲线图"    , 4); break;
-        case "码表设置": 码表设置    (); ScrollViewerOffset("码表修改"  , 5); break;
+        case "方案设置": 方案设置页面(); break;
+        case "全局设置": 全局设置页面(); break;
+        case "帮助"    : 帮助页面();     break;
+        case "打字统计": 打字统计();     break;
+        case "码表设置": 码表设置();     break;
       }
     }
 
-    private void RadioButton2_Click(object sender, RoutedEventArgs e)
+    private void LeftRadioButton2_Click(object sender, RoutedEventArgs e)
     {
       RadioButton radioButton = sender as RadioButton;
-      StackPanel stackPanel = radioButton.Content as StackPanel;
-      TextBlock textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      StackPanel stackPanel   = radioButton.Content as StackPanel;
+      TextBlock textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      string name             = textBlock.Text;
 
-      switch (textBlock.Text)
-      {
-        case "候选框配色":
-        case "候选框样式":
-        case "字体和渲染":
-        case "码元设置":
-        case "标点设置":
-        case "动作设置":
-        case "顶功设置":
-        case "上屏设置":
-        case "中英切换":
-        case "翻页按键":
-        case "词语联想":
-        case "码表调频与检索":
-        case "重复上屏":
-        case "自动造词":
-        case "临时码表检索":
-        case "引导码表检索":
-          方案设置页面();
-          ScrollViewerOffset(textBlock.Text, 1);
-          break;
-        case "状态条":
-        case "在线查找":
-        case "外部工具":
-        case "快捷命令":
-        case "快捷键":
-        case "自启动应用":
-        case "定时关机":
-        case "其它选项":
-          全局设置页面();
-          ScrollViewerOffset(textBlock.Text, 2);
-          break;
-        case "关于":
-        case "全局设置说明":
-          帮助页面();
-          ScrollViewerOffset(textBlock.Text, 3);
-          break;
-        case "曲线图":
-        case "今日和累计数据":
-          打字统计();
-          ScrollViewerOffset(textBlock.Text, 4);
-          break;
-        case "码表修改":
-          码表设置();
-          ScrollViewerOffset(textBlock.Text, 5);
-          break;
-      }
+      if (_方案设置页面.Contains(name)) { 方案设置页面();   ScrollViewerOffset(name, 1); }
+      if (_全局设置页面.Contains(name)) { 全局设置页面();   ScrollViewerOffset(name, 2); }
+      if (_帮助页面    .Contains(name)) { 帮助页面    ();   ScrollViewerOffset(name, 3); }
+      if (_打字统计    .Contains(name)) { 打字统计    ();   ScrollViewerOffset(name, 4); }
+      if (_码表设置    .Contains(name)) { 码表设置    ();   ScrollViewerOffset(name, 5); }
+
     }
 
 
@@ -172,8 +135,8 @@ namespace 小科狗配置
       Visibility.Collapsed, 
       Visibility.Collapsed,
       Visibility.Collapsed,
-      radioButtonStackPanel1
-      );
+      leftStackPanel1
+      ); 
     }
 
     private void 全局设置页面()
@@ -184,7 +147,7 @@ namespace 小科狗配置
       Visibility.Collapsed,
       Visibility.Collapsed,
       Visibility.Collapsed,
-      radioButtonStackPanel2
+      leftStackPanel2
       );
     }
 
@@ -196,7 +159,7 @@ namespace 小科狗配置
       Visibility.Visible,
       Visibility.Collapsed, 
       Visibility.Collapsed, 
-      radioButtonStackPanel3
+      leftStackPanel3
       );
     }
 
@@ -208,7 +171,7 @@ namespace 小科狗配置
       Visibility.Collapsed,
       Visibility.Visible,
       Visibility.Collapsed,
-      radioButtonStackPanel4
+      leftStackPanel4
       );
     }
 
@@ -220,32 +183,33 @@ namespace 小科狗配置
       Visibility.Collapsed, 
       Visibility.Collapsed, 
       Visibility.Visible, 
-      radioButtonStackPanel5
+      leftStackPanel5
       );
+      
     }
 
-    private void SetPageVisibility(Visibility frame1Visibility, Visibility frame2Visibility, Visibility frame3Visibility, Visibility frame4Visibility, Visibility frame5Visibility, StackPanel activePanel)
+    private void SetPageVisibility(Visibility f1, Visibility f2, Visibility f3, Visibility f4, Visibility f5, StackPanel activePanel)
     {
-      frame1.Width = frame1Visibility == Visibility.Visible ? 770 : 0;
-      frame2.Width = frame2Visibility == Visibility.Visible ? 770 : 0;
-      frame3.Width = frame3Visibility == Visibility.Visible ? 770 : 0;
-      frame4.Width = frame4Visibility == Visibility.Visible ? 770 : 0;
-      frame5.Width = frame5Visibility == Visibility.Visible ? 770 : 0;
+      frame1.Width = f1 == Visibility.Visible ? 770 : 0;
+      frame2.Width = f2 == Visibility.Visible ? 770 : 0;
+      frame3.Width = f3 == Visibility.Visible ? 770 : 0;
+      frame4.Width = f4 == Visibility.Visible ? 770 : 0;
+      frame5.Width = f5 == Visibility.Visible ? 770 : 0;
 
-      frame1.Visibility = frame1Visibility;
-      frame2.Visibility = frame2Visibility;
-      frame3.Visibility = frame3Visibility;
-      frame4.Visibility = frame4Visibility;
-      frame5.Visibility = frame5Visibility;
+      frame1.Visibility = f1;
+      frame2.Visibility = f2;
+      frame3.Visibility = f3;
+      frame4.Visibility = f4;
+      frame5.Visibility = f5;
 
-      radioButtonStackPanel1.Visibility = Visibility.Collapsed;
-      radioButtonStackPanel2.Visibility = Visibility.Collapsed;
-      radioButtonStackPanel3.Visibility = Visibility.Collapsed;
-      radioButtonStackPanel4.Visibility = Visibility.Collapsed;
-      radioButtonStackPanel5.Visibility = Visibility.Collapsed;
+      leftStackPanel1.Visibility = Visibility.Collapsed;
+      leftStackPanel2.Visibility = Visibility.Collapsed;
+      leftStackPanel3.Visibility = Visibility.Collapsed;
+      leftStackPanel4.Visibility = Visibility.Collapsed;
+      leftStackPanel5.Visibility = Visibility.Collapsed;
 
       activePanel.Visibility = Visibility.Visible;
-      radioButtonStackPanel = activePanel;
+      leftStackPanel = activePanel;
     }
 
     /// <summary>
@@ -343,7 +307,7 @@ namespace 小科狗配置
 
     private void Frame_NameOfSelectedGroupBoxChanged(object sender, string e)
     {
-      foreach (var child in radioButtonStackPanel.Children)
+      foreach (var child in leftStackPanel.Children)
       {
         if (child is RadioButton radioButton)
         {

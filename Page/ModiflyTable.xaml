@@ -37,7 +37,14 @@
         MouseEnter="ComboBox_MouseEnter"
         SelectionChanged="ComboBox_SelectionChanged"
         Style="{DynamicResource RoundComboBox}" />
-
+      <ComboBox
+        x:Name="fontComboBox"
+        Width="145"
+        Height="24"
+        Margin="5,0,0,0"
+        MouseEnter="ComboBox_MouseEnter"
+        SelectionChanged="FontComboBox_SelectionChanged"
+        Style="{DynamicResource RoundComboBox}" />
 
       <Button
         x:Name="reload_button"
@@ -59,6 +66,7 @@
 
         <GroupBox
           x:Name="groupBox_02"
+          Margin="10,0,10,10"
           Header="候选框样式"
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
@@ -66,15 +74,19 @@
             <Grid Height="500" Margin="10,10,10,10">
 
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500" />
+                <ColumnDefinition Width="630" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
 
-              <StackPanel Grid.Row="0" Orientation="Vertical">
+              <StackPanel
+                Grid.Row="0"
+                Margin="0,0,10,0"
+                Orientation="Vertical">
                 <StackPanel
                   Height="24"
                   Margin="0,0,0,5"
-                  Orientation="Horizontal">
+                  Orientation="Horizontal"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
                   <Button
                     x:Name="button"
@@ -82,6 +94,7 @@
                     Height="24"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Click="Button_Click"
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="第一页">
                     <Image
@@ -96,6 +109,7 @@
                     Margin="5,0,5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Click="Button1_Click"
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="上一页">
                     <Image
@@ -105,14 +119,18 @@
                   </Button>
 
                   <TextBox
-                    x:Name="textBlock"
+                    x:Name="textBox"
                     Height="24"
+                    MinWidth="50"
                     Padding="5,0,5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
+                    IsReadOnly="True"
+                    MouseWheel="TextBox_MouseWheel"
                     Style="{DynamicResource RoundTextBox}"
-                    Text="5/35"
-                    TextWrapping="Wrap" />
+                    Text="5"
+                    TextWrapping="Wrap"
+                    ToolTip="鼠标滚轮调节，按 Ctrl 步长为 5，按 Shift 步长为 10" />
                   <Button
                     x:Name="button2"
                     Width="24"
@@ -120,6 +138,7 @@
                     Margin="5,0,5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Click="Button2_Click"
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="下一页">
                     <Image
@@ -133,6 +152,7 @@
                     Height="24"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Click="Button3_Click"
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="最后一页">
                     <Image
@@ -147,6 +167,7 @@
                     Margin="5,0,5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    Click="Button4_Click"
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="刷新">
                     <Image
@@ -156,19 +177,19 @@
                   </Button>
                   <TextBox
                     x:Name="textBox1"
-                    Width="264"
+                    Width="150"
                     Height="24"
-                    Padding="5,0,5,0"
+                    Padding="0,0,0,0"
                     IsReadOnly="True"
                     Style="{DynamicResource RoundTextBox}"
                     Text="词条总数："
                     TextWrapping="Wrap" />
                 </StackPanel>
-
+                
                 <ListView
                   x:Name="listView"
                   Height="300"
-                          d:ItemsSource="{d:SampleData ItemCount=3}"
+                  d:ItemsSource="{d:SampleData ItemCount=3}"
                   Background="Transparent"
                   BorderBrush="Black"
                   BorderThickness="1,1,1,1"
@@ -194,33 +215,36 @@
                   <ListView.View>
                     <GridView AllowsColumnReorder="True">
                       <GridViewColumn
-                        Width="auto"
+                        Width="70"
+                        DisplayMemberBinding="{Binding Num}"
+                        Header="#" />
+                      <GridViewColumn
+                        Width="45"
                         DisplayMemberBinding="{Binding Key}"
-                        Header="key" />
+                        Header="编码" />
                       <GridViewColumn
-                        Width="auto"
+                        Width="100"
                         DisplayMemberBinding="{Binding Value}"
-                        Header="value" />
+                        Header="词条" />
                       <GridViewColumn
-                        Width="auto"
+                        Width="100"
                         DisplayMemberBinding="{Binding Weight}"
-                        Header="weight" />
+                        Header="权重" />
                       <GridViewColumn
-                        Width="auto"
+                        Width="260"
                         DisplayMemberBinding="{Binding FC}"
-                        Header="fc" />
+                        Header="反查" />
                     </GridView>
                   </ListView.View>
                 </ListView>
               </StackPanel>
 
-              <StackPanel Orientation="Vertical"
-                          Grid.Column="1">
+              <StackPanel Grid.Column="1" Orientation="Vertical">
                 <Button
                   x:Name="del_button"
                   Height="24"
                   Click="Del_button_Click"
-                  Content="删除"
+                  Content="标记删除"
                   Style="{DynamicResource RoundButton2}"
                   ToolTip="将选中项标计为删除" />
 

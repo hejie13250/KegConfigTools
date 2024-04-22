@@ -92,7 +92,7 @@
           <StackPanel>
 
             <RadioButton
-              Click="RadioButton1_Click"
+              Click="LeftRadioButton1_Click"
               GroupName="Group"
               IsChecked="True"
               Style="{DynamicResource RadioButtonStyle}">
@@ -105,9 +105,9 @@
                   Text="方案设置" />
               </StackPanel>
             </RadioButton>
-            <StackPanel x:Name="radioButtonStackPanel1" Orientation="Vertical">
+            <StackPanel x:Name="leftStackPanel1" Orientation="Vertical">
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -119,7 +119,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -131,7 +131,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -144,7 +144,7 @@
               </RadioButton>
 
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -156,7 +156,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -168,7 +168,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -180,7 +180,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -192,7 +192,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -204,7 +204,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -216,7 +216,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -228,7 +228,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -240,7 +240,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -252,7 +252,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -264,7 +264,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -276,7 +276,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -288,7 +288,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -309,7 +309,7 @@
               BorderThickness="0,1,0,0" />
 
             <RadioButton
-              Click="RadioButton1_Click"
+              Click="LeftRadioButton1_Click"
               GroupName="Group"
               Style="{DynamicResource RadioButtonStyle}">
               <StackPanel Orientation="Horizontal">
@@ -323,9 +323,9 @@
             </RadioButton>
 
 
-            <StackPanel x:Name="radioButtonStackPanel2" Orientation="Vertical">
+            <StackPanel x:Name="leftStackPanel2" Orientation="Vertical">
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -337,7 +337,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -350,7 +350,7 @@
               </RadioButton>
 
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -362,7 +362,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -374,7 +374,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -386,7 +386,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -399,7 +399,7 @@
               </RadioButton>
 
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -411,7 +411,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -429,7 +429,7 @@
               BorderThickness="0,1,0,0" />
 
             <RadioButton
-              Click="RadioButton1_Click"
+              Click="LeftRadioButton1_Click"
               GroupName="Group"
               Style="{DynamicResource RadioButtonStyle}">
               <StackPanel Orientation="Horizontal">
@@ -442,9 +442,9 @@
               </StackPanel>
             </RadioButton>
 
-            <StackPanel x:Name="radioButtonStackPanel4" Orientation="Vertical">
+            <StackPanel x:Name="leftStackPanel4" Orientation="Vertical">
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -456,7 +456,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -475,7 +475,7 @@
               BorderThickness="0,1,0,0" />
 
             <RadioButton
-              Click="RadioButton1_Click"
+              Click="LeftRadioButton1_Click"
               GroupName="Group"
               Style="{DynamicResource RadioButtonStyle}">
               <StackPanel Orientation="Horizontal">
@@ -488,9 +488,9 @@
               </StackPanel>
             </RadioButton>
 
-            <StackPanel x:Name="radioButtonStackPanel5" Orientation="Vertical">
+            <StackPanel x:Name="leftStackPanel5" Orientation="Vertical">
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -510,7 +510,7 @@
               BorderThickness="0,1,0,0" />
 
             <RadioButton
-              Click="RadioButton1_Click"
+              Click="LeftRadioButton1_Click"
               GroupName="Group"
               Style="{DynamicResource RadioButtonStyle}">
               <StackPanel Orientation="Horizontal">
@@ -524,9 +524,9 @@
             </RadioButton>
 
 
-            <StackPanel x:Name="radioButtonStackPanel3" Orientation="Vertical">
+            <StackPanel x:Name="leftStackPanel3" Orientation="Vertical">
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
@@ -538,7 +538,7 @@
                 </StackPanel>
               </RadioButton>
               <RadioButton
-                Click="RadioButton2_Click"
+                Click="LeftRadioButton2_Click"
                 GroupName="Group"
                 Style="{DynamicResource RadioButtonStyle}">
                 <StackPanel Orientation="Horizontal">
