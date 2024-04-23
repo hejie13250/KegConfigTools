@@ -22,13 +22,7 @@
       Margin="10,0,0,0"
       VerticalAlignment="Top"
       Orientation="Horizontal">
-      <Button
-        x:Name="getList_button"
-        Height="24"
-        Click="GetList_button_Click"
-        Content="获取列表"
-        Style="{DynamicResource RoundButton2}"
-        ToolTip="从服务端获取方案列表" />
+      <Label Content="表：" />
       <ComboBox
         x:Name="comboBox"
         Width="145"
@@ -37,24 +31,16 @@
         MouseEnter="ComboBox_MouseEnter"
         SelectionChanged="ComboBox_SelectionChanged"
         Style="{DynamicResource RoundComboBox}" />
+      <Label Margin="10,0,0,0" Content="字体：" />
       <ComboBox
         x:Name="fontComboBox"
         Width="145"
         Height="24"
         Margin="5,0,0,0"
+        IsEnabled="False"
         MouseEnter="ComboBox_MouseEnter"
         SelectionChanged="FontComboBox_SelectionChanged"
         Style="{DynamicResource RoundComboBox}" />
-
-      <Button
-        x:Name="reload_button"
-        Height="24"
-        Margin="5,0,0,0"
-        Click="Reload_button_Click"
-        Content="重新读取"
-        Style="{DynamicResource RoundButton2}"
-        ToolTip="从服务端重新读取当前方案的配置" />
-
 
     </StackPanel>
     <ScrollViewer
@@ -83,8 +69,9 @@
                 Margin="0,0,10,0"
                 Orientation="Vertical">
                 <StackPanel
+                  x:Name="stackPanel"
                   Height="24"
-                  Margin="0,0,0,5"
+                  IsEnabled="False"
                   Orientation="Horizontal"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
@@ -98,8 +85,10 @@
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="第一页">
                     <Image
-                      Height="20"
-                      Margin="2,2,2,2"
+                      Width="16"
+                      Height="16"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
                       Source="{StaticResource 第一页}" />
                   </Button>
                   <Button
@@ -113,15 +102,17 @@
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="上一页">
                     <Image
-                      Height="20"
-                      Margin="2,2,2,2"
+                      Width="16"
+                      Height="16"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
                       Source="{StaticResource 上一页}" />
                   </Button>
 
                   <TextBox
                     x:Name="textBox"
+                    Width="70"
                     Height="24"
-                    MinWidth="50"
                     Padding="5,0,5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -142,8 +133,10 @@
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="下一页">
                     <Image
-                      Height="20"
-                      Margin="2,2,2,2"
+                      Width="16"
+                      Height="16"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
                       Source="{StaticResource 下一页}" />
                   </Button>
                   <Button
@@ -156,8 +149,10 @@
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="最后一页">
                     <Image
-                      Height="20"
-                      Margin="2,2,2,2"
+                      Width="16"
+                      Height="16"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
                       Source="{StaticResource 最后一页}" />
                   </Button>
                   <Button
@@ -171,29 +166,71 @@
                     Style="{DynamicResource RoundButton2}"
                     ToolTip="刷新">
                     <Image
-                      Height="20"
-                      Margin="2,2,2,2"
+                      Width="16"
+                      Height="16"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
                       Source="{StaticResource 刷新}" />
                   </Button>
                   <TextBox
                     x:Name="textBox1"
-                    Width="150"
+                    Width="140"
                     Height="24"
                     Padding="0,0,0,0"
                     IsReadOnly="True"
                     Style="{DynamicResource RoundTextBox}"
-                    Text="词条总数："
+                    Text="词条数："
                     TextWrapping="Wrap" />
+
+                  <CheckBox
+                    x:Name="KeyOrValueCheckBox"
+                    Grid.Row="5"
+                    Height="24"
+                    Margin="5,0,5,0"
+                    Padding="5,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="CheckBox_Click"
+                    Style="{DynamicResource KeyOrValueCheckBox}" />
+                  <TextBox
+                    x:Name="textBox2"
+                    Width="155"
+                    Height="24"
+                    Padding="0,0,0,0"
+                    Style="{DynamicResource RoundTextBox}"
+                    Tag="搜索编码"
+                    TextChanged="TextBox2_TextChanged"
+                    TextWrapping="Wrap" />
+                  <Button
+                    x:Name="button5"
+                    Width="24"
+                    Height="24"
+                    Margin="5,0,5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="Button5_Click"
+                    Style="{DynamicResource RoundButton2}"
+                    ToolTip="搜索">
+                    <Image
+                      Width="14"
+                      Height="14"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Source="{StaticResource 搜索}" />
+                  </Button>
+
                 </StackPanel>
-                
+
                 <ListView
                   x:Name="listView"
                   Height="300"
+                  Margin="0,5,0,5"
                   d:ItemsSource="{d:SampleData ItemCount=3}"
                   Background="Transparent"
                   BorderBrush="Black"
                   BorderThickness="1,1,1,1"
-                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}">
+                  ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+                  MouseDoubleClick="ListView_MouseDoubleClick">
                   <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                       <Style.Triggers>
@@ -211,6 +248,7 @@
                         </DataTrigger>
                       </Style.Triggers>
                     </Style>
+
                   </ListView.ItemContainerStyle>
                   <ListView.View>
                     <GridView AllowsColumnReorder="True">
@@ -237,33 +275,92 @@
                     </GridView>
                   </ListView.View>
                 </ListView>
+                <StackPanel
+                  Height="24"
+                  Margin="0,0,0,5"
+                  Orientation="Horizontal"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                  <CheckBox
+                    x:Name="AddOrModCheckBox"
+                    Grid.Row="5"
+                    Height="24"
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="CheckBox_Click"
+                    IsChecked="False"
+                    Style="{DynamicResource AddOrModCheckBoxStyle}" />
+                  <TextBox
+                    x:Name="keyTextBox"
+                    Width="50"
+                    Height="24"
+                    MinWidth="50"
+                    Padding="5,0,5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource RoundTextBox}"
+                    Tag="编码"
+                    TextWrapping="Wrap" />
+                  <TextBox
+                    x:Name="valueTextBox"
+                    Width="100"
+                    Height="24"
+                    MinWidth="50"
+                    Margin="5,0,5,0"
+                    Padding="5,0,5,0"
+                    Style="{DynamicResource RoundTextBox}"
+                    Tag="词条"
+                    TextWrapping="Wrap" />
+                  <TextBox
+                    x:Name="weightTextBox"
+                    Width="100"
+                    Height="24"
+                    MinWidth="50"
+                    Padding="5,0,5,0"
+                    DataObject.Pasting="TextBoxPasting"
+                    PreviewTextInput="WeightTextBox_PreviewTextInput"
+                    Style="{DynamicResource RoundTextBox}"
+                    Tag="权重"
+                    TextChanged="WeightTextBox_TextChanged"
+                    TextWrapping="Wrap" />
+                  <TextBox
+                    x:Name="fcTextBox"
+                    Width="240"
+                    Height="24"
+                    MinWidth="50"
+                    Margin="5,0,5,0"
+                    Padding="5,0,5,0"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource RoundTextBox}"
+                    Tag="反查"
+                    TextWrapping="Wrap" />
+                  <Button
+                    x:Name="add_mod_button"
+                    Height="24"
+                    HorizontalAlignment="Left"
+                    Click="AddOrMod_button_Click"
+                    Content="修改"
+                    Style="{DynamicResource RoundButton2}" />
+                </StackPanel>
               </StackPanel>
-
               <StackPanel Grid.Column="1" Orientation="Vertical">
+
+
+                <Button
+                  x:Name="Submit_button"
+                  Height="24"
+                  Click="Submit_button_Click"
+                  Content="提交修改"
+                  Style="{DynamicResource RoundButton2}"
+                  ToolTip="将选中项标计为删除" />
                 <Button
                   x:Name="del_button"
                   Height="24"
                   Click="Del_button_Click"
                   Content="标记删除"
                   Style="{DynamicResource RoundButton2}"
-                  ToolTip="将选中项标计为删除" />
-
-                <Button
-                  x:Name="add_button"
-                  Height="24"
-                  HorizontalAlignment="Left"
-                  Click="Add_button_Click"
-                  Content="添加"
-                  Style="{DynamicResource RoundButton2}" />
-
-                <Button
-                  x:Name="mod_button"
-                  Height="24"
-                  HorizontalAlignment="Left"
-                  Click="Mod_button_Click"
-                  Content="修改"
-                  Style="{DynamicResource RoundButton2}" />
-
+                  ToolTip="将选中项标计为删除"
+                        Margin="0,5,0,0" />
               </StackPanel>
 
 

@@ -46,7 +46,13 @@
       </DrawingImage.Drawing>
     </DrawingImage>
 
-
+    <DrawingImage x:Key="搜索">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M416,208C416,253.9,401.1,296.3,376,330.7L502.6,457.4C515.1,469.9 515.1,490.2 502.6,502.7 490.1,515.2 469.8,515.2 457.3,502.7L330.7,376C296.3,401.2 253.9,416 208,416 93.1,416 0,322.9 0,208 0,93.1 93.1,0 208,0 322.9,0 416,93.1 416,208z M208,352A144,144,0,1,0,208,64A144,144,0,1,0,208,352z" />
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
 
 
@@ -201,6 +207,124 @@
       <Setter Property="Background" Value="#FFF2F2F2" />
       <Setter Property="Foreground" Value="Black" />
     </Style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--  滚动条样式  -->
+    <Style x:Key="FancyScrollBar" TargetType="{x:Type ScrollBar}">
+      <Setter Property="Width" Value="8" />
+      <Setter Property="Background" Value="Gray" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type ScrollBar}">
+            <Track Name="PART_Track">
+              <Track.Thumb>
+                <Thumb Background="DarkGray" BorderThickness="0" />
+              </Track.Thumb>
+            </Track>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!--  ListView样式  -->
+    <Style x:Key="ListViewStyle2" TargetType="{x:Type ListView}">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type ListView}">
+            <Border Background="{TemplateBinding Background}">
+              <ScrollViewer
+                Padding="{TemplateBinding Padding}"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+                <ScrollViewer.Template>
+                  <ControlTemplate TargetType="ScrollViewer">
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <ScrollContentPresenter Grid.Row="0" Grid.Column="0" />
+                      <ScrollBar
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Maximum="{TemplateBinding ScrollableHeight}"
+                        Orientation="Vertical"
+                        Style="{StaticResource FancyScrollBar}"
+                        ViewportSize="{TemplateBinding ViewportHeight}"
+                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                        Value="{TemplateBinding VerticalOffset}" />
+                      <ScrollBar
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Maximum="{TemplateBinding ScrollableWidth}"
+                        Orientation="Horizontal"
+                        Style="{StaticResource FancyScrollBar}"
+                        ViewportSize="{TemplateBinding ViewportWidth}"
+                        Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                        Value="{TemplateBinding HorizontalOffset}" />
+                    </Grid>
+                  </ControlTemplate>
+                </ScrollViewer.Template>
+                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+              </ScrollViewer>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <Style x:Key="RoundButton" TargetType="{x:Type Button}">
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -250,6 +374,7 @@
         </Setter.Value>
       </Setter>
     </Style>
+
     <Style x:Key="RoundButton2" TargetType="{x:Type Button}">
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -262,7 +387,10 @@
                 x:Name="border"
                 Background="DarkGray"
                 CornerRadius="4" />
-              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5,0,5,0" />
+              <ContentPresenter
+                Margin="5,0,5,0"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
               <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup>
                   <VisualState x:Name="Normal">
@@ -299,8 +427,6 @@
         </Setter.Value>
       </Setter>
     </Style>
-
-
 
     <Style x:Key="RoundButton3" TargetType="{x:Type Button}">
       <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -417,7 +543,7 @@
       </Setter>
     </Style>
 
-    <Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
+    <!--<Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
       <Setter Property="Padding" Value="1" />
       <Setter Property="Template">
         <Setter.Value>
@@ -436,7 +562,47 @@
           </ControlTemplate>
         </Setter.Value>
       </Setter>
+    </Style>-->
+
+    <Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
+      <Setter Property="Padding" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type TextBox}">
+            <Grid>
+              <Border
+                Background="#00FFFFFF"
+                BorderBrush="DarkGray"
+                BorderThickness="2"
+                CornerRadius="6">
+                <ScrollViewer
+                  x:Name="PART_ContentHost"
+                  Margin="0"
+                  HorizontalScrollBarVisibility="Hidden"
+                  VerticalScrollBarVisibility="Auto" />
+              </Border>
+              <TextBlock
+                x:Name="PlaceholderTextBlock"
+                Margin="5,0,0,0"
+                Padding="0,2,0,0"
+                HorizontalAlignment="Left"
+                Foreground="Gray"
+                Text="{TemplateBinding Tag}"
+                Visibility="Collapsed" />
+            </Grid>
+            <ControlTemplate.Triggers>
+              <MultiTrigger>
+                <MultiTrigger.Conditions>
+                  <Condition Property="Text" Value="" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="PlaceholderTextBlock" Property="Visibility" Value="Visible" />
+              </MultiTrigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
+
     <Style x:Key="RoundTextBox2" TargetType="{x:Type TextBox}">
       <Setter Property="Padding" Value="1" />
       <Setter Property="AcceptsReturn" Value="True" />
@@ -497,9 +663,8 @@
       <Setter Property="Width" Value="730" />
       <Setter Property="Height" Value="auto" />
       <Setter Property="Margin" Value="10,10,10,10" />
-      <!--<Setter Property="Background"
-              Value="#fff2f2f2" />-->
     </Style>
+
     <Style x:Key="CustomBorderStyle" TargetType="{x:Type Border}">
       <Setter Property="Width" Value="730" />
       <Setter Property="HorizontalAlignment" Value="Left" />
@@ -516,6 +681,7 @@
         </Setter.Value>
       </Setter>
     </Style>
+
     <Style x:Key="RadioButtonStyle" TargetType="{x:Type RadioButton}">
       <Setter Property="FocusVisualStyle">
         <Setter.Value>
@@ -608,6 +774,7 @@
       <Setter Property="MinHeight" Value="30" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>
+
     <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
       <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
       <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -702,6 +869,223 @@
         </Setter.Value>
       </Setter>
     </Style>
+
+    <Style x:Key="AddOrModCheckBoxStyle" TargetType="{x:Type CheckBox}">
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type CheckBox}">
+            <ControlTemplate.Resources>
+              <Storyboard x:Key="OnChecking">
+                <DoubleAnimationUsingKeyFrames
+                  BeginTime="00:00:00"
+                  Storyboard.TargetName="slider"
+                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
+                </DoubleAnimationUsingKeyFrames>
+              </Storyboard>
+              <Storyboard x:Key="OnUnchecking">
+                <DoubleAnimationUsingKeyFrames
+                  BeginTime="00:00:00"
+                  Storyboard.TargetName="slider"
+                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+
+              </Storyboard>
+            </ControlTemplate.Resources>
+
+            <DockPanel x:Name="dockPanel">
+              <ContentPresenter
+                VerticalAlignment="Center"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+              <Grid Width="66">
+                <Border
+                  x:Name="Border"
+                  BorderBrush="DarkGray"
+                  BorderThickness="2"
+                  CornerRadius="6">
+                  <Rectangle
+                    x:Name="rectangle"
+                    Fill="#90EE90"
+                    RadiusX="5"
+                    RadiusY="5" />
+                </Border>
+                <TextBlock
+                  Margin="2,2,1,0"
+                  HorizontalAlignment="Left"
+                  FontSize="14"
+                  Foreground="Black"
+                  Text="添加"
+                  TextWrapping="Wrap" />
+                <TextBlock
+                  Margin="1,2,2,0"
+                  HorizontalAlignment="Right"
+                  FontSize="14"
+                  Foreground="Black"
+                  Text="修改"
+                  TextWrapping="Wrap" />
+                <Border
+                  x:Name="slider"
+                  Width="32"
+                  Margin="2,2,2,2"
+                  HorizontalAlignment="Left"
+                  Background="#FFABADB3"
+                  BorderBrush="White"
+                  BorderThickness="1,1,1,1"
+                  CornerRadius="4,4,4,4"
+                  RenderTransformOrigin="0.5,0.5">
+                  <Border.RenderTransform>
+                    <TransformGroup>
+                      <ScaleTransform ScaleX="1" ScaleY="1" />
+                      <SkewTransform AngleX="0" AngleY="0" />
+                      <RotateTransform Angle="0" />
+                      <TranslateTransform X="0" Y="0" />
+                    </TransformGroup>
+                  </Border.RenderTransform>
+                </Border>
+              </Grid>
+            </DockPanel>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Trigger.ExitActions>
+                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
+                </Trigger.ExitActions>
+                <Trigger.EnterActions>
+                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
+                </Trigger.EnterActions>
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="rectangle" Property="Fill" Value="#90EE90" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="False">
+                <Setter TargetName="rectangle" Property="Fill" Value="#FFFF00" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="#FFABADB3" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="KeyOrValueCheckBox" TargetType="{x:Type CheckBox}">
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type CheckBox}">
+            <ControlTemplate.Resources>
+              <Storyboard x:Key="OnChecking">
+                <DoubleAnimationUsingKeyFrames
+                  BeginTime="00:00:00"
+                  Storyboard.TargetName="slider"
+                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
+                </DoubleAnimationUsingKeyFrames>
+              </Storyboard>
+              <Storyboard x:Key="OnUnchecking">
+                <DoubleAnimationUsingKeyFrames
+                  BeginTime="00:00:00"
+                  Storyboard.TargetName="slider"
+                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+
+              </Storyboard>
+            </ControlTemplate.Resources>
+
+            <DockPanel x:Name="dockPanel">
+              <ContentPresenter
+                VerticalAlignment="Center"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+              <Grid Width="66">
+                <Border
+                  x:Name="Border"
+                  BorderBrush="DarkGray"
+                  BorderThickness="2"
+                  CornerRadius="6">
+                  <Rectangle
+                    x:Name="rectangle"
+                    Fill="#90EE90"
+                    RadiusX="5"
+                    RadiusY="5" />
+                </Border>
+                <TextBlock
+                  Margin="2,2,1,0"
+                  HorizontalAlignment="Left"
+                  FontSize="14"
+                  Foreground="Black"
+                  Text="词条"
+                  TextWrapping="Wrap" />
+                <TextBlock
+                  Margin="1,2,2,0"
+                  HorizontalAlignment="Right"
+                  FontSize="14"
+                  Foreground="Black"
+                  Text="编码"
+                  TextWrapping="Wrap" />
+                <Border
+                  x:Name="slider"
+                  Width="32"
+                  Margin="2,2,2,2"
+                  HorizontalAlignment="Left"
+                  Background="#FFABADB3"
+                  BorderBrush="White"
+                  BorderThickness="1,1,1,1"
+                  CornerRadius="4,4,4,4"
+                  RenderTransformOrigin="0.5,0.5">
+                  <Border.RenderTransform>
+                    <TransformGroup>
+                      <ScaleTransform ScaleX="1" ScaleY="1" />
+                      <SkewTransform AngleX="0" AngleY="0" />
+                      <RotateTransform Angle="0" />
+                      <TranslateTransform X="0" Y="0" />
+                    </TransformGroup>
+                  </Border.RenderTransform>
+                </Border>
+              </Grid>
+            </DockPanel>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Trigger.ExitActions>
+                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
+                </Trigger.ExitActions>
+                <Trigger.EnterActions>
+                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
+                </Trigger.EnterActions>
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="rectangle" Property="Fill" Value="#90EE90" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="False">
+                <Setter TargetName="rectangle" Property="Fill" Value="#FFFF00" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="#FFABADB3" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+
+
+
+
     <Style x:Key="VerticalSliderStyle" TargetType="{x:Type Slider}">
       <Setter Property="Orientation" Value="Vertical" />
       <Setter Property="Template">
