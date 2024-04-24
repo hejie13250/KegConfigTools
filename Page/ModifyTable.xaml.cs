@@ -39,6 +39,7 @@ namespace 小科狗配置.Page
 
     public sealed class ListViewDataItem : INotifyPropertyChanged
     {
+      private int    _rowNumber;
       private int    _number;
       private string _key;
       private string _value;
@@ -47,7 +48,11 @@ namespace 小科狗配置.Page
       private bool   _isDel;
       private bool   _isMod;
       private bool   _isAdd;
-
+      public int RowNumber 
+      {
+        get => _rowNumber;
+        set => SetProperty(ref _rowNumber, value);
+      }
       public int Number
       {
         get => _number;
@@ -142,7 +147,6 @@ namespace 小科狗配置.Page
         {
           var labelName = reader.GetString(0);
           comboBox.Items.Add(labelName);
-          //comboBox.SelectedIndex = 0;
         }
       }
       catch (Exception ex)
@@ -165,13 +169,13 @@ namespace 小科狗配置.Page
       connection.Open();
       try
       {
-        using var command = new SQLiteCommand($"DELETE FROM '{_tableName}' WHERE Key IS NULL OR TRIM(Key) = ''", connection);
+        using var command = new SQLiteCommand($"DELETE FROM '{_tableName}' WHERE key IS NULL OR TRIM(key) = ''", connection);
         var rows = command.ExecuteNonQuery();
         if(rows != 0 ) MessageBox.Show($"已删除 {rows} 行空数据");
       }
       catch (Exception ex)
       {
-        MessageBox.Show($"Error loading table names: {ex.Message}");
+        MessageBox.Show($"获取表名出错: {ex.Message}");
       }
       finally
       {
@@ -179,50 +183,48 @@ namespace 小科狗配置.Page
       }
     }
 
-    /// <summary>
-    /// 所有字段设为可空
-    /// </summary>
-    private void SetFieldCanBeNull()
-    {
-      using SQLiteConnection connection = new($"Data Source={_dbPath}");
-      connection.Open();
-      using var transaction = connection.BeginTransaction();
-      try
-      {
-        // 1. 创建一个新表，其结构与旧表相同，但所有列都可以为null
-        var tempTableName = "Temp_" + _tableName;
-        using (var command = new SQLiteCommand($"CREATE TABLE {tempTableName} (key TEXT NULL, value TEXT NULL, weight REAL NULL, fc TEXT NULL)", connection))
-        {
-          command.ExecuteNonQuery();
-        }
 
-        // 2. 将旧表的数据复制到新表中
-        using (var command = new SQLiteCommand($"INSERT INTO {tempTableName} SELECT key, value, weight, fc FROM {_tableName}", connection))
-        {
-          command.ExecuteNonQuery();
-        }
-
-        // 3. 删除旧表
-        using (var command = new SQLiteCommand($"DROP TABLE {_tableName}", connection))
-        {
-          command.ExecuteNonQuery();
-        }
-
-        // 4. 将新表重命名为旧表的名称
-        using (var command = new SQLiteCommand($"ALTER TABLE {tempTableName} RENAME TO {_tableName}", connection))
-        {
-          command.ExecuteNonQuery();
-        }
-
-        transaction.Commit();
-        MessageBox.Show("所有字段设为可空");
-      }
-      catch (Exception ex)
-      {
-        transaction.Rollback();
-        MessageBox.Show($"Error changing column nullability: {ex.Message}");
-      }
-    }
+    // private void SetFieldCanBeNull()
+    // {
+    //   using SQLiteConnection connection = new($"Data Source={_dbPath}");
+    //   connection.Open();
+    //   using var transaction = connection.BeginTransaction();
+    //   try
+    //   {
+    //     // 1. 创建一个新表，其结构与旧表相同，但所有列都可以为null
+    //     var tempTableName = "Temp_" + _tableName;
+    //     using (var command = new SQLiteCommand($"CREATE TABLE {tempTableName} (key TEXT NULL, value TEXT NULL, weight REAL NULL, fc TEXT NULL)", connection))
+    //     {
+    //       command.ExecuteNonQuery();
+    //     }
+    //
+    //     // 2. 将旧表的数据复制到新表中
+    //     using (var command = new SQLiteCommand($"INSERT INTO {tempTableName} SELECT key, value, weight, fc FROM {_tableName}", connection))
+    //     {
+    //       command.ExecuteNonQuery();
+    //     }
+    //
+    //     // 3. 删除旧表
+    //     using (var command = new SQLiteCommand($"DROP TABLE {_tableName}", connection))
+    //     {
+    //       command.ExecuteNonQuery();
+    //     }
+    //
+    //     // 4. 将新表重命名为旧表的名称
+    //     using (var command = new SQLiteCommand($"ALTER TABLE {tempTableName} RENAME TO {_tableName}", connection))
+    //     {
+    //       command.ExecuteNonQuery();
+    //     }
+    //
+    //     transaction.Commit();
+    //     MessageBox.Show("所有字段设为可空");
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     transaction.Rollback();
+    //     MessageBox.Show($"Error changing column nullability: {ex.Message}");
+    //   }
+    // }
 
 
 
@@ -257,13 +259,23 @@ namespace 小科狗配置.Page
     private DataTable GetTopRecordsFromTable(int offset, int limit)
     {
       using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
-      var query = $"SELECT * FROM '{_tableName}' LIMIT {limit} OFFSET {offset}";
+      var query = $"SELECT ROW_NUMBER() OVER (ORDER BY ROWID) AS RowNumber, * FROM '{_tableName}' LIMIT {limit} OFFSET {offset}";
       connection.Open();
-      using SQLiteDataAdapter adapter = new(query, connection);
-      DataTable dataTable = new();
+      using SQLiteDataAdapter adapter   = new(query, connection);
+      DataTable               dataTable = new();
       adapter.Fill(dataTable);
       return dataTable;
     }
+    // private DataTable GetTopRecordsFromTable(int offset, int limit)
+    // {
+    //   using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+    //   var query = $"SELECT * FROM '{_tableName}' LIMIT {limit} OFFSET {offset}";
+    //   connection.Open();
+    //   using SQLiteDataAdapter adapter = new(query, connection);
+    //   DataTable dataTable = new();
+    //   adapter.Fill(dataTable);
+    //   return dataTable;
+    // }
 
 
 
@@ -294,7 +306,8 @@ namespace 小科狗配置.Page
       {
         ListViewData.Add(new ListViewDataItem
         {
-          Number = number++,
+          // Number = number++,
+          RowNumber =row["RowNumber"] != DBNull.Value ? int.Parse(row["RowNumber"].ToString()) : 0,
           Key    = row["Key"]    != DBNull.Value ? row["Key"].ToString() : string.Empty,
           Value  = row["Value"]  != DBNull.Value ? row["Value"].ToString() : string.Empty,
           Weight = row["Weight"] != DBNull.Value ? int.Parse(row["Weight"].ToString()) : null,
@@ -562,24 +575,26 @@ namespace 小科狗配置.Page
     }
 
     // 搜索
-    private void Button5_Click(object sender, RoutedEventArgs e)
-    {
-      if (_editingStatus)
-      {
-        MessageBox.Show("当前有数据没有提交。");
-        return;
-      }
-      if (comboBox.SelectedIndex < 0) return;
-
-      搜索();
-    }
-
+    // private void Button5_Click(RoutedEventArgs e)
+    // {
+    //   if (_editingStatus)
+    //   {
+    //     MessageBox.Show("当前有数据没有提交。");
+    //     return;
+    //   }
+    //   if (comboBox.SelectedIndex < 0) return;
+    //
+    //   搜索();
+    // }
+    //
+    
+    
+    
     // 搜索
     private void TextBox2_TextChanged(object sender, TextChangedEventArgs e)
     {
       if (comboBox.SelectedIndex < 0) return;
       搜索();
-
     }
 
     private void 搜索()
@@ -599,7 +614,7 @@ namespace 小科狗配置.Page
       var str = textBox2.Text;
 
       using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
-      var query = $"SELECT * FROM '{_tableName}' WHERE {name} LIKE @str";
+      var query = $"SELECT ROW_NUMBER() OVER (ORDER BY ROWID) AS RowNumber, * FROM '{_tableName}' WHERE {name} LIKE @str";
       connection.Open();
 
       using SQLiteCommand command = new(query, connection);
