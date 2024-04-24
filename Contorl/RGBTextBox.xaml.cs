@@ -32,16 +32,16 @@ namespace 小科狗配置
     public RGBTextBox()
     {
       InitializeComponent();
-      R.TextChanged += RGBTextBoxTextChanged;
-      G.TextChanged += RGBTextBoxTextChanged;
-      B.TextChanged += RGBTextBoxTextChanged;
+      r.TextChanged += RGBTextBoxTextChanged;
+      g.TextChanged += RGBTextBoxTextChanged;
+      b.TextChanged += RGBTextBoxTextChanged;
     }
 
     private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      RGBTextBox rgbText = (RGBTextBox)d;
-      string oldValue = (string)e.OldValue;
-      string newValue = (string)e.NewValue;
+      var rgbText = (RGBTextBox)d;
+      var oldValue = (string)e.OldValue;
+      var newValue = (string)e.NewValue;
 
       rgbText.OnValueChanged(new RoutedPropertyChangedEventArgs<string>(oldValue, newValue));
     }
@@ -53,9 +53,9 @@ namespace 小科狗配置
 
     private void RGBTextBoxTextChanged(object sender, TextChangedEventArgs e)
     {
-      TextBox textBox = sender as TextBox;
+      var textBox = sender as TextBox;
 
-      if (int.TryParse(textBox.Text, out int value))
+      if (int.TryParse(textBox.Text, out var value))
       {
         if (value < 0)
           value = 0;
@@ -66,19 +66,19 @@ namespace 小科狗配置
       else
         textBox.Text = "0"; // 输入文本无法转换为有效整数，重置为默认值0
 
-      RGBText = $"({R.Text}, {G.Text}, {B.Text})";
+      RGBText = $"({r.Text}, {g.Text}, {b.Text})";
     }
 
 
     private void SetColorText(string colorText)
     {
-      string oldRgbText = rgbText; // 声明并初始化旧值变量
+      var oldRgbText = rgbText; // 声明并初始化旧值变量
       //string rgb = colorText.Replace("(", "").Replace(")", "");
-      string[] rgbValues = colorText.Trim('(', ')').Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-      R.Text = rgbValues[0];
-      G.Text = rgbValues[1];
-      B.Text = rgbValues[2];
-      rgbText = $"({R.Text}, {G.Text}, {B.Text})"; // 更新 rgbText 成员变量
+      var rgbValues = colorText.Trim('(', ')').Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+      r.Text = rgbValues[0];
+      g.Text = rgbValues[1];
+      b.Text = rgbValues[2];
+      rgbText = $"({r.Text}, {g.Text}, {b.Text})"; // 更新 rgbText 成员变量
       OnValueChanged(new RoutedPropertyChangedEventArgs<string>(oldRgbText, rgbText));
     }
 
@@ -86,11 +86,11 @@ namespace 小科狗配置
 
     private void ColorTextBox_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-      int step = 1; // 设置滚动步长，默认每次滚动增加或减少1
+      var step = 1; // 设置滚动步长，默认每次滚动增加或减少1
       if (Keyboard.Modifiers == ModifierKeys.Control) step *= 2; // 如果按住Ctrl键，则增大步长
 
-      TextBox textBox = sender as TextBox;
-      int value = int.Parse(textBox.Text);
+      var textBox = sender as TextBox;
+      var value = int.Parse(textBox.Text);
 
       if (e.Delta > 0) // 滚动向上
         value = Math.Min(value + step, 255); // 确保增加后的值不超过255
@@ -100,7 +100,7 @@ namespace 小科狗配置
 
       textBox.Text = value.ToString();
 
-      OnValueChanged(new RoutedPropertyChangedEventArgs<string>(rgbText, $"({R.Text}, {G.Text}, {B.Text})"));
+      OnValueChanged(new RoutedPropertyChangedEventArgs<string>(rgbText, $"({r.Text}, {g.Text}, {b.Text})"));
       // 阻止滚轮事件继续向上冒泡
       e.Handled = true;
     }

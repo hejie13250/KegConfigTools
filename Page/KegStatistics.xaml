@@ -31,7 +31,7 @@
                   <local:ViewModel />
                 </StackPanel.DataContext>
                 <lvc:CartesianChart
-                  x:Name="LiveCharts"
+                  x:Name="liveCharts"
                   Height="470"
                   Series="{Binding Series}"
                   SyncContext="{Binding Sync}"
@@ -369,39 +369,39 @@
                   VerticalAlignment="Center"
                   Text="平均码长：" />
                 <CheckBox
-                  x:Name="DZcheckBox"
+                  x:Name="dZcheckBox"
                   Grid.Row="1"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   IsChecked="False"
                   Style="{DynamicResource CheckBoxStyle}" />
                 <CheckBox
-                  x:Name="JJcheckBox"
+                  x:Name="jJcheckBox"
                   Grid.Row="2"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Style="{DynamicResource CheckBoxStyle}" />
                 <CheckBox
-                  x:Name="SPcheckBox"
+                  x:Name="sPcheckBox"
                   Grid.Row="3"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   Style="{DynamicResource CheckBoxStyle}" />
                 <CheckBox
-                  x:Name="SCcheckBox"
+                  x:Name="sCcheckBox"
                   Grid.Row="4"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   Style="{DynamicResource CheckBoxStyle}" />
                 <CheckBox
-                  x:Name="SDcheckBox"
+                  x:Name="sDcheckBox"
                   Grid.Row="5"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   Style="{DynamicResource CheckBoxStyle}" />
                 <CheckBox
-                  x:Name="MCcheckBox"
+                  x:Name="mCcheckBox"
                   Grid.Row="6"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
@@ -455,7 +455,7 @@
                   VerticalAlignment="Center"
                   Text="范围：" />
                 <CheckBox
-                  x:Name="RQcheckBox"
+                  x:Name="rQcheckBox"
                   Grid.Row="1"
                   Grid.RowSpan="1"
                   Grid.Column="10"

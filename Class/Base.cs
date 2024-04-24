@@ -38,7 +38,7 @@ namespace 小科狗配置
     /// <param name="filePath">路径</param>
     public static void SetValue(string section, string key, string value)
     {
-      string settingConfigFile = $"{appPath}\\configs\\窗口配置.ini";
+      var settingConfigFile = $"{appPath}\\configs\\窗口配置.ini";
       WritePrivateProfileString(section, key, value, settingConfigFile);
     }
 
@@ -51,7 +51,7 @@ namespace 小科狗配置
     /// <returns>命令行</returns>
     public static string GetValue(string section, string key)
     {
-      string settingConfigFile = $"{appPath}\\configs\\窗口配置.ini";
+      var settingConfigFile = $"{appPath}\\configs\\窗口配置.ini";
       if (File.Exists(settingConfigFile))
       {
         StringBuilder sb = new(255);
@@ -102,7 +102,7 @@ namespace 小科狗配置
     {
       try
       {
-        IntPtr hWnd = FindWindow("CKegServer_0", null); //窗口句柄
+        var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KWM_GETPATH, IntPtr.Zero, IntPtr.Zero, flags, timeout, out _);
         Thread.Sleep(200);
         kegPath = Clipboard.GetText();
@@ -119,7 +119,7 @@ namespace 小科狗配置
 
     public static string GetProcessPath(string processName)
     {
-      Process[] processes = Process.GetProcessesByName(processName);
+      var processes = Process.GetProcessesByName(processName);
       if (processes.Length > 0)
       {
         // 注意：如果有多个同名进程，这里只返回第一个进程的路径

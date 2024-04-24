@@ -21,9 +21,9 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 namespace 小科狗配置
 {
   /// <summary>
-  /// ModiflyTable.xaml 的交互逻辑
+  /// ModifyTable.xaml 的交互逻辑
   /// </summary>
-  public partial class ModiflyTable : BasePage
+  public partial class ModifyTable
   {
 
     #region 获取GroupBox的Header用于主窗口导航事件
@@ -35,21 +35,21 @@ namespace 小科狗配置
 
     #endregion
 
-    public class ListViewDataItem : INotifyPropertyChanged
+    public sealed class ListViewDataItem : INotifyPropertyChanged
     {
-      private int _num;
+      private int    _number;
       private string _key;
       private string _value;
-      private int? _weight;
+      private int?   _weight;
       private string _fc;
-      private bool _isDel;
-      private bool _isMod;
-      private bool _isAdd;
+      private bool   _isDel;
+      private bool   _isMod;
+      private bool   _isAdd;
 
-      public int Num
+      public int Number
       {
-        get => _num;
-        set => SetProperty(ref _num, value);
+        get => _number;
+        set => SetProperty(ref _number, value);
       }
       public string Key
       {
@@ -69,7 +69,7 @@ namespace 小科狗配置
         set => SetProperty(ref _weight, value);
       }
 
-      public string FC
+      public string Fc
       {
         get => _fc;
         set => SetProperty(ref _fc, value);
@@ -92,32 +92,31 @@ namespace 小科狗配置
       }
       public event PropertyChangedEventHandler PropertyChanged;
 
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+      private void OnPropertyChanged([CallerMemberName] string propertyName = null)
       {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
       }
 
-      protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+      private void SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
       {
-        if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
+        if (EqualityComparer<T>.Default.Equals(storage, value)) return;
         storage = value;
         OnPropertyChanged(propertyName);
-        return true;
       }
     }
 
-    public ObservableCollection<ListViewDataItem> ListViewData { get; set; }
+    private ObservableCollection<ListViewDataItem> ListViewData { get; set; }
 
-    readonly string dbPath;     // Keg.db 
-    string tableName;           // 表名称
-    int    pageCount;           // 总页码
-    int  currentPage;           // 当前页码
-    int      pageLen;           // 每页数据行数       
-    bool editingStatus = false; // 编缉状态
+    private readonly string _dbPath;        // Keg.db 
+    private string          _tableName;     // 表名称
+    private int             _pageCount;     // 总页码
+    private int             _currentPage;   // 当前页码
+    private int             _pageLen;       // 每页数据行数       
+    private bool            _editingStatus; // 编缉状态
 
-    public ModiflyTable()
+    public ModifyTable()
     {
-      dbPath = Base.kegPath + "Keg.db";
+      _dbPath = Base.kegPath + "Keg.db";
       InitializeComponent();
       LoadFontNames();
       LoadTableNames();
@@ -130,7 +129,7 @@ namespace 小科狗配置
     /// </summary>
     private void LoadTableNames()
     {
-      SQLiteConnection connection = new ($"Data Source={dbPath}");
+      SQLiteConnection connection = new ($"Data Source={_dbPath}");
       connection.Open();
       try
       {
@@ -160,12 +159,12 @@ namespace 小科狗配置
     /// </summary>
     private void DelNullKey()
     {
-      SQLiteConnection connection = new($"Data Source={dbPath}");
+      SQLiteConnection connection = new($"Data Source={_dbPath}");
       connection.Open();
       try
       {
-        using var command = new SQLiteCommand($"DELETE FROM '{tableName}' WHERE Key IS NULL OR TRIM(Key) = ''", connection);
-        int rows = command.ExecuteNonQuery();
+        using var command = new SQLiteCommand($"DELETE FROM '{_tableName}' WHERE Key IS NULL OR TRIM(Key) = ''", connection);
+        var rows = command.ExecuteNonQuery();
         if(rows != 0 ) MessageBox.Show($"已删除 {rows} 行空数据");
       }
       catch (Exception ex)
@@ -183,47 +182,43 @@ namespace 小科狗配置
     /// </summary>
     private void SetFieldCanBeNull()
     {
-      using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath}"))
+      using SQLiteConnection connection = new($"Data Source={_dbPath}");
+      connection.Open();
+      using var transaction = connection.BeginTransaction();
+      try
       {
-        connection.Open();
-        using (var transaction = connection.BeginTransaction())
+        // 1. 创建一个新表，其结构与旧表相同，但所有列都可以为null
+        var tempTableName = "Temp_" + _tableName;
+        using (var command = new SQLiteCommand($"CREATE TABLE {tempTableName} (key TEXT NULL, value TEXT NULL, weight REAL NULL, fc TEXT NULL)", connection))
         {
-          try
-          {
-            // 1. 创建一个新表，其结构与旧表相同，但所有列都可以为null
-            var tempTableName = "Temp_" + tableName;
-            using (var command = new SQLiteCommand($"CREATE TABLE {tempTableName} (key TEXT NULL, value TEXT NULL, weight REAL NULL, fc TEXT NULL)", connection))
-            {
-              command.ExecuteNonQuery();
-            }
-
-            // 2. 将旧表的数据复制到新表中
-            using (var command = new SQLiteCommand($"INSERT INTO {tempTableName} SELECT key, value, weight, fc FROM {tableName}", connection))
-            {
-              command.ExecuteNonQuery();
-            }
-
-            // 3. 删除旧表
-            using (var command = new SQLiteCommand($"DROP TABLE {tableName}", connection))
-            {
-              command.ExecuteNonQuery();
-            }
-
-            // 4. 将新表重命名为旧表的名称
-            using (var command = new SQLiteCommand($"ALTER TABLE {tempTableName} RENAME TO {tableName}", connection))
-            {
-              command.ExecuteNonQuery();
-            }
-
-            transaction.Commit();
-            MessageBox.Show("所有字段设为可空");
-          }
-          catch (Exception ex)
-          {
-            transaction.Rollback();
-            MessageBox.Show($"Error changing column nullability: {ex.Message}");
-          }
+          command.ExecuteNonQuery();
         }
+
+        // 2. 将旧表的数据复制到新表中
+        using (var command = new SQLiteCommand($"INSERT INTO {tempTableName} SELECT key, value, weight, fc FROM {_tableName}", connection))
+        {
+          command.ExecuteNonQuery();
+        }
+
+        // 3. 删除旧表
+        using (var command = new SQLiteCommand($"DROP TABLE {_tableName}", connection))
+        {
+          command.ExecuteNonQuery();
+        }
+
+        // 4. 将新表重命名为旧表的名称
+        using (var command = new SQLiteCommand($"ALTER TABLE {tempTableName} RENAME TO {_tableName}", connection))
+        {
+          command.ExecuteNonQuery();
+        }
+
+        transaction.Commit();
+        MessageBox.Show("所有字段设为可空");
+      }
+      catch (Exception ex)
+      {
+        transaction.Rollback();
+        MessageBox.Show($"Error changing column nullability: {ex.Message}");
       }
     }
 
@@ -243,11 +238,11 @@ namespace 小科狗配置
     /// <returns></returns>
     private int GetTableRowCount(string tableName)
     {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT COUNT(*) FROM '{tableName}'";
+      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+      var query = $"SELECT COUNT(*) FROM '{tableName}'";
       connection.Open();
-      using SQLiteCommand command = new SQLiteCommand(query, connection);
-      int rowCount = Convert.ToInt32(command.ExecuteScalar());
+      using var command = new SQLiteCommand(query, connection);
+      var rowCount = Convert.ToInt32(command.ExecuteScalar());
       return rowCount;
     }
 
@@ -259,8 +254,8 @@ namespace 小科狗配置
     /// <returns></returns>
     private DataTable GetTopRecordsFromTable(int offset, int limit)
     {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT * FROM '{tableName}' LIMIT {limit} OFFSET {offset}";
+      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+      var query = $"SELECT * FROM '{_tableName}' LIMIT {limit} OFFSET {offset}";
       connection.Open();
       using SQLiteDataAdapter adapter = new(query, connection);
       DataTable dataTable = new();
@@ -287,21 +282,21 @@ namespace 小科狗配置
     /// <summary>
     /// 将数据填充到 ListView
     /// </summary>
-    /// <param name="tableName"></param>
+    /// <param name="dataTable"></param>
     private void PopulateListView(DataTable dataTable)
     {
       ListViewData = new ObservableCollection<ListViewDataItem>();
-      int num = currentPage * pageLen + 1;
+      var number = _currentPage * _pageLen + 1;
 
       foreach (DataRow row in dataTable.Rows)
       {
         ListViewData.Add(new ListViewDataItem
         {
-          Num    = num++,
-          Key    = row["Key"] != DBNull.Value ? row["Key"].ToString() : string.Empty,
-          Value  = row["Value"] != DBNull.Value ? row["Value"].ToString() : string.Empty,
+          Number = number++,
+          Key    = row["Key"]    != DBNull.Value ? row["Key"].ToString() : string.Empty,
+          Value  = row["Value"]  != DBNull.Value ? row["Value"].ToString() : string.Empty,
           Weight = row["Weight"] != DBNull.Value ? int.Parse(row["Weight"].ToString()) : null,
-          FC     = row["FC"] != DBNull.Value ? row["FC"].ToString() : string.Empty
+          Fc     = row["FC"]     != DBNull.Value ? row["FC"].ToString() : string.Empty
         });
       }
 
@@ -317,22 +312,22 @@ namespace 小科狗配置
     // 切换表
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      tableName = comboBox.SelectedValue as string;
+      _tableName = comboBox.SelectedValue as string;
       DelNullKey();         // 先删除空行
 
-      int count = GetTableRowCount(tableName);
-      pageLen = 5000;
-      pageCount = count / pageLen;
-      if (count % pageLen > 0) pageCount++;
+      var count = GetTableRowCount(_tableName);
+      _pageLen = 5000;
+      _pageCount = count / _pageLen;
+      if (count % _pageLen > 0) _pageCount++;
 
       textBox1.Text = $"词条数：{count}";
-      currentPage = 0;
-      textBox.Text = $"{currentPage + 1}/{pageCount}";
-      DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+      _currentPage = 0;
+      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
       PopulateListView(dataTable);
-      string fontName = GetFontToTable(tableName);
+      var fontName = GetFontToTable(_tableName);
       if (fontName != null)
-        for (int i = 0; i < fontComboBox.Items.Count; i++)
+        for (var i = 0; i < fontComboBox.Items.Count; i++)
           if (fontComboBox.Items[i].ToString() == fontName)
             fontComboBox.SelectedIndex = i;
 
@@ -345,7 +340,7 @@ namespace 小科狗配置
     {
       if (fontComboBox.SelectedValue == null) return;
 
-      string fontName = fontComboBox.SelectedItem.ToString();
+      var fontName = fontComboBox.SelectedItem.ToString();
       var font        = new System.Windows.Media.FontFamily(fontName);
       listView.FontFamily      = font;
       keyTextBox.FontFamily    = font;
@@ -361,7 +356,7 @@ namespace 小科狗配置
     /// </summary>
     private void LoadFontNames()
     {
-      foreach (System.Drawing.FontFamily font in System.Drawing.FontFamily.Families)
+      foreach (var font in System.Drawing.FontFamily.Families)
       {
         if (ContainsChineseCharacters(font.Name))
           fontComboBox.Items.Add(font.Name);
@@ -384,7 +379,7 @@ namespace 小科狗配置
     private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
     {
       var cb = sender as ComboBox;
-      cb.Focus();
+      cb?.Focus();
     }
 
 
@@ -395,16 +390,15 @@ namespace 小科狗配置
     /// <returns></returns>
     private string GetFontToTable(string tableName)
     {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT value FROM '{tableName}' WHERE key = '字体'";
+      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+      var query = $"SELECT value FROM '{tableName}' WHERE key = '字体'";
       connection.Open();
       using SQLiteCommand command = new(query, connection);
 
       string result;
-      using (SQLiteDataReader reader = command.ExecuteReader())
+      using (var reader = command.ExecuteReader())
       {
-        if (reader.Read()) result = reader["value"].ToString();
-        else result = null;
+        result = reader.Read() ? reader["value"].ToString() : null;
       }
       connection.Close();
       return result;
@@ -413,20 +407,20 @@ namespace 小科狗配置
     /// <summary>
     /// 保存字体名称到指定表
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="fontName"></param>
     private void WriteFontToTable(string fontName)
     {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
+      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
       connection.Open();
       // 检查是否已存在该键，如果存在则更新，否则插入新记录
-      string checkQuery = $"SELECT COUNT(*) FROM '{tableName}' WHERE key = '字体'";
+      var checkQuery = $"SELECT COUNT(*) FROM '{_tableName}' WHERE key = '字体'";
       using SQLiteCommand checkCommand = new(checkQuery, connection);
-      long count = (long)checkCommand.ExecuteScalar();
+      var count = (long)checkCommand.ExecuteScalar();
 
       if (count > 0)
       {
         // 更新已存在的记录
-        string updateQuery = $"UPDATE '{tableName}' SET value = @font WHERE key = '字体'";
+        var updateQuery = $"UPDATE '{_tableName}' SET value = @font WHERE key = '字体'";
         using SQLiteCommand updateCommand = new(updateQuery, connection);
         updateCommand.Parameters.AddWithValue("@font", fontName);
         updateCommand.ExecuteNonQuery();
@@ -434,7 +428,7 @@ namespace 小科狗配置
       else
       {
         // 插入新记录
-        string insertQuery = $"INSERT INTO '{tableName}' (key, value) VALUES ('字体', @font)";
+        var insertQuery = $"INSERT INTO '{_tableName}' (key, value) VALUES ('字体', @font)";
         using SQLiteCommand insertCommand = new(insertQuery, connection);
         insertCommand.Parameters.AddWithValue("@font", fontName);
         insertCommand.ExecuteNonQuery();
@@ -447,15 +441,15 @@ namespace 小科狗配置
     // 第一页
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      if (currentPage == 0) return;
-      if (editingStatus == true){
+      if (_currentPage == 0 || textBox2.Text != "") return;
+      if (_editingStatus){
         MessageBox.Show("当前有数据没有提交。");
         return;
       }
 
-      currentPage = 0;
-      textBox.Text = $"{currentPage + 1}/{pageCount}";
-      DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+      _currentPage = 0;
+      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
       PopulateListView(dataTable);
     }
 
@@ -463,16 +457,16 @@ namespace 小科狗配置
     // 上一页
     private void Button1_Click(object sender, RoutedEventArgs e)
     {
-      if (currentPage == 0) return;
-      if (editingStatus == true)
+      if (_currentPage == 0 || textBox2.Text != "") return;
+      if (_editingStatus)
       {
         MessageBox.Show("当前有数据没有提交。");
         return;
       }
 
-      currentPage --;
-      textBox.Text = $"{currentPage + 1}/{pageCount}";
-      DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+      _currentPage --;
+      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
       PopulateListView(dataTable);
     }
 
@@ -480,63 +474,76 @@ namespace 小科狗配置
     private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
     {
       e.Handled = true;                                         // 阻止滚轮事件继续向上冒泡
-      if (editingStatus == true)
+      if (textBox2.Text != "") return;
+      if (_editingStatus)
       {
         MessageBox.Show("当前有数据没有提交。");
         return;
       }
-      int step = 1; // 设置滚动步长，默认每次滚动增加或减少1
-      if (Keyboard.Modifiers == ModifierKeys.Control) step = 5; // 如果按住Ctrl键，步长为5
-      if (Keyboard.Modifiers == ModifierKeys.Shift) step = 10;  // 如果按住Shift键，步长为10
-      int value = currentPage + 1;
 
-      if (e.Delta > 0 && value + step <= pageCount)             // 滚动向上
-        value += step;
-      if (e.Delta < 0 && value - step >= 1)                     // 滚动向下
-        value -= step;
+      var step = Keyboard.Modifiers switch
+      {
+        ModifierKeys.Control => 5 // 如果按住Ctrl键，步长为5
+       ,
+        ModifierKeys.Shift => 10 // 如果按住Shift键，步长为10
+       ,
+        _ => 1
+      };
 
-      currentPage  = value -1;
-      textBox.Text = $"{currentPage + 1}/{pageCount}";
-      DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+      var value = _currentPage + 1;
+
+      switch (e.Delta)
+      {
+        case > 0 when value + step <= _pageCount: // 滚动向上
+          value += step;
+          break;
+        case < 0 when value - step >= 1:         // 滚动向下
+          value          -= step;
+          break;
+      }
+
+      _currentPage  = value -1;
+      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
       PopulateListView(dataTable);
     }
 
     // 下一页
     private void Button2_Click(object sender, RoutedEventArgs e)
     {
-      if (currentPage == pageCount - 1) return;
-      if (editingStatus == true)
+      if (_currentPage == _pageCount - 1 || textBox2.Text != "") return;
+      if (_editingStatus)
       {
         MessageBox.Show("当前有数据没有提交。");
         return;
       }
 
-      currentPage ++;
-      textBox.Text = $"{currentPage + 1}/{pageCount}";
-      DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+      _currentPage ++;
+      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
       PopulateListView(dataTable);
     }
 
     // 最后页
     private void Button3_Click(object sender, RoutedEventArgs e)
     {
-      if (currentPage == pageCount -1) return;
-      if (editingStatus == true)
+      if (_currentPage == _pageCount - 1 || textBox2.Text != "") return;
+      if (_editingStatus)
       {
         MessageBox.Show("当前有数据没有提交。");
         return;
       }
 
-      currentPage = pageCount - 1;
-      textBox.Text = $"{currentPage + 1}/{pageCount}";
-      DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+      _currentPage = _pageCount - 1;
+      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
       PopulateListView(dataTable);
     }
 
     // 刷新
     private void Button4_Click(object sender, RoutedEventArgs e)
     {
-      if (editingStatus != true) return;
+      if (_editingStatus != true) return;
       var result = MessageBox.Show($"当前有数据没有提交，确定后将取消未提交的操作！", "刷新",
         MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
@@ -544,7 +551,7 @@ namespace 小科狗配置
 
       if (textBox2.Text != "")
       {
-        DataTable dataTable = GetTopRecordsFromTable(currentPage * pageLen, pageLen);
+        var dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
         PopulateListView(dataTable); 
       }
       else 搜索();
@@ -555,12 +562,12 @@ namespace 小科狗配置
     // 搜索
     private void Button5_Click(object sender, RoutedEventArgs e)
     {
-      if (editingStatus == true)
+      if (_editingStatus)
       {
         MessageBox.Show("当前有数据没有提交。");
         return;
       }
-      if (textBox2.Text == "" || comboBox.SelectedIndex < 0) return;
+      if (comboBox.SelectedIndex < 0) return;
 
       搜索();
     }
@@ -568,27 +575,38 @@ namespace 小科狗配置
     // 搜索
     private void TextBox2_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (textBox2.Text == "" || comboBox.SelectedIndex < 0) return;
+      if (comboBox.SelectedIndex < 0) return;
       搜索();
 
     }
 
     private void 搜索()
     {
-      string name = KeyOrValueCheckBox.IsChecked == true ? "value" : "key";
-      string str = textBox2.Text;
+      DataTable dataTable = new();
+      if (textBox2.Text == "")
+      {
+        dataTable = GetTopRecordsFromTable(_currentPage * _pageLen, _pageLen);
+        PopulateListView(dataTable);
+        var count = GetTableRowCount(_tableName);
+        textBox1.Text = $"词条数：{count}";
+        textBox.Text  = $"{_currentPage + 1}/{_pageCount}";
+        return;
+      }
 
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
-      string query = $"SELECT * FROM '{tableName}' WHERE {name} LIKE @str";
+      var name = keyOrValueCheckBox.IsChecked == true ? "value" : "key";
+      var str = textBox2.Text;
+
+      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+      var query = $"SELECT * FROM '{_tableName}' WHERE {name} LIKE @str";
       connection.Open();
 
       using SQLiteCommand command = new(query, connection);
       command.Parameters.AddWithValue("@str", $"{str}%");
 
-      using SQLiteDataReader reader = command.ExecuteReader();
-      DataTable dataTable = new();
+      using var reader = command.ExecuteReader();
       dataTable.Load(reader);
-
+      textBox1.Text = $"词条数：{dataTable.Rows.Count}";
+      textBox.Text  = $"1/1";
       PopulateListView(dataTable);
     }
 
@@ -599,7 +617,7 @@ namespace 小科狗配置
     /// <param name="b"></param>
     private void 状态切换(bool b)
     {
-      editingStatus           = b;
+      _editingStatus           = b;
       comboBox    .IsEnabled  = b;
       fontComboBox.IsEnabled  = b;
       textBox2    .IsReadOnly = b;
@@ -608,27 +626,13 @@ namespace 小科狗配置
 
 
 
-
-
-    private void GetList_button_Click(object sender, RoutedEventArgs e)
-    {
-
-      //listViewDataItems.Clear();
-      //LoadTableNames();
-    }
-
-
-    private void Reload_button_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
     // 标记删除选中项
     private void Del_button_Click(object sender, RoutedEventArgs e)
     {
       if (listView.SelectedItems.Count == 0) return;
       foreach (ListViewDataItem item in listView.SelectedItems)
       {
+        if(item.IsMod || item.IsAdd) return;
         item.IsDel = true;
       }
       状态切换(false);
@@ -639,9 +643,9 @@ namespace 小科狗配置
     {
       if (listView.Items.Count == 0) return;
 
-      if ((bool)AddOrModCheckBox.IsChecked)
+      if (addOrModCheckBox.IsChecked != null && (bool)addOrModCheckBox.IsChecked)
       {
-        if (currentPage != pageCount - 1)
+        if (_currentPage != _pageCount - 1)
         {
           MessageBox.Show("添加词条请转到最后一页。");
           return;
@@ -674,18 +678,14 @@ namespace 小科狗配置
     // 从剪切板接收数字
     private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
     {
-      if (e.DataObject.GetDataPresent(typeof(String)))
+      if (e.DataObject.GetDataPresent(typeof(string)))
       {
-        string text = (string)e.DataObject.GetData(typeof(String));
-        if (!Regex.IsMatch(text, "^[0-9]+$"))
-        {
+        var text = (string)e.DataObject.GetData(typeof(string));
+        if (text != null && !Regex.IsMatch(text, "^[0-9]+$"))
           e.CancelCommand();
-        }
       }
       else
-      {
         e.CancelCommand();
-      }
     }
 
 
@@ -694,9 +694,9 @@ namespace 小科狗配置
 
     private bool 是否有相同数据(string key, string value)
     {
-      using SQLiteConnection connection = new($"Data Source={dbPath};Version=3;");
+      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
       connection.Open();
-      string query = $"SELECT EXISTS(SELECT 1 FROM {tableName} WHERE key = @key AND value = @value)";
+      var query = $"SELECT EXISTS(SELECT 1 FROM {_tableName} WHERE key = @key AND value = @value)";
       using SQLiteCommand command = new(query, connection);
       command.Parameters.AddWithValue("@key", key);
       command.Parameters.AddWithValue("@value", value);
@@ -717,11 +717,11 @@ namespace 小科狗配置
 
       ListViewDataItem newItem = new()
       {
-        Num    = lastItem.Num + 1,
+        Number    = lastItem.Number + 1,
         Key    = keyTextBox.Text,
         Value  = valueTextBox.Text,
         Weight = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text),
-        FC     = fcTextBox.Text,
+        Fc     = fcTextBox.Text,
         IsAdd  = true
       };
 
@@ -740,7 +740,7 @@ namespace 小科狗配置
         item.Key    = keyTextBox.Text;
         item.Value  = valueTextBox.Text;
         item.Weight = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text);
-        item.FC     = fcTextBox.Text;
+        item.Fc     = fcTextBox.Text;
         item.IsMod  = true;
       }
       状态切换(false);
@@ -750,10 +750,18 @@ namespace 小科狗配置
     private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
       var cb = (CheckBox)sender;
-      if (cb.Name == "AddOrModCheckBox")
-        add_mod_button.Content = cb.IsChecked == true ? "添加" : "修改";
-      if (cb.Name == "KeyOrValueCheckBox")
-        textBox2.Tag = cb.IsChecked == true ? "搜索词条" : "搜索编码";
+      switch (cb.Name)
+      {
+        case "dbCheckBox":
+          open_Button.IsEnabled = cb.IsChecked != false;
+          break;
+        case "addOrModCheckBox":
+          add_Mod_Button.Content = cb.IsChecked == true ? "添加" : "修改";
+          break;
+        case "keyOrValueCheckBox":
+          textBox2.Tag = cb.IsChecked == true ? "搜索词条" : "搜索编码";
+          break;
+      }
     }
 
 
@@ -771,7 +779,7 @@ namespace 小科狗配置
     // 提交
     private void Submit_button_Click(object sender, RoutedEventArgs e)
     {
-      if (editingStatus != true) return;
+      if (_editingStatus != true) return;
       var result = MessageBox.Show($"要提交所有变更的数据吗？", "提交数据",
         MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
@@ -785,17 +793,24 @@ namespace 小科狗配置
     // 列表双击事件
     private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      var listView = sender as ListView;
-      if (listView.SelectedItem != null)
-      {
-        var item = listView.SelectedItem as ListViewDataItem;
-        keyTextBox.Text = item.Key;
-        valueTextBox.Text = item.Value;
-        weightTextBox.Text = item.Weight.ToString();
-        fcTextBox.Text = item.FC;
-      }
+      var view = sender as ListView;
+      if (view?.SelectedItem is not ListViewDataItem item) return;
+      if(item.IsDel || item.IsAdd) return;
+      keyTextBox.Text    = item.Key;
+      valueTextBox.Text  = item.Value;
+      weightTextBox.Text = item.Weight.ToString();
+      fcTextBox.Text     = item.Fc;
     }
 
+    private void Open_Button_Click(object sender, RoutedEventArgs e)
+    {
+      var openFileDialog = new OpenFileDialog();
+      openFileDialog.Filter = @"SQLite文件|*.db";
+      openFileDialog.Title  = @"选择一个SQLite文件";
 
+      if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+      var filePath = openFileDialog.FileName;
+      Console.WriteLine($@"文件路径：{filePath}");
+    }
   }
 }

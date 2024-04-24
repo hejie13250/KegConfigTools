@@ -12,7 +12,7 @@
   UseLayoutRounding="True"
   mc:Ignorable="d">
 
-  <Grid x:Name="Grid3">
+  <Grid x:Name="grid3">
 
     <ScrollViewer
       Grid.Row="1"

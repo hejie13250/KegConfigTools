@@ -309,8 +309,8 @@
       <DependentUpon>DoubleNumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="Class\GlassEffect.cs" />
-    <Compile Include="Page\ModiflyTable.xaml.cs">
-      <DependentUpon>ModiflyTable.xaml</DependentUpon>
+    <Compile Include="Page\ModifyTable.xaml.cs">
+      <DependentUpon>ModifyTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\KegStatistics.xaml.cs">
       <DependentUpon>KegStatistics.xaml</DependentUpon>
@@ -342,7 +342,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page\ModiflyTable.xaml">
+    <Page Include="Page\ModifyTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

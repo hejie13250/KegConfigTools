@@ -2,8 +2,8 @@
   x:Class="小科狗配置.App"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:System="clr-namespace:System;assembly=mscorlib"
   xmlns:local="clr-namespace:小科狗配置"
+  xmlns:system="clr-namespace:System;assembly=mscorlib"
   StartupUri="MainWindow.xaml">
   <Application.Resources>
 
@@ -1083,6 +1083,112 @@
     </Style>
 
 
+    <Style x:Key="DbCheckBox" TargetType="{x:Type CheckBox}">
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type CheckBox}">
+            <ControlTemplate.Resources>
+              <Storyboard x:Key="OnChecking">
+                <DoubleAnimationUsingKeyFrames
+                  BeginTime="00:00:00"
+                  Storyboard.TargetName="slider"
+                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
+                </DoubleAnimationUsingKeyFrames>
+              </Storyboard>
+              <Storyboard x:Key="OnUnchecking">
+                <DoubleAnimationUsingKeyFrames
+                  BeginTime="00:00:00"
+                  Storyboard.TargetName="slider"
+                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+
+              </Storyboard>
+            </ControlTemplate.Resources>
+
+            <DockPanel x:Name="dockPanel">
+              <ContentPresenter
+                VerticalAlignment="Center"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+              <Grid Width="66">
+                <Border
+                  x:Name="Border"
+                  BorderBrush="DarkGray"
+                  BorderThickness="2"
+                  CornerRadius="6">
+                  <Rectangle
+                    x:Name="rectangle"
+                    Fill="#90EE90"
+                    RadiusX="5"
+                    RadiusY="5" />
+                </Border>
+                <TextBlock
+                  Margin="2,2,1,0"
+                  HorizontalAlignment="Left"
+                  FontSize="14"
+                  Foreground="Black"
+                  Text="其它"
+                  TextWrapping="Wrap" />
+                <TextBlock
+                  Margin="1,2,2,0"
+                  HorizontalAlignment="Right"
+                  FontSize="14"
+                  Foreground="Black"
+                  Text="主库"
+                  TextWrapping="Wrap" />
+                <Border
+                  x:Name="slider"
+                  Width="32"
+                  Margin="2,2,2,2"
+                  HorizontalAlignment="Left"
+                  Background="#FFABADB3"
+                  BorderBrush="White"
+                  BorderThickness="1,1,1,1"
+                  CornerRadius="4,4,4,4"
+                  RenderTransformOrigin="0.5,0.5">
+                  <Border.RenderTransform>
+                    <TransformGroup>
+                      <ScaleTransform ScaleX="1" ScaleY="1" />
+                      <SkewTransform AngleX="0" AngleY="0" />
+                      <RotateTransform Angle="0" />
+                      <TranslateTransform X="0" Y="0" />
+                    </TransformGroup>
+                  </Border.RenderTransform>
+                </Border>
+              </Grid>
+            </DockPanel>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Trigger.ExitActions>
+                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
+                </Trigger.ExitActions>
+                <Trigger.EnterActions>
+                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
+                </Trigger.EnterActions>
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="rectangle" Property="Fill" Value="#90EE90" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="False">
+                <Setter TargetName="rectangle" Property="Fill" Value="#FFFF00" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="#FFABADB3" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
 
 
 
@@ -1192,9 +1298,9 @@
                     </ScrollViewer>
                   </Grid>
                 </Popup>
+
               </Grid>
             </Border>
-
           </ControlTemplate>
         </Setter.Value>
       </Setter>
@@ -1204,7 +1310,7 @@
 
 
 
-    <System:String x:Key="TextBoxText1" xml:space="preserve">小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。
+    <system:String x:Key="TextBoxText1" xml:space="preserve">小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。
 
 请按ctrl+F7改变跨进程通讯方式：命名管道和消息共享内存两种模式切换
 ctrl+F8:小科狗模式
@@ -1234,11 +1340,11 @@ F1-F12可以使用单键
 打开服务端监视器的快键是左Ctrl+右箭头+小键盘数字
 打开或关闭TSF调试信息的快键是左Ctrl+左箭头+右箭头
 
-进入英文长句态，以S或Q开头，后面跟数字，进入数字或金额大写转化</System:String>
+进入英文长句态，以S或Q开头，后面跟数字，进入数字或金额大写转化</system:String>
 
-    <System:String x:Key="TextBoxText2" xml:space="preserve">1、本工具用于小科狗输入平台配置输入方案，另一个用于将打字数据以图表的方式显示出来，主要是因太闲了打发时间才写了这个；
+    <system:String x:Key="TextBoxText2" xml:space="preserve">1、本工具用于小科狗输入平台配置输入方案，另一个用于将打字数据以图表的方式显示出来，主要是因太闲了打发时间才写了这个；
 2、小科狗配置开源地址：“https://github.com/hejie13250/KegConfigTools”；
-3、本人QQ：411718848，工具发布于 QQ 群：641858743。</System:String>
+3、本人QQ：411718848，工具发布于 QQ 群：641858743。</system:String>
 
 
 

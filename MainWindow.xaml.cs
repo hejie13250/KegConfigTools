@@ -88,8 +88,8 @@ namespace 小科狗配置
     // 获取版本号
     public string GetAssemblyVersion()
     {
-      Assembly assembly = Assembly.GetExecutingAssembly();
-      Version  version  = assembly.GetName().Version;
+      var assembly = Assembly.GetExecutingAssembly();
+      var  version  = assembly.GetName().Version;
       return   version.ToString().Substring(0, 5);
     }
     #endregion
@@ -97,9 +97,9 @@ namespace 小科狗配置
     #region 点击 RadioButton 跳转到指定的 GroupBox
     private void LeftRadioButton1_Click(object sender, RoutedEventArgs e)
     {
-      RadioButton radioButton = sender as RadioButton;
-      StackPanel stackPanel   = radioButton.Content as StackPanel;
-      TextBlock textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      var radioButton = sender as RadioButton;
+      var stackPanel   = radioButton.Content as StackPanel;
+      var textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
 
       switch (textBlock.Text)
       {
@@ -113,10 +113,10 @@ namespace 小科狗配置
 
     private void LeftRadioButton2_Click(object sender, RoutedEventArgs e)
     {
-      RadioButton radioButton = sender as RadioButton;
-      StackPanel stackPanel   = radioButton.Content as StackPanel;
-      TextBlock textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
-      string name             = textBlock.Text;
+      var radioButton = sender as RadioButton;
+      var stackPanel   = radioButton.Content as StackPanel;
+      var textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      var name             = textBlock.Text;
 
       if (_方案设置页面.Contains(name)) { 方案设置页面();   ScrollViewerOffset(name, 1); }
       if (_全局设置页面.Contains(name)) { 全局设置页面();   ScrollViewerOffset(name, 2); }
@@ -324,7 +324,7 @@ namespace 小科狗配置
 
     private TextBlock FindChildTextBlock(DependencyObject parent)
     {
-      for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+      for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
       {
         var child = VisualTreeHelper.GetChild(parent, i);
         if (child is TextBlock textBlock)

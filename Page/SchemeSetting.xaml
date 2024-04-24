@@ -12,7 +12,7 @@
   UseLayoutRounding="True"
   mc:Ignorable="d">
 
-  <Grid x:Name="Grid1">
+  <Grid x:Name="grid1">
     <Grid.RowDefinitions>
       <RowDefinition Height="35" />
       <RowDefinition Height="*" />
@@ -23,7 +23,7 @@
       VerticalAlignment="Top"
       Orientation="Horizontal">
       <Button
-        x:Name="getList_button"
+        x:Name="getList_Button"
         Height="24"
         Click="GetList_button_Click"
         Content="获取列表"
@@ -40,7 +40,7 @@
 
 
       <Button
-        x:Name="restor_default_button"
+        x:Name="restor_Default_Button"
         Height="24"
         Margin="5,0,0,0"
         Click="Restor_default_button_Click"
@@ -49,7 +49,7 @@
         ToolTip="从服务端重新读取当前方案的配置" />
 
       <Button
-        x:Name="loading_templates_button"
+        x:Name="loading_Templates_Button"
         Height="24"
         Margin="5,0,0,0"
         Click="Loading_templates_button_Click"
@@ -66,7 +66,7 @@
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="删除Keg.db内所有方案的配置" />-->
       <Button
-        x:Name="set_as_default_button"
+        x:Name="set_As_Default_Button"
         Height="24"
         Margin="5,0,0,0"
         Click="Set_as_default_Click"
@@ -75,7 +75,7 @@
         ToolTip="将当前方案设为所有进程默认方案" />
 
       <Button
-        x:Name="apply_button"
+        x:Name="apply_Button"
         Height="24"
         Margin="5,0,0,0"
         Click="Apply_button_Click"
@@ -83,7 +83,7 @@
         Style="{DynamicResource RoundButton2}"
         ToolTip="将当前方案内修改项更新到服务端" />
       <Button
-        x:Name="apply_save_button"
+        x:Name="apply_Save_Button"
         Height="24"
         Margin="5,0,0,0"
         Click="Apply_save_button_Click"
@@ -91,7 +91,7 @@
         Style="{DynamicResource RoundButton2}"
         ToolTip="点击后服务端将保存内存数据到到数据库" />
       <Button
-        x:Name="apply_all_button"
+        x:Name="apply_All_Button"
         Height="24"
         Margin="5,0,0,0"
         Click="Apply_All_button_Click"
@@ -155,7 +155,7 @@
                     VerticalAlignment="Center"
                     Content="候选窗圆角：" />
                   <Label
-                    x:Name="labe1l23_Copy9"
+                    x:Name="labe1L23_Copy9"
                     Grid.Row="3"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -178,7 +178,7 @@
                     Style="{DynamicResource CheckBoxStyle}"
                     TabIndex="3101" />
                   <CheckBox
-                    x:Name="hxc_checkBox"
+                    x:Name="hxc_CheckBox"
                     x:Uid="String1"
                     Grid.Row="1"
                     Grid.Column="1"
@@ -192,7 +192,7 @@
                     TabIndex="3102"
                     Unchecked="Hxc_checkBox_Unchecked" />
                   <CheckBox
-                    x:Name="hxcbj_checkBox"
+                    x:Name="hxcbj_CheckBox"
                     x:Uid="String1"
                     Grid.Row="2"
                     Grid.Column="1"
@@ -213,7 +213,7 @@
                     Width="50"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    IsEnabled="{Binding IsChecked, ElementName=hxc_checkBox}"
+                    IsEnabled="{Binding IsChecked, ElementName=hxc_CheckBox}"
                     MaxValue="50"
                     MinValue="1"
                     TabIndex="3103"
@@ -227,7 +227,7 @@
                     Width="50"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    IsEnabled="{Binding IsChecked, ElementName=hxcbj_checkBox}"
+                    IsEnabled="{Binding IsChecked, ElementName=hxcbj_CheckBox}"
                     MaxValue="50"
                     MinValue="1"
                     TabIndex="3105"
@@ -250,25 +250,25 @@
                     Value="2" />
 
                   <Label
-                    x:Name="color_label_001"
+                    x:Name="color_Label_001"
                     Grid.Row="4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="嵌入下划线色：" />
                   <Label
-                    x:Name="color_label_002"
+                    x:Name="color_Label_002"
                     Grid.Row="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="光标色：" />
                   <Label
-                    x:Name="color_label_004"
+                    x:Name="color_Label_004"
                     Grid.Row="7"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="候选窗边框色：" />
                   <CheckBox
-                    x:Name="hxcds_checkBox"
+                    x:Name="hxcds_CheckBox"
                     x:Uid="String1"
                     Grid.Row="8"
                     Grid.Column="1"
@@ -282,37 +282,37 @@
                     ToolTip="选中后使用对话框背景色"
                     Unchecked="Hxcds_checkBox_Unchecked" />
                   <Label
-                    x:Name="color_label_005"
+                    x:Name="color_Label_005"
                     Grid.Row="8"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="候选窗背景底色：" />
                   <Label
-                    x:Name="color_label_006"
+                    x:Name="color_Label_006"
                     Grid.Row="9"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="候选选中背景色：" />
                   <Label
-                    x:Name="color_label_007"
+                    x:Name="color_Label_007"
                     Grid.Row="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="候选选中字体色：" />
                   <Label
-                    x:Name="color_label_003"
+                    x:Name="color_Label_003"
                     Grid.Row="6"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="分隔线色：" />
                   <Label
-                    x:Name="color_label_008"
+                    x:Name="color_Label_008"
                     Grid.Row="11"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="编码字体色：" />
                   <Label
-                    x:Name="color_label_009"
+                    x:Name="color_Label_009"
                     x:Uid="String1"
                     Grid.Row="12"
                     HorizontalAlignment="Left"
@@ -321,7 +321,7 @@
                     TabIndex="3115" />
 
                   <Label
-                    x:Name="color_label_1"
+                    x:Name="color_Label_1"
                     Grid.Row="4"
                     Grid.Column="2"
                     Width="50"
@@ -337,7 +337,7 @@
                     TabIndex="3107"
                     Tag="" />
                   <Label
-                    x:Name="color_label_2"
+                    x:Name="color_Label_2"
                     Grid.Row="5"
                     Grid.Column="2"
                     Width="50"
@@ -353,7 +353,7 @@
                     TabIndex="3105"
                     Tag="" />
                   <Label
-                    x:Name="color_label_3"
+                    x:Name="color_Label_3"
                     Grid.Row="6"
                     Grid.Column="2"
                     Width="50"
@@ -368,7 +368,7 @@
                     Style="{StaticResource RoundedLabel}"
                     TabIndex="3109" />
                   <Label
-                    x:Name="color_label_4"
+                    x:Name="color_Label_4"
                     Grid.Row="7"
                     Grid.Column="2"
                     Width="50"
@@ -384,7 +384,7 @@
                     TabIndex="3104"
                     Tag="" />
                   <Label
-                    x:Name="color_label_5"
+                    x:Name="color_Label_5"
                     Grid.Row="8"
                     Grid.Column="2"
                     Width="50"
@@ -400,7 +400,7 @@
                     TabIndex="3111"
                     Tag="" />
                   <Label
-                    x:Name="color_label_6"
+                    x:Name="color_Label_6"
                     Grid.Row="9"
                     Grid.Column="2"
                     Width="50"
@@ -415,7 +415,7 @@
                     Style="{StaticResource RoundedLabel}"
                     TabIndex="3112" />
                   <Label
-                    x:Name="color_label_7"
+                    x:Name="color_Label_7"
                     Grid.Row="10"
                     Grid.Column="2"
                     Width="50"
@@ -432,7 +432,7 @@
                     Tag="" />
 
                   <Label
-                    x:Name="color_label_8"
+                    x:Name="color_Label_8"
                     Grid.Row="11"
                     Grid.Column="2"
                     Width="50"
@@ -448,7 +448,7 @@
                     TabIndex="3114"
                     Tag="" />
                   <Label
-                    x:Name="color_label_9"
+                    x:Name="color_Label_9"
                     Grid.Row="12"
                     Grid.Column="2"
                     Width="50"
@@ -490,115 +490,115 @@
                           VerticalAlignment="Center"
                           Text="小科狗" />
                         <Label
-                          x:Name="hxz_label_gb"
+                          x:Name="hxz_Label_Gb"
                           Width="2"
                           Height="12"
                           Margin="1,0,0,0"
                           HorizontalAlignment="Left"
-                          BorderBrush="{Binding ElementName=color_label_2, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                          BorderBrush="{Binding ElementName=color_Label_2, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                           BorderThickness="2" />
                       </StackPanel>
                       <StackPanel>
                         <Label
-                          x:Name="hxz_label_xhx"
+                          x:Name="hxz_Label_Xhx"
                           Width="14"
                           Height="2"
                           Margin="33,0,0,0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
-                          BorderBrush="{Binding ElementName=color_label_1, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                          BorderBrush="{Binding ElementName=color_Label_1, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                           BorderThickness="0,2" />
                       </StackPanel>
                       <Border
-                        x:Name="hxk_border"
+                        x:Name="hxk_Border"
                         Width="120"
                         Margin="30,4,0,0"
                         Padding="0,0,0,5"
                         HorizontalAlignment="Left"
-                        Background="{Binding ElementName=color_label_5, Path=Background, UpdateSourceTrigger=PropertyChanged}"
-                        BorderBrush="{Binding ElementName=color_label_4, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{Binding ElementName=color_Label_5, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                        BorderBrush="{Binding ElementName=color_Label_4, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                         BorderThickness="{Binding ElementName=nud13, Path=Value, UpdateSourceTrigger=PropertyChanged}"
                         CornerRadius="{Binding ElementName=nud11, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                         <StackPanel VerticalAlignment="Top" Orientation="Vertical">
 
                           <TextBlock
-                            x:Name="hxz_label_0"
+                            x:Name="hxz_Label_0"
                             Height="auto"
                             Margin="10,3,0,3"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            Foreground="{Binding ElementName=color_label_8, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding ElementName=color_Label_8, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="mg" />
 
                           <Label
-                            x:Name="hxz_label_fgx"
+                            x:Name="hxz_Label_Fgx"
                             Height="1"
                             Margin="5,0,5,3"
                             VerticalAlignment="Center"
-                            BorderBrush="{Binding ElementName=color_label_3, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            BorderBrush="{Binding ElementName=color_Label_3, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             BorderThickness="0,1,0,0" />
 
                           <TextBlock
-                            x:Name="hxz_label_1"
+                            x:Name="hxz_Label_1"
                             Height="auto"
                             Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="18"
-                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding ElementName=color_Label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="1. 光" />
                           <TextBlock
-                            x:Name="hxz_label_2"
+                            x:Name="hxz_Label_2"
                             Height="auto"
                             Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
-                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding ElementName=color_Label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="2. 周 d" />
                           <Border
-                            x:Name="hxz_border"
+                            x:Name="hxz_Border"
                             Margin="5,1,5,0"
-                            Background="{Binding ElementName=color_label_6, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Background="{Binding ElementName=color_Label_6, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             CornerRadius="{Binding ElementName=nud12, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                             <StackPanel Orientation="Horizontal">
                               <TextBlock
-                                x:Name="hxz_label_3"
+                                x:Name="hxz_Label_3"
                                 Height="auto"
                                 Margin="5,1,0,1"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 FontSize="18"
-                                Foreground="{Binding ElementName=color_label_7, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                                Foreground="{Binding ElementName=color_Label_7, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                                 Text="3. 狗 j" />
                             </StackPanel>
                           </Border>
                           <TextBlock
-                            x:Name="hxz_label_4"
+                            x:Name="hxz_Label_4"
                             Height="auto"
                             Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
-                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding ElementName=color_Label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="4. 硅 g" />
                           <TextBlock
-                            x:Name="hxz_label_5"
+                            x:Name="hxz_Label_5"
                             Height="auto"
                             Margin="10,1,0,1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
-                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding ElementName=color_Label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="5. 冉 t" />
                           <TextBlock
-                            x:Name="hxz_label_6"
+                            x:Name="hxz_Label_6"
                             Height="auto"
                             Margin="10,1,0,3"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="18"
-                            Foreground="{Binding ElementName=color_label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding ElementName=color_Label_9, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                             Text="6. 磋 u" />
                         </StackPanel>
                       </Border>
@@ -632,7 +632,7 @@
                     </ListBox>
                     <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
                       <TextBox
-                        x:Name="color_scheme_name_textBox"
+                        x:Name="color_Scheme_Name_TextBox"
                         Width="108"
                         Height="24"
                         Margin="0,0,5,0"

@@ -82,7 +82,7 @@
       </Thumb>
     </Canvas>
     <Slider
-      x:Name="hue_slider"
+      x:Name="hue_Slider"
       Width="24"
       Height="{Binding ElementName=canvas, Path=Height, UpdateSourceTrigger=PropertyChanged}"
       Margin="6,0,0,0"

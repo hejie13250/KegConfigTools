@@ -13,7 +13,7 @@
   UseLayoutRounding="True"
   mc:Ignorable="d">
 
-  <Grid x:Name="Grid2">
+  <Grid x:Name="grid2">
     <Grid.RowDefinitions>
       <RowDefinition Height="35" />
       <RowDefinition Height="*" />
@@ -26,7 +26,7 @@
       Orientation="Horizontal">
 
       <Button
-        x:Name="default_button"
+        x:Name="default_Button"
         Width="70"
         Height="24"
         Click="Default_button_Click"
@@ -34,7 +34,7 @@
         Style="{DynamicResource RoundButton2}"
         ToolTip="从备份文件“Keg_bak.txt”中恢复全局设置" />
       <Button
-        x:Name="apply2_button"
+        x:Name="apply2_Button"
         Width="70"
         Height="24"
         Margin="5,0,0,0"
@@ -43,7 +43,7 @@
         Style="{DynamicResource RoundButton2}"
         ToolTip="从“全局设置.json”中读取全局设置" />
       <Button
-        x:Name="apply3_button"
+        x:Name="apply3_Button"
         Width="70"
         Height="24"
         Margin="5,0,0,0"
@@ -100,7 +100,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top">
                   <Image
-                    x:Name="DisplayImage"
+                    x:Name="displayImage"
                     Width="175"
                     Height="125"
                     Margin="3,3,3,3" />
@@ -148,19 +148,19 @@
                   VerticalAlignment="Center"
                   Content="显示中英以及大小写状态：" />
                 <Label
-                  x:Name="color_label_01"
+                  x:Name="color_Label_01"
                   Grid.Row="4"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="提示文本中文字体色：" />
                 <Label
-                  x:Name="color_label_02"
+                  x:Name="color_Label_02"
                   Grid.Row="5"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="提示文本英文字体色：" />
                 <Label
-                  x:Name="color_label_1"
+                  x:Name="color_Label_1"
                   Grid.Row="4"
                   Grid.Column="1"
                   Width="50"
@@ -176,7 +176,7 @@
                   TabIndex="3107"
                   Tag="" />
                 <Label
-                  x:Name="color_label_2"
+                  x:Name="color_Label_2"
                   Grid.Row="5"
                   Grid.Column="1"
                   Width="50"
@@ -975,14 +975,14 @@
       VerticalAlignment="Top"
       Orientation="Horizontal">
       <Button
-        x:Name="add_button3"
+        x:Name="add_Button3"
         Width="auto"
         Height="24"
         Click="Add_button_Click"
         Content="添加在线查找"
         Style="{DynamicResource RoundButton2}" />
       <Button
-        x:Name="add_button8"
+        x:Name="add_Button8"
         Width="auto"
         Height="24"
         Margin="10,0,0,0"
@@ -990,7 +990,7 @@
         Content="添加外部工具"
         Style="{DynamicResource RoundButton2}" />
       <Button
-        x:Name="add_button4"
+        x:Name="add_Button4"
         Width="auto"
         Height="24"
         Margin="10,0,0,0"
@@ -998,7 +998,7 @@
         Content="添加快捷命令"
         Style="{DynamicResource RoundButton2}" />
       <Button
-        x:Name="add_button5"
+        x:Name="add_Button5"
         Width="auto"
         Height="24"
         Margin="10,0,0,0"
@@ -1037,7 +1037,7 @@
       </ComboBox>
 
       <Button
-        x:Name="add_button6"
+        x:Name="add_Button6"
         Width="auto"
         Height="24"
         Margin="10,0,0,0"
@@ -1046,7 +1046,7 @@
         Style="{DynamicResource RoundButton2}" />
 
       <Button
-        x:Name="add_button7"
+        x:Name="add_Button7"
         Width="auto"
         Height="24"
         Margin="10,0,0,0"

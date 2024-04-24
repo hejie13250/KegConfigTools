@@ -58,14 +58,14 @@ namespace 小科狗配置
 
     private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      DoubleNumericUpDown numericUpDown = (DoubleNumericUpDown)d;
-      double oldValue = (double)e.OldValue;
-      double newValue = (double)e.NewValue;
+      var numericUpDown = (DoubleNumericUpDown)d;
+      var oldValue = (double)e.OldValue;
+      var newValue = (double)e.NewValue;
 
       if (numericUpDown.ValueChanged != null)
       {
         // 创建事件参数并调用事件
-        RoutedPropertyChangedEventArgs<double> args = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue);
+        var args = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue);
         numericUpDown.ValueChanged(numericUpDown, args);
       }
     }
@@ -87,7 +87,7 @@ namespace 小科狗配置
 
     private void UserControl_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-      double step = 0.1; // 设置滚动步长，默认每次滚动增加或减少0.1
+      var step = 0.1; // 设置滚动步长，默认每次滚动增加或减少0.1
       if (Keyboard.Modifiers == ModifierKeys.Control) step *= 0.1; // 如果按住Ctrl键，则步长 0.01
 
       if (e.Delta > 0) // 滚动向上

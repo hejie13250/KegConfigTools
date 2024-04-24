@@ -96,12 +96,12 @@ namespace 小科狗配置
         r = g = b = (byte)(v * 255);
       else
       {
-        double hue = h * 6.0;
-        int i = (int)Math.Floor(hue);
-        double f = hue - i;
-        double p = v * (1.0 - s);
-        double q = v * (1.0 - (s * f));
-        double t = v * (1.0 - (s * (1.0 - f)));
+        var hue = h * 6.0;
+        var i = (int)Math.Floor(hue);
+        var f = hue - i;
+        var p = v * (1.0 - s);
+        var q = v * (1.0 - (s * f));
+        var t = v * (1.0 - (s * (1.0 - f)));
         switch (i)
         {
           case 0:
@@ -143,22 +143,22 @@ namespace 小科狗配置
     // 取色器更新取色位图
     private void UpdateBitmap()
     {
-      double hue = hue_slider.Value / 360; // Hue 值现在来自滑动条
+      var hue = hue_Slider.Value / 360; // Hue 值现在来自滑动条
       Bitmap.Lock();
-      IntPtr backBuffer = Bitmap.BackBuffer;
-      int stride = Bitmap.BackBufferStride;
+      var backBuffer = Bitmap.BackBuffer;
+      var stride = Bitmap.BackBufferStride;
 
-      for (int y = 0; y < height; y++)
+      for (var y = 0; y < height; y++)
       {
-        for (int x = 0; x < width; x++)
+        for (var x = 0; x < width; x++)
         {
-          double normalizedX = (double)x / (width - 1);
-          double normalizedY = (double)y / (height - 1);
+          var normalizedX = (double)x / (width - 1);
+          var normalizedY = (double)y / (height - 1);
 
           // 传递给HSVToRGB函数的Hue值现在是0-360度的范围
-          HSVToRGB(hue, normalizedX, 1 - normalizedY, out byte r, out byte g, out byte b);
+          HSVToRGB(hue, normalizedX, 1 - normalizedY, out var r, out var g, out var b);
 
-          int pixelOffset = y * stride + x * 4;
+          var pixelOffset = y * stride + x * 4;
           Marshal.WriteByte(backBuffer, pixelOffset + 0, b);
           Marshal.WriteByte(backBuffer, pixelOffset + 1, g);
           Marshal.WriteByte(backBuffer, pixelOffset + 2, r);
@@ -180,8 +180,8 @@ namespace 小科狗配置
     private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       var canvasPosition = e.GetPosition(canvas);
-      double newLeft = canvasPosition.X - thumb.ActualWidth / 2;
-      double newTop = canvasPosition.Y - thumb.ActualHeight / 2;
+      var newLeft = canvasPosition.X - thumb.ActualWidth / 2;
+      var newTop = canvasPosition.Y - thumb.ActualHeight / 2;
 
       SetThumbPosition(newLeft, newTop);
     }
@@ -189,8 +189,8 @@ namespace 小科狗配置
     // 画布 canvas 的 thumb 移动取色
     private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
     {
-      double newLeft = Canvas.GetLeft(thumb) + e.HorizontalChange;
-      double newTop = Canvas.GetTop(thumb) + e.VerticalChange;
+      var newLeft = Canvas.GetLeft(thumb) + e.HorizontalChange;
+      var newTop = Canvas.GetTop(thumb) + e.VerticalChange;
 
       SetThumbPosition(newLeft, newTop);
     }
@@ -199,8 +199,8 @@ namespace 小科狗配置
     {
 
       // 计算画布边界
-      double canvasRight = canvas.ActualWidth - thumb.ActualWidth + 5;
-      double canvasBottom = canvas.ActualHeight - thumb.ActualHeight + 5;
+      var canvasRight = canvas.ActualWidth - thumb.ActualWidth + 5;
+      var canvasBottom = canvas.ActualHeight - thumb.ActualHeight + 5;
 
       // 限制 Thumb 在画布内部移动
       newLeft = Math.Max(-6, Math.Min(newLeft, canvasRight));
@@ -218,15 +218,15 @@ namespace 小科狗配置
 
       if (thumbPosition.HasValue && thumbPosition.Value.X >= 0 && thumbPosition.Value.X < Bitmap.PixelWidth && thumbPosition.Value.Y >= 0 && thumbPosition.Value.Y < Bitmap.PixelHeight)
       {
-        int xCoordinate = (int)thumbPosition.Value.X;
-        int yCoordinate = (int)thumbPosition.Value.Y;
+        var xCoordinate = (int)thumbPosition.Value.X;
+        var yCoordinate = (int)thumbPosition.Value.Y;
 
-        int stride = Bitmap.PixelWidth * (Bitmap.Format.BitsPerPixel / 8);
-        byte[] pixels = new byte[Bitmap.PixelHeight * stride];
+        var stride = Bitmap.PixelWidth * (Bitmap.Format.BitsPerPixel / 8);
+        var pixels = new byte[Bitmap.PixelHeight * stride];
         Bitmap.CopyPixels(new Int32Rect(0, 0, Bitmap.PixelWidth, Bitmap.PixelHeight), pixels, stride, 0);
 
-        int pixelIndex = (yCoordinate * stride) + (xCoordinate * (Bitmap.Format.BitsPerPixel / 8));
-        Color color = Color.FromArgb(pixels[pixelIndex + 3], pixels[pixelIndex + 2], pixels[pixelIndex + 1], pixels[pixelIndex]);
+        var pixelIndex = (yCoordinate * stride) + (xCoordinate * (Bitmap.Format.BitsPerPixel / 8));
+        var color = Color.FromArgb(pixels[pixelIndex + 3], pixels[pixelIndex + 2], pixels[pixelIndex + 1], pixels[pixelIndex]);
 
         // 更新Thumb的BorderBrush，取反色
         thumb.BorderBrush = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
@@ -247,7 +247,7 @@ namespace 小科狗配置
       {
         var point = e.GetPosition(slider);
         // 计算点击位置相对于Slider的比例
-        double newValue = (point.Y / slider.ActualHeight) * slider.Maximum;
+        var newValue = (point.Y / slider.ActualHeight) * slider.Maximum;
         slider.Value = slider.Maximum - newValue;  // 反转值，因为Slider垂直方向是从上到下
       }
     }
@@ -262,13 +262,13 @@ namespace 小科狗配置
     // Hue_slider 滚轮事件
     private void Hue_slider_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-      int step = 5;
+      var step = 5;
       if (Keyboard.Modifiers == ModifierKeys.Control) step *= -10;
 
-      if (e.Delta > 0 && hue_slider.Value + step <= hue_slider.Maximum)
-        hue_slider.Value += step;
-      else if (e.Delta < 0 && hue_slider.Value - step >= hue_slider.Minimum)
-        hue_slider.Value -= step;
+      if (e.Delta > 0 && hue_Slider.Value + step <= hue_Slider.Maximum)
+        hue_Slider.Value += step;
+      else if (e.Delta < 0 && hue_Slider.Value - step >= hue_Slider.Minimum)
+        hue_Slider.Value -= step;
       // 阻止滚轮事件继续向上冒泡
       e.Handled = true;
     }

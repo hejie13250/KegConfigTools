@@ -78,13 +78,13 @@ namespace 小科狗配置
     public KegStatistics()
     {
       InitializeComponent();
-      DZcheckBox.Click += CheckBox_Click;
-      JJcheckBox.Click += CheckBox_Click;
-      SPcheckBox.Click += CheckBox_Click;
-      SCcheckBox.Click += CheckBox_Click;
-      SDcheckBox.Click += CheckBox_Click;
-      MCcheckBox.Click += CheckBox_Click;
-      RQcheckBox.Click += CheckBox_Click2;
+      dZcheckBox.Click += CheckBox_Click;
+      jJcheckBox.Click += CheckBox_Click;
+      sPcheckBox.Click += CheckBox_Click;
+      sCcheckBox.Click += CheckBox_Click;
+      sDcheckBox.Click += CheckBox_Click;
+      mCcheckBox.Click += CheckBox_Click;
+      rQcheckBox.Click += CheckBox_Click2;
       comboBox.SelectionChanged += ComboBox_SelectionChanged;
 
       DataContext = new ViewModel();
@@ -98,17 +98,17 @@ namespace 小科狗配置
     // 读配置项
     private void ReadConfig()
     {
-      DZcheckBox.IsChecked = Base.GetValue("dzsjtj", "dz") == "1";
-      JJcheckBox.IsChecked = Base.GetValue("dzsjtj", "jj") == "1";
-      SPcheckBox.IsChecked = Base.GetValue("dzsjtj", "sp") == "1";
-      SCcheckBox.IsChecked = Base.GetValue("dzsjtj", "sc") == "1";
-      SDcheckBox.IsChecked = Base.GetValue("dzsjtj", "sd") == "1";
-      MCcheckBox.IsChecked = Base.GetValue("dzsjtj", "mc") == "1";
-      RQcheckBox.IsChecked = Base.GetValue("dzsjtj", "rq") == "1";
-      bool isNumberValid = double.TryParse(Base.GetValue("dzsjtj", "xs"), out double xs);
+      dZcheckBox.IsChecked = Base.GetValue("dzsjtj", "dz") == "1";
+      jJcheckBox.IsChecked = Base.GetValue("dzsjtj", "jj") == "1";
+      sPcheckBox.IsChecked = Base.GetValue("dzsjtj", "sp") == "1";
+      sCcheckBox.IsChecked = Base.GetValue("dzsjtj", "sc") == "1";
+      sDcheckBox.IsChecked = Base.GetValue("dzsjtj", "sd") == "1";
+      mCcheckBox.IsChecked = Base.GetValue("dzsjtj", "mc") == "1";
+      rQcheckBox.IsChecked = Base.GetValue("dzsjtj", "rq") == "1";
+      var isNumberValid = double.TryParse(Base.GetValue("dzsjtj", "xs"), out var xs);
       nud.Value = isNumberValid ? xs : 4.5;
 
-      isNumberValid = int.TryParse(Base.GetValue("dzsjtj", "ts"), out int xxs);
+      isNumberValid = int.TryParse(Base.GetValue("dzsjtj", "ts"), out var xxs);
       comboBox.SelectedIndex = isNumberValid ? xxs : 0;
     }
     #endregion
@@ -122,8 +122,8 @@ namespace 小科狗配置
       string str;
       try
       {
-        IntPtr hWnd = FindWindow("CKegServer_0", null);
-        SendMessageTimeout(hWnd, KWM_GETALLZSTJ, IntPtr.Zero, IntPtr.Zero, flags, timeout, out IntPtr pdwResult);
+        var hWnd = FindWindow("CKegServer_0", null);
+        SendMessageTimeout(hWnd, KWM_GETALLZSTJ, IntPtr.Zero, IntPtr.Zero, flags, timeout, out var pdwResult);
         str = Clipboard.GetText();
       }
       catch
@@ -132,14 +132,14 @@ namespace 小科狗配置
         return;
       }
 
-      string pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
+      var pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
       matches = Regex.Matches(str, pattern);
     }
 
     // 数据处理
     private void SetData()
     {
-      int count = matches.Count;
+      var count = matches.Count;
 
       日期 = new string[count];
       字数 = new double[count];
@@ -150,10 +150,10 @@ namespace 小科狗配置
       速度 = new double[count];
       码长 = new double[count];
 
-      if ((bool)RQcheckBox.IsChecked)
+      if ((bool)rQcheckBox.IsChecked)
       {
-        int n = -1;
-        foreach (Match match in matches.Cast<Match>())
+        var n = -1;
+        foreach (var match in matches.Cast<Match>())
         {
           n++;  // 正序
           UpData(match, n);
@@ -161,8 +161,8 @@ namespace 小科狗配置
       }
       else
       {
-        int n = count;
-        foreach (Match match in matches.Cast<Match>())
+        var n = count;
+        foreach (var match in matches.Cast<Match>())
         {
           n--;  // 倒序
           UpData(match, n);
@@ -186,9 +186,9 @@ namespace 小科狗配置
     // 更新数据
     private void UpData(Match match, int n)
     {
-      string year = match.Groups[1].Value.Substring(0, 4);
-      string month = match.Groups[1].Value.Substring(4, 2);
-      string day = match.Groups[1].Value.Substring(6, 2);
+      var year = match.Groups[1].Value.Substring(0, 4);
+      var month = match.Groups[1].Value.Substring(4, 2);
+      var day = match.Groups[1].Value.Substring(6, 2);
 
       日期[n] = $"{year}-{month}-{day}";
       字数[n] = double.Parse(match.Groups[2].Value);
@@ -205,7 +205,7 @@ namespace 小科狗配置
     private void UpViewModelData(打字统计数据 全部数据)
     {
 
-      for (int i = 0; i < 时长.Length; i++)
+      for (var i = 0; i < 时长.Length; i++)
       {
         全部数据.时长[i] = Math.Round(全部数据.时长[i], 2);
         全部数据.速度[i] = Math.Round(全部数据.速度[i], 2);
@@ -220,7 +220,7 @@ namespace 小科狗配置
       else
       {
         int startIndex;
-        int count = matches.Count > 15 ? ts : matches.Count;
+        var count = matches.Count > 15 ? ts : matches.Count;
         startIndex = matches.Count > 15 ? matches.Count - ts : 0;
 
         数据片段.日期 = 全部数据.日期.Skip(startIndex).Take(count).ToArray(); ;
@@ -244,7 +244,7 @@ namespace 小科狗配置
               GeometrySize = 0, //圆点尺寸
               //LineSmoothness = 0, // 0为直线，1为圆弧
               //DataPadding = new LvcPoint(-200, 0),
-              IsVisible = (bool)DZcheckBox.IsChecked, // 显示/隐藏
+              IsVisible = (bool)dZcheckBox.IsChecked, // 显示/隐藏
           },
           new LineSeries<double>
           {
@@ -252,7 +252,7 @@ namespace 小科狗配置
               Name = "字数（个）",
               //Fill = null,
               GeometrySize = 0,
-              IsVisible = (bool)JJcheckBox.IsChecked
+              IsVisible = (bool)jJcheckBox.IsChecked
 
           },
           new LineSeries<double>
@@ -261,7 +261,7 @@ namespace 小科狗配置
               Name = "上屏（个）",
               //Fill = null,
               GeometrySize = 0,
-              IsVisible = (bool)SPcheckBox.IsChecked
+              IsVisible = (bool)sPcheckBox.IsChecked
           },
           new LineSeries<double>
           {
@@ -269,7 +269,7 @@ namespace 小科狗配置
               Name = "用时（秒）",
               //Fill = null,
               GeometrySize = 0,
-              IsVisible = (bool)SCcheckBox.IsChecked
+              IsVisible = (bool)sCcheckBox.IsChecked
           },
           new LineSeries<double>
           {
@@ -277,7 +277,7 @@ namespace 小科狗配置
               Name = "速度（字/分）",
               //Fill = null,
               GeometrySize = 0,
-              IsVisible = (bool)SDcheckBox.IsChecked
+              IsVisible = (bool)sDcheckBox.IsChecked
           },
           new LineSeries<double>
           {
@@ -285,7 +285,7 @@ namespace 小科狗配置
               Name = "码长（码）",
               Fill = null,
               GeometrySize = 0,
-              IsVisible = (bool)MCcheckBox.IsChecked
+              IsVisible = (bool)mCcheckBox.IsChecked
           },
 
         },
@@ -319,36 +319,36 @@ namespace 小科狗配置
         },
       };
 
-      LiveCharts.Series = viewModel.Series;
-      LiveCharts.XAxes = viewModel.XAxes;
-      LiveCharts.YAxes = viewModel.YAxes;
+      liveCharts.Series = viewModel.Series;
+      liveCharts.XAxes = viewModel.XAxes;
+      liveCharts.YAxes = viewModel.YAxes;
     }
 
     // 更新控件上的值
     private void SetControlData()
     {
-      Match match = matches[0]; // 今天的数据
+      var match = matches[0]; // 今天的数据
 
-      double zs = double.Parse(match.Groups[2].Value); //字数
-      double jj = double.Parse(match.Groups[3].Value); //击键
-      double sp = double.Parse(match.Groups[4].Value); //上屏
-      double sc = double.Parse(match.Groups[5].Value); //时长
-      double sd = (double)(zs / (sc / 60 + nud.Value * sp * (sc / 60 / jj)));  //速度
-      double mc = Math.Round(jj / zs, 1);  //码长
+      var zs = double.Parse(match.Groups[2].Value); //字数
+      var jj = double.Parse(match.Groups[3].Value); //击键
+      var sp = double.Parse(match.Groups[4].Value); //上屏
+      var sc = double.Parse(match.Groups[5].Value); //时长
+      var sd = (double)(zs / (sc / 60 + nud.Value * sp * (sc / 60 / jj)));  //速度
+      var mc = Math.Round(jj / zs, 1);  //码长
 
       // 累计的数据
-      double ljzs = double.Parse(match.Groups[6].Value); //累计字数
+      var ljzs = double.Parse(match.Groups[6].Value); //累计字数
       double ljjj = 0;  //累计击键
       double ljsp = 0;  //累计上屏
       double ljsc = 0;  //累计时长
-      for (int i = 0; i < 字数.Length; i++)
+      for (var i = 0; i < 字数.Length; i++)
       {
         ljjj += 击键[i];
         ljsp += 上屏[i];
         ljsc += 时长[i];
       }
-      double ljsd = (double)(ljzs / (ljsc / 60 + nud.Value * ljsp * (ljsc / 60 / ljjj)));  //累计速度
-      double ljmc = Math.Round(ljjj / ljzs, 1);  //累计码长
+      var ljsd = (double)(ljzs / (ljsc / 60 + nud.Value * ljsp * (ljsc / 60 / ljjj)));  //累计速度
+      var ljmc = Math.Round(ljjj / ljzs, 1);  //累计码长
 
       zsTextBlock.Text = String.Format("{0:#,###0}", zs); //字数
       jjTextBlock.Text = String.Format("{0:#,###0}", jj); //击键
@@ -370,12 +370,12 @@ namespace 小科狗配置
     [Obsolete]
     private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
-      if ((bool)DZcheckBox.IsChecked) { Base.SetValue("dzsjtj", "dz", "1"); } else Base.SetValue("dzsjtj", "dz", "0");
-      if ((bool)JJcheckBox.IsChecked) { Base.SetValue("dzsjtj", "jj", "1"); } else Base.SetValue("dzsjtj", "jj", "0");
-      if ((bool)SPcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sp", "1"); } else Base.SetValue("dzsjtj", "sp", "0");
-      if ((bool)SCcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sc", "1"); } else Base.SetValue("dzsjtj", "sc", "0");
-      if ((bool)SDcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sd", "1"); } else Base.SetValue("dzsjtj", "sd", "0");
-      if ((bool)MCcheckBox.IsChecked) { Base.SetValue("dzsjtj", "mc", "1"); } else Base.SetValue("dzsjtj", "mc", "0");
+      if ((bool)dZcheckBox.IsChecked) { Base.SetValue("dzsjtj", "dz", "1"); } else Base.SetValue("dzsjtj", "dz", "0");
+      if ((bool)jJcheckBox.IsChecked) { Base.SetValue("dzsjtj", "jj", "1"); } else Base.SetValue("dzsjtj", "jj", "0");
+      if ((bool)sPcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sp", "1"); } else Base.SetValue("dzsjtj", "sp", "0");
+      if ((bool)sCcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sc", "1"); } else Base.SetValue("dzsjtj", "sc", "0");
+      if ((bool)sDcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sd", "1"); } else Base.SetValue("dzsjtj", "sd", "0");
+      if ((bool)mCcheckBox.IsChecked) { Base.SetValue("dzsjtj", "mc", "1"); } else Base.SetValue("dzsjtj", "mc", "0");
 
       UpViewModelData(数据统计);
     }
@@ -383,7 +383,7 @@ namespace 小科狗配置
     [Obsolete]
     private void CheckBox_Click2(object sender, RoutedEventArgs e)
     {
-      if ((bool)RQcheckBox.IsChecked) { Base.SetValue("dzsjtj", "rq", "1"); } else Base.SetValue("dzsjtj", "rq", "0");
+      if ((bool)rQcheckBox.IsChecked) { Base.SetValue("dzsjtj", "rq", "1"); } else Base.SetValue("dzsjtj", "rq", "0");
 
       SetData();
       UpViewModelData(数据统计);

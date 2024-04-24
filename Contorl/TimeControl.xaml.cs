@@ -33,8 +33,8 @@ namespace 小科狗配置
 
     private static void OnTimePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      TimeControl timeControl = (TimeControl)d;
-      string newValue = (string)e.NewValue;
+      var timeControl = (TimeControl)d;
+      var newValue = (string)e.NewValue;
       timeControl.SetTime(newValue);
     }
 
@@ -42,8 +42,8 @@ namespace 小科狗配置
     {
       if (strTime != null && strTime.Contains(':'))
       {
-        string[] parts = strTime.Split(':');
-        if (parts.Length == 2 && int.TryParse(parts[0], out int hours) && int.TryParse(parts[1], out int minutes))
+        var parts = strTime.Split(':');
+        if (parts.Length == 2 && int.TryParse(parts[0], out var hours) && int.TryParse(parts[1], out var minutes))
         {
           if (nud1.Value != hours) nud1.Value = hours;
           if (nud2.Value != minutes) nud2.Value = minutes;
@@ -55,7 +55,7 @@ namespace 小科狗配置
 
     private void Nud_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
     {
-      string newTime = $"{nud1.Value}:{nud2.Value}";
+      var newTime = $"{nud1.Value}:{nud2.Value}";
       if (Time != newTime)
       {
         Time = newTime;
@@ -64,7 +64,7 @@ namespace 小科狗配置
 
     protected virtual void RaiseTimeChanged(string oldValue, string newValue)
     {
-      RoutedPropertyChangedEventArgs<string> args = new RoutedPropertyChangedEventArgs<string>(oldValue, newValue);
+      var args = new RoutedPropertyChangedEventArgs<string>(oldValue, newValue);
       TimeChanged?.Invoke(this, args);
     }
 

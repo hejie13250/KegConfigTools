@@ -121,8 +121,8 @@ namespace 小科狗配置
 
     private void Convert(string newValue)
     {
-      string pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
-      Match matchs = Regex.Match(newValue, pattern);
+      var pattern = @"<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)>";
+      var matchs = Regex.Match(newValue, pattern);
       if (matchs.Success)
       {
         newValue = $"{matchs.Groups[1].Value}|{matchs.Groups[2].Value}|{matchs.Groups[3].Value}|{matchs.Groups[4].Value}";
@@ -251,7 +251,7 @@ namespace 小科狗配置
 
         txtHotKey.Text = hoKey.Trim('#', '#').Replace('#', '+');
 
-        string pattern = "";
+        var pattern = "";
         switch (pressedKeys.Count)
         {
           case 1: pattern = "(.*)"; break;
@@ -259,7 +259,7 @@ namespace 小科狗配置
           case 3: pattern = "(.*)#(.*)#(.*)"; break;
           case 4: pattern = "(.*)#(.*)#(.*)#(.*)"; break;
         }
-        Match matchs = Regex.Match(hoKey, pattern);
+        var matchs = Regex.Match(hoKey, pattern);
         if (matchs.Success)
           hoKey = $"{matchs.Groups[1].Value}+{matchs.Groups[2].Value}+{matchs.Groups[3].Value}+{matchs.Groups[4].Value}";
         switch (pressedKeys.Count)
@@ -282,7 +282,7 @@ namespace 小科狗配置
         return input;
 
       // 取得字符串的最后一个字符
-      char lastChar = input[input.Length - 1];
+      var lastChar = input[input.Length - 1];
 
       // 检查最后一个字符是否为字母
       if (char.IsLetter(lastChar))
