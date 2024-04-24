@@ -40,7 +40,6 @@ namespace 小科狗配置.Page
     public sealed class ListViewDataItem : INotifyPropertyChanged
     {
       private int    _rowNumber;
-      private int    _number;
       private string _key;
       private string _value;
       private int?   _weight;
@@ -52,11 +51,6 @@ namespace 小科狗配置.Page
       {
         get => _rowNumber;
         set => SetProperty(ref _rowNumber, value);
-      }
-      public int Number
-      {
-        get => _number;
-        set => SetProperty(ref _number, value);
       }
       public string Key
       {
@@ -114,6 +108,11 @@ namespace 小科狗配置.Page
 
     private ObservableCollection<ListViewDataItem> ListViewData { get; set; }
 
+    private ObservableCollection<ListViewDataItem> 要删除项 { get; set; }
+    private ObservableCollection<ListViewDataItem> 要添加项 { get; set; }
+    private ObservableCollection<ListViewDataItem> 要修改项 { get; set; }
+    private ObservableCollection<ListViewDataItem> 修改项值 { get; set; }
+
     private readonly string _dbPath;        // Keg.db 
     private string          _tableName;     // 表名称
     private int             _pageCount;     // 总页码
@@ -127,7 +126,10 @@ namespace 小科狗配置.Page
       InitializeComponent();
       LoadFontNames();
       LoadTableNames();
-      //listViewDataItems = new ObservableCollection<ListViewDataItem>();
+      要删除项 = new ObservableCollection<ListViewDataItem>();
+      要添加项 = new ObservableCollection<ListViewDataItem>();
+      要修改项 = new ObservableCollection<ListViewDataItem>();
+      修改项值 = new ObservableCollection<ListViewDataItem>();
     }
 
     #region 读写db
@@ -300,7 +302,6 @@ namespace 小科狗配置.Page
     private void PopulateListView(DataTable dataTable)
     {
       ListViewData = new ObservableCollection<ListViewDataItem>();
-      var number = _currentPage * _pageLen + 1;
 
       foreach (DataRow row in dataTable.Rows)
       {
@@ -574,6 +575,18 @@ namespace 小科狗配置.Page
       状态切换(true);
     }
 
+
+    private void Button5_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView.Items.Count - 1 >= 0)
+        listView.ScrollIntoView(ListViewData[0]);
+    }
+
+    private void Button6_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView.Items.Count - 1 >= 0)
+        listView.ScrollIntoView(ListViewData[listView.Items.Count - 1]);
+    }
     // 搜索
     // private void Button5_Click(RoutedEventArgs e)
     // {
@@ -587,9 +600,9 @@ namespace 小科狗配置.Page
     //   搜索();
     // }
     //
-    
-    
-    
+
+
+
     // 搜索
     private void TextBox2_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -734,12 +747,12 @@ namespace 小科狗配置.Page
 
       ListViewDataItem newItem = new()
       {
-        Number    = lastItem.Number + 1,
-        Key    = keyTextBox.Text,
-        Value  = valueTextBox.Text,
-        Weight = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text),
-        Fc     = fcTextBox.Text,
-        IsAdd  = true
+        RowNumber = lastItem.RowNumber + 1,
+        Key       = keyTextBox.Text,
+        Value     = valueTextBox.Text,
+        Weight    = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text),
+        Fc        = fcTextBox.Text,
+        IsAdd     = true
       };
 
       ListViewData.Add(newItem);

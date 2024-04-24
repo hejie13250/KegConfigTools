@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using Newtonsoft.Json;
+using 小科狗配置.Contorl;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -149,10 +150,10 @@ namespace 小科狗配置.Page
 
     private void ColorPicker_ColorChanged(object sender, ColorChangedEventArgs e)
     {
-      if (colorPicker.RGBcolor != null)
+      if (colorPicker.RgbColor != null)
       {
-        rgbTextBox.RGBText = colorPicker.RGBText;
-        SetColorLableColor(colorPicker.RGBcolor);
+        rgbTextBox.RGBText = colorPicker.RgbText;
+        SetColorLableColor(colorPicker.RgbColor);
       }
     }
 

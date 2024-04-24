@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WpfAnimatedGif;
 using 小科狗配置.Class;
+using 小科狗配置.Contorl;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
@@ -197,10 +198,10 @@ namespace 小科狗配置.Page
 
     private void ColorPicker_ColorChanged(object sender, ColorChangedEventArgs e)
     {
-      if (colorPicker.RGBcolor != null)
+      if (colorPicker.RgbColor != null)
       {
-        rgbTextBox.RGBText = colorPicker.RGBText;
-        SetColorLableColor(colorPicker.RGBcolor);
+        rgbTextBox.RGBText = colorPicker.RgbText;
+        SetColorLableColor(colorPicker.RgbColor);
       }
     }
 

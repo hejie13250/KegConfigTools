@@ -8,35 +8,30 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
-using UserControl = System.Windows.Controls.UserControl;
 
-namespace 小科狗配置
+namespace 小科狗配置.Contorl
 {
   // 定义事件参数类
   public class ColorChangedEventArgs : EventArgs
   {
-    public SolidColorBrush OldColor { get; }
-    public SolidColorBrush NewColor { get; }
-
-    public ColorChangedEventArgs(SolidColorBrush oldColor, SolidColorBrush newColor)
+    /// <inheritdoc />
+    public ColorChangedEventArgs()
     {
-      OldColor = oldColor;
-      NewColor = newColor;
     }
   }
 
 
-  public partial class ColorPicker : UserControl
+  public partial class ColorPicker
   {
     private WriteableBitmap Bitmap { get; set; }
-    public SolidColorBrush RGBcolor { get; private set; }
+    public SolidColorBrush RgbColor { get; private set; }
     public event EventHandler<ColorChangedEventArgs> ColorChanged;
 
     protected virtual void OnColorChanged(SolidColorBrush oldColor, SolidColorBrush newColor)
     {
-      ColorChanged?.Invoke(this, new ColorChangedEventArgs(oldColor, newColor));
+      ColorChanged?.Invoke(this, new ColorChangedEventArgs());
     }
-    public string RGBText { get; private set; }
+    public string RgbText { get; private set; }
     //public event EventHandler<string> RGBTextChanged;
 
     //protected virtual void OnRGBTextChanged(string oldRGBText, string newRGBText)
@@ -44,17 +39,17 @@ namespace 小科狗配置
     //  RGBTextChanged?.Invoke(this, newRGBText);
     //}
 
-    readonly int width;
-    readonly int height;
+    private readonly int _width;
+    private readonly int _height;
 
     public ColorPicker()
     {
       InitializeComponent();
-      width  = (int)canvas.Width;
-      height = (int)canvas.Height;
+      _width  = (int)canvas.Width;
+      _height = (int)canvas.Height;
 
       //Bitmap = new WriteableBitmap(170, 170, 170, 170, PixelFormats.Bgra32, null);
-      Bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
+      Bitmap = new WriteableBitmap(_width, _height, 96, 96, PixelFormats.Bgra32, null);
       imageBrush.ImageSource = Bitmap;
       UpdateBitmap();
     }
@@ -62,7 +57,7 @@ namespace 小科狗配置
 
 
     // 颜色转换 HSVToRGB
-    private static void HSVToRGB(double h, double s, double v, out byte r, out byte g, out byte b)
+    private static void HsvToRgb(double h, double s, double v, out byte r, out byte g, out byte b)
     {
       if (s == 0)
         r = g = b = (byte)(v * 255);
@@ -120,15 +115,15 @@ namespace 小科狗配置
       var backBuffer = Bitmap.BackBuffer;
       var stride = Bitmap.BackBufferStride;
 
-      for (var y = 0; y < height; y++)
+      for (var y = 0; y < _height; y++)
       {
-        for (var x = 0; x < width; x++)
+        for (var x = 0; x < _width; x++)
         {
-          var normalizedX = (double)x / (width - 1);
-          var normalizedY = (double)y / (height - 1);
+          var normalizedX = (double)x / (_width - 1);
+          var normalizedY = (double)y / (_height - 1);
 
           // 传递给HSVToRGB函数的Hue值现在是0-360度的范围
-          HSVToRGB(hue, normalizedX, 1 - normalizedY, out var r, out var g, out var b);
+          HsvToRgb(hue, normalizedX, 1 - normalizedY, out var r, out var g, out var b);
 
           var pixelOffset = y * stride + x * 4;
           Marshal.WriteByte(backBuffer, pixelOffset + 0, b);
@@ -158,13 +153,21 @@ namespace 小科狗配置
       SetThumbPosition(newLeft, newTop);
     }
 
+
+    private       DateTime _lastUpdate     = DateTime.Now;
+    private const int      UpdateInterval = 10; // 更新间隔（毫秒）
+
     // 画布 canvas 的 thumb 移动取色
     private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
     {
+      if ((DateTime.Now - _lastUpdate).TotalMilliseconds < UpdateInterval)
+        return; // 如果距离上次更新时间小于间隔，则不进行更新
+
       var newLeft = Canvas.GetLeft(thumb) + e.HorizontalChange;
-      var newTop = Canvas.GetTop(thumb) + e.VerticalChange;
+      var newTop  = Canvas.GetTop(thumb)  + e.VerticalChange;
 
       SetThumbPosition(newLeft, newTop);
+      _lastUpdate = DateTime.Now; // 更新最后更新时间
     }
 
     private void SetThumbPosition(double newLeft, double newTop)
@@ -188,26 +191,25 @@ namespace 小科狗配置
     {
       Point? thumbPosition = thumb.TranslatePoint(new Point(thumb.ActualWidth / 2, thumb.ActualHeight / 2), canvas);
 
-      if (thumbPosition.HasValue && thumbPosition.Value.X >= 0 && thumbPosition.Value.X < Bitmap.PixelWidth && thumbPosition.Value.Y >= 0 && thumbPosition.Value.Y < Bitmap.PixelHeight)
-      {
-        var xCoordinate = (int)thumbPosition.Value.X;
-        var yCoordinate = (int)thumbPosition.Value.Y;
+      if (!(thumbPosition.Value.X >= 0) || !(thumbPosition.Value.X < Bitmap.PixelWidth) ||
+          !(thumbPosition.Value.Y >= 0) || !(thumbPosition.Value.Y < Bitmap.PixelHeight)) return;
+      var xCoordinate = (int)thumbPosition.Value.X;
+      var yCoordinate = (int)thumbPosition.Value.Y;
 
-        var stride = Bitmap.PixelWidth * (Bitmap.Format.BitsPerPixel / 8);
-        var pixels = new byte[Bitmap.PixelHeight * stride];
-        Bitmap.CopyPixels(new Int32Rect(0, 0, Bitmap.PixelWidth, Bitmap.PixelHeight), pixels, stride, 0);
+      var stride = Bitmap.PixelWidth * (Bitmap.Format.BitsPerPixel / 8);
+      var pixels = new byte[Bitmap.PixelHeight * stride];
+      Bitmap.CopyPixels(new Int32Rect(0, 0, Bitmap.PixelWidth, Bitmap.PixelHeight), pixels, stride, 0);
 
-        var pixelIndex = (yCoordinate * stride) + (xCoordinate * (Bitmap.Format.BitsPerPixel / 8));
-        var color = Color.FromArgb(pixels[pixelIndex + 3], pixels[pixelIndex + 2], pixels[pixelIndex + 1], pixels[pixelIndex]);
+      var pixelIndex = (yCoordinate * stride) + (xCoordinate * (Bitmap.Format.BitsPerPixel / 8));
+      var color      = Color.FromArgb(pixels[pixelIndex + 3], pixels[pixelIndex + 2], pixels[pixelIndex + 1], pixels[pixelIndex]);
 
-        // 更新Thumb的BorderBrush，取反色
-        thumb.BorderBrush = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
+      // 更新Thumb的BorderBrush，取反色
+      thumb.BorderBrush = new SolidColorBrush(Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B)));
 
-        RGBText = $"({color.R}, {color.G}, {color.B})";
-        var newColor = new SolidColorBrush(color);
-        RGBcolor = newColor;
-        OnColorChanged(RGBcolor, newColor);
-      }
+      RgbText = $"({color.R}, {color.G}, {color.B})";
+      var newColor = new SolidColorBrush(color);
+      RgbColor = newColor;
+      OnColorChanged(RgbColor, newColor);
     }
 
 
