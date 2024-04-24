@@ -1,11 +1,11 @@
-﻿<local:BasePage
-  x:Class="小科狗配置.GlobalSetting"
+﻿<class:BasePage
+  x:Class="小科狗配置.Page.GlobalSetting"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:gif="http://wpfanimatedgif.codeplex.com"
   xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:class="clr-namespace:小科狗配置.Class"
   Title="GlobalSetting"
   FontFamily="小科狗字体"
   FontSize="14"
@@ -64,7 +64,6 @@
 
         <GroupBox
           x:Name="groupBox_19"
-          Height="auto"
           Header="状态条"
           MouseEnter="GroupBox_MouseEnter"
           Style="{StaticResource HiddenBorderGroupBoxStyle}" Margin="10,0,10,10">
@@ -94,7 +93,6 @@
                 <Grid
                   Grid.Row="0"
                   Grid.Column="1"
-                  Grid.ColumnSpan="1"
                   Width="185"
                   Height="126"
                   HorizontalAlignment="Left"
@@ -295,7 +293,6 @@
                 <StackPanel
                   Grid.RowSpan="8"
                   Grid.Column="2"
-                  Grid.ColumnSpan="1"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Orientation="Vertical">
@@ -350,7 +347,7 @@
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
-              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+              <StackPanel Margin="0,0,0,0">
                 <ListView
                   x:Name="listView3"
                   Margin="10,10,10,10"
@@ -362,8 +359,8 @@
                   Style="{DynamicResource ListViewStyle}">
                   <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
-                      <EventSetter Event="UIElement.MouseEnter" Handler="ListViewItem_MouseEnter" />
-                      <EventSetter Event="UIElement.MouseLeave" Handler="ListViewItem_MouseLeave" />
+                      <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter" />
+                      <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave" />
                     </Style>
                   </ListView.ItemContainerStyle>
                   <ListView.View>
@@ -383,7 +380,7 @@
                               Text="{Binding Name}"
                               TextChanged="TextBox1_TextChanged"
                               TextWrapping="NoWrap"
-                              ToolTip="在线查找名称" />
+                              ToolTip="在线查找名称" d:DataContext="{d:string }" />
 
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -397,7 +394,7 @@
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
-                              Text="{Binding Value}"
+                              Text="{Binding Value}"  d:DataContext="{d:string }" 
                               TextChanged="TextBox2_TextChanged"
                               TextWrapping="NoWrap"
                               ToolTip="网址或可执行文件路径，带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py" />
@@ -412,7 +409,7 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Click="CheckBox_Click"
-                              IsChecked="{Binding Enable}"
+                              IsChecked="{Binding Enable}"  d:DataContext="{d:string }" 
                               Style="{DynamicResource CheckBoxStyle}" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -451,6 +448,10 @@
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+              </Grid.RowDefinitions>
               <StackPanel Grid.Row="1" Margin="0,0,0,0">
                 <ListView
                   x:Name="listView8"
@@ -479,7 +480,7 @@
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
-                              Text="{Binding Name}"
+                              Text="{Binding Name}"  d:DataContext="{d:string }" 
                               TextChanged="TextBox1_TextChanged"
                               TextWrapping="NoWrap"
                               ToolTip="外部工具名称" />
@@ -497,7 +498,7 @@
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
-                              Text="{Binding Value}"
+                              Text="{Binding Value}"  d:DataContext="{d:string }" 
                               TextChanged="TextBox2_TextChanged"
                               TextWrapping="NoWrap"
                               ToolTip="外部工具的可执行文件路径" />
@@ -514,7 +515,7 @@
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               Click="CheckBox_Click"
-                              IsChecked="{Binding Enable}"
+                              IsChecked="{Binding Enable}"  d:DataContext="{d:string }" 
                               Style="{DynamicResource CheckBoxStyle}" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -553,7 +554,7 @@
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
-              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+              <StackPanel Margin="0,0,0,0">
                 <ListView
                   x:Name="listView4"
                   Margin="10,10,10,10"
@@ -581,7 +582,7 @@
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
-                              Text="{Binding CMD}"
+                              Text="{Binding Cmd}"  d:DataContext="{d:string }" 
                               TextChanged="TextBox3_TextChanged"
                               TextWrapping="NoWrap" />
                           </DataTemplate>
@@ -597,7 +598,7 @@
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               FontSize="12"
-                              HotKey="{Binding Value}"
+                              HotKey="{Binding Value}"  d:DataContext="{d:string }" 
                               HotKeyPressed="HotKeyControl_HotKeyPressed"
                               TabIndex="3103" />
                           </DataTemplate>
@@ -610,7 +611,7 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Click="CheckBox_Click"
-                              IsChecked="{Binding Enable}"
+                              IsChecked="{Binding Enable}"  d:DataContext="{d:string }" 
                               Style="{DynamicResource CheckBoxStyle}" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -649,7 +650,7 @@
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
-              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+              <StackPanel  Margin="0,0,0,0">
                 <ListView
                   x:Name="listView5"
                   Margin="10,10,10,10"
@@ -681,7 +682,7 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               FontSize="12"
-                              HotKey="{Binding Value}"
+                              HotKey="{Binding Value}"  d:DataContext="{d:string }" 
                               HotKeyPressed="HotKeyControl_HotKeyPressed"
                               TabIndex="3103" />
                           </DataTemplate>
@@ -694,7 +695,7 @@
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               Click="CheckBox_Click"
-                              IsChecked="{Binding Enable}"
+                              IsChecked="{Binding Enable}"  d:DataContext="{d:string }" 
                               Style="{DynamicResource CheckBoxStyle}" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -735,7 +736,7 @@
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
-              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+              <StackPanel Margin="0,0,0,0">
                 <ListView
                   x:Name="listView6"
                   Margin="10,10,10,10"
@@ -764,7 +765,7 @@
                               Height="24"
                               BorderThickness="0"
                               Style="{DynamicResource RoundTextBox}"
-                              Text="{Binding Value}"
+                              Text="{Binding Value}"  d:DataContext="{d:string }" 
                               TextChanged="TextBox2_TextChanged"
                               TextWrapping="NoWrap" />
 
@@ -778,7 +779,7 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Click="CheckBox_Click"
-                              IsChecked="{Binding Enable}"
+                              IsChecked="{Binding Enable}"  d:DataContext="{d:string }" 
                               Style="{DynamicResource CheckBoxStyle}" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -818,7 +819,7 @@
           Style="{StaticResource HiddenBorderGroupBoxStyle}">
           <Border Style="{StaticResource CustomBorderStyle}">
             <Grid>
-              <StackPanel Grid.Row="1" Margin="0,0,0,0">
+              <StackPanel Margin="0,0,0,0">
                 <ListView
                   x:Name="listView7"
                   Margin="10,10,10,10"
@@ -852,7 +853,7 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"
                               FontSize="12"
-                              Time="{Binding Value}" />
+                              Time="{Binding Value}"   d:DataContext="{d:string }" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
                       </GridViewColumn>
@@ -863,7 +864,7 @@
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               Click="CheckBox_Click"
-                              IsChecked="{Binding Enable}"
+                              IsChecked="{Binding Enable}"  d:DataContext="{d:string }" 
                               Style="{DynamicResource CheckBoxStyle}" />
                           </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -1058,4 +1059,4 @@
 
     </StackPanel>
   </Grid>
-</local:BasePage>
+</class:BasePage>

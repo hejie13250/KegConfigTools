@@ -1,45 +1,17 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Button = System.Windows.Controls.Button;
-using Clipboard = System.Windows.Clipboard;
-using Color = System.Windows.Media.Color;
-using ColorConverter = System.Windows.Media.ColorConverter;
-using FormsDialogResult = System.Windows.Forms.DialogResult;
 using GroupBox = System.Windows.Controls.GroupBox;
-using Label = System.Windows.Controls.Label;
-using ListView = System.Windows.Controls.ListView;
-using ListViewItem = System.Windows.Controls.ListViewItem;
-using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Path = System.IO.Path;
-using Point = System.Windows.Point;
 using RadioButton = System.Windows.Controls.RadioButton;
-using TextBox = System.Windows.Controls.TextBox;
-using Thumb = System.Windows.Controls.Primitives.Thumb;
-using Window = System.Windows.Window;
 using System.Windows.Navigation;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-using System.Windows.Interop;
-using System.Xml.Linq;
+using 小科狗配置.Class;
+using 小科狗配置.Page;
 
 namespace 小科狗配置
 {
@@ -47,21 +19,21 @@ namespace 小科狗配置
   /// MainWindow.xaml 的交互逻辑
   /// </summary>
   /// 
-  public partial class MainWindow : Window
+  public partial class MainWindow
   {
-    static readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    StackPanel leftStackPanel;
+    private static readonly string AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    private StackPanel _leftStackPanel;
 
-    readonly string[] _方案设置页面 = new string[] { "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置", "顶功设置", "上屏设置", "中英切换", "翻页按键", "词语联想", "码表调频与检索", "重复上屏", "自动造词", "临时码表检索", "引导码表检索" };
-    readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
-    readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
-    readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
-    readonly string[] _码表设置     = new string[] { "码表修改" };
+  private readonly string[] _方案设置页面 = new string[] { "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置", "顶功设置", "上屏设置", "中英切换", "翻页按键", "词语联想", "码表调频与检索", "重复上屏", "自动造词", "临时码表检索", "引导码表检索" };
+  private readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
+  private readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
+  private readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
+  private readonly string[] _码表设置     = new string[] { "码表修改" };
 
     #region 初始化
     public MainWindow()
     {
-      if (!Directory.Exists($"{appPath}\\configs")) Directory.CreateDirectory($"{appPath}\\configs");
+      if (!Directory.Exists($"{AppPath}\\configs")) Directory.CreateDirectory($"{AppPath}\\configs");
       InitializeComponent();
 
       title.Text = $"{title.Text} v {GetAssemblyVersion()}";  // 标题加上版本号
@@ -86,7 +58,7 @@ namespace 小科狗配置
     }
 
     // 获取版本号
-    public string GetAssemblyVersion()
+    private string GetAssemblyVersion()
     {
       var assembly = Assembly.GetExecutingAssembly();
       var  version  = assembly.GetName().Version;
@@ -97,25 +69,37 @@ namespace 小科狗配置
     #region 点击 RadioButton 跳转到指定的 GroupBox
     private void LeftRadioButton1_Click(object sender, RoutedEventArgs e)
     {
-      var radioButton = sender as RadioButton;
-      var stackPanel   = radioButton.Content as StackPanel;
-      var textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      if (sender is not RadioButton radioButton) return;
+      var stackPanel = radioButton.Content as StackPanel;
+      var textBlock  = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
 
+      if (textBlock == null) return;
       switch (textBlock.Text)
       {
-        case "方案设置": 方案设置页面(); break;
-        case "全局设置": 全局设置页面(); break;
-        case "帮助"    : 帮助页面();     break;
-        case "打字统计": 打字统计();     break;
-        case "码表设置": 码表设置();     break;
+        case "方案设置":
+          方案设置页面();
+          break;
+        case "全局设置":
+          全局设置页面();
+          break;
+        case "帮助":
+          帮助页面();
+          break;
+        case "打字统计":
+          打字统计();
+          break;
+        case "码表设置":
+          码表设置();
+          break;
       }
     }
 
     private void LeftRadioButton2_Click(object sender, RoutedEventArgs e)
     {
-      var radioButton = sender as RadioButton;
-      var stackPanel   = radioButton.Content as StackPanel;
-      var textBlock     = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+      if (sender is not RadioButton radioButton) return;
+      var stackPanel = radioButton.Content as StackPanel;
+      var textBlock  = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+      if (textBlock == null) return;
       var name             = textBlock.Text;
 
       if (_方案设置页面.Contains(name)) { 方案设置页面();   ScrollViewerOffset(name, 1); }
@@ -123,7 +107,6 @@ namespace 小科狗配置
       if (_帮助页面    .Contains(name)) { 帮助页面    ();   ScrollViewerOffset(name, 3); }
       if (_打字统计    .Contains(name)) { 打字统计    ();   ScrollViewerOffset(name, 4); }
       if (_码表设置    .Contains(name)) { 码表设置    ();   ScrollViewerOffset(name, 5); }
-
     }
 
 
@@ -209,13 +192,13 @@ namespace 小科狗配置
       leftStackPanel5.Visibility = Visibility.Collapsed;
 
       activePanel.Visibility = Visibility.Visible;
-      leftStackPanel = activePanel;
+      _leftStackPanel = activePanel;
     }
 
     /// <summary>
     /// 点击左侧的控件偏移右侧滚动条（滚动页面）
     /// </summary>
-    /// <param name="text">左侧被点击的控件名</param>
+    /// <param name="content"></param>
     /// <param name="n">右侧第几个滚动条</param>
     private void ScrollViewerOffset(string content, int n)
     {
@@ -224,31 +207,31 @@ namespace 小科狗配置
       // 根据n的值，选择正确的Frame
       if (n == 1)
       {
-        var page = frame1.Content as Page;
+        var page               = frame1.Content as System.Windows.Controls.Page;
         var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
         groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
       else if (n == 2)
       {
-        var page = frame2.Content as Page;
+        var page               = frame2.Content as System.Windows.Controls.Page;
         var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
         groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
       else if (n == 3)
       {
-        var page = frame3.Content as Page;
+        var page               = frame3.Content as System.Windows.Controls.Page;
         var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
         groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
       else if (n == 4)
       {
-        var page = frame4.Content as Page;
+        var page               = frame4.Content as System.Windows.Controls.Page;
         var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
         groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
       else if (n == 5)
       {
-        var page = frame5.Content as Page;
+        var page               = frame5.Content as System.Windows.Controls.Page;
         var groupBoxStackPanel = page?.FindName("groupBoxStackPanel") as StackPanel;
         groupBox = FindGroupBox(content, groupBoxStackPanel);
       }
@@ -261,9 +244,9 @@ namespace 小科狗配置
     /// 查找指定容器 StackPanel 内指定 content 的 GroupBox
     /// </summary>
     /// <param name="content">GroupBox的content</param>
-    /// <param name="stackPanel">GroupBox所在的StackPanel容器</param>
+    /// <param name="groupBoxStackPanel"></param>
     /// <returns></returns>
-    private GroupBox FindGroupBox(string content, StackPanel groupBoxStackPanel)
+    private GroupBox FindGroupBox(string content, Panel groupBoxStackPanel)
     {
       foreach (var child in groupBoxStackPanel.Children)
       {
@@ -307,7 +290,7 @@ namespace 小科狗配置
 
     private void Frame_NameOfSelectedGroupBoxChanged(object sender, string e)
     {
-      foreach (var child in leftStackPanel.Children)
+      foreach (var child in _leftStackPanel.Children)
       {
         if (child is RadioButton radioButton)
         {
@@ -347,11 +330,8 @@ namespace 小科狗配置
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
       // 只有当用户按下左键时才处理
-      if (e.LeftButton == MouseButtonState.Pressed)
-      {
-        // 调用API使窗口跟随鼠标移动
-        DragMove();
-      }
+      if (e.LeftButton != MouseButtonState.Pressed) return;
+      DragMove(); // 调用API使窗口跟随鼠标移动
     }
 
     // 窗口最小化
@@ -360,46 +340,10 @@ namespace 小科狗配置
       this.WindowState = WindowState.Minimized;
     }
 
-    //private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-    //{
-    //  frame1.Height = this.Height - 50;
-    //  frame2.Height = this.Height - 50;
-    //  frame3.Height = this.Height - 50;
-    //}
-
-
     // 退出
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      //if (checkBox2.IsChecked == true)
-      //  ((App)System.Windows.Application.Current).Exit();
-      //else
-      //  this.Visibility = Visibility.Hidden; // 或者使用 Collapsed
       this.Close();
-    }
-
-    // 设置窗口高度
-    //private void Nud22_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
-    //{
-    //  if (nud22 != null)
-    //  {
-    //    int height = (int)e.NewValue;
-    //    if (height < 500)
-    //      height = 500;
-    //    this.Height = height;
-    //  }
-    //}
-
-    // 窗口高度写入配置文件
-    //private void Nud22_LostFocus(object sender, RoutedEventArgs e)
-    //{
-    //  if (nud22 != null)
-    //    SetValue("window", "height", nud22.Value.ToString());
-    //}
-
-    private void OpenWebPage_Click(object sender, RoutedEventArgs e)
-    {
-      System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/hejie13250/KegConfigTools") { UseShellExecute = true });
     }
 
 

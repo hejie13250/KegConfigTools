@@ -1,12 +1,12 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace 小科狗配置
+namespace 小科狗配置.Page
 {
   /// <summary>
   /// Abort.xaml 的交互逻辑
   /// </summary>
-  public partial class Abort : BasePage
+  public partial class Abort
   {
 
     #region 获取GroupBox的Header用于主窗口导航事件

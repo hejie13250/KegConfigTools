@@ -308,7 +308,6 @@
     <Compile Include="Contorl\DoubleNumericUpDown.xaml.cs">
       <DependentUpon>DoubleNumericUpDown.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Class\GlassEffect.cs" />
     <Compile Include="Page\ModifyTable.xaml.cs">
       <DependentUpon>ModifyTable.xaml</DependentUpon>
     </Compile>

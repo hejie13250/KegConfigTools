@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
+using 小科狗配置.Class;
 using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
 using GroupBox = System.Windows.Controls.GroupBox;
@@ -18,7 +20,7 @@ using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 
-namespace 小科狗配置
+namespace 小科狗配置.Page
 {
   /// <summary>
   /// ModifyTable.xaml 的交互逻辑
@@ -116,7 +118,7 @@ namespace 小科狗配置
 
     public ModifyTable()
     {
-      _dbPath = Base.kegPath + "Keg.db";
+      _dbPath = Base.KegPath + "Keg.db";
       InitializeComponent();
       LoadFontNames();
       LoadTableNames();
@@ -341,7 +343,7 @@ namespace 小科狗配置
       if (fontComboBox.SelectedValue == null) return;
 
       var fontName = fontComboBox.SelectedItem.ToString();
-      var font        = new System.Windows.Media.FontFamily(fontName);
+      var font        = new FontFamily(fontName);
       listView.FontFamily      = font;
       keyTextBox.FontFamily    = font;
       valueTextBox.FontFamily  = font;
@@ -544,7 +546,7 @@ namespace 小科狗配置
     private void Button4_Click(object sender, RoutedEventArgs e)
     {
       if (_editingStatus != true) return;
-      var result = MessageBox.Show($"当前有数据没有提交，确定后将取消未提交的操作！", "刷新",
+      var result = MessageBox.Show("当前有数据没有提交，确定后将取消未提交的操作！", "刷新",
         MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
       if (result != MessageBoxResult.OK) return;
@@ -606,7 +608,7 @@ namespace 小科狗配置
       using var reader = command.ExecuteReader();
       dataTable.Load(reader);
       textBox1.Text = $"词条数：{dataTable.Rows.Count}";
-      textBox.Text  = $"1/1";
+      textBox.Text  = "1/1";
       PopulateListView(dataTable);
     }
 
@@ -780,7 +782,7 @@ namespace 小科狗配置
     private void Submit_button_Click(object sender, RoutedEventArgs e)
     {
       if (_editingStatus != true) return;
-      var result = MessageBox.Show($"要提交所有变更的数据吗？", "提交数据",
+      var result = MessageBox.Show("要提交所有变更的数据吗？", "提交数据",
         MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
       if (result != MessageBoxResult.OK) return;

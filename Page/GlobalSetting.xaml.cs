@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,8 +13,10 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 using WpfAnimatedGif;
-using static System.Net.WebRequestMethods;
+using 小科狗配置.Class;
+using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -31,12 +32,12 @@ using Path = System.IO.Path;
 using RadioButton = System.Windows.Controls.RadioButton;
 using TextBox = System.Windows.Controls.TextBox;
 
-namespace 小科狗配置
+namespace 小科狗配置.Page
 {
   /// <summary>
   /// GlobalSetting.xaml 的交互逻辑
   /// </summary>
-  public partial class GlobalSetting : BasePage
+  public partial class GlobalSetting
   {
     #region 获取GroupBox的Header用于主窗口导航事件
     private void GroupBox_MouseEnter(object sender, MouseEventArgs e)
@@ -48,69 +49,68 @@ namespace 小科狗配置
     #endregion
 
     #region 消息接口定义
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
     [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
+    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
 
-    const uint ABORTIFHUNG = 0x0002;
-    readonly uint flags = (uint)(ABORTIFHUNG);
-    readonly uint timeout = 500;
+    private const         uint Abortifhung = 0x0002;
+    private const uint Flags       = Abortifhung;
+    private const uint Timeout     = 500;
 
-    const int WM_USER = 0x0400;                   // 根据Windows API定义
-    const uint KWM_UPQJSET = (uint)WM_USER + 211; //读取说明文本更新全局设置
-    const uint KWM_UPPFSET = (uint)WM_USER + 212; //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
+   private const int WmUser = 0x0400;                   // 根据Windows API定义
+   private const uint KwmUpqjset = (uint)WmUser + 211; //读取说明文本更新全局设置
+   private const uint KwmUppfset = (uint)WmUser + 212; //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
 
     #endregion
 
-    readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+  private readonly string _appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-    readonly string globalSettingFilePath = "全局设置.json";
-    readonly string kegBakPath = "Keg_bak.txt";
-    string zh_en = "中c：";
-    readonly string kegPath;                        // 小科狗主程序目录
-    readonly string kegFilePath;                    // Keg.txt 文件路径
-    int select_color_label_num = 0;                 // 用于记录当前选中的 
+  private readonly string _globalSettingFilePath; //全局设置.json
+  private readonly string _kegBakPath;            //Keg_bak.txt
+  private          string _zhEn = "中c：";
+  private readonly string _kegPath;             // 小科狗主程序目录
+  private readonly string _kegFilePath;         // Keg.txt 文件路径
+  private          int    _selectColorLabelNum; // 用于记录当前选中的 
 
 
     #region 全局设置界面列表项定义
 
-    public class 列表项 : INotifyPropertyChanged
+    public sealed class 列表项 : INotifyPropertyChanged
     {
-      private bool _Enable;
+      private bool _enable;
       public bool Enable
       {
-        get { return _Enable; }
-        set { _Enable = value; OnPropertyChanged("Enable"); }
+        get => _enable;
+        set { _enable = value; OnPropertyChanged("Enable"); }
       }
-      private string _Name;
+      private string _name;
       public string Name
       {
-        get { return _Name; }
-        set { _Name = value; OnPropertyChanged("Name"); }
+        get => _name;
+        set { _name = value; OnPropertyChanged("Name"); }
       }
-      private string _Value;
+      private string _value;
       public string Value
       {
-        get { return _Value; }
-        set { _Value = value; OnPropertyChanged("Value"); }
+        get => _value;
+        set { _value = value; OnPropertyChanged("Value"); }
       }
 
-      private string _Cmd;
-      public string CMD
+      private string _cmd;
+      public string Cmd
       {
-        get { return _Cmd; }
-        set { _Cmd = value; OnPropertyChanged("CMD"); }
+        get => _cmd;
+        set { _cmd = value; OnPropertyChanged("CMD"); }
       }
-      public 列表项() { }
 
 
       public event PropertyChangedEventHandler PropertyChanged;
-      public virtual void OnPropertyChanged(string PropertyName)
+
+      private void OnPropertyChanged(string propertyName)
       {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
       }
 
     }
@@ -130,13 +130,13 @@ namespace 小科狗配置
     }
 
     // 用于 listView 数据绑定
-    public ObservableCollection<列表项> 查找列表 { get; set; }
-    public ObservableCollection<列表项> 外部工具 { get; set; }
-    public ObservableCollection<列表项> 快键命令 { get; set; }
-    public ObservableCollection<列表项> 自动关机 { get; set; }
-    public ObservableCollection<列表项> 快键 { get; set; }
-    public ObservableCollection<列表项> 自启 { get; set; }
-    public 状态条 设置项 { get; set; }
+    private ObservableCollection<列表项> 查找列表 { get; set; }
+    private ObservableCollection<列表项> 外部工具 { get; set; }
+    private ObservableCollection<列表项> 快键命令 { get; set; }
+    private ObservableCollection<列表项> 自动关机 { get; set; }
+    private ObservableCollection<列表项> 快键   { get; set; }
+    private ObservableCollection<列表项> 自启   { get; set; }
+    private 状态条                       设置项  { get; set; }
 
 
     // 用于存放 全局设置.json
@@ -152,7 +152,7 @@ namespace 小科狗配置
 
     }
 
-    GlobalSettings 全局设置 = new()
+    private GlobalSettings _全局设置 = new()
     {
       状态栏和其它设置 = new(),
       查找列表 = new ObservableCollection<列表项>(),
@@ -174,21 +174,21 @@ namespace 小科狗配置
       InitializeComponent();
 
 
-      globalSettingFilePath = $"{appPath}\\configs\\全局设置.json";
-      kegBakPath = $"{appPath}\\configs\\Keg_bak.txt";
+      _globalSettingFilePath = $"{_appPath}\\configs\\全局设置.json";
+      _kegBakPath = $"{_appPath}\\configs\\Keg_bak.txt";
 
-      if (!Directory.Exists($"{appPath}\\configs")) Directory.CreateDirectory($"{appPath}\\configs");
+      if (!Directory.Exists($"{_appPath}\\configs")) Directory.CreateDirectory($"{_appPath}\\configs");
 
       // 获取小科狗主程序目录
-      kegPath = Base.GetValue("window", "keg_path");
-      if (!File.Exists(kegPath + "KegServer.exe"))
+      _kegPath = Base.GetValue("window", "keg_path");
+      if (!File.Exists(_kegPath + "KegServer.exe"))
       {
-        kegPath = Base.kegPath;
+        _kegPath = Base.KegPath;
         //kegPath = Base.GetProcessPath("KegServer");
-        if (File.Exists(kegPath + "KegServer.exe")) Base.SetValue("window", "keg_path", kegPath);
-        else ((App)System.Windows.Application.Current).Exit();
+        if (File.Exists(_kegPath + "KegServer.exe")) Base.SetValue("window", "keg_path", _kegPath);
+        else ((App)Application.Current).Exit();
       }
-      kegFilePath = kegPath + "Keg.txt";
+      _kegFilePath = _kegPath + "Keg.txt";
 
       Loaded += MainWindow_Loaded;
       colorPicker.ColorChanged += ColorPicker_ColorChanged;
@@ -229,23 +229,30 @@ namespace 小科狗配置
     private void Color_label_MouseEnter(object sender, MouseEventArgs e)
     {
 
-      SolidColorBrush color1 = new((Color)ColorConverter.ConvertFromString("#FF000000"));  // 黑色
-      SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000"));  // 红色
+      SolidColorBrush color1 = new((Color)ColorConverter.ConvertFromString("#FF000000")!); // 黑色
+      SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000")!); // 红色
 
       color_Label_01.Foreground = color1;
       color_Label_02.Foreground = color1;
 
-      var label = sender as Label;
+      if (sender is not Label label) return;
       switch (label.Name)
       {
-        case "color_label_1": select_color_label_num = 1; color_Label_01.Foreground = color2; break;
-        case "color_label_2": select_color_label_num = 2; color_Label_02.Foreground = color2; break;
+        case "color_Label_1":
+          _selectColorLabelNum    = 1;
+          color_Label_01.Foreground = color2;
+          break;
+        case "color_Label_2":
+          _selectColorLabelNum    = 2;
+          color_Label_02.Foreground = color2;
+          break;
       }
+
       var currentColor = ((SolidColorBrush)label.Background).Color;
       // 计算反色
       var invertedColor = Color.FromArgb(255, (byte)~currentColor.R, (byte)~currentColor.G, (byte)~currentColor.B);
       label.BorderThickness = new Thickness(3);
-      label.BorderBrush = new SolidColorBrush(invertedColor);
+      label.BorderBrush     = new SolidColorBrush(invertedColor);
       var hex = RemoveChars(label.Background.ToString(), 2);
       var rgb = HexToRgb(hex);
       rgbTextBox.RGBText = rgb;
@@ -254,33 +261,25 @@ namespace 小科狗配置
     // 显示颜色的 label 鼠标离开事件
     private void Color_label_MouseLeave(object sender, MouseEventArgs e)
     {
-      var label = sender as Label;
-      label.BorderThickness = new Thickness(2);
+      if (sender is Label label) label.BorderThickness = new Thickness(2);
     }
 
 
     private void Button3_Copy_Click(object sender, RoutedEventArgs e)
     {
       var selectedFontName = SelectFontName();
-      if (selectedFontName != null)
-      {
-        var btn = sender as Button;
-        switch (btn.Name)
-        {
-          //case "button3_Copy": textBox_Copy145.Text = selectedFontName.ToString(); break;
-          case "button3_Copy1": textBox_Copy24.Text = selectedFontName.ToString(); break;
-        }
-      }
+      if (selectedFontName == null) return;
+      if (sender is Button { Name: "button3_Copy1" }) textBox_Copy24.Text = selectedFontName;
     }
 
-    public static string SelectFontName()
+    private static string SelectFontName()
     {
       using var fontDialog = new FontDialog();
       // 设置初始字体选项（可选）
       // fontDialog.Font = new Font("Arial", 12);
 
       // 显示字体对话框并获取用户的选择结果
-      if (fontDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+      if (fontDialog.ShowDialog() == DialogResult.OK)
         return fontDialog.Font.Name; // 返回用户选择的字体名称
 
       return null;
@@ -288,31 +287,31 @@ namespace 小科狗配置
 
 
     // 更新对应标签的背景颜色
-    private void SetColorLableColor(SolidColorBrush c_color)
+    private void SetColorLableColor(SolidColorBrush cColor)
     {
       Label[] colorLabels = { color_Label_1, color_Label_2 };
       // 计算反色
-      var currentColor = c_color.Color;
+      var currentColor = cColor.Color;
       var invertedColor = Color.FromArgb(255, (byte)~currentColor.R, (byte)~currentColor.G, (byte)~currentColor.B);
 
       for (var i = 1; i <= colorLabels.Length; i++)
-        if (i == select_color_label_num)
+        if (i == _selectColorLabelNum)
         {
           colorLabels[i - 1].BorderBrush = new SolidColorBrush(invertedColor);
-          colorLabels[i - 1].Background = c_color;
-          toolTipTextBlock.Foreground = c_color;
+          colorLabels[i - 1].Background = cColor;
+          toolTipTextBlock.Foreground = cColor;
         }
     }
 
 
     private void RGB_ValueChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
     {
-      SetColorLableColor(RGBStringToColor(rgbTextBox.RGBText));
+      SetColorLableColor(RgbStringToColor(rgbTextBox.RGBText));
     }
 
 
     // RGB字符串转换成Color
-    private SolidColorBrush RGBStringToColor(string rgbString)
+    private static SolidColorBrush RgbStringToColor(string rgbString)
     {
       //候选窗背景色为空时设为对话框背景色
       if (rgbString == "")
@@ -342,14 +341,14 @@ namespace 小科狗配置
     // 恢复全局设置
     private void Default_button_Click(object sender, RoutedEventArgs e)
     {
-      File.Delete(globalSettingFilePath);
+      File.Delete(_globalSettingFilePath);
       查找列表.Clear();
       外部工具.Clear();
       快键命令.Clear();
       快键.Clear();
       自启.Clear();
       自动关机.Clear();
-      LoadKegTxt(kegBakPath);
+      LoadKegTxt(_kegBakPath);
     }
 
     // 重新读取全局设置
@@ -366,7 +365,7 @@ namespace 小科狗配置
 
 
     // 颜色转换 HexToRgb：(255, 255, 255)
-    public static string HexToRgb(string hex)
+    private static string HexToRgb(string hex)
     {
       // 预期hex字符串格式如 "FF8000" 或 "#FF8000"
       hex = hex.Replace("#", ""); // 移除可能存在的井号
@@ -393,42 +392,37 @@ namespace 小科狗配置
     {
       var kegText = ""; // 存放 Keg.txt 文件
       kegText += $"《提示文本的位置={取提示文本的位置()}》\n";
-      kegText += $"《提示文本要隐藏吗？={要或不要((bool)checkBox3_Copy.IsChecked)}》\n";
-      kegText += $"《提示文本要显示中英以及大小写状态吗？={要或不要((bool)checkBox3_Copy1.IsChecked)}》\n";
+      kegText += $"《提示文本要隐藏吗？={要或不要(checkBox3_Copy.IsChecked != null && (bool)checkBox3_Copy.IsChecked)}》\n";
+      kegText += $"《提示文本要显示中英以及大小写状态吗？={要或不要(checkBox3_Copy1.IsChecked != null && (bool)checkBox3_Copy1.IsChecked)}》\n";
       kegText += $"《提示文本中文字体色={HexToRgb(color_Label_1.Background.ToString())}》\n";
       kegText += $"《提示文本英文字体色={HexToRgb(color_Label_2.Background.ToString())}》\n";
       kegText += $"《提示文本字体大小={nud23.Value}》\n";
       kegText += $"《提示文本字体名称={textBox_Copy24.Text}》\n";
-      kegText += $"《打字字数统计等数据是要保存在主程文件夹下吗？={是或不是((bool)checkBox3_Copy3.IsChecked)}》\n";
-      kegText += $"《快键只在候选窗口显示情况下才起作用吗？={是或不是((bool)checkBox3_Copy2.IsChecked)}》\n";
-      kegText += $"《要启用深夜锁屏吗？={要或不要((bool)checkBox3_Copy4.IsChecked)}》\n";
+      kegText += $"《打字字数统计等数据是要保存在主程文件夹下吗？={是或不是(checkBox3_Copy3.IsChecked != null && (bool)checkBox3_Copy3.IsChecked)}》\n";
+      kegText += $"《快键只在候选窗口显示情况下才起作用吗？={是或不是(checkBox3_Copy2.IsChecked != null && (bool)checkBox3_Copy2.IsChecked)}》\n";
+      kegText += $"《要启用深夜锁屏吗？={要或不要(checkBox3_Copy4.IsChecked != null && (bool)checkBox3_Copy4.IsChecked)}》\n";
 
-      kegText += $"\n在线查找\n";
-      foreach (var item in 查找列表)
-        if (item.Enable)
-          kegText += $"《在线查找={item.Name}::{item.Value}》\n";
+      kegText += "\n在线查找\n";
+      kegText =  查找列表.Where(item => item.Enable).Aggregate(kegText, (current, item)
+        => current + $"《在线查找={item.Name}::{item.Value}》\n");
 
-      kegText += $"\n外部工具动态菜单\n";
-      foreach (var item in 外部工具)
-        if (item.Enable)
-          kegText += $"《外部工具={item.Name}:{item.Value}》\n";
+      kegText += "\n外部工具动态菜单\n";
+      kegText =  外部工具.Where(item => item.Enable).Aggregate(kegText, (current, item)
+        => current + $"《外部工具={item.Name}:{item.Value}》\n");
 
-      kegText += $"\n运行命令行快键\n";
-      foreach (var item in 快键命令)
-        if (item.Enable)
-          kegText += $"《运行命令行快键={item.Value}<命令行={item.CMD}>》\n";
+      kegText += "\n运行命令行快键\n";
+      kegText =  快键命令.Where(item => item.Enable).Aggregate(kegText, (current, item) 
+        => current + $"《运行命令行快键={item.Value}<命令行={item.Cmd}>》\n");
 
-      kegText += $"\n快键\n";
-      foreach (var item in 快键)
-        if (item.Enable)
-          kegText += $"《{item.Name}={item.Value}》\n";
+      kegText += "\n快键\n";
+      kegText =  快键.Where(item => item.Enable).Aggregate(kegText, (current, item) 
+        => current + $"《{item.Name}={item.Value}》\n");
 
-      kegText += $"\n自启\n";
-      foreach (var item in 自启)
-        if (item.Enable)
-          kegText += $"《自启={item.Value}》\n";
+      kegText += "\n自启\n";
+      kegText =  自启.Where(item => item.Enable).Aggregate(kegText, (current, item) 
+        => current + $"《自启={item.Value}》\n");
 
-      kegText += $"\n自动关机\n";
+      kegText += "\n自动关机\n";
       foreach (var item in 自动关机)
         if (item.Enable)
         {
@@ -438,16 +432,16 @@ namespace 小科狗配置
         }
 
       // 写出文件 Keg.txt
-      File.WriteAllText(kegFilePath, kegText);
+      File.WriteAllText(_kegFilePath, kegText);
 
       try
       {
         var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        SendMessageTimeout(hWnd, KWM_UPQJSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out var pdwResult);
+        SendMessageTimeout(hWnd, KwmUpqjset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
       }
       catch (Exception ex)
       {
-        MessageBox.Show($"操作失败，请重试！");
+        MessageBox.Show("操作失败，请重试！");
         Console.WriteLine(ex.Message);
       }
     }
@@ -455,19 +449,19 @@ namespace 小科狗配置
     private bool IsTrueOrFalse(string value)
     {
       if (value == "不要" || value == "不是") return false;
-      else return true;
+      return true;
     }
 
     private string 是或不是(bool b)
     {
       if (b) return "是";
-      else return "不是";
+      return "不是";
     }
 
     private string 要或不要(bool b)
     {
       if (b) return "要";
-      else return "不要";
+      return "不要";
     }
 
 
@@ -478,15 +472,15 @@ namespace 小科狗配置
       {
         case "0":
           radioButton18.IsChecked = true;
-          toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+          if (toolTipTextBlock != null) toolTipTextBlock.VerticalAlignment = VerticalAlignment.Top;
           break;
         case "1":
           radioButton19.IsChecked = true;
-          toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+          if (toolTipTextBlock != null) toolTipTextBlock.VerticalAlignment = VerticalAlignment.Center;
           break;
         case "2":
           radioButton20.IsChecked = true;
-          toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+          if (toolTipTextBlock != null) toolTipTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
           break;
       }
 
@@ -501,14 +495,14 @@ namespace 小科狗配置
     // 读取 全局设置
     private void ReadKegText()
     {
-      if (File.Exists(globalSettingFilePath))
+      if (File.Exists(_globalSettingFilePath))
       {
         LoadGlobalSettingJson();
       }
       else
       {
-        File.Copy(kegFilePath, kegBakPath, true);
-        LoadKegTxt(kegFilePath);
+        File.Copy(_kegFilePath, _kegBakPath, true);
+        LoadKegTxt(_kegFilePath);
         SaveGlobalSettingJson();
       }
     }
@@ -516,13 +510,10 @@ namespace 小科狗配置
     // 读取文件 Keg.txt
     private void LoadKegTxt(string kegFilePath)
     {
-      var kegText = File.ReadAllText(kegFilePath);
-      MatchCollection matches;
-      string pattern;
+      var    kegText = File.ReadAllText(kegFilePath);
 
-      // 设当状态栏控件值
-      pattern = "《(提示文本.*?)|(打字字数统.*?)|(快键只在候.*?)|(要启用深夜.*?)=(.*)》";
-      matches = Regex.Matches(kegText, pattern);
+      var pattern =  "《(提示文本.*?)|(打字字数统.*?)|(快键只在候.*?)|(要启用深夜.*?)=(.*)》";
+      var    matches = Regex.Matches(kegText, pattern);
       foreach (Match match in matches)
       {
         var value = match.Groups[2].Value;
@@ -531,8 +522,8 @@ namespace 小科狗配置
           case "提示文本的位置": 提示文本的位置(value); break;
           case "提示文本要隐藏吗？": checkBox3_Copy.IsChecked = IsTrueOrFalse(value); break;
           case "提示文本要显示中英以及大小写状态吗？": checkBox3_Copy1.IsChecked = IsTrueOrFalse(value); break;
-          case "提示文本中文字体色": color_Label_1.Background = RGBStringToColor(value); break;
-          case "提示文本英文字体色": color_Label_2.Background = RGBStringToColor(value); break;
+          case "提示文本中文字体色": color_Label_1.Background = RgbStringToColor(value); break;
+          case "提示文本英文字体色": color_Label_2.Background = RgbStringToColor(value); break;
           case "提示文本字体大小": nud23.Value = int.Parse(value); break;
           case "提示文本字体名称": textBox_Copy24.Text = value; break;
           case "打字字数统计等数据是要保存在主程文件夹下吗？": checkBox3_Copy3.IsChecked = IsTrueOrFalse(value); break;
@@ -545,12 +536,12 @@ namespace 小科狗配置
       matches = Regex.Matches(kegText, pattern);
       foreach (Match match in matches)
       {
-        var item = new 列表项()
+        var item = new 列表项
         {
           Enable = true,
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
-          CMD = "",
+          Cmd = "",
         };
         查找列表.Add(item);
       }
@@ -561,12 +552,12 @@ namespace 小科狗配置
       {
         foreach (Match match in matches)
         {
-          var item = new 列表项()
+          var item = new 列表项
           {
             Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
-            CMD = "",
+            Cmd = "",
           };
           外部工具.Add(item);
         }
@@ -579,24 +570,24 @@ namespace 小科狗配置
       {
         foreach (Match match in matches)
         {
-          var item = new 列表项()
+          var item = new 列表项
           {
             Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
-            CMD = match.Groups[3].Value,
+            Cmd = match.Groups[3].Value,
           };
           快键命令.Add(item);
         }
       }
       else
       {
-        var item = new 列表项()
+        var item = new 列表项
         {
           Enable = false,
           Name = "运行命令行快键=",
           Value = "",
-          CMD = "",
+          Cmd = "",
         };
         快键命令.Add(item);
       }
@@ -605,12 +596,12 @@ namespace 小科狗配置
       matches = Regex.Matches(kegText, pattern);
       foreach (Match match in matches)
       {
-        var item = new 列表项()
+        var item = new 列表项
         {
           Enable = true,
           Name = match.Groups[1].Value,
           Value = match.Groups[2].Value,
-          CMD = "",
+          Cmd = "",
         };
         快键.Add(item);
       }
@@ -621,24 +612,24 @@ namespace 小科狗配置
       {
         foreach (Match match in matches)
         {
-          var item = new 列表项()
+          var item = new 列表项
           {
             Enable = true,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value,
-            CMD = "",
+            Cmd = "",
           };
           自启.Add(item);
         }
       }
       else
       {
-        var item = new 列表项()
+        var item = new 列表项
         {
           Enable = false,
           Name = "自启",
           Value = "",
-          CMD = "",
+          Cmd = "",
         };
         自启.Add(item);
       }
@@ -650,24 +641,24 @@ namespace 小科狗配置
       {
         foreach (Match match in matches)
         {
-          var item = new 列表项()
+          var item = new 列表项
           {
             Enable = false,
             Name = match.Groups[1].Value,
             Value = match.Groups[2].Value == "" ? "22:30" : match.Groups[2].Value,
-            CMD = "",
+            Cmd = "",
           };
           自动关机.Add(item);
         }
       }
       else
       {
-        var item = new 列表项()
+        var item = new 列表项
         {
           Enable = false,
           Name = "自动关机",
           Value = "22:30",
-          CMD = "",
+          Cmd = "",
         };
         自动关机.Add(item);
       }
@@ -678,19 +669,19 @@ namespace 小科狗配置
     {
       设置项 = new 状态条
       {
-        提示文本字体大小 = nud23.Value,
-        提示文本字体名称 = textBox_Copy24.Text,
-        提示文本的位置 = 取提示文本的位置(),
-        提示文本要隐藏吗 = (bool)checkBox3_Copy.IsChecked,
-        提示文本要显示中英以及大小写状态吗 = (bool)checkBox3_Copy1.IsChecked,
-        打字字数统计等数据是要保存在主程文件夹下吗 = (bool)checkBox3_Copy3.IsChecked,
-        快键只在候选窗口显示情况下才起作用吗 = (bool)checkBox3_Copy2.IsChecked,
-        要启用深夜锁屏吗 = (bool)checkBox3_Copy4.IsChecked,
-        提示文本中文字体色 = RemoveChars(color_Label_1.Background.ToString(), 2),
-        提示文本英文字体色 = RemoveChars(color_Label_2.Background.ToString(), 2),
+        提示文本字体大小              = nud23.Value,
+        提示文本字体名称              = textBox_Copy24.Text,
+        提示文本的位置               = 取提示文本的位置(),
+        提示文本要隐藏吗              = checkBox3_Copy.IsChecked  != null && (bool)checkBox3_Copy.IsChecked,
+        提示文本要显示中英以及大小写状态吗     = checkBox3_Copy1.IsChecked != null && (bool)checkBox3_Copy1.IsChecked,
+        打字字数统计等数据是要保存在主程文件夹下吗 = checkBox3_Copy3.IsChecked != null && (bool)checkBox3_Copy3.IsChecked,
+        快键只在候选窗口显示情况下才起作用吗    = checkBox3_Copy2.IsChecked != null && (bool)checkBox3_Copy2.IsChecked,
+        要启用深夜锁屏吗              = checkBox3_Copy4.IsChecked != null && (bool)checkBox3_Copy4.IsChecked,
+        提示文本中文字体色             = RemoveChars(color_Label_1.Background.ToString(), 2),
+        提示文本英文字体色             = RemoveChars(color_Label_2.Background.ToString(), 2),
       };
 
-      全局设置 = new()
+      _全局设置 = new()
       {
         状态栏和其它设置 = 设置项,
         查找列表 = 查找列表,
@@ -701,15 +692,15 @@ namespace 小科狗配置
         自动关机 = 自动关机
       };
 
-      var jsonString = JsonConvert.SerializeObject(全局设置, Formatting.Indented);
-      File.WriteAllText(globalSettingFilePath, jsonString);
+      var jsonString = JsonConvert.SerializeObject(_全局设置, Formatting.Indented);
+      File.WriteAllText(_globalSettingFilePath, jsonString);
     }
 
     // 读取文件 全局设置.json
     private void LoadGlobalSettingJson()
     {
 
-      全局设置 = new()
+      _全局设置 = new()
       {
         状态栏和其它设置 = new(),
         查找列表 = new ObservableCollection<列表项>(),
@@ -721,26 +712,29 @@ namespace 小科狗配置
       };
 
       // 读取整个文件内容,将JSON字符串反序列化为对象
-      var jsonString = File.ReadAllText(globalSettingFilePath);
-      全局设置 = JsonConvert.DeserializeObject<GlobalSettings>(jsonString);
-      查找列表 = 全局设置.查找列表;
-      外部工具 = 全局设置.外部工具;
-      快键命令 = 全局设置.快键命令;
-      快键 = 全局设置.快键;
-      自启 = 全局设置.自启;
-      自动关机 = 全局设置.自动关机;
-      设置项 = 全局设置.状态栏和其它设置;
+      var jsonString = File.ReadAllText(_globalSettingFilePath);
+      _全局设置 = JsonConvert.DeserializeObject<GlobalSettings>(jsonString);
+      查找列表 = _全局设置.查找列表;
+      外部工具 = _全局设置.外部工具;
+      快键命令 = _全局设置.快键命令;
+      快键 = _全局设置.快键;
+      自启 = _全局设置.自启;
+      自动关机 = _全局设置.自动关机;
+      设置项 = _全局设置.状态栏和其它设置;
 
-      提示文本的位置(设置项.提示文本的位置);
-      checkBox3_Copy.IsChecked = 设置项.提示文本要隐藏吗;
-      nud23.Value = 设置项.提示文本字体大小;
-      textBox_Copy24.Text = 设置项.提示文本字体名称;
-      checkBox3_Copy4.IsChecked = 设置项.要启用深夜锁屏吗;
-      checkBox3_Copy1.IsChecked = 设置项.提示文本要显示中英以及大小写状态吗;
-      checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
-      checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
-      color_Label_1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色));
-      color_Label_2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色));
+      if (设置项 != null)
+      {
+        提示文本的位置(设置项.提示文本的位置);
+        checkBox3_Copy.IsChecked  = 设置项.提示文本要隐藏吗;
+        nud23.Value               = 设置项.提示文本字体大小;
+        textBox_Copy24.Text       = 设置项.提示文本字体名称;
+        checkBox3_Copy4.IsChecked = 设置项.要启用深夜锁屏吗;
+        checkBox3_Copy1.IsChecked = 设置项.提示文本要显示中英以及大小写状态吗;
+        checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
+        checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
+        color_Label_1.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色)!);
+        color_Label_2.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色)!);
+      }
 
       listView3.ItemsSource = 查找列表; // ListView的数据
       listView8.ItemsSource = 外部工具;
@@ -753,7 +747,7 @@ namespace 小科狗配置
 
 
     // Hex格式 ARGB 转 RGB，如 #FFAABBCC -> #AABBCC
-    public static string RemoveChars(string str, int n)
+    private static string RemoveChars(string str, int n)
     {
       str = str.Replace("#", ""); // 移除可能存在的井号
       return "#" + str.Substring(2, str.Length - n);
@@ -772,22 +766,13 @@ namespace 小科狗配置
         var newEventArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
         {
           RoutedEvent = UIElement.MouseWheelEvent,
-          Source = sender
+          Source      = sender
         };
         ((UIElement)listView.Parent).RaiseEvent(newEventArgs);
       }
     }
-
-
-    // 列表双击 启用/禁用选中项
-    private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-      if (sender is ListView listView)
-        if (listView.SelectedItem is 列表项 selectedItem)
-          selectedItem.Enable = selectedItem.Enable;
-    }
-
-    private object GetDataItem(object sender, RoutedEventArgs e)
+    
+    private static object GetDataItem(object sender)
     {
       // 获取点击按钮的父级容器（即ListViewItem）
       var listViewItem = sender as FrameworkElement;
@@ -795,7 +780,7 @@ namespace 小科狗配置
       {
         listViewItem = VisualTreeHelper.GetParent(listViewItem) as FrameworkElement;
       }
-      if (listViewItem == null || listViewItem is not ListViewItem item) return null;
+      if (listViewItem is not ListViewItem item) return null;
 
       // 获取绑定到按钮的数据项
       var dataItem = item.DataContext;
@@ -807,35 +792,30 @@ namespace 小科狗配置
     private void HotKeyControl_HotKeyPressed(object sender, RoutedEventArgs e)
     {
       var hotKeyControl = sender as HotKeyControl;
-      var dataItem = GetDataItem(sender, e);
-      if (dataItem is 列表项 listitem)
+      var dataItem = GetDataItem(sender);
+      if (dataItem is not 列表项 listitem) return;
+      if (hotKeyControl != null)
         listitem.Value = hotKeyControl.HotKey;
     }
     private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (sender is TextBox textBox)
-      {
-        if (textBox.DataContext is 列表项 item)
-          item.Name = textBox.Text;
-      }
+      if (sender is TextBox { DataContext: 列表项 item } textBox) item.Name = textBox.Text;
     }
     private void TextBox2_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (sender is TextBox textBox)
-        if (textBox.DataContext is 列表项 item)
-          item.Value = textBox.Text;
+      if (sender is not TextBox textBox) return;
+      if (textBox.DataContext is 列表项 item)
+        item.Value = textBox.Text;
     }
 
     private void TextBox3_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (sender is TextBox textBox)
-        if (textBox.DataContext is 列表项 item)
-          item.CMD = textBox.Text;
+      if (sender is TextBox { DataContext: 列表项 item } textBox) item.Cmd = textBox.Text;
     }
 
     private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
-      var dataItem = GetDataItem(sender, e);
+      var dataItem = GetDataItem(sender);
       if (dataItem is 列表项 listitem)
         listitem.Enable = listitem.Enable;
     }
@@ -859,16 +839,14 @@ namespace 小科狗配置
     private void ListViewItem_MouseLeave(object sender, MouseEventArgs e)
     {
       // 寻找事件源中的 Button 控件
-      if (sender is ListViewItem item)
-      {
-        var delButton = FindChild<Button>(item, "delButton");
-        if (delButton != null)
-          delButton.Visibility = Visibility.Hidden;
-      }
+      if (sender is not ListViewItem item) return;
+      var delButton = FindChild<Button>(item, "delButton");
+      if (delButton != null)
+        delButton.Visibility = Visibility.Hidden;
     }
 
     // 递归查找子控件的帮助方法
-    public static T FindChild<T>(DependencyObject parent, string childName)
+    private static T FindChild<T>(DependencyObject parent, string childName)
        where T : DependencyObject
     {
       // 确认传入的参数有效
@@ -881,7 +859,7 @@ namespace 小科狗配置
       {
         var child = VisualTreeHelper.GetChild(parent, i);
         // 确认子控件是正确的类型
-        if (child is not T)
+        if (child is not T dependencyObject)
         {
           // 如果不是，递归查找
           foundChild = FindChild<T>(child, childName);
@@ -890,16 +868,14 @@ namespace 小科狗配置
         else if (!string.IsNullOrEmpty(childName))
         {
           // 检查控件的名称是否匹配
-          if (child is FrameworkElement frameworkElement && frameworkElement.Name == childName)
-          {
-            foundChild = (T)child;
-            break;
-          }
+          if (dependencyObject is not FrameworkElement frameworkElement || frameworkElement.Name != childName) continue;
+          foundChild = dependencyObject;
+          break;
         }
         else
         {
           // 名称不重要，返回第一个找到的匹配类型的子控件
-          foundChild = (T)child;
+          foundChild = dependencyObject;
           break;
         }
       }
@@ -914,7 +890,7 @@ namespace 小科狗配置
       var button = sender as Button;
       if (button == null) return;
 
-      var dataItem = GetDataItem(sender, e);
+      var dataItem = GetDataItem(sender);
       if (dataItem is 列表项 listitem)
       {
         if (int.TryParse(button.Tag.ToString(), out var listViewNum))
@@ -952,13 +928,13 @@ namespace 小科狗配置
     // listView 添加
     private void AddNewItem(Button btn)
     {
-      // 根据按钮创建新的列表项
+      // 根据按钮创建新地列表项
       列表项 item = new()
       {
         Enable = false,
         Name = "",
         Value = "",
-        CMD = ""
+        Cmd = ""
       };
 
       switch(btn.Content){
@@ -986,8 +962,8 @@ namespace 小科狗配置
 
     private void CheckBox3_Copy1_CheckedChanged(object sender, RoutedEventArgs e)
     {
-      zh_en = checkBox3_Copy1.IsChecked == true ? "中c：" : "";
-      toolTipTextBlock.Text = $"{zh_en}方案名称";
+      _zhEn = checkBox3_Copy1.IsChecked == true ? "中c：" : "";
+      toolTipTextBlock.Text = $"{_zhEn}方案名称";
     }
 
     private void CheckBox3_Copy_CheckedChanged(object sender, RoutedEventArgs e)
@@ -998,7 +974,7 @@ namespace 小科狗配置
     private void LoadKegSkinImages()
     {
       // 获取应用的相对路径并转换为绝对路径
-      var directoryPath = kegPath + "skin\\";
+      var directoryPath = _kegPath + "skin\\";
 
       // 设置皮肤图片路径
       var skin = $"{directoryPath}Keg.png";
@@ -1028,20 +1004,21 @@ namespace 小科狗配置
                                        && Path.GetFileNameWithoutExtension(f) != "Keg");
 
       // 查找默认皮肤文件，如果存在则将其从原始文件列表中移除
-      var defaultFile = allFiles.FirstOrDefault(f => Path.GetFileNameWithoutExtension(f) == "默认");
+      var enumerable  = allFiles as string[] ?? allFiles.ToArray();
+      var defaultFile = enumerable.FirstOrDefault(f => Path.GetFileNameWithoutExtension(f) == "默认");
 
       List<string> files;
       if (defaultFile != null)
       {
         // 移除默认皮肤文件后，将其添加到新列表的首位
-        files = allFiles.Except(new[] { defaultFile }).ToList();
+        files = enumerable.Except(new[] { defaultFile }).ToList();
         files.Insert(0, defaultFile);
       }
       else
       {
         // 若默认皮肤文件不存在，则直接使用所有符合条件的文件列表
-        files = allFiles.ToList();
-    }
+        files = enumerable.ToList();
+      }
 
       // 遍历处理后的图片文件集合
       foreach (var file in files)
@@ -1057,57 +1034,52 @@ namespace 小科狗配置
     private void SkinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       var selectedItem = (string)skinListBox.SelectedItem;
-      var selectedImagePath = kegPath + "skin\\" + selectedItem;
+      var selectedImagePath = _kegPath + "skin\\" + selectedItem;
 
       SetImage(selectedImagePath);
     }
 
 
-    private void SetImage(string imagePath){
-      if (!string.IsNullOrEmpty(imagePath))
-      {
-        BitmapImage image = new();
-        image.BeginInit();
-        image.UriSource = new Uri(imagePath);
-        image.EndInit();
+    private void SetImage(string imagePath)
+    {
+      if (string.IsNullOrEmpty(imagePath)) return;
+      BitmapImage image = new();
+      image.BeginInit();
+      image.UriSource = new Uri(imagePath);
+      image.EndInit();
 
-        // 检查文件扩展名以确定是否为GIF
-        if (Path.GetExtension(imagePath).Equals(".gif", StringComparison.OrdinalIgnoreCase))
-        {
-          ImageBehavior.SetAnimatedSource(displayImage, image);
-        }
-        else
-        {
-          // 清除动画状态
-          ImageBehavior.SetAnimatedSource(displayImage, null);
-          displayImage.Source = image;
-        }
+      // 检查文件扩展名以确定是否为GIF
+      if (Path.GetExtension(imagePath).Equals(".gif", StringComparison.OrdinalIgnoreCase))
+      {
+        ImageBehavior.SetAnimatedSource(displayImage, image);
+      }
+      else
+      {
+        // 清除动画状态
+        ImageBehavior.SetAnimatedSource(displayImage, null);
+        displayImage.Source = image;
       }
     }
 
     private void SaveButton1_Click(object sender, RoutedEventArgs e)
     {
-      if (skinListBox.SelectedIndex >= 0)
+      if (skinListBox.SelectedIndex < 0) return;
+      var selectedItem = (string)skinListBox.SelectedItem;
+      var selectedSkin = _kegPath + "skin\\" + selectedItem;
+
+      try
       {
-        var selectedItem = (string)skinListBox.SelectedItem;
-        var selectedSkin = kegPath + "skin\\" + selectedItem;
+        Clipboard.SetText(selectedSkin);
+        // KWM_UPPFSET 更新皮肤文件路径
+        var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
+        SendMessageTimeout(hWnd, KwmUppfset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
 
-        try
-        {
-
-          Clipboard.SetText(selectedSkin);
-          //Thread.Sleep(200);
-          // KWM_UPPFSET 更新皮肤文件路径
-          var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-          SendMessageTimeout(hWnd, KWM_UPPFSET, IntPtr.Zero, IntPtr.Zero, flags, timeout, out var pdwResult);
-
-          Base.SetValue("skin", "path", selectedSkin);
-        }
-        catch (Exception ex)
-        {
-          MessageBox.Show($"操作失败，请重试！");
-          Console.WriteLine(ex.Message);
-        }
+        Base.SetValue("skin", "path", selectedSkin);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("操作失败，请重试！");
+        Console.WriteLine(ex.Message);
       }
     }
 
@@ -1116,21 +1088,14 @@ namespace 小科狗配置
     {
       var radioButton = (RadioButton)sender;
 
-      if ((bool)radioButton.IsChecked)
+      if (radioButton.IsChecked != null && !(bool)radioButton.IsChecked) return;
+      toolTipTextBlock.VerticalAlignment = radioButton.Content.ToString() switch
       {
-        switch (radioButton.Content.ToString())
-        {
-          case "顶部":
-            toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-            break;
-          case "中间":
-            toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            break;
-          case "底部":
-            toolTipTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-            break;
-        }
-      }
+        "顶部" => VerticalAlignment.Top,
+        "中间" => VerticalAlignment.Center,
+        "底部" => VerticalAlignment.Bottom,
+        _    => toolTipTextBlock.VerticalAlignment
+      };
     }
 
     #endregion

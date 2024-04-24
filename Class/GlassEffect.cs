@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace 小科狗配置
+namespace 小科狗配置.Class
 {
 
 
   public class GlassEffect
   {
     [DllImport("Dwmapi.dll")]
-    public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+    public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins pMarInset);
 
     [DllImport("Dwmapi.dll")]
-    public static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref DWM_BLURBEHIND pBlurBehind);
+    public static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref DwmBlurbehind pBlurBehind);
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct MARGINS
+    public struct Margins
     {
       public int cxLeftWidth;
       public int cxRightWidth;
@@ -23,7 +23,7 @@ namespace 小科狗配置
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct DWM_BLURBEHIND
+    public struct DwmBlurbehind
     {
       public uint dwFlags;
       public bool fEnable;

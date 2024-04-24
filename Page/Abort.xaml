@@ -1,10 +1,10 @@
-﻿<local:BasePage
-  x:Class="小科狗配置.Abort"
+﻿<class:BasePage
+  x:Class="小科狗配置.Page.Abort"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:小科狗配置"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:class="clr-namespace:小科狗配置.Class"
   Title="Abort"
   FontFamily="小科狗字体"
   FontSize="14"
@@ -15,7 +15,6 @@
   <Grid x:Name="grid3">
 
     <ScrollViewer
-      Grid.Row="1"
       HorizontalAlignment="Left"
       VerticalScrollBarVisibility="Hidden">
       <StackPanel x:Name="groupBoxStackPanel" Orientation="Vertical">
@@ -33,8 +32,7 @@
                 Margin="10,10,10,10"
                 FontSize="16"
                 Style="{DynamicResource RoundTextBox2}"
-                Text="{DynamicResource TextBoxText2}"
-                TextWrapping="Wrap" />
+                Text="{DynamicResource TextBoxText2}" />
             </Grid>
 
           </Border>
@@ -51,8 +49,7 @@
                   Margin="10,10,10,10"
                   FontSize="16"
                   Style="{DynamicResource RoundTextBox2}"
-                  Text="{DynamicResource TextBoxText1}"
-                  TextWrapping="Wrap" />
+                  Text="{DynamicResource TextBoxText1}" />
 
               </StackPanel>
             </Grid>
@@ -62,4 +59,4 @@
       </StackPanel>
     </ScrollViewer>
   </Grid>
-</local:BasePage>
+</class:BasePage>

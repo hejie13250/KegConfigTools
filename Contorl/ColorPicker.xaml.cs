@@ -1,43 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
-using Button = System.Windows.Controls.Button;
-using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
-using ColorConverter = System.Windows.Media.ColorConverter;
-using FormsDialogResult = System.Windows.Forms.DialogResult;
-using GroupBox = System.Windows.Controls.GroupBox;
-using Label = System.Windows.Controls.Label;
-using ListView = System.Windows.Controls.ListView;
-using ListViewItem = System.Windows.Controls.ListViewItem;
-using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using Path = System.IO.Path;
 using Point = System.Windows.Point;
-using RadioButton = System.Windows.Controls.RadioButton;
-using TextBox = System.Windows.Controls.TextBox;
-using Thumb = System.Windows.Controls.Primitives.Thumb;
 using UserControl = System.Windows.Controls.UserControl;
-using Window = System.Windows.Window;
+
 namespace 小科狗配置
 {
   // 定义事件参数类

@@ -1,7 +1,7 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 
-namespace 小科狗配置
+namespace 小科狗配置.Class
 {
   public class ViewModel //: INotifyPropertyChanged
   {

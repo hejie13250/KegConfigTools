@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
-namespace 小科狗配置
+namespace 小科狗配置.Class
 {
-  public class BasePage : Page, INotifyPropertyChanged
+  public class BasePage : System.Windows.Controls.Page, INotifyPropertyChanged
   {
     public event EventHandler<string> NameOfSelectedGroupBoxChanged;
-    private string _NameOfSelectedGroupBox;
+    private string _nameOfSelectedGroupBox;
 
     public string NameOfSelectedGroupBox
     {
-      get { return _NameOfSelectedGroupBox; }
+      get => _nameOfSelectedGroupBox;
       set
       {
-        if (_NameOfSelectedGroupBox != value)
-        {
-          _NameOfSelectedGroupBox = value;
-          OnPropertyChanged(nameof(NameOfSelectedGroupBox));
-          NameOfSelectedGroupBoxChanged?.Invoke(this, _NameOfSelectedGroupBox);
-        }
+        if (_nameOfSelectedGroupBox == value) return;
+        _nameOfSelectedGroupBox = value;
+        OnPropertyChanged(nameof(NameOfSelectedGroupBox));
+        NameOfSelectedGroupBoxChanged?.Invoke(this, _nameOfSelectedGroupBox);
       }
     }
 

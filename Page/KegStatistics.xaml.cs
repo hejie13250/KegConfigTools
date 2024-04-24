@@ -1,9 +1,4 @@
-﻿using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.SkiaSharpView.Painting.Effects;
-using SkiaSharp;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -11,9 +6,15 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.Painting.Effects;
+using SkiaSharp;
+using 小科狗配置.Class;
 using Path = System.IO.Path;
 
-namespace 小科狗配置
+namespace 小科狗配置.Page
 {
   /// <summary>
   /// KegStatistics.xaml 的交互逻辑
@@ -37,7 +38,7 @@ namespace 小科狗配置
     static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
 
     const uint ABORTIFHUNG = 0x0002;
-    readonly uint flags = (uint)(ABORTIFHUNG);
+    readonly uint flags = ABORTIFHUNG;
     readonly uint timeout = 500;
     const int WM_USER = 0x0400;               // 根据Windows API定义
     const uint KWM_GETALLZSTJ = (uint)WM_USER + 214;  //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
@@ -72,7 +73,7 @@ namespace 小科狗配置
 
     readonly string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-    int ts = 0;
+    int ts;
 
     [Obsolete]
     public KegStatistics()
@@ -128,7 +129,7 @@ namespace 小科狗配置
       }
       catch
       {
-        MessageBox.Show($"操作失败，请重试！");
+        MessageBox.Show("操作失败，请重试！");
         return;
       }
 
@@ -196,7 +197,7 @@ namespace 小科狗配置
       上屏[n] = double.Parse(match.Groups[4].Value);
       时长[n] = double.Parse(match.Groups[5].Value);
       累计[n] = double.Parse(match.Groups[6].Value);
-      速度[n] = (double)(字数[n] / (时长[n] / 60 + nud.Value * 上屏[n] * (时长[n] / 60 / 击键[n])));
+      速度[n] = 字数[n] / (时长[n]   / 60 + nud.Value * 上屏[n] * (时长[n] / 60 / 击键[n]));
       码长[n] = Math.Round(击键[n] / 字数[n], 1);
     }
 
@@ -329,12 +330,12 @@ namespace 小科狗配置
     {
       var match = matches[0]; // 今天的数据
 
-      var zs = double.Parse(match.Groups[2].Value); //字数
-      var jj = double.Parse(match.Groups[3].Value); //击键
-      var sp = double.Parse(match.Groups[4].Value); //上屏
-      var sc = double.Parse(match.Groups[5].Value); //时长
-      var sd = (double)(zs / (sc / 60 + nud.Value * sp * (sc / 60 / jj)));  //速度
-      var mc = Math.Round(jj / zs, 1);  //码长
+      var zs = double.Parse(match.Groups[2].Value);                   //字数
+      var jj = double.Parse(match.Groups[3].Value);                   //击键
+      var sp = double.Parse(match.Groups[4].Value);                   //上屏
+      var sc = double.Parse(match.Groups[5].Value);                   //时长
+      var sd = zs / (sc      / 60 + nud.Value * sp * (sc / 60 / jj)); //速度
+      var mc = Math.Round(jj / zs, 1);                                //码长
 
       // 累计的数据
       var ljzs = double.Parse(match.Groups[6].Value); //累计字数
@@ -347,8 +348,8 @@ namespace 小科狗配置
         ljsp += 上屏[i];
         ljsc += 时长[i];
       }
-      var ljsd = (double)(ljzs / (ljsc / 60 + nud.Value * ljsp * (ljsc / 60 / ljjj)));  //累计速度
-      var ljmc = Math.Round(ljjj / ljzs, 1);  //累计码长
+      var ljsd = ljzs / (ljsc    / 60 + nud.Value * ljsp * (ljsc / 60 / ljjj)); //累计速度
+      var ljmc = Math.Round(ljjj / ljzs, 1);                                    //累计码长
 
       zsTextBlock.Text = String.Format("{0:#,###0}", zs); //字数
       jjTextBlock.Text = String.Format("{0:#,###0}", jj); //击键
