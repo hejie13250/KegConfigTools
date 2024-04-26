@@ -1,10 +1,10 @@
-﻿using LiveChartsCore.VisualElements;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,13 +13,15 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using 小科狗配置.Class;
+using 小科狗配置.DialogBox;
 using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
 using GroupBox = System.Windows.Controls.GroupBox;
 using ListView = System.Windows.Controls.ListView;
 using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-
+using System.IO;
+using System.Text;
 
 namespace 小科狗配置.Page
 {
@@ -156,49 +158,13 @@ namespace 小科狗配置.Page
     }
     #endregion
 
-    private void 切换到其它库(object sender, RoutedEventArgs e)
-    {
-      var cb = (CheckBox)sender;
-      open_Button.IsEnabled = cb.IsChecked != false;
-      ListViewData?.Clear();
-      comboBox.Items.Clear();
-
-      if (_otherDbPath == null) // 还没有选择其它库
-      {
-        groupBox1.IsEnabled = false;
-        open_Button.IsEnabled = cb.IsChecked != false;
-        return;
-      }
-      _dbPath = _otherDbPath;  // 如果有其它库就打开它
-
-      if (_tableName2 == null) return;
-      _tableName = _tableName2;
-      
-      从数据库文件获取表名();
-      for (var i = 0; i < comboBox.Items.Count; i++)
-        if ((string)comboBox.Items[i] == _tableName)
-          comboBox.SelectedIndex = i;
-    }
     
     
-    private void 切换到主库(object sender, RoutedEventArgs e)
-    {
-      var cb = (CheckBox)sender;
-      open_Button.IsEnabled = cb.IsChecked != false;
-      ListViewData?.Clear();
-      comboBox.Items.Clear();
-
-      _dbPath = Base.KegPath + "Keg.db";
-      if (_tableName1 != null)
-        _tableName = _tableName1;
-      
-      从数据库文件获取表名();
-      for (var i = 0; i < comboBox.Items.Count; i++)
-        if ((string)comboBox.Items[i] == _tableName)
-          comboBox.SelectedIndex = i;
-    }
     
-
+    
+    
+    
+    
 
     private void 事件_切换库按钮_Click(object sender, RoutedEventArgs e)
     {
@@ -265,7 +231,7 @@ namespace 小科狗配置.Page
         _tableName2 = _tableName;
       else
         _tableName1 = _tableName;
-      删除表内所有空行();         // 先删除空行
+      删除表内所有空行并改空权重为零();         // 先删除空行
       获取数据();
       groupBox1.IsEnabled    = true;
       fontComboBox.IsEnabled = true; //读取词条后才可以改字体
@@ -437,18 +403,14 @@ namespace 小科狗配置.Page
         }
         if (item.IsMod)
         {
-          var index = 0;
           foreach (var item2 in 要修改项)
           {
-            if (item.RowNumber == item2.RowNumber)
-              要修改项.Remove(item2);
-            index++;
+            if (item.RowNumber != item2.RowNumber) continue;
+            要修改项.Remove(item2);
+            修改项值.Remove(item);
+            item.IsMod = false;
           }
-
-          修改项值.Remove(item);
-          item.IsMod = false;
         }
-
         if(要删除项.Count ==0 && 要添加项.Count == 0 && 要修改项.Count == 0)
           切换编缉状态(false);
       }
@@ -524,29 +486,33 @@ namespace 小科狗配置.Page
     /// <summary>
     /// 删除表内所有 key 为 null 和 "" 的行
     /// </summary>
-    private void 删除表内所有空行()
+    private void 删除表内所有空行并改空权重为零()
     {
-      SQLiteConnection connection = new($"Data Source={_dbPath}");
+      using var connection = new SQLiteConnection($"Data Source={_dbPath}");
       connection.Open();
       try
       {
-        using var command = new SQLiteCommand($"DELETE FROM '{_tableName}' WHERE key IS NULL OR TRIM(key) = ''", connection);
-        var rows = command.ExecuteNonQuery();
-        if(rows != 0 ) MessageBox.Show($"已删除 {rows} 行空数据");
+        // 删除空行
+        int deletedRows;
+        using (var deleteCommand = new SQLiteCommand($"DELETE FROM '{_tableName}' WHERE key IS NULL OR TRIM(key) = ''", connection))
+          deletedRows = deleteCommand.ExecuteNonQuery();
+
+        // 改空权重为零
+        int updatedRows;
+        using (var updateCommand = new SQLiteCommand($"UPDATE '{_tableName}' SET weight = 0 WHERE weight IS NULL OR TRIM(weight) = ''", connection))
+          updatedRows = updateCommand.ExecuteNonQuery();
+
+        if (deletedRows != 0) MessageBox.Show($"已删除 {deletedRows} 行空数据");
+        if (updatedRows != 0) MessageBox.Show($"已将 {updatedRows} 行权重为空的数据改权重为 0");
       }
       catch (Exception ex)
       {
-        MessageBox.Show($"获取表名出错: {ex.Message}");
+        MessageBox.Show($"操作出错: {ex.Message}");
       }
       finally
       {
         connection.Close();
       }
-    }
-
-    private void 改空权重为零()
-    {
-      
     }
     
     /// <summary>
@@ -826,6 +792,45 @@ namespace 小科狗配置.Page
     }
 
     
+    /// <summary>
+    /// 重命名或复制表
+    /// </summary>
+    /// <param name="newTableName">新的表名</param>
+    /// <param name="isCopy">true 为复制表，false 为删除表</param>
+    private void 删除或复制表(string newTableName, bool isCopy = true)
+    {      
+      if(comboBox.SelectedIndex == -1) return;
+      using var connection = new SQLiteConnection($"Data Source={_dbPath}");
+      connection.Open();
+      using var transaction = connection.BeginTransaction();
+      try
+      {        
+        if (isCopy)
+        {
+          // 创建新表
+          using (var createCommand = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS '{newTableName}' AS SELECT * FROM '{_tableName}' WHERE 1 = 0", connection, transaction))
+            createCommand.ExecuteNonQuery();
+
+          // 复制数据到新表
+          using (var copyCommand = new SQLiteCommand($"INSERT INTO '{newTableName}' SELECT * FROM '{_tableName}'", connection, transaction))
+            copyCommand.ExecuteNonQuery();
+        }
+        // 删除旧表
+        using (var dropCommand = new SQLiteCommand($"DROP TABLE IF EXISTS '{_tableName}'", connection, transaction)) dropCommand.ExecuteNonQuery();
+
+        // 提交事务
+        transaction.Commit();
+
+        MessageBox.Show("表名修改成功！");
+      }
+      catch (Exception ex)
+      {
+        // 回滚事务并显示错误消息
+        transaction.Rollback();
+        MessageBox.Show($"修改表名出错: {ex.Message}");
+      }
+    }
+    
     #endregion
 
     #region 其它
@@ -995,6 +1000,249 @@ namespace 小科狗配置.Page
       weightTextBox.Text = item.Weight.ToString();
       fcTextBox.Text     = item.Fc;
     }
+
+
+    #endregion
+
+
+
+    #region 复制_删除_导入_导出表
+    private void 复制表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var dialog = new ReNameDialogBox("复制表", _tableName);
+      dialog.ShowDialog();
+      var newTableName = dialog.Name;
+      if(_tableName == newTableName) return;
+      if (comboBox.Items.Cast<object>().Any(item => item.ToString() == newTableName))
+      {
+        MessageBox.Show("表内存存在同名称的表，请重试");
+        return;
+      }
+
+      删除或复制表(newTableName); // 复制表
+      comboBox.Items.Add(newTableName);
+
+      // 更新当前表名
+      _tableName = newTableName;
+    }
+    
+    private void 删除表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      if (_onlyReading)
+      {
+        MessageBox.Show("当前有数据没有提交。");
+        return;
+      }
+
+      if (comboBox.Items.Count == 1)
+      {
+        MessageBox.Show("当前库只有一个表了,你不能删除它。");
+        return;
+      }
+      var result = MessageBox.Show($"要删除 {_tableName} 表吗？", "删除表",
+        MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+      if (result != MessageBoxResult.OK) return;
+      删除或复制表(_tableName, false); // 删除表
+      comboBox.Items.Remove(comboBox.SelectedIndex);
+      comboBox.SelectedIndex = 0;
+    }
+
+
+
+
+
+
+    
+    
+    private void 事件_导入表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var dialog = new ReNameDialogBox("导入 CSV 文件到新表", "");
+      dialog.ShowDialog();
+      var newTableName = dialog.Name;
+      if(string.IsNullOrEmpty(newTableName)) return;
+      
+      // 使用文件对话框获取要导入的CSV文件路径
+      var csvFilePath = GetCsvFilePathToImport();
+      
+      // 创建一个新表
+      CreateNewTable(_dbPath, newTableName);
+      
+      // 导入CSV文件数据到新表
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ImportCsvToTable(_dbPath, newTableName, csvFilePath);
+    }
+
+
+    /// <summary>
+    /// 弹出文件选择框
+    /// </summary>
+    /// <returns>文件的路径</returns>
+    private static string GetCsvFilePathToImport()
+    {
+      // 创建OpenFileDialog对象
+      var openFileDialog = new OpenFileDialog();
+      openFileDialog.Filter           = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+      openFileDialog.FilterIndex      = 1;
+      openFileDialog.RestoreDirectory = true;
+
+      // 显示文件对话框并获取用户选择的文件路径
+      return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : null;
+    }
+
+    
+    /// <summary>
+    /// 创建新的空表
+    /// </summary>
+    /// <param name="databasePath"></param>
+    private static void CreateNewTable(string databasePath, string tableName)
+    {
+      var connectionString = $"Data Source={databasePath};Version=3;";
+
+      // 使用参数传入的表名创建新表，包含四列（key, value, weight, fc）
+      var createTableQuery = $"CREATE TABLE IF NOT EXISTS \"{tableName}\" (key TEXT, value TEXT, weight INTEGER, fc TEXT)";
+      // var createTableQuery = $"CREATE TABLE IF NOT EXISTS '{tableName}' (key TEXT, value TEXT, weight INTEGER, fc TEXT)";
+
+      using var connection = new SQLiteConnection(connectionString);
+      connection.Open();
+      using var command = new SQLiteCommand(createTableQuery, connection);
+      command.ExecuteNonQuery();
+    }
+
+    /// <summary>
+    /// 导入CSV文件数据到新表
+    /// </summary>
+    /// <param name="databasePath">数据库路径</param>
+    /// <param name="tableName">新表名称</param>
+    /// <param name="csvFilePath">CSV 文件路径</param>
+    private static void ImportCsvToTable(string databasePath, string tableName, string csvFilePath)
+    {
+        var connectionString = $"Data Source={databasePath};Version=3;";
+        
+        using var connection = new SQLiteConnection(connectionString);
+        connection.Open();
+
+        // 读取CSV文件内容并逐行插入到数据库表中
+        using var reader = new StreamReader(csvFilePath);
+        while (reader.ReadLine() is { } line)
+        {
+          var data = line.Split(',');
+          if (data.Length != 4) continue;
+          var key    = data[0];
+          var value  = data[1];
+          var weight = data[2];
+          var fc     = data[3];
+          
+          // 插入数据到数据库表中
+          var       insertQuery = $"INSERT INTO '{tableName}' (key, value, weight, fc) VALUES (@key, @value, @weight, @fc)";
+          using var command     = new SQLiteCommand(insertQuery, connection);
+          command.Parameters.AddWithValue("@key",    key);
+          command.Parameters.AddWithValue("@value",  value);
+          command.Parameters.AddWithValue("@weight", weight);
+          command.Parameters.AddWithValue("@fc",     fc);
+          command.ExecuteNonQuery();
+        }
+        MessageBox.Show("导入新表成功");
+    }
+
+
+
+    
+
+    
+    
+    private static string GetCsvFilePathToExport()
+    {
+      // 创建SaveFileDialog对象
+      var saveFileDialog = new SaveFileDialog
+      {
+        Filter           = @"CSV files (*.csv)|*.csv|All files (*.*)|*.*",
+        FilterIndex      = 1,
+        RestoreDirectory = true
+      };
+
+      // 显示文件对话框并获取用户选择的文件路径
+      return saveFileDialog.ShowDialog() == DialogResult.OK ? saveFileDialog.FileName : null;
+    }
+    
+    
+    private void 事件_导出表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var csvFilePath = GetCsvFilePathToExport();// 弹出文件对话框获取将要导出的 CSV 文件路径
+
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ExportTableToCsv(_dbPath, _tableName, csvFilePath);
+    }
+    
+    /// <summary>
+    /// 导出表到CSV文件
+    /// </summary>
+    /// <param name="databasePath">数据库文件鼠径</param>
+    /// <param name="tableName">要导出的表名称</param>
+    /// <param name="csvFilePath">CSV 文件的鼠径</param>
+    private static void ExportTableToCsv(string databasePath, string tableName, string csvFilePath)
+    {
+      var connectionString = $"Data Source={databasePath};Version=3;";
+
+      // 使用SQLite连接器连接到数据库
+      using var connection = new SQLiteConnection(connectionString);
+      connection.Open();
+
+      // 创建SQL查询命令
+      var       query   = $"SELECT * FROM '{tableName}'";
+      using var command = new SQLiteCommand(query, connection);
+      using var reader  = command.ExecuteReader();
+      if (reader.HasRows)
+      {
+        // 创建一个StreamWriter来写入CSV文件
+        using var writer = new StreamWriter(csvFilePath, false, Encoding.UTF8);
+        // 写入CSV文件的标题行（列名）
+        var headerBuilder = new StringBuilder();
+        for (var i = 0; i < reader.FieldCount; i++)
+        {
+          headerBuilder.Append($"\"{reader.GetName(i)}\"");
+          if (i < reader.FieldCount - 1)
+            headerBuilder.Append(",");
+        }
+        writer.WriteLine(headerBuilder.ToString());
+
+        // 逐行写入数据到CSV文件
+        while (reader.Read())
+        {
+          var dataBuilder = new StringBuilder();
+          for (var i = 0; i < reader.FieldCount; i++)
+          {
+            // 处理字段值中的特殊字符（如逗号、引号等）
+            var value = reader.IsDBNull(i) ? "" : reader.GetValue(i).ToString();
+            value = value.Replace("\"", "\"\"");
+            value = $"\"{value}\"";
+            dataBuilder.Append(value);
+            if (i < reader.FieldCount - 1)
+              dataBuilder.Append(",");
+          }
+          writer.WriteLine(dataBuilder.ToString());
+        }
+      }
+      else
+      {
+        MessageBox.Show("这是一个空表");
+        return;
+      }
+
+      MessageBox.Show("导出表成功");
+    }
+
+ 
+
+
+
+
+
+
 
     #endregion
 

@@ -308,6 +308,9 @@
     <Compile Include="Contorl\DoubleNumericUpDown.xaml.cs">
       <DependentUpon>DoubleNumericUpDown.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogBox\ReNameDialogBox.xaml.cs">
+      <DependentUpon>ReNameDialogBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page\ModifyTable.xaml.cs">
       <DependentUpon>ModifyTable.xaml</DependentUpon>
     </Compile>
@@ -338,6 +341,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Contorl\DoubleNumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogBox\ReNameDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
