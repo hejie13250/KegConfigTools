@@ -652,35 +652,45 @@ namespace 小科狗配置.Page
     
     private void 提交数据()
     {
-      using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
-      connection.Open();
-      if (要删除项.Count != 0)
+      try
       {
-        foreach (var item in 要删除项)
+        using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+        connection.Open();
+        // 开始一个事务
+        using var transaction = connection.BeginTransaction();
+
+        if (要删除项.Count != 0)
         {
-          删除数据行(connection, item.Key, item.Value);
+          foreach (var item in 要删除项)
+          {
+            删除数据行(connection, item.Key, item.Value);
+          }
         }
+
+        if (要添加项.Count != 0)
+        {
+          foreach (var item in 要添加项)
+          {
+            添加数据行(connection, item.Key, item.Value, item.Weight, item.Fc);
+          }
+        }
+
+        if (修改项值.Count != 0)
+        {
+          var index = 0;
+          foreach (var item in 修改项值)
+          {
+            修改数据行(connection, item.Key, item.Value, item.Weight, item.Fc, 要修改项[index].Key, 要修改项[index].Value);
+            index++;
+          }
+        }
+        transaction.Commit();  // 提交剩余的数据行
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"数据导入失败: {ex.Message}");
       }
 
-      if (要添加项.Count != 0)
-      {
-        foreach (var item in 要添加项)
-        {
-          添加数据行(connection, item.Key, item.Value, item.Weight, item.Fc);
-        }
-      }
-
-      if (修改项值.Count != 0)
-      {
-        var index = 0;
-        foreach (var item in 修改项值)
-        {
-          修改数据行(connection, item.Key, item.Value, item.Weight, item.Fc, 要修改项[index].Key, 要修改项[index].Value);
-          index++;
-        }
-      }
-      connection.Close();
-      
       MessageBox.Show("数据提交完成！");
       要删除项.Clear();
       要添加项.Clear();
@@ -699,31 +709,31 @@ namespace 小科狗配置.Page
     private void 删除数据行(SQLiteConnection con, string key, string value)
     {
       var command = new SQLiteCommand(con);
-      command.CommandText = $"DELETE FROM {_tableName} WHERE key = @key AND value = @value";
+      command.CommandText = $"DELETE FROM '{_tableName}' WHERE key = @key AND value = @value";
       command.Parameters.AddWithValue("@key",   key);
       command.Parameters.AddWithValue("@value", value);
 
-      command.Prepare();
+      // command.Prepare();
       command.ExecuteNonQuery();
     }
-    
+
     private void 添加数据行(SQLiteConnection con, string key, string value, int weight, string fc)
     {
       var command = new SQLiteCommand(con);
-      command.CommandText     = $"INSERT INTO {_tableName}(key, value, weight, fc) VALUES(@key,@value,@weight,@fc)";
+      command.CommandText     = $"INSERT INTO '{_tableName}'(key, value, weight, fc) VALUES(@key,@value,@weight,@fc)";
       command.Parameters.AddWithValue("@key",    key);
       command.Parameters.AddWithValue("@value",  value);
       command.Parameters.AddWithValue("@weight", weight);
       command.Parameters.AddWithValue("@fc",     fc);
 
-      command.Prepare();
+      // command.Prepare();
       command.ExecuteNonQuery();
     }
 
     private void 修改数据行(SQLiteConnection con, string key, string value, int weight, string fc, string oldKey, string oldValue)
     {
       var command = new SQLiteCommand(con);
-      command.CommandText = $"UPDATE {_tableName} SET key=@key, value=@value, weight=@weight, fc=@fc WHERE key=@oldKey AND value=@oldValue";
+      command.CommandText = $"UPDATE '{_tableName}' SET key=@key, value=@value, weight=@weight, fc=@fc WHERE key=@oldKey AND value=@oldValue";
       command.Parameters.AddWithValue("@key",      key);
       command.Parameters.AddWithValue("@value",    value);
       command.Parameters.AddWithValue("@weight",   weight);
@@ -731,14 +741,14 @@ namespace 小科狗配置.Page
       command.Parameters.AddWithValue("@oldKey",   oldKey);
       command.Parameters.AddWithValue("@oldValue", oldValue);
 
-      command.Prepare();
+      // command.Prepare();
       command.ExecuteNonQuery();
     }
-    
+
     private void 获取数据()
     {
       var count = 获取表数据总行数(_tableName);
-      _pageLen   = 1000;
+      _pageLen   = 5000;
       _pageCount = count / _pageLen;
       if (count          % _pageLen > 0) _pageCount++;
 
@@ -793,44 +803,63 @@ namespace 小科狗配置.Page
 
     
     /// <summary>
-    /// 重命名或复制表
+    /// 复制表
     /// </summary>
     /// <param name="newTableName">新的表名</param>
-    /// <param name="isCopy">true 为复制表，false 为删除表</param>
-    private void 删除或复制表(string newTableName, bool isCopy = true)
+    private void 复制表(string newTableName)
     {      
-      if(comboBox.SelectedIndex == -1) return;
+      // if(comboBox.SelectedIndex == -1) return;
       using var connection = new SQLiteConnection($"Data Source={_dbPath}");
       connection.Open();
       using var transaction = connection.BeginTransaction();
       try
       {        
-        if (isCopy)
-        {
-          // 创建新表
-          using (var createCommand = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS '{newTableName}' AS SELECT * FROM '{_tableName}' WHERE 1 = 0", connection, transaction))
-            createCommand.ExecuteNonQuery();
+        // 创建新表
+        using (var createCommand = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS '{newTableName}' AS SELECT * FROM '{_tableName}' WHERE 1 = 0", connection, transaction))
+          createCommand.ExecuteNonQuery();
 
-          // 复制数据到新表
-          using (var copyCommand = new SQLiteCommand($"INSERT INTO '{newTableName}' SELECT * FROM '{_tableName}'", connection, transaction))
-            copyCommand.ExecuteNonQuery();
-        }
+        // 复制数据到新表
+        using (var copyCommand = new SQLiteCommand($"INSERT INTO '{newTableName}' SELECT * FROM '{_tableName}'", connection, transaction))
+          copyCommand.ExecuteNonQuery();
+
         // 删除旧表
-        using (var dropCommand = new SQLiteCommand($"DROP TABLE IF EXISTS '{_tableName}'", connection, transaction)) dropCommand.ExecuteNonQuery();
+        // using (var dropCommand = new SQLiteCommand($"DROP TABLE IF EXISTS '{_tableName}'", connection, transaction)) dropCommand.ExecuteNonQuery();
 
         // 提交事务
         transaction.Commit();
-
-        MessageBox.Show("表名修改成功！");
+        MessageBox.Show("复制表成功！");
       }
       catch (Exception ex)
       {
         // 回滚事务并显示错误消息
         transaction.Rollback();
-        MessageBox.Show($"修改表名出错: {ex.Message}");
+        MessageBox.Show($"操作出错: {ex.Message}");
       }
     }
-    
+
+    /// <summary>
+    /// 删除表
+    /// </summary>
+    /// <param name="tableName">表名</param>
+    private bool 删除表(string tableName)
+    {
+      try
+      {
+        using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
+        connection.Open();
+        var       deleteQuery = $"DROP TABLE IF EXISTS '{tableName}'";
+        using var command     = new SQLiteCommand(deleteQuery, connection);
+
+        command.ExecuteNonQuery();
+        MessageBox.Show("表删除成功");
+        return true;
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"删除表失败: {ex.Message}");
+      }
+      return false;
+    }
     #endregion
 
     #region 其它
@@ -945,7 +974,7 @@ namespace 小科狗配置.Page
     {
       using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
       connection.Open();
-      var query = $"SELECT EXISTS(SELECT 1 FROM {_tableName} WHERE key = @key AND value = @value)";
+      var query = $"SELECT EXISTS(SELECT 1 FROM '{_tableName}' WHERE key = @key AND value = @value)";
       using SQLiteCommand command = new(query, connection);
       command.Parameters.AddWithValue("@key", key);
       command.Parameters.AddWithValue("@value", value);
@@ -1010,17 +1039,17 @@ namespace 小科狗配置.Page
     private void 复制表按钮_Click(object sender, RoutedEventArgs e)
     {
       if(comboBox.SelectedIndex == -1) return;
-      var dialog = new ReNameDialogBox("复制表", _tableName);
+      var dialog = new ReNameDialogBox("复制表到新表", _tableName);
       dialog.ShowDialog();
       var newTableName = dialog.Name;
       if(_tableName == newTableName) return;
       if (comboBox.Items.Cast<object>().Any(item => item.ToString() == newTableName))
       {
-        MessageBox.Show("表内存存在同名称的表，请重试");
+        MessageBox.Show("存在同名称的表，请改名称");
         return;
       }
 
-      删除或复制表(newTableName); // 复制表
+      复制表(newTableName); // 复制表
       comboBox.Items.Add(newTableName);
 
       // 更新当前表名
@@ -1041,22 +1070,17 @@ namespace 小科狗配置.Page
         MessageBox.Show("当前库只有一个表了,你不能删除它。");
         return;
       }
-      var result = MessageBox.Show($"要删除 {_tableName} 表吗？", "删除表",
+      var result = MessageBox.Show($"要删除 '{_tableName}' 表吗？", "删除表",
         MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
       if (result != MessageBoxResult.OK) return;
-      删除或复制表(_tableName, false); // 删除表
-      comboBox.Items.Remove(comboBox.SelectedIndex);
-      comboBox.SelectedIndex = 0;
+      if(!删除表(_tableName)) return; // 删除表
+      ListViewData?.Clear();
+      comboBox.Items.Clear();
+      从数据库文件获取表名();
     }
 
 
-
-
-
-
-    
-    
     private void 事件_导入表按钮_Click(object sender, RoutedEventArgs e)
     {
       if(comboBox.SelectedIndex == -1) return;
@@ -1083,28 +1107,32 @@ namespace 小科狗配置.Page
     /// <returns>文件的路径</returns>
     private static string GetCsvFilePathToImport()
     {
-      // 创建OpenFileDialog对象
-      var openFileDialog = new OpenFileDialog();
-      openFileDialog.Filter           = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
-      openFileDialog.FilterIndex      = 1;
-      openFileDialog.RestoreDirectory = true;
+      var openFileDialog = new OpenFileDialog()
+      {
+        Title = @"选择 CSV 文件导入新表",
+        Filter = @"CSV files (*.csv)|*.csv|All files (*.*)|*.*",
+        FilterIndex = 1,
+        RestoreDirectory = true
+      };
+
 
       // 显示文件对话框并获取用户选择的文件路径
       return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : null;
     }
 
-    
+
     /// <summary>
     /// 创建新的空表
     /// </summary>
     /// <param name="databasePath"></param>
+    /// <param name="tableName"></param>
     private static void CreateNewTable(string databasePath, string tableName)
     {
       var connectionString = $"Data Source={databasePath};Version=3;";
 
       // 使用参数传入的表名创建新表，包含四列（key, value, weight, fc）
-      var createTableQuery = $"CREATE TABLE IF NOT EXISTS \"{tableName}\" (key TEXT, value TEXT, weight INTEGER, fc TEXT)";
-      // var createTableQuery = $"CREATE TABLE IF NOT EXISTS '{tableName}' (key TEXT, value TEXT, weight INTEGER, fc TEXT)";
+      // var createTableQuery = $"CREATE TABLE IF NOT EXISTS \"{tableName}\" (key TEXT, value TEXT, weight INTEGER, fc TEXT)";
+      var createTableQuery = $"CREATE TABLE IF NOT EXISTS '{tableName}' (key TEXT, value TEXT, weight INTEGER, fc TEXT)";
 
       using var connection = new SQLiteConnection(connectionString);
       connection.Open();
@@ -1118,35 +1146,46 @@ namespace 小科狗配置.Page
     /// <param name="databasePath">数据库路径</param>
     /// <param name="tableName">新表名称</param>
     /// <param name="csvFilePath">CSV 文件路径</param>
-    private static void ImportCsvToTable(string databasePath, string tableName, string csvFilePath)
+    private void ImportCsvToTable(string databasePath, string tableName, string csvFilePath)
     {
-        var connectionString = $"Data Source={databasePath};Version=3;";
-        
-        using var connection = new SQLiteConnection(connectionString);
+      try
+      {
+        var       connectionString = $"Data Source={databasePath};Version=3;";
+        using var connection       = new SQLiteConnection(connectionString);
         connection.Open();
-
-        // 读取CSV文件内容并逐行插入到数据库表中
-        using var reader = new StreamReader(csvFilePath);
-        while (reader.ReadLine() is { } line)
+        // 开始一个事务
+        using var transaction = connection.BeginTransaction();
+        using var reader      = new StreamReader(csvFilePath);
+        foreach (var line in File.ReadLines(csvFilePath).Skip(1))
         {
           var data = line.Split(',');
-          if (data.Length != 4) continue;
-          var key    = data[0];
-          var value  = data[1];
-          var weight = data[2];
-          var fc     = data[3];
-          
-          // 插入数据到数据库表中
-          var       insertQuery = $"INSERT INTO '{tableName}' (key, value, weight, fc) VALUES (@key, @value, @weight, @fc)";
-          using var command     = new SQLiteCommand(insertQuery, connection);
+          if (data.Length != 4) continue; // Ensure there are exactly four elements
+
+          var key    = data[0].Trim('"');
+          var value  = data[1].Trim('"');
+          var weight = data[2].Trim('"');
+          var fc     = data[3].Trim('"');
+
+          var insertQuery = $"INSERT INTO '{tableName}' (key, value, weight, fc) VALUES (@key, @value, @weight, @fc)";
+          using var command = new SQLiteCommand(insertQuery, connection);
+
           command.Parameters.AddWithValue("@key",    key);
           command.Parameters.AddWithValue("@value",  value);
           command.Parameters.AddWithValue("@weight", weight);
           command.Parameters.AddWithValue("@fc",     fc);
+
           command.ExecuteNonQuery();
         }
-        MessageBox.Show("导入新表成功");
+        transaction.Commit();  // 提交剩余的数据行
+        MessageBox.Show("数据导入成功");
+        comboBox.Items.Add(tableName);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"数据导入失败: {ex.Message}");
+      }
     }
+
 
 
 
@@ -1156,9 +1195,9 @@ namespace 小科狗配置.Page
     
     private static string GetCsvFilePathToExport()
     {
-      // 创建SaveFileDialog对象
       var saveFileDialog = new SaveFileDialog
       {
+        Title            = @"导出表到 CSV 文件",
         Filter           = @"CSV files (*.csv)|*.csv|All files (*.*)|*.*",
         FilterIndex      = 1,
         RestoreDirectory = true
