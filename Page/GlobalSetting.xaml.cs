@@ -50,10 +50,13 @@ namespace 小科狗配置.Page
 
     #region 消息接口定义
 
+    // [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    // static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    // [DllImport("user32.dll", SetLastError = true)]
+    // static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
+
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-    [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
+    static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
     private const         uint Abortifhung = 0x0002;
     private const uint Flags       = Abortifhung;
@@ -439,8 +442,9 @@ namespace 小科狗配置.Page
 
       try
       {
-        var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        SendMessageTimeout(hWnd, KwmUpqjset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
+        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
+        // SendMessageTimeout(hWnd, KwmUpqjset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
+        PostMessage(Base.hWnd, KwmUpqjset, IntPtr.Zero, IntPtr.Zero);
       }
       catch (Exception ex)
       {
@@ -1070,9 +1074,9 @@ namespace 小科狗配置.Page
       {
         Clipboard.SetText(selectedSkin);
         // KWM_UPPFSET 更新皮肤文件路径
-        var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        SendMessageTimeout(hWnd, KwmUppfset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-
+        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
+        // SendMessageTimeout(hWnd, KwmUppfset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
+        PostMessage(Base.hWnd, KwmUppfset, IntPtr.Zero, IntPtr.Zero);
         Base.SetValue("skin", "path", selectedSkin);
       }
       catch (Exception ex)

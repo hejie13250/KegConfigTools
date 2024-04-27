@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,11 +31,14 @@ namespace 小科狗配置.Page
     #endregion
 
     #region 消息接口
-    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    // [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    // static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
+    // [DllImport("user32.dll", SetLastError = true)]
+    // static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
+
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
     const uint Abortifhung = 0x0002;
     readonly uint _flags = Abortifhung;
@@ -120,8 +124,10 @@ namespace 小科狗配置.Page
       string str;
       try
       {
-        var hWnd = FindWindow("CKegServer_0", null);
-        SendMessageTimeout(hWnd, KwmGetallzstj, IntPtr.Zero, IntPtr.Zero, _flags, _timeout, out _);
+        // var hWnd = FindWindow("CKegServer_0", null);
+        // SendMessageTimeout(hWnd, KwmGetallzstj, IntPtr.Zero, IntPtr.Zero, _flags, _timeout, out _);
+        PostMessage(Base.hWnd, KwmGetallzstj, IntPtr.Zero, IntPtr.Zero);
+        Thread.Sleep(200);
         str = Clipboard.GetText();
       }
       catch

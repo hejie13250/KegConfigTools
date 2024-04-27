@@ -19,7 +19,7 @@ namespace 小科狗配置.Class
     public static           string KegPath;                        // 小科狗主程序目录
     public static           string SQLiteDB_Path;
     public static           string LevelDB_Path;
-
+    public static           IntPtr hWnd;
     #region 读写配置项
     // 读写配置项 API
     [DllImport("kernel32", CharSet = CharSet.Unicode)]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
@@ -67,6 +67,10 @@ namespace 小科狗配置.Class
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
 
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+
     private const uint Abortifhung     = 0x0002;
     private const uint Flags           = Abortifhung;
     private const uint Timeout         = 500;
@@ -95,6 +99,8 @@ namespace 小科狗配置.Class
     /// <returns></returns>
     public static void GetKegPath()
     {
+      hWnd = FindWindow("CKegServer_0", null); //窗口句柄
+
       GetProcessPathFormServer();
       var kegText = File.ReadAllText(KegPath + "Keg.txt");
       const string pattern = "《打字字数统.*?=(.*)》";
@@ -129,7 +135,9 @@ namespace 小科狗配置.Class
       try
       {
         var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        SendMessageTimeout(hWnd, KwmGetpath, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
+        // SendMessageTimeout(hWnd, KwmGetpath, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
+        PostMessage(hWnd, KwmGetpath, IntPtr.Zero, IntPtr.Zero);
+
         Thread.Sleep(200);
         KegPath = Clipboard.GetText();
         SetValue("window", "keg_path", KegPath);
