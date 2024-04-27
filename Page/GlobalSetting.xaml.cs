@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WpfAnimatedGif;
 using 小科狗配置.Class;
-using 小科狗配置.Contorl;
+using 小科狗配置.Control;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;

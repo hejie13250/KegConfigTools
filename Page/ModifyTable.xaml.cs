@@ -138,12 +138,12 @@ namespace 小科狗配置.Page
     private string _dbPath;      // 当前库路径
     private string _tableName;   // 当前表名称
     private string _otherDbPath; // 其它库路径
-    private string _tableName1;   // 主库的表名称
-    private string _tableName2;   // 其它库的表名称
-    private int    _pageCount;      // 总页码
-    private int    _currentPage;    // 当前页码
-    private int    _pageLen;        // 每页数据行数
-    private bool   _onlyReading;    // 编缉状态
+    private string _tableName1;  // 主库的表名称
+    private string _tableName2;  // 其它库的表名称
+    private int    _pageCount;   // 总页码
+    private int    _currentPage; // 当前页码
+    private int    _pageLen;     // 每页数据行数
+    private bool   _onlyReading; // 编缉状态
 
     public ModifyTable()
     {
@@ -158,13 +158,11 @@ namespace 小科狗配置.Page
     }
     #endregion
 
-    
-    
-    
-    
-    
-    
-    
+    #region SQLite码表修改
+
+    #region 控件事件
+
+    #region 库切换控件事件
 
     private void 事件_切换库按钮_Click(object sender, RoutedEventArgs e)
     {
@@ -173,15 +171,15 @@ namespace 小科狗配置.Page
       ListViewData?.Clear();
       comboBox.Items.Clear();
       fontComboBox.IsEnabled = false;
-      groupBox1.IsEnabled = false;
-      textBox2.Text = "";
+      stackPanel_2.IsEnabled = false;
+      searchTextBox.Text     = "";
 
       if (dbCheckBox.IsChecked != null && (bool)dbCheckBox.IsChecked)
       {
         if (_otherDbPath == null) // 还没有选择其它库
         {
-          groupBox1.IsEnabled = false;
-          open_Button.IsEnabled = cb.IsChecked != false;
+          stackPanel_2.IsEnabled = false;
+          open_Button.IsEnabled  = cb.IsChecked != false;
           return;
         }
         _dbPath = _otherDbPath;  // 如果有其它库就打开它
@@ -201,22 +199,22 @@ namespace 小科狗配置.Page
         if ((string)comboBox.Items[i] == _tableName)
           comboBox.SelectedIndex = i;
     }
-    
+
     // 打开其它数据库
     private void 事件_打开按钮_Click(object sender, RoutedEventArgs e)
     {
       var openFileDialog = new OpenFileDialog
       {
         Filter = @"SQLite文件|*.db",
-        Title = @"选择一个SQLite文件"
+        Title  = @"选择一个SQLite文件"
       };
 
       if (openFileDialog.ShowDialog() != DialogResult.OK) return;
       var filePath = openFileDialog.FileName;
 
       Console.WriteLine($@"文件路径：{filePath}");
-      _otherDbPath   = filePath;
-      _dbPath    = filePath;
+      _otherDbPath = filePath;
+      _dbPath      = filePath;
       comboBox.Items.Clear();
       从数据库文件获取表名();
     }
@@ -226,23 +224,123 @@ namespace 小科狗配置.Page
     {
       if (sender is not ComboBox cb || cb.SelectedIndex == -1) return;
       _tableName = cb.SelectedValue as string;
-      textBox2.Text = "";
+      searchTextBox.Text = "";
       if (dbCheckBox.IsChecked != null && (bool)dbCheckBox.IsChecked) 
         _tableName2 = _tableName;
       else
         _tableName1 = _tableName;
       删除表内所有空行并改空权重为零();         // 先删除空行
       获取数据();
-      groupBox1.IsEnabled    = true;
+      stackPanel_2.IsEnabled    = true;
       fontComboBox.IsEnabled = true; //读取词条后才可以改字体
-      stackPanel.IsEnabled   = true; //读取词条后才可以翻页和搜索
+      stackPanel_3.IsEnabled   = true; //读取词条后才可以翻页和搜索
     }
 
-    
+    // 改 ListView 的字体
+    private void 事件_字体组合框_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      if (fontComboBox.SelectedValue == null) return;
+
+      var fontName = fontComboBox.SelectedItem.ToString();
+      var font     = new FontFamily(fontName);
+      listView.FontFamily      = font;
+      keyTextBox.FontFamily    = font;
+      valueTextBox.FontFamily  = font;
+      weightTextBox.FontFamily = font;
+      fcTextBox.FontFamily     = font;
+
+      将字体名称写到表内(fontName);
+    }
+
+    // ComboBox 获取焦点
+    private void 组合框_MouseEnter(object sender, MouseEventArgs e)
+    {
+      var cb = sender as ComboBox;
+      cb?.Focus();
+    }
+
+    #endregion
+
+    #region 复制_删除_导入_导出表事件
+    private void 事件_复制表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var dialog = new ReNameDialogBox("复制表到新表", _tableName);
+      dialog.ShowDialog();
+      var newTableName = dialog.Name;
+      if(_tableName == newTableName) return;
+      if (comboBox.Items.Cast<object>().Any(item => item.ToString() == newTableName))
+      {
+        MessageBox.Show("存在同名称的表，请改名称");
+        return;
+      }
+
+      复制表(newTableName); // 复制表
+      comboBox.Items.Add(newTableName);
+
+      // 更新当前表名
+      _tableName = newTableName;
+    }
+
+    private void 事件_删除表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      if (_onlyReading)
+      {
+        MessageBox.Show("当前有数据没有提交。");
+        return;
+      }
+
+      if (comboBox.Items.Count == 1)
+      {
+        MessageBox.Show("当前库只有一个表了,你不能删除它。");
+        return;
+      }
+      var result = MessageBox.Show($"要删除 '{_tableName}' 表吗？", "删除表",
+                                   MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+      if (result != MessageBoxResult.OK) return;
+      if(!删除表(_tableName)) return; // 删除表
+      ListViewData?.Clear();
+      comboBox.Items.Clear();
+      从数据库文件获取表名();
+    }
+
+    private void 事件_导入表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var dialog = new ReNameDialogBox("导入 CSV 文件到新表", "");
+      dialog.ShowDialog();
+      var newTableName = dialog.Name;
+      if(string.IsNullOrEmpty(newTableName)) return;
+
+      // 使用文件对话框获取要导入的CSV文件路径
+      var csvFilePath = GetCsvFilePathToImport();
+
+      // 创建一个新表
+      CreateNewTable(_dbPath, newTableName);
+
+      // 导入CSV文件数据到新表
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ImportCsvToTable(_dbPath, newTableName, csvFilePath);
+    }
+
+    private void 事件_导出表按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var csvFilePath = GetCsvFilePathToExport();// 弹出文件对话框获取将要导出的 CSV 文件路径
+
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ExportTableToCsv(_dbPath, _tableName, csvFilePath);
+    }
+
+    #endregion
+
+    #region 翻页控件事件
     // 第一页
     private void 事件_第一页按钮_Click(object sender, RoutedEventArgs e)
     {
-      if (_currentPage == 0 || textBox2.Text != "") return;
+      if (_currentPage == 0 || searchTextBox.Text != "") return;
       if (_onlyReading)
       {
         MessageBox.Show("当前有数据没有提交。");
@@ -250,16 +348,15 @@ namespace 小科狗配置.Page
       }
 
       _currentPage = 0;
-      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      pageTextBox.Text = $"{_currentPage + 1}/{_pageCount}";
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
     }
 
-
     // 上一页
     private void 事件_上一页按钮_Click(object sender, RoutedEventArgs e)
     {
-      if (_currentPage == 0 || textBox2.Text != "") return;
+      if (_currentPage == 0 || searchTextBox.Text != "") return;
       if (_onlyReading)
       {
         MessageBox.Show("当前有数据没有提交。");
@@ -267,7 +364,7 @@ namespace 小科狗配置.Page
       }
 
       _currentPage --;
-      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      pageTextBox.Text = $"{_currentPage + 1}/{_pageCount}";
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
     }
@@ -276,7 +373,7 @@ namespace 小科狗配置.Page
     private void 事件_页码框_MouseWheel(object sender, MouseWheelEventArgs e)
     {
       e.Handled = true;                                         // 阻止滚轮事件继续向上冒泡
-      if (textBox2.Text != "") return;
+      if (searchTextBox.Text != "") return;
       if (_onlyReading)
       {
         MessageBox.Show("当前有数据没有提交。");
@@ -305,7 +402,7 @@ namespace 小科狗配置.Page
       }
 
       _currentPage  = value -1;
-      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      pageTextBox.Text = $"{_currentPage + 1}/{_pageCount}";
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
     }
@@ -313,7 +410,7 @@ namespace 小科狗配置.Page
     // 下一页
     private void 事件_下一页按钮_Click(object sender, RoutedEventArgs e)
     {
-      if (_currentPage == _pageCount - 1 || textBox2.Text != "") return;
+      if (_currentPage == _pageCount - 1 || searchTextBox.Text != "") return;
       if (_onlyReading)
       {
         MessageBox.Show("当前有数据没有提交。");
@@ -321,7 +418,7 @@ namespace 小科狗配置.Page
       }
 
       _currentPage ++;
-      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      pageTextBox.Text = $"{_currentPage + 1}/{_pageCount}";
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
     }
@@ -329,7 +426,7 @@ namespace 小科狗配置.Page
     // 最后页
     private void 事件_最后页按钮_Click(object sender, RoutedEventArgs e)
     {
-      if (_currentPage == _pageCount - 1 || textBox2.Text != "") return;
+      if (_currentPage == _pageCount - 1 || searchTextBox.Text != "") return;
       if (_onlyReading)
       {
         MessageBox.Show("当前有数据没有提交。");
@@ -337,7 +434,7 @@ namespace 小科狗配置.Page
       }
 
       _currentPage = _pageCount - 1;
-      textBox.Text = $"{_currentPage + 1}/{_pageCount}";
+      pageTextBox.Text = $"{_currentPage + 1}/{_pageCount}";
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
     }
@@ -351,7 +448,7 @@ namespace 小科狗配置.Page
 
       if (result != MessageBoxResult.OK) return;
 
-      if (textBox2.Text != "")
+      if (searchTextBox.Text != "")
       {
         var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
         数据填充到列表(dataTable);
@@ -363,22 +460,6 @@ namespace 小科狗配置.Page
       要修改项.Clear();
       修改项值.Clear();
       切换编缉状态(false);
-    }
-
-
-
-
-    /// <summary>
-    /// 编缉状态切换
-    /// </summary>
-    /// <param name="b"></param>
-    private void 切换编缉状态(bool b)
-    {
-      _onlyReading            = b;
-      submit_Button.IsEnabled = b;
-      stackPanel_1.IsEnabled  = !b;
-      stackPanel_2.IsEnabled  = !b;
-      stackPanel_3.IsEnabled  = !b;
     }
 
     private void 事件_撤消按钮_Click(object sender, RoutedEventArgs e)
@@ -417,6 +498,22 @@ namespace 小科狗配置.Page
     }
 
 
+    private void 事件_到首行按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView.Items.Count - 1 >= 0)
+        listView.ScrollIntoView(ListViewData[0]);
+    }
+
+    private void 事件_到尾行按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if (listView.Items.Count - 1 >= 0)
+        listView.ScrollIntoView(ListViewData[listView.Items.Count - 1]);
+    }
+
+    #endregion
+
+    #region 增删改查事件
+
     // 标记删除选中项
     private void 事件_标记删除按钮_Click(object sender, RoutedEventArgs e)
     {
@@ -454,11 +551,70 @@ namespace 小科狗配置.Page
       切换编缉状态(true);
     }
 
+    private void 事件_列表_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      var view = sender as ListView;
+      if (view?.SelectedItem is not ListViewDataItem item) return;
+      if(item.IsDel || item.IsAdd) return;
+      keyTextBox.Text    = item.Key;
+      valueTextBox.Text  = item.Value;
+      weightTextBox.Text = item.Weight.ToString();
+      fcTextBox.Text     = item.Fc;
+    }
+
+    // 切换 添加或修改
+    private void 事件_切换按钮_Click(object sender, RoutedEventArgs e)
+    {
+      var cb = (CheckBox)sender;
+      switch (cb.Name)
+      {
+        case "addOrModCheckBox":    // 切换 添加 或 修改
+          add_Mod_Button.Content = cb.IsChecked == true ? "添加" : "修改";
+          break;
+        case "keyOrValueCheckBox":  // 切换搜索项
+          searchTextBox.Tag  = cb.IsChecked == true ? "搜索词条" : "搜索编码";
+          searchTextBox.Text = "";
+          searchTextBox.Focus();
+          break;
+      }
+    }
+
+    // 权重只能输入数字
+    private void 事件_权重框_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+      if (!Regex.IsMatch(e.Text, "^[0-9]+$"))
+        e.Handled = true;
+    }
+
+    // 权重只能输入数字
+    private void 事件_权重框_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      weightTextBox.Text = Regex.Replace(weightTextBox.Text, "[^0-9]", "");
+    }
+
+    // 从剪切板接收数字
+    private void 事件_权重框_Pasting(object sender, DataObjectPastingEventArgs e)
+    {
+      if (e.DataObject.GetDataPresent(typeof(string)))
+      {
+        var text = (string)e.DataObject.GetData(typeof(string));
+        if (text != null && !Regex.IsMatch(text, "^[0-9]+$"))
+          e.CancelCommand();
+      }
+      else
+        e.CancelCommand();
+    }
+
+    private void 事件_搜索框_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      搜索();
+    }
+
     // 提交
     private void 事件_提交按钮_Click(object sender, RoutedEventArgs e)
     {
       var result = MessageBox.Show("要提交所有变更的数据吗？", "提交数据",
-        MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                                   MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
       if (result != MessageBoxResult.OK) return;
       提交数据();
@@ -466,20 +622,9 @@ namespace 小科狗配置.Page
       切换编缉状态(false);
     }
 
+    #endregion
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    #endregion 控件事件
 
     #region 数据库操作
 
@@ -699,8 +844,8 @@ namespace 小科狗配置.Page
 
       var count = 获取表数据总行数(_tableName);
       _pageCount    = count / _pageLen;
-      textBox1.Text = $"词条数：{count}";
-      textBox.Text  = $"{_currentPage}/{_pageCount}";
+      countTextBox.Text = $"词条数：{count}";
+      pageTextBox.Text  = $"{_currentPage}/{_pageCount}";
 
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
@@ -752,9 +897,9 @@ namespace 小科狗配置.Page
       _pageCount = count / _pageLen;
       if (count          % _pageLen > 0) _pageCount++;
 
-      textBox1.Text = $"词条数：{count}";
+      countTextBox.Text = $"词条数：{count}";
       _currentPage  = 0;
-      textBox.Text  = $"{_currentPage + 1}/{_pageCount}";
+      pageTextBox.Text  = $"{_currentPage + 1}/{_pageCount}";
       var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
       数据填充到列表(dataTable);
       var fontName = 从表里获取字体名称(_tableName);
@@ -767,21 +912,21 @@ namespace 小科狗配置.Page
     private void 搜索()
     {
       DataTable dataTable = new();
-      if (textBox2.Text == "")
+      if (searchTextBox.Text == "")
       {
         dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
         数据填充到列表(dataTable);
         var count = 获取表数据总行数(_tableName);
-        textBox1.Text = $"词条数：{count}";
-        textBox.Text  = $"{_currentPage + 1}/{_pageCount}";
-        stackPanel_3.IsEnabled = true;
+        countTextBox.Text = $"词条数：{count}";
+        pageTextBox.Text  = $"{_currentPage + 1}/{_pageCount}";
+        stackPanel_5.IsEnabled = true;
         addOrModCheckBox.IsEnabled = true;
 
         return;
       }
 
       var name = keyOrValueCheckBox.IsChecked == true ? "value" : "key";
-      var str  = textBox2.Text;
+      var str  = searchTextBox.Text;
 
       using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
       var query = $"SELECT ROW_NUMBER() OVER (ORDER BY ROWID) AS RowNumber, * FROM '{_tableName}' WHERE {name} LIKE @str";
@@ -792,16 +937,15 @@ namespace 小科狗配置.Page
 
       using var reader = command.ExecuteReader();
       dataTable.Load(reader);
-      textBox1.Text = $"词条数：{dataTable.Rows.Count}";
-      textBox.Text  = "1/1";
+      countTextBox.Text = $"词条数：{dataTable.Rows.Count}";
+      pageTextBox.Text  = "1/1";
       数据填充到列表(dataTable);
-      stackPanel_3.IsEnabled = false;
+      stackPanel_5.IsEnabled = false;
       addOrModCheckBox.IsChecked = false;
       addOrModCheckBox.IsEnabled = false;
       add_Mod_Button.Content = "修改";
     }
 
-    
     /// <summary>
     /// 复制表
     /// </summary>
@@ -860,246 +1004,18 @@ namespace 小科狗配置.Page
       }
       return false;
     }
-    #endregion
-
-    #region 其它
-    
-    
-    // 切换 添加或修改
-    private void 事件_切换按钮_Click(object sender, RoutedEventArgs e)
-    {
-      var cb = (CheckBox)sender;
-      switch (cb.Name)
-      {
-        case "addOrModCheckBox":    // 切换 添加 或 修改
-          add_Mod_Button.Content = cb.IsChecked == true ? "添加" : "修改";
-          break;
-        case "keyOrValueCheckBox":  // 切换搜索项
-          textBox2.Tag = cb.IsChecked == true ? "搜索词条" : "搜索编码";
-          break;
-      }
-    }
-    
-    
-    
-    // 改 ListView 的字体
-    private void FontComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-      if (fontComboBox.SelectedValue == null) return;
-
-      var fontName = fontComboBox.SelectedItem.ToString();
-      var font     = new FontFamily(fontName);
-      listView.FontFamily      = font;
-      keyTextBox.FontFamily    = font;
-      valueTextBox.FontFamily  = font;
-      weightTextBox.FontFamily = font;
-      fcTextBox.FontFamily     = font;
-
-      将字体名称写到表内(fontName);
-    }
-
-    /// <summary>
-    /// 读取系统字体列表
-    /// </summary>
-    private void 读取系统字体列表()
-    {
-      foreach (var font in System.Drawing.FontFamily.Families)
-      {
-        if (排除字体名称里没有中文的字体(font.Name))
-          fontComboBox.Items.Add(font.Name);
-      }
-    }
-
-    /// <summary>
-    /// 正则排除 字体名称 里没有中文的字体
-    /// </summary>
-    /// <param name="fontName"></param>
-    /// <returns></returns>
-    private bool 排除字体名称里没有中文的字体(string fontName)
-    {
-      Regex chineseRegex = new(@"[\u4e00-\u9fff]");
-      return chineseRegex.IsMatch(fontName);
-    }
-
-    // 权重只能输入数字
-    private void 事件_权重框_PreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-      if (!Regex.IsMatch(e.Text, "^[0-9]+$"))
-        e.Handled = true;
-    }
-
-    // 权重只能输入数字
-    private void 事件_权重框_TextChanged(object sender, TextChangedEventArgs e)
-    {
-      weightTextBox.Text = Regex.Replace(weightTextBox.Text, "[^0-9]", "");
-    }
-
-    // 从剪切板接收数字
-    private void 事件_权重框_Pasting(object sender, DataObjectPastingEventArgs e)
-    {
-      if (e.DataObject.GetDataPresent(typeof(string)))
-      {
-        var text = (string)e.DataObject.GetData(typeof(string));
-        if (text != null && !Regex.IsMatch(text, "^[0-9]+$"))
-          e.CancelCommand();
-      }
-      else
-        e.CancelCommand();
-    }
-
-    // ComboBox 获取焦点
-    private void ComboBox_MouseEnter(object sender, MouseEventArgs e)
-    {
-      var cb = sender as ComboBox;
-      cb?.Focus();
-    }
-    private void 事件_到首行按钮_Click(object sender, RoutedEventArgs e)
-    {
-      if (listView.Items.Count - 1 >= 0)
-        listView.ScrollIntoView(ListViewData[0]);
-    }
-
-    private void 事件_到尾行按钮_Click(object sender, RoutedEventArgs e)
-    {
-      if (listView.Items.Count - 1 >= 0)
-        listView.ScrollIntoView(ListViewData[listView.Items.Count - 1]);
-    }
-    
-    private void 事件_搜索框_TextChanged(object sender, TextChangedEventArgs e)
-    {
-      搜索();
-    }
 
     private bool 是否有相同数据(string key, string value)
     {
       using SQLiteConnection connection = new($"Data Source={_dbPath};Version=3;");
       connection.Open();
-      var query = $"SELECT EXISTS(SELECT 1 FROM '{_tableName}' WHERE key = @key AND value = @value)";
+      var                 query   = $"SELECT EXISTS(SELECT 1 FROM '{_tableName}' WHERE key = @key AND value = @value)";
       using SQLiteCommand command = new(query, connection);
-      command.Parameters.AddWithValue("@key", key);
+      command.Parameters.AddWithValue("@key",   key);
       command.Parameters.AddWithValue("@value", value);
       var result = command.ExecuteScalar();
       return Convert.ToInt32(result) == 1;
     }
-
-    private void 在最后插入数据()
-    {
-      if(keyTextBox.Text == "" || valueTextBox.Text == "") return;
-
-      ListViewDataItem lastItem = new();
-      if (listView.Items.Count - 1 >= 0)
-        lastItem = ListViewData[listView.Items.Count - 1];
-
-      ListViewDataItem newItem = new()
-      {
-        RowNumber = lastItem.RowNumber + 1,
-        Key       = keyTextBox.Text,
-        Value     = valueTextBox.Text,
-        Weight    = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text),
-        Fc        = fcTextBox.Text,
-        IsAdd     = true
-      };
-
-      ListViewData.Add(newItem);
-      要添加项.Add(newItem);
-      listView.ScrollIntoView(lastItem);
-    }
-
-    private void 修改选中行数据()
-    {
-      foreach (ListViewDataItem item in listView.SelectedItems)
-      {
-        要修改项.Add(item.Clone());
-        item.Key    = keyTextBox.Text;
-        item.Value  = valueTextBox.Text;
-        item.Weight = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text);
-        item.Fc     = fcTextBox.Text;
-        item.IsMod  = true;
-        修改项值.Add(item);
-      }
-    }
-
-    private void 事件_列表_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-      var view = sender as ListView;
-      if (view?.SelectedItem is not ListViewDataItem item) return;
-      if(item.IsDel || item.IsAdd) return;
-      keyTextBox.Text    = item.Key;
-      valueTextBox.Text  = item.Value;
-      weightTextBox.Text = item.Weight.ToString();
-      fcTextBox.Text     = item.Fc;
-    }
-
-
-    #endregion
-
-
-
-    #region 复制_删除_导入_导出表
-    private void 复制表按钮_Click(object sender, RoutedEventArgs e)
-    {
-      if(comboBox.SelectedIndex == -1) return;
-      var dialog = new ReNameDialogBox("复制表到新表", _tableName);
-      dialog.ShowDialog();
-      var newTableName = dialog.Name;
-      if(_tableName == newTableName) return;
-      if (comboBox.Items.Cast<object>().Any(item => item.ToString() == newTableName))
-      {
-        MessageBox.Show("存在同名称的表，请改名称");
-        return;
-      }
-
-      复制表(newTableName); // 复制表
-      comboBox.Items.Add(newTableName);
-
-      // 更新当前表名
-      _tableName = newTableName;
-    }
-    
-    private void 删除表按钮_Click(object sender, RoutedEventArgs e)
-    {
-      if(comboBox.SelectedIndex == -1) return;
-      if (_onlyReading)
-      {
-        MessageBox.Show("当前有数据没有提交。");
-        return;
-      }
-
-      if (comboBox.Items.Count == 1)
-      {
-        MessageBox.Show("当前库只有一个表了,你不能删除它。");
-        return;
-      }
-      var result = MessageBox.Show($"要删除 '{_tableName}' 表吗？", "删除表",
-        MessageBoxButton.OKCancel, MessageBoxImage.Question);
-
-      if (result != MessageBoxResult.OK) return;
-      if(!删除表(_tableName)) return; // 删除表
-      ListViewData?.Clear();
-      comboBox.Items.Clear();
-      从数据库文件获取表名();
-    }
-
-
-    private void 事件_导入表按钮_Click(object sender, RoutedEventArgs e)
-    {
-      if(comboBox.SelectedIndex == -1) return;
-      var dialog = new ReNameDialogBox("导入 CSV 文件到新表", "");
-      dialog.ShowDialog();
-      var newTableName = dialog.Name;
-      if(string.IsNullOrEmpty(newTableName)) return;
-      
-      // 使用文件对话框获取要导入的CSV文件路径
-      var csvFilePath = GetCsvFilePathToImport();
-      
-      // 创建一个新表
-      CreateNewTable(_dbPath, newTableName);
-      
-      // 导入CSV文件数据到新表
-      if (!string.IsNullOrEmpty(csvFilePath))
-        ImportCsvToTable(_dbPath, newTableName, csvFilePath);
-    }
-
 
     /// <summary>
     /// 弹出文件选择框
@@ -1115,11 +1031,9 @@ namespace 小科狗配置.Page
         RestoreDirectory = true
       };
 
-
       // 显示文件对话框并获取用户选择的文件路径
       return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : null;
     }
-
 
     /// <summary>
     /// 创建新的空表
@@ -1186,13 +1100,10 @@ namespace 小科狗配置.Page
       }
     }
 
-
-
-
-    
-
-    
-    
+    /// <summary>
+    /// 获取导出表到 CSV 文件路径
+    /// </summary>
+    /// <returns></returns>
     private static string GetCsvFilePathToExport()
     {
       var saveFileDialog = new SaveFileDialog
@@ -1206,17 +1117,7 @@ namespace 小科狗配置.Page
       // 显示文件对话框并获取用户选择的文件路径
       return saveFileDialog.ShowDialog() == DialogResult.OK ? saveFileDialog.FileName : null;
     }
-    
-    
-    private void 事件_导出表按钮_Click(object sender, RoutedEventArgs e)
-    {
-      if(comboBox.SelectedIndex == -1) return;
-      var csvFilePath = GetCsvFilePathToExport();// 弹出文件对话框获取将要导出的 CSV 文件路径
 
-      if (!string.IsNullOrEmpty(csvFilePath))
-        ExportTableToCsv(_dbPath, _tableName, csvFilePath);
-    }
-    
     /// <summary>
     /// 导出表到CSV文件
     /// </summary>
@@ -1275,15 +1176,98 @@ namespace 小科狗配置.Page
       MessageBox.Show("导出表成功");
     }
 
- 
+    #endregion
 
+    #region 其它
 
+    /// <summary>
+    /// 编缉状态切换
+    /// </summary>
+    /// <param name="b"></param>
+    private void 切换编缉状态(bool b)
+    {
+      _onlyReading            = b;
+      submit_Button.IsEnabled = b;
+      stackPanel_1.IsEnabled  = !b;
+      stackPanel_4.IsEnabled  = !b;
+      stackPanel_5.IsEnabled  = !b;
+    }
 
+    /// <summary>
+    /// 读取系统字体列表
+    /// </summary>
+    private void 读取系统字体列表()
+    {
+      foreach (var font in System.Drawing.FontFamily.Families)
+      {
+        if (排除字体名称里没有中文的字体(font.Name))
+          fontComboBox.Items.Add(font.Name);
+      }
+    }
 
+    /// <summary>
+    /// 正则排除 字体名称 里没有中文的字体
+    /// </summary>
+    /// <param name="fontName"></param>
+    /// <returns></returns>
+    private bool 排除字体名称里没有中文的字体(string fontName)
+    {
+      Regex chineseRegex = new(@"[\u4e00-\u9fff]");
+      return chineseRegex.IsMatch(fontName);
+    }
 
+    private void 在最后插入数据()
+    {
+      if(keyTextBox.Text == "" || valueTextBox.Text == "") return;
+
+      ListViewDataItem lastItem = new();
+      if (listView.Items.Count - 1 >= 0)
+        lastItem = ListViewData[listView.Items.Count - 1];
+
+      ListViewDataItem newItem = new()
+      {
+        RowNumber = lastItem.RowNumber + 1,
+        Key       = keyTextBox.Text,
+        Value     = valueTextBox.Text,
+        Weight    = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text),
+        Fc        = fcTextBox.Text,
+        IsAdd     = true
+      };
+
+      ListViewData.Add(newItem);
+      要添加项.Add(newItem);
+      listView.ScrollIntoView(lastItem);
+    }
+
+    private void 修改选中行数据()
+    {
+      foreach (ListViewDataItem item in listView.SelectedItems)
+      {
+        要修改项.Add(item.Clone());
+        item.Key    = keyTextBox.Text;
+        item.Value  = valueTextBox.Text;
+        item.Weight = weightTextBox.Text == "" ? 0 : int.Parse(weightTextBox.Text);
+        item.Fc     = fcTextBox.Text;
+        item.IsMod  = true;
+        修改项值.Add(item);
+      }
+    }
 
 
     #endregion
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
 
 
   }

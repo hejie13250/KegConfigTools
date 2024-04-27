@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 
-namespace 小科狗配置.Contorl
+namespace 小科狗配置.Control
 {
   // 定义事件参数类
   public class ColorChangedEventArgs : EventArgs

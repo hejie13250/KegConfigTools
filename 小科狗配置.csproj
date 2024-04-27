@@ -301,11 +301,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Class\BasePage.cs" />
-    <Compile Include="Contorl\ColorPicker.xaml.cs">
+    <Compile Include="Control\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Class\Base.cs" />
-    <Compile Include="Contorl\DoubleNumericUpDown.xaml.cs">
+    <Compile Include="Control\DoubleNumericUpDown.xaml.cs">
       <DependentUpon>DoubleNumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="DialogBox\ReNameDialogBox.xaml.cs">
@@ -323,24 +323,24 @@
     <Compile Include="Page\GlobalSetting.xaml.cs">
       <DependentUpon>GlobalSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Contorl\HotKeyControl.xaml.cs">
+    <Compile Include="Control\HotKeyControl.xaml.cs">
       <DependentUpon>HotKeyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Contorl\RGBTextBox.xaml.cs">
+    <Compile Include="Control\RGBTextBox.xaml.cs">
       <DependentUpon>RGBTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\SchemeSetting.xaml.cs">
       <DependentUpon>SchemeSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Contorl\TimeControl.xaml.cs">
+    <Compile Include="Control\TimeControl.xaml.cs">
       <DependentUpon>TimeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Class\ViewModel.cs" />
-    <Page Include="Contorl\ColorPicker.xaml">
+    <Page Include="Control\ColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contorl\DoubleNumericUpDown.xaml">
+    <Page Include="Control\DoubleNumericUpDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,7 +364,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contorl\HotKeyControl.xaml">
+    <Page Include="Control\HotKeyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -380,11 +380,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Contorl\NumericUpDown.xaml">
+    <Page Include="Control\NumericUpDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contorl\RGBTextBox.xaml">
+    <Page Include="Control\RGBTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -396,13 +396,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Contorl\TimeControl.xaml">
+    <Page Include="Control\TimeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contorl\NumericUpDown.xaml.cs">
+    <Compile Include="Control\NumericUpDown.xaml.cs">
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -442,7 +442,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Contorl\hue.png" />
+    <Resource Include="Control\hue.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="skin01.jpg" />
