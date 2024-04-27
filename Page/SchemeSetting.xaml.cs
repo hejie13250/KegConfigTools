@@ -1046,7 +1046,6 @@ namespace 小科狗配置.Page
     // 显示颜色的 label 鼠标进入事件
     private void color_label_MouseEnter(object sender, MouseEventArgs e)
     {
-
       SolidColorBrush color1 = new((Color)ColorConverter.ConvertFromString("#FF000000")!); // 黑色
       SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000")!); // 红色
       color_Label_001.Foreground = color1;
@@ -1059,14 +1058,14 @@ namespace 小科狗配置.Page
       color_Label_008.Foreground = color1;
       color_Label_009.Foreground = color1;
 
-      if (sender is not Label label5) return;
-      switch (label5.Name)
+      if (sender is not Label lb) return;
+      switch (lb.Name)
       {
         case "color_Label_1":
           _selectColorLabelNum       = 1;
           color_Label_001.Foreground = color2;
           break;
-        case "color_Label_":
+        case "color_Label_2":
           _selectColorLabelNum       = 2;
           color_Label_002.Foreground = color2;
           break;
@@ -1100,12 +1099,12 @@ namespace 小科狗配置.Page
           break;
       }
 
-      var currentColor = ((SolidColorBrush)label5.Background).Color;
+      var currentColor = ((SolidColorBrush)lb.Background).Color;
       // 计算反色
       var invertedColor = Color.FromArgb(255, (byte)~currentColor.R, (byte)~currentColor.G, (byte)~currentColor.B);
-      label5.BorderThickness = new Thickness(3);
-      label5.BorderBrush     = new SolidColorBrush(invertedColor);
-      var hex = RemoveChars(label5.Background.ToString(), 2);
+      lb.BorderThickness = new Thickness(3);
+      lb.BorderBrush     = new SolidColorBrush(invertedColor);
+      var hex = RemoveChars(lb.Background.ToString(), 2);
       var rgb = HexToRgb(hex);
       rgbTextBox.RGBText = rgb;
     }
@@ -1119,12 +1118,10 @@ namespace 小科狗配置.Page
     // 候选框圆角、选中项背景圆角 和 候选框边框调节
     private void Nud11_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
     {
-      if (hxk_Border != null)
-      {
-        hxk_Border.CornerRadius = hxc_CheckBox.IsChecked == true ? new CornerRadius(nud11.Value) : new CornerRadius(0);
-        hxz_Border.CornerRadius = hxcbj_CheckBox.IsChecked == true ? new CornerRadius(nud12.Value) : new CornerRadius(0);
-        hxk_Border.BorderThickness = new Thickness(nud13.Value);
-      }
+      if (hxk_Border == null) return;
+      hxk_Border.CornerRadius    = hxc_CheckBox.IsChecked   == true ? new CornerRadius(nud11.Value) : new CornerRadius(0);
+      hxz_Border.CornerRadius    = hxcbj_CheckBox.IsChecked == true ? new CornerRadius(nud12.Value) : new CornerRadius(0);
+      hxk_Border.BorderThickness = new Thickness(nud13.Value);
     }
 
     // 配色列表双击事件
