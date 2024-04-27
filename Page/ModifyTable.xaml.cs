@@ -147,7 +147,8 @@ namespace 小科狗配置.Page
 
     public ModifyTable()
     {
-      _dbPath = Base.KegPath + "Keg.db";
+      _dbPath = Base.SQLiteDB_Path;
+      MessageBox.Show(_dbPath);
       InitializeComponent();
       读取系统字体列表();
       从数据库文件获取表名();
@@ -189,7 +190,7 @@ namespace 小科狗配置.Page
       }
       else
       {
-        _dbPath = Base.KegPath + "Keg.db";
+        _dbPath = Base.SQLiteDB_Path;
         if (_tableName1 != null)
           _tableName = _tableName1;
       }

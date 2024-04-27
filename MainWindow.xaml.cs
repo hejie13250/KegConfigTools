@@ -28,7 +28,7 @@ namespace 小科狗配置
     private readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
     private readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
     private readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
-    private readonly string[] _码表设置     = new string[] { "码表修改" };
+    private readonly string[] _码表设置     = new string[] { "SQLite码表修改" };
 
     #region 初始化
     public MainWindow()

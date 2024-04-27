@@ -493,7 +493,8 @@
                     Header="SQLite码表修改"
                     Margin="10,0,10,10"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
+                    Visibility="Hidden">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid Margin="10,10,10,10">
 

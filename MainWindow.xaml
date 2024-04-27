@@ -13,9 +13,7 @@
     x:Class="小科狗配置.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:小科狗配置"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Window.Background>
         <ImageBrush ImageSource="/skin01.jpg" />
@@ -88,7 +86,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <StackPanel Margin="5,0,0,10">
-                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Hidden">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
 
                         <RadioButton
@@ -539,7 +537,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Height="400" />
+                        <StackPanel Height="170" />
                     </StackPanel>
                 </ScrollViewer>
             </StackPanel>

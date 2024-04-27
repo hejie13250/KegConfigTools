@@ -16,9 +16,9 @@ namespace 小科狗配置.Class
   public static class Base
   {
     private static readonly string AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    public static string KegPath;                        // 小科狗主程序目录
-
-
+    public static           string KegPath;                        // 小科狗主程序目录
+    public static           string SQLiteDB_Path;
+    public static           string LevelDB_Path;
 
     #region 读写配置项
     // 读写配置项 API
@@ -95,9 +95,7 @@ namespace 小科狗配置.Class
     /// <returns></returns>
     public static void GetKegPath()
     {
-      var path = GetValue("window", "keg_path");
-      KegPath = path ?? GetProcessPath();
-
+      GetProcessPathFormServer();
       var kegText = File.ReadAllText(KegPath + "Keg.txt");
       const string pattern = "《打字字数统.*?=(.*)》";
       var          matches = Regex.Matches(kegText, pattern);
@@ -105,12 +103,12 @@ namespace 小科狗配置.Class
         switch (match.Groups[1].Value)
         {
           case "是":
-            SetValue("dbPath", "SQLiteDB_Path", Base.KegPath + @"Keg.db");
-            SetValue("dbPath", "LevelDB_Path", Base.KegPath + @"zj\");
+            SQLiteDB_Path = KegPath + @"Keg.db";
+            LevelDB_Path = KegPath + @"zj\";
             break;
           case "不是":
-            SetValue("dbPath", "SQLiteDB_Path", @"C:\SiKegInput\Keg.db");
-            SetValue("dbPath", "LevelDB_Path",  @"C:\SiKegInput\zj\");
+            SQLiteDB_Path = @"C:\SiKegInput\Keg.db";
+            LevelDB_Path = @"C:\SiKegInput\zj\";
             break;
         }
 
