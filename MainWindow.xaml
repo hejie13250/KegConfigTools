@@ -1,75 +1,75 @@
 ﻿<Window
-  x:Class="小科狗配置.MainWindow"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:小科狗配置"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:system="clr-namespace:System;assembly=mscorlib"
-  Title="小科狗输入法方案配置"
-  Width="950"
-  Height="1352"
-  BorderThickness="2,2,2,2"
-  FontFamily="小科狗字体"
-  FontSize="16"
-  MouseDown="Window_MouseDown"
-  ResizeMode="NoResize"
-  WindowStartupLocation="CenterScreen"
-  WindowStyle="None"
-  mc:Ignorable="d">
-  <Window.Background>
-    <ImageBrush ImageSource="/skin01.jpg" />
-  </Window.Background>
+    BorderThickness="2,2,2,2"
+    FontFamily="小科狗字体"
+    FontSize="16"
+    Height="1352"
+    MouseDown="Window_MouseDown"
+    ResizeMode="NoResize"
+    Title="小科狗输入法方案配置"
+    Width="950"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d"
+    x:Class="小科狗配置.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:小科狗配置"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Window.Background>
+        <ImageBrush ImageSource="/skin01.jpg" />
+    </Window.Background>
 
 
 
 
 
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="50" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <Grid Grid.Row="0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="auto" />
-      </Grid.ColumnDefinitions>
-      <StackPanel Grid.Row="0">
-        <TextBlock
-          x:Name="title"
-          Margin="15,15,0,20"
-          Text="小科狗配置工具" />
-      </StackPanel>
-      <StackPanel
-        Grid.Column="1"
-        HorizontalAlignment="Right"
-        Orientation="Horizontal">
-        <Button
-          Width="45"
-          Height="30"
-          HorizontalAlignment="Right"
-          Background="Transparent"
-          BorderThickness="0"
-          Click="Button_Click_1"
-          Content="─" />
-        <!--<Button
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock
+                    Margin="15,15,0,20"
+                    Text="小科狗配置工具"
+                    x:Name="title" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Button_Click_1"
+                    Content="─"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Width="45" />
+                <!--<Button
             Width="45"
             Height="30"
             Background="Transparent"
             BorderThickness="0"
             Content="☐"
             Foreground="White" />-->
-        <Button
-          Width="45"
-          Height="30"
-          HorizontalAlignment="Right"
-          Background="Transparent"
-          BorderThickness="0"
-          Click="Button_Click"
-          Content="✕" />
-        <!--<Button
+                <Button
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Button_Click"
+                    Content="✕"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Width="45" />
+                <!--<Button
             x:Name="button"
             Width="53"
             Height="20"
@@ -77,522 +77,509 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="确认" />-->
-      </StackPanel>
+            </StackPanel>
+        </Grid>
+
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="5,0,0,10">
+                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel>
+
+                        <RadioButton
+                            Click="LeftRadioButton1_Click"
+                            IsChecked="True"
+                            Style="{DynamicResource RadioButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                    Margin="10,0,0,0"
+                                    Text="方案设置"
+                                    VerticalAlignment="Center" />
+                            </StackPanel>
+                        </RadioButton>
+                        <StackPanel Orientation="Vertical" x:Name="leftStackPanel1">
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="候选框配色"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="候选框样式"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="字体和渲染"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="码元设置"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="标点设置"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="动作设置"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="顶功设置"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="上屏设置"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="中英切换"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="翻页按键"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="词语联想"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="码表调频与检索"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="重复上屏"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="自动造词"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="临时码表检索"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="引导码表检索"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+
+
+
+                        <Border
+                            BorderBrush="#8F8F8F"
+                            BorderThickness="0,1,0,0"
+                            Margin="10" />
+
+                        <RadioButton Click="LeftRadioButton1_Click" Style="{DynamicResource RadioButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                    Margin="10,0,0,0"
+                                    Text="全局设置"
+                                    VerticalAlignment="Center" />
+                            </StackPanel>
+                        </RadioButton>
+
+
+                        <StackPanel Orientation="Vertical" x:Name="leftStackPanel2">
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="状态条"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="在线查找"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="外部工具"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="快捷命令"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="快捷键"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="自启动应用"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="定时关机"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="其它选项"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                        <Border
+                            BorderBrush="#8F8F8F"
+                            BorderThickness="0,1,0,0"
+                            Margin="10" />
+
+                        <RadioButton Click="LeftRadioButton1_Click" Style="{DynamicResource RadioButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                    Margin="10,0,0,0"
+                                    Text="打字统计"
+                                    VerticalAlignment="Center" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <StackPanel Orientation="Vertical" x:Name="leftStackPanel4">
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="曲线图"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="今日和累计数据"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+
+                        <Border
+                            BorderBrush="#8F8F8F"
+                            BorderThickness="0,1,0,0"
+                            Margin="10" />
+
+                        <RadioButton Click="LeftRadioButton1_Click" Style="{DynamicResource RadioButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                    Margin="10,0,0,0"
+                                    Text="码表设置"
+                                    VerticalAlignment="Center" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <StackPanel Orientation="Vertical" x:Name="leftStackPanel5">
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="SQLite码表修改"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                        </StackPanel>
+
+                        <Border
+                            BorderBrush="#8F8F8F"
+                            BorderThickness="0,1,0,0"
+                            Margin="10" />
+
+                        <RadioButton Click="LeftRadioButton1_Click" Style="{DynamicResource RadioButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                    Margin="10,0,0,0"
+                                    Text="帮助"
+                                    VerticalAlignment="Center" />
+                            </StackPanel>
+                        </RadioButton>
+
+
+                        <StackPanel Orientation="Vertical" x:Name="leftStackPanel3">
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="关于"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
+                                        Text="全局设置说明"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+
+                        </StackPanel>
+
+                        <StackPanel Height="400" />
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
+
+
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Frame
+                    NavigationUIVisibility="Hidden"
+                    Source="Page/SchemeSetting.xaml"
+                    VerticalAlignment="Top"
+                    x:Name="frame1" />
+                <Frame
+                    NavigationUIVisibility="Hidden"
+                    Source="Page/GlobalSetting.xaml"
+                    VerticalAlignment="Top"
+                    x:Name="frame2" />
+                <Frame
+                    NavigationUIVisibility="Hidden"
+                    Source="Page/Abort.xaml"
+                    VerticalAlignment="Top"
+                    x:Name="frame3" />
+                <Frame
+                    NavigationUIVisibility="Hidden"
+                    Source="Page/KegStatistics.xaml"
+                    VerticalAlignment="Top"
+                    x:Name="frame4" />
+                <Frame
+                    NavigationUIVisibility="Hidden"
+                    Source="Page/ModifyTable.xaml"
+                    VerticalAlignment="Top"
+                    x:Name="frame5" />
+
+
+
+            </StackPanel>
+
+
+        </Grid>
     </Grid>
-
-
-
-    <Grid Grid.Row="1">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="160" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <StackPanel Margin="5,0,0,10">
-        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Hidden">
-          <StackPanel>
-
-            <RadioButton
-              Click="LeftRadioButton1_Click"
-              GroupName="Group"
-              IsChecked="True"
-              Style="{DynamicResource RadioButtonStyle}">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock
-                  Margin="10,0,0,0"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="方案设置" />
-              </StackPanel>
-            </RadioButton>
-            <StackPanel x:Name="leftStackPanel1" Orientation="Vertical">
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="候选框配色" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="候选框样式" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="字体和渲染" />
-                </StackPanel>
-              </RadioButton>
-
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="码元设置" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="标点设置" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="动作设置" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="顶功设置" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="上屏设置" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="中英切换" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="翻页按键" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="词语联想" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="码表调频与检索" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="重复上屏" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="自动造词" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="临时码表检索" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="引导码表检索" />
-                </StackPanel>
-              </RadioButton>
-            </StackPanel>
-
-
-
-            <Border
-              Margin="10"
-              BorderBrush="#8F8F8F"
-              BorderThickness="0,1,0,0" />
-
-            <RadioButton
-              Click="LeftRadioButton1_Click"
-              GroupName="Group"
-              Style="{DynamicResource RadioButtonStyle}">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock
-                  Margin="10,0,0,0"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="全局设置" />
-              </StackPanel>
-            </RadioButton>
-
-
-            <StackPanel x:Name="leftStackPanel2" Orientation="Vertical">
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="状态条" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="在线查找" />
-                </StackPanel>
-              </RadioButton>
-
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="外部工具" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="快捷命令" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="快捷键" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="自启动应用" />
-                </StackPanel>
-              </RadioButton>
-
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="定时关机" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="其它选项" />
-                </StackPanel>
-              </RadioButton>
-            </StackPanel>
-            <Border
-              Margin="10"
-              BorderBrush="#8F8F8F"
-              BorderThickness="0,1,0,0" />
-
-            <RadioButton
-              Click="LeftRadioButton1_Click"
-              GroupName="Group"
-              Style="{DynamicResource RadioButtonStyle}">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock
-                  Margin="10,0,0,0"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="打字统计" />
-              </StackPanel>
-            </RadioButton>
-
-            <StackPanel x:Name="leftStackPanel4" Orientation="Vertical">
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="曲线图" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="今日和累计数据" />
-                </StackPanel>
-              </RadioButton>
-            </StackPanel>
-
-            <Border
-              Margin="10"
-              BorderBrush="#8F8F8F"
-              BorderThickness="0,1,0,0" />
-
-            <RadioButton
-              Click="LeftRadioButton1_Click"
-              GroupName="Group"
-              Style="{DynamicResource RadioButtonStyle}">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock
-                  Margin="10,0,0,0"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="码表设置" />
-              </StackPanel>
-            </RadioButton>
-
-            <StackPanel x:Name="leftStackPanel5" Orientation="Vertical">
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="SQLite码表修改" />
-                </StackPanel>
-              </RadioButton>
-
-            </StackPanel>
-
-            <Border
-              Margin="10"
-              BorderBrush="#8F8F8F"
-              BorderThickness="0,1,0,0" />
-
-            <RadioButton
-              Click="LeftRadioButton1_Click"
-              GroupName="Group"
-              Style="{DynamicResource RadioButtonStyle}">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock
-                  Margin="10,0,0,0"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                  Text="帮助" />
-              </StackPanel>
-            </RadioButton>
-
-
-            <StackPanel x:Name="leftStackPanel3" Orientation="Vertical">
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="关于" />
-                </StackPanel>
-              </RadioButton>
-              <RadioButton
-                Click="LeftRadioButton2_Click"
-                GroupName="Group"
-                Style="{DynamicResource RadioButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
-                    Text="全局设置说明" />
-                </StackPanel>
-              </RadioButton>
-
-            </StackPanel>
-
-            <StackPanel Height="400" />
-          </StackPanel>
-        </ScrollViewer>
-      </StackPanel>
-
-
-      <StackPanel
-        Grid.Column="1"
-        HorizontalAlignment="Center"
-        Orientation="Horizontal">
-        <Frame
-          x:Name="frame1"
-          VerticalAlignment="Top"
-          NavigationUIVisibility="Hidden"
-          Source="Page/SchemeSetting.xaml" />
-        <Frame
-          x:Name="frame2"
-          VerticalAlignment="Top"
-          NavigationUIVisibility="Hidden"
-          Source="Page/GlobalSetting.xaml" />
-        <Frame
-          x:Name="frame3"
-          VerticalAlignment="Top"
-          NavigationUIVisibility="Hidden"
-          Source="Page/Abort.xaml" />
-        <Frame
-          x:Name="frame4"
-          VerticalAlignment="Top"
-          NavigationUIVisibility="Hidden"
-          Source="Page/KegStatistics.xaml" />
-        <Frame
-          x:Name="frame5"
-          VerticalAlignment="Top"
-          NavigationUIVisibility="Hidden"
-          Source="Page/ModifyTable.xaml" />
-
-
-
-      </StackPanel>
-
-
-    </Grid>
-  </Grid>
 </Window>

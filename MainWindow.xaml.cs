@@ -24,11 +24,11 @@ namespace 小科狗配置
     private static readonly string AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     private StackPanel _leftStackPanel;
 
-  private readonly string[] _方案设置页面 = new string[] { "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置", "顶功设置", "上屏设置", "中英切换", "翻页按键", "词语联想", "码表调频与检索", "重复上屏", "自动造词", "临时码表检索", "引导码表检索" };
-  private readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
-  private readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
-  private readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
-  private readonly string[] _码表设置     = new string[] { "码表修改" };
+    private readonly string[] _方案设置页面 = new string[] { "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置", "顶功设置", "上屏设置", "中英切换", "翻页按键", "词语联想", "码表调频与检索", "重复上屏", "自动造词", "临时码表检索", "引导码表检索" };
+    private readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
+    private readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
+    private readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
+    private readonly string[] _码表设置     = new string[] { "码表修改" };
 
     #region 初始化
     public MainWindow()
@@ -39,13 +39,13 @@ namespace 小科狗配置
       title.Text = $"{title.Text} v {GetAssemblyVersion()}";  // 标题加上版本号
       Base.GetKegPath();                                      // 获取小科狗主程序目录
 
-      this.Width    = 930;
-      this.Height   = 800;
-      frame1.Height = this.Height - 50;
-      frame2.Height = this.Height - 50;
-      frame3.Height = this.Height - 50;
-      frame4.Height = this.Height - 50;
-      frame5.Height = this.Height - 50;
+      Width    = 930;
+      Height   = 800;
+      frame1.Height = Height - 50;
+      frame2.Height = Height - 50;
+      frame3.Height = Height - 50;
+      frame4.Height = Height - 50;
+      frame5.Height = Height - 50;
 
       方案设置页面();
 

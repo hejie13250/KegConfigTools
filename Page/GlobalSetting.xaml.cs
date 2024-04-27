@@ -17,7 +17,6 @@ using Newtonsoft.Json;
 using WpfAnimatedGif;
 using 小科狗配置.Class;
 using 小科狗配置.Control;
-using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -181,14 +180,7 @@ namespace 小科狗配置.Page
       if (!Directory.Exists($"{_appPath}\\configs")) Directory.CreateDirectory($"{_appPath}\\configs");
 
       // 获取小科狗主程序目录
-      _kegPath = Base.GetValue("window", "keg_path");
-      if (!File.Exists(_kegPath + "KegServer.exe"))
-      {
-        _kegPath = Base.KegPath;
-        //kegPath = Base.GetProcessPath("KegServer");
-        if (File.Exists(_kegPath + "KegServer.exe")) Base.SetValue("window", "keg_path", _kegPath);
-        else ((App)Application.Current).Exit();
-      }
+      _kegPath = Base.KegPath;
       _kegFilePath = _kegPath + "Keg.txt";
 
       Loaded += MainWindow_Loaded;
@@ -360,6 +352,16 @@ namespace 小科狗配置.Page
     // 应用全局设置
     private void Apply3_button_Click(object sender, RoutedEventArgs e)
     {
+      if(checkBox3_Copy3.IsChecked != null && (bool)checkBox3_Copy3.IsChecked)
+      {
+        Base.SetValue("dbPath", "SQLiteDB_Path", Base.KegPath + "Keg.db");
+        Base.SetValue("dbPath", "LevelDB_Path", Base.KegPath + @"zj\\");
+      }
+      else
+      {
+        Base.SetValue("dbPath", "SQLiteDbPath", @"C:\SiKegInput\Keg.db");
+        Base.SetValue("dbPath", "LevelDB_Path", @"C:\SiKegInput\zj\");
+      }
       SaveGlobalSettingJson();
       SaveKeg();
     }
@@ -447,22 +449,19 @@ namespace 小科狗配置.Page
       }
     }
 
-    private bool IsTrueOrFalse(string value)
+    private static bool IsTrueOrFalse(string value)
     {
-      if (value == "不要" || value == "不是") return false;
-      return true;
+      return value != "不要" && value != "不是";
     }
 
-    private string 是或不是(bool b)
+    private static string 是或不是(bool b)
     {
-      if (b) return "是";
-      return "不是";
+      return b ? "是" : "不是";
     }
 
-    private string 要或不要(bool b)
+    private static string 要或不要(bool b)
     {
-      if (b) return "要";
-      return "不要";
+      return b ? "要" : "不要";
     }
 
 
@@ -489,8 +488,7 @@ namespace 小科狗配置.Page
     private string 取提示文本的位置()
     {
       if (radioButton18.IsChecked == true) return "0";
-      if (radioButton19.IsChecked == true) return "1";
-      return "2";
+      return radioButton19.IsChecked == true ? "1" : "2";
     }
 
     // 读取 全局设置
@@ -1099,10 +1097,11 @@ namespace 小科狗配置.Page
       };
     }
 
+
+
+
+
     #endregion
-
-
-
 
 
   }

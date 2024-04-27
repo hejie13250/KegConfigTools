@@ -13,14 +13,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid x:Name="grid1">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+
 
 
         <ScrollViewer
-            Grid.Row="1"
             HorizontalAlignment="Left"
             VerticalScrollBarVisibility="Hidden"
             x:Name="scrollViewer1">

@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 
@@ -94,12 +95,46 @@ namespace 小科狗配置.Class
     /// <returns></returns>
     public static void GetKegPath()
     {
+      var path = GetValue("window", "keg_path");
+      KegPath = path ?? GetProcessPath();
+
+      var kegText = File.ReadAllText(KegPath + "Keg.txt");
+      const string pattern = "《打字字数统.*?=(.*)》";
+      var          matches = Regex.Matches(kegText, pattern);
+      foreach (Match match in matches)
+        switch (match.Groups[1].Value)
+        {
+          case "是":
+            SetValue("dbPath", "SQLiteDB_Path", Base.KegPath + @"Keg.db");
+            SetValue("dbPath", "LevelDB_Path", Base.KegPath + @"zj\");
+            break;
+          case "不是":
+            SetValue("dbPath", "SQLiteDB_Path", @"C:\SiKegInput\Keg.db");
+            SetValue("dbPath", "LevelDB_Path",  @"C:\SiKegInput\zj\");
+            break;
+        }
+
+    }
+
+
+    private static string GetProcessPath()
+    {
+      var processes = Process.GetProcessesByName("KegServer");
+      var str       =  processes.Length > 0 ? processes[0].MainModule!.FileName : string.Empty;
+      var path =  str.Replace("KegServer.exe", "");
+      SetValue("window", "keg_path", path);
+      return path;
+    }
+
+    private static void GetProcessPathFormServer()
+    {
       try
       {
         var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
         SendMessageTimeout(hWnd, KwmGetpath, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
         Thread.Sleep(200);
         KegPath = Clipboard.GetText();
+        SetValue("window", "keg_path", KegPath);
       }
       catch (Exception ex)
       {
@@ -107,52 +142,7 @@ namespace 小科狗配置.Class
         Console.WriteLine(ex.Message);
         ((App)Application.Current).Exit();
       }
-      //return kegPath;
     }
-
-
-    public static string GetProcessPath(string processName)
-    {
-      var processes = Process.GetProcessesByName(processName);
-      if (processes.Length > 0)
-      {
-        // 注意：如果有多个同名进程，这里只返回第一个进程的路径
-        return processes[0].MainModule!.FileName;
-      }
-      else
-      {
-        return string.Empty;
-      }
-    }
-
-
-
-
-    // 扩展方法，用于获取字体支持的字符集
-    //public static HashSet<char> GetCharSet(this System.Drawing.Font font)
-    //{
-    //  HashSet<char> result = new HashSet<char>();
-    //  // 中文字符的 Unicode 范围
-    //  for (int i = 0x4E00; i <= 0x9FFF; i++)
-    //  {
-    //    char c = (char)i;
-    //    if (font.FontFamily.GetCellAscent(System.Drawing.FontStyle.Regular) != 0)
-    //    {
-    //      result.Add(c);
-    //    }
-    //  }
-    //  return result;
-    //}
-
-
-
-
-
-
-
-
-
-
 
   }
 }

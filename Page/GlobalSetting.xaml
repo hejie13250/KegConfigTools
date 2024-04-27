@@ -372,6 +372,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
 
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <TextBox
                                                             Background="Transparent"
                                                             BorderThickness="0"
@@ -382,7 +383,6 @@
                                                             TextWrapping="NoWrap"
                                                             ToolTip="在线查找名称"
                                                             Width="145"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="nameTextBox" />
 
                                                     </DataTemplate>
@@ -391,6 +391,7 @@
                                             <GridViewColumn Header="命令" Width="450">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <TextBox
                                                             BorderThickness="0"
                                                             Height="24"
@@ -400,7 +401,6 @@
                                                             TextWrapping="NoWrap"
                                                             ToolTip="网址或可执行文件路径，带参数传送用&quot;&amp;&amp;&amp;&quot;连接参数：C:\py.exe&amp;&amp;&amp;1.py"
                                                             Width="437"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="cmdTextBox" />
 
                                                     </DataTemplate>
@@ -409,13 +409,13 @@
                                             <GridViewColumn Header="启用" Width="45">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <CheckBox
                                                             Click="CheckBox_Click"
                                                             HorizontalAlignment="Center"
                                                             IsChecked="{Binding Enable}"
                                                             Style="{DynamicResource CheckBoxStyle}"
-                                                            VerticalAlignment="Center"
-                                                            d:DataContext="{d:string}" />
+                                                            VerticalAlignment="Center" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -479,6 +479,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
 
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <TextBox
                                                             BorderThickness="0"
                                                             Height="24"
@@ -488,7 +489,6 @@
                                                             TextWrapping="NoWrap"
                                                             ToolTip="外部工具名称"
                                                             Width="145"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="nameTextBox" />
 
                                                     </DataTemplate>
@@ -498,6 +498,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
 
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <TextBox
                                                             BorderThickness="0"
                                                             Height="24"
@@ -507,7 +508,6 @@
                                                             TextWrapping="NoWrap"
                                                             ToolTip="外部工具的可执行文件路径"
                                                             Width="437"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="cmdTextBox" />
 
                                                     </DataTemplate>
@@ -518,13 +518,13 @@
                                             <GridViewColumn Header="启用" Width="45">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <CheckBox
                                                             Click="CheckBox_Click"
                                                             HorizontalAlignment="Right"
                                                             IsChecked="{Binding Enable}"
                                                             Style="{DynamicResource CheckBoxStyle}"
-                                                            VerticalAlignment="Center"
-                                                            d:DataContext="{d:string}" />
+                                                            VerticalAlignment="Center" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -584,6 +584,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
 
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <TextBox
                                                             BorderThickness="0"
                                                             Height="24"
@@ -592,7 +593,6 @@
                                                             TextChanged="TextBox3_TextChanged"
                                                             TextWrapping="NoWrap"
                                                             Width="403"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="cmdTextBox" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -600,6 +600,7 @@
                                             <GridViewColumn Header="热键" Width="195">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <local:HotKeyControl
                                                             FontSize="12"
                                                             Height="25"
@@ -609,7 +610,6 @@
                                                             TabIndex="3103"
                                                             VerticalAlignment="Center"
                                                             Width="180"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="hotKeyControl" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -617,13 +617,13 @@
                                             <GridViewColumn Header="启用" Width="45">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <CheckBox
                                                             Click="CheckBox_Click"
                                                             HorizontalAlignment="Center"
                                                             IsChecked="{Binding Enable}"
                                                             Style="{DynamicResource CheckBoxStyle}"
-                                                            VerticalAlignment="Center"
-                                                            d:DataContext="{d:string}" />
+                                                            VerticalAlignment="Center" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -686,6 +686,7 @@
                                             <GridViewColumn Header="热键" Width="195">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <local:HotKeyControl
                                                             FontSize="12"
                                                             Height="25"
@@ -695,7 +696,6 @@
                                                             TabIndex="3103"
                                                             VerticalAlignment="Center"
                                                             Width="180"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="hotKeyControl" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -703,13 +703,13 @@
                                             <GridViewColumn Header="启用" Width="45">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <CheckBox
                                                             Click="CheckBox_Click"
                                                             HorizontalAlignment="Right"
                                                             IsChecked="{Binding Enable}"
                                                             Style="{DynamicResource CheckBoxStyle}"
-                                                            VerticalAlignment="Center"
-                                                            d:DataContext="{d:string}" />
+                                                            VerticalAlignment="Center" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -772,6 +772,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
 
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <TextBox
                                                             BorderThickness="0"
                                                             Height="24"
@@ -780,7 +781,6 @@
                                                             TextChanged="TextBox2_TextChanged"
                                                             TextWrapping="NoWrap"
                                                             Width="597"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="cmdTextBox" />
 
                                                     </DataTemplate>
@@ -789,13 +789,13 @@
                                             <GridViewColumn Header="启用" Width="45">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <CheckBox
                                                             Click="CheckBox_Click"
                                                             HorizontalAlignment="Center"
                                                             IsChecked="{Binding Enable}"
                                                             Style="{DynamicResource CheckBoxStyle}"
-                                                            VerticalAlignment="Center"
-                                                            d:DataContext="{d:string}" />
+                                                            VerticalAlignment="Center" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -861,6 +861,7 @@
                                             <GridViewColumn Header="时间" Width="195">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <local:TimeControl
                                                             FontSize="12"
                                                             Height="25"
@@ -868,7 +869,6 @@
                                                             Time="{Binding Value}"
                                                             VerticalAlignment="Center"
                                                             Width="180"
-                                                            d:DataContext="{d:string}"
                                                             x:Name="hotKeyControl" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -876,13 +876,13 @@
                                             <GridViewColumn Header="启用" Width="45">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
+                                                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                                         <CheckBox
                                                             Click="CheckBox_Click"
                                                             HorizontalAlignment="Right"
                                                             IsChecked="{Binding Enable}"
                                                             Style="{DynamicResource CheckBoxStyle}"
-                                                            VerticalAlignment="Center"
-                                                            d:DataContext="{d:string}" />
+                                                            VerticalAlignment="Center" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
@@ -935,7 +935,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Label
-                                Content="打字统计数据保存位置由 C:\SiKegInput 转到主程序文件夹："
+                                Content="打字统计数据保存位置由 C:\SiKegInput 转到主程序文件夹（确定后重启服务端生效）："
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 x:Name="label23_Copy158" />
