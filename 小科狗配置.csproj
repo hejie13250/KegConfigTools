@@ -301,7 +301,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Class\BasePage.cs" />
-    <Compile Include="Class\ClipboardMonitor.cs" />
     <Compile Include="Contorl\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>

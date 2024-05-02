@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -13,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Newtonsoft.Json;
 using 小科狗配置.Class;
-using 小科狗配置.Control;
+using 小科狗配置.Contorl;
 using Application = System.Windows.Forms.Application;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
@@ -41,30 +39,6 @@ namespace 小科狗配置.Page
 
     #endregion
 
-
-    #region 消息接口定义
-
-    // [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    // private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-    // [DllImport("user32.dll", SetLastError = true)]
-    // private static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-    private const   uint Abortifhung   = 0x0002;
-    private const   uint Flags         = Abortifhung;
-    private const   uint Timeout       = 500;
-    private   const int  WmUser        = 0x0400;             // 根据Windows API定义
-    private   const uint KwmReset      = (uint)WmUser + 201; //重置配置
-    private   const uint KwmGetset     = (uint)WmUser + 203; //由剪切板指定方案名,从而获得该方案的配置
-    private   const uint KwmUpbase     = (uint)WmUser + 205; //更新内存数据库 
-    private   const uint KwmSavebase   = (uint)WmUser + 206; //保存内存数据库
-    private   const uint KwmGetdef     = (uint)WmUser + 208; //把默认无方案名的配置模板吐到剪切板
-    private   const uint KwmSet2All    = (uint)WmUser + 209; //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
-    private   const uint KwmGetallname = (uint)WmUser + 213; //把所有方案名吐到剪切板,一行一个方案名
-
-    #endregion
 
     #region 配色方案相关定义
 
@@ -203,10 +177,7 @@ namespace 小科狗配置.Page
       try
       {
         //把所有方案名吐到剪切板,一行一个方案名
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmGetallname, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmGetallname, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
+        Base.SendMessageTimeout(Base.KwmGetallname);
       }
       catch (Exception ex)
       {
@@ -224,17 +195,16 @@ namespace 小科狗配置.Page
         comboBox.Items.Add(line);
       // comboBox.SelectedIndex = 0;
     }
-    private string GetConfig(string labelName)
+    private static string GetConfig(string labelName)
     {
       string result;
       try
       {
         Clipboard.SetText(labelName);
-        PostMessage(Base.hWnd, KwmGetset, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(100);
+        Base.SendMessageTimeout(Base.KwmGetset);
         result = Clipboard.GetText();
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         Application.DoEvents();
         result = Clipboard.GetText();
@@ -245,22 +215,18 @@ namespace 小科狗配置.Page
     }
 
     // 保存内存配置到数据库
-    private void SaveConfig(string labelName)
+    private static void SaveConfig(string labelName)
     {
       try
       {
         Clipboard.SetText(labelName);
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmSavebase, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmSavebase, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
+        Base.SendMessageTimeout(Base.KwmSavebase);
       }
       catch (Exception ex)
       {
         MessageBox.Show("操作失败，请重试！");
         Console.WriteLine(ex.Message);
       }
-
     }
 
 
@@ -300,10 +266,7 @@ namespace 小科狗配置.Page
 
       try
       {
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmGetdef, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmGetdef, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
+        Base.SendMessageTimeout(Base.KwmGetdef);
         var str = Clipboard.GetText();
         _currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{_labelName}>配置");
         SetControlsValue();
@@ -327,10 +290,8 @@ namespace 小科狗配置.Page
       try
       {
         Clipboard.SetText($"《所有进程默认初始方案={_labelName}》");
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmSet2All, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmSet2All, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
+        Base.SendMessageTimeout(Base.KwmSet2All);
+        // Thread.Sleep(200);
       }
       catch (Exception ex)
       {
@@ -351,11 +312,7 @@ namespace 小科狗配置.Page
       {
 
         Clipboard.SetText(updataStr);
-        //Thread.Sleep(200);
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmReset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmReset, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
+        Base.SendMessageTimeout(Base.KwmReset);
         _currentConfig = _modifiedConfig;
       }
       catch (Exception ex)
@@ -376,11 +333,8 @@ namespace 小科狗配置.Page
     {
       try
       {
-        // 更新内存数据库 
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmUpbase, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmUpbase, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
+        // 更新内存数据库
+        Base.SendMessageTimeout(Base.KwmUpbase);
       }
       catch (Exception ex)
       {

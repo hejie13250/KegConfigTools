@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace 小科狗配置.Class
 {
@@ -11,9 +8,9 @@ namespace 小科狗配置.Class
     {
         #region Win32 Interface
         [DllImport("user32.dll")]
-        public static extern bool EmptyClipboard();
+        private static extern bool EmptyClipboard();
         [DllImport("user32.dll", SetLastError = true)]
-        private extern static IntPtr SetClipboardData(uint format, IntPtr handle);
+        private static extern IntPtr SetClipboardData(uint format, IntPtr handle);
         [DllImport("user32.dll")]
         static extern IntPtr GetClipboardData(uint uFormat);
         [DllImport("user32.dll")]
@@ -32,17 +29,14 @@ namespace 小科狗配置.Class
 
         public static bool CopyToClipboard(uint id, string content)
         {
-            if (OpenClipboard(IntPtr.Zero))
-            {
-                EmptyClipboard();
-                IntPtr hmem = Marshal.StringToHGlobalUni(content);
-                var ptr = GlobalLock(hmem);
-                GlobalUnlock(ptr);
-                SetClipboardData(id, ptr);
-                CloseClipboard();
-                return true;
-            }
-            return false;
+            if (!OpenClipboard(IntPtr.Zero)) return false;
+            EmptyClipboard();
+            var hmem = Marshal.StringToHGlobalUni(content);
+            var    ptr  = GlobalLock(hmem);
+            GlobalUnlock(ptr);
+            SetClipboardData(id, ptr);
+            CloseClipboard();
+            return true;
         }
 
         public static string GetFromClipboard(uint id)

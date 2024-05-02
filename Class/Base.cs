@@ -75,23 +75,35 @@ namespace 小科狗配置.Class
     private const uint Flags           = Abortifhung;
     private const uint Timeout         = 500;
     private const int  WmUser          = 0x0400;             // 根据Windows API定义
-    private const uint KwmResetpiple   = (uint)WmUser + 200; //重置双轮流通信命名管道
-    private const uint KwmReset        = (uint)WmUser + 201; //重置配置
-    private const uint KwmSet0         = (uint)WmUser + 202; //权重全置为0
-    private const uint KwmGetset       = (uint)WmUser + 203; //由剪切板指定方案名,从而获得该方案的配置
-    private const uint KwmInsert       = (uint)WmUser + 204; //根据剪切板的带方案名(第一行数据)的词条插入词条
-    private const uint KwmUpbase       = (uint)WmUser + 205; //更新内存数据库 
-    private const uint KwmSavebase     = (uint)WmUser + 206; //保存内存数据库
-    private const uint KwmGetdatapath  = (uint)WmUser + 207; //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
-    private const uint KwmGetdef       = (uint)WmUser + 208; //把默认无方案名的配置模板吐到剪切板
-    private const uint KwmSet2All      = (uint)WmUser + 209; //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
-    private const uint KwmGetwritepath = (uint)WmUser + 210; //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
-    private const uint KwmUpqjset      = (uint)WmUser + 211; //读取说明文本更新全局设置
-    private const uint KwmUppfset      = (uint)WmUser + 212; //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
-    private const uint KwmGetallname   = (uint)WmUser + 213; //把所有方案名吐到剪切板,一行一个方案名
-    private const uint KwmGetallzstj   = (uint)WmUser + 214; //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
-    private const uint KwmGetpath      = (uint)WmUser + 215; //获得小科狗夹子的路径 吐到剪切板
+    public const uint KwmResetpiple   = (uint)WmUser + 200; //重置双轮流通信命名管道
+    public const uint KwmReset        = (uint)WmUser + 201; //重置配置
+    public const uint KwmSet0         = (uint)WmUser + 202; //权重全置为0
+    public const uint KwmGetset       = (uint)WmUser + 203; //由剪切板指定方案名,从而获得该方案的配置
+    public const uint KwmInsert       = (uint)WmUser + 204; //根据剪切板的带方案名(第一行数据)的词条插入词条
+    public const uint KwmUpbase       = (uint)WmUser + 205; //更新内存数据库
+    public const uint KwmSavebase     = (uint)WmUser + 206; //保存内存数据库
+    public const uint KwmGetdatapath  = (uint)WmUser + 207; //从剪切板获得文本码表路径并加载该路径的文本码表到内存数据库
+    public const uint KwmGetdef       = (uint)WmUser + 208; //把默认无方案名的配置模板吐到剪切板
+    public const uint KwmSet2All      = (uint)WmUser + 209; //设置当前码字方案为所有进程的初始方案格式:《所有进程默认初始方案=  》
+    public const uint KwmGetwritepath = (uint)WmUser + 210; //从剪切板获得导出的码字的文件夹路+导出类据 ,格式:path->方案名1#方案名2 所有方案名为ALL
+    public const uint KwmUpqjset      = (uint)WmUser + 211; //读取说明文本更新全局设置
+    public const uint KwmUppfset      = (uint)WmUser + 212; //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
+    public const uint KwmGetallname   = (uint)WmUser + 213; //把所有方案名吐到剪切板,一行一个方案名
+    public const uint KwmGetallzstj   = (uint)WmUser + 214; //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
+    public const uint KwmGetpath      = (uint)WmUser + 215; //获得小科狗夹子的路径 吐到剪切板
     #endregion
+
+
+
+    public static bool PostMessage(uint msg)
+    {
+      return PostMessage(hWnd, msg, IntPtr.Zero, IntPtr.Zero);
+    }
+
+    public static void SendMessageTimeout(uint msg)
+    {
+      SendMessageTimeout(hWnd, msg, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
+    }
 
     /// <summary>
     /// 获取小科狗主目录
@@ -149,6 +161,12 @@ namespace 小科狗配置.Class
         ((App)Application.Current).Exit();
       }
     }
+
+
+
+
+
+
 
   }
 }

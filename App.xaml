@@ -1,583 +1,583 @@
 ﻿<Application
-  x:Class="小科狗配置.App"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:system="clr-namespace:System;assembly=mscorlib"
-  StartupUri="MainWindow.xaml">
-  <Application.Resources>
-
-    <DrawingImage x:Key="刷新">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M105.1,202.6C112.8,180.8 125.3,160.3 142.9,142.8 205.4,80.3 306.7,80.3 369.2,142.8L386.3,160 352,160C334.3,160 320,174.3 320,192 320,209.7 334.3,224 352,224L463.5,224C463.5,224,463.5,224,463.5,224L463.9,224C481.6,224,495.9,209.7,495.9,192L495.9,80C495.9,62.3 481.6,48 463.9,48 446.2,48 431.9,62.3 431.9,80L431.9,115.2 414.4,97.6C326.9,10.1 185.1,10.1 97.6,97.6 73.2,122 55.6,150.7 44.8,181.4 38.9,198.1 47.7,216.3 64.3,222.2 80.9,228.1 99.2,219.3 105.1,202.7z M39,289.3C34,290.8 29.2,293.5 25.3,297.5 21.3,301.5 18.6,306.3 17.2,311.5 16.9,312.7 16.6,314 16.4,315.3 16.1,317 16,318.7 16,320.4L16,432C16,449.7 30.3,464 48,464 65.7,464 80,449.7 80,432L80,396.9 97.6,414.4 97.6,414.4C185.1,501.8 326.9,501.8 414.3,414.4 438.7,390 456.4,361.3 467.2,330.7 473.1,314 464.3,295.8 447.7,289.9 431.1,284 412.8,292.8 406.9,309.4 399.2,331.2 386.7,351.7 369.1,369.2 306.6,431.7 205.3,431.7 142.8,369.2L142.7,369.1 125.6,352 160,352C177.7,352 192,337.7 192,320 192,302.3 177.7,288 160,288L48.4,288C46.8,288 45.2,288.1 43.6,288.3 42,288.5 40.5,288.8 39,289.3z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="上一页">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H320 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M320,512z M0,0z M41.4,233.4C28.9,245.9,28.9,266.2,41.4,278.7L201.4,438.7C213.9,451.2 234.2,451.2 246.7,438.7 259.2,426.2 259.2,405.9 246.7,393.4L109.3,256 246.6,118.6C259.1,106.1 259.1,85.8 246.6,73.3 234.1,60.8 213.8,60.8 201.3,73.3L41.3,233.3z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="下一页">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H320 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M320,512z M0,0z M278.6,233.4C291.1,245.9,291.1,266.2,278.6,278.7L118.6,438.7C106.1,451.2 85.8,451.2 73.3,438.7 60.8,426.2 60.8,405.9 73.3,393.4L210.7,256 73.4,118.6C60.9,106.1 60.9,85.8 73.4,73.3 85.9,60.8 106.2,60.8 118.7,73.3L278.7,233.3z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-    <DrawingImage x:Key="第一页">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M41.4,233.4C28.9,245.9,28.9,266.2,41.4,278.7L201.4,438.7C213.9,451.2 234.2,451.2 246.7,438.7 259.2,426.2 259.2,405.9 246.7,393.4L109.3,256 246.6,118.6C259.1,106.1 259.1,85.8 246.6,73.3 234.1,60.8 213.8,60.8 201.3,73.3L41.3,233.3z M393.4,73.4L233.4,233.4C220.9,245.9,220.9,266.2,233.4,278.7L393.4,438.7C405.9,451.2 426.2,451.2 438.7,438.7 451.2,426.2 451.2,405.9 438.7,393.4L301.3,256 438.6,118.6C451.1,106.1 451.1,85.8 438.6,73.3 426.1,60.8 405.8,60.8 393.3,73.3z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="最后一页">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M470.6,278.6C483.1,266.1,483.1,245.8,470.6,233.3L310.6,73.3C298.1,60.8 277.8,60.8 265.3,73.3 252.8,85.8 252.8,106.1 265.3,118.6L402.7,256 265.4,393.4C252.9,405.9 252.9,426.2 265.4,438.7 277.9,451.2 298.2,451.2 310.7,438.7L470.7,278.7z M118.6,438.6L278.6,278.6C291.1,266.1,291.1,245.8,278.6,233.3L118.6,73.3C106.1,60.8 85.8,60.8 73.3,73.3 60.8,85.8 60.8,106.1 73.3,118.6L210.7,256 73.4,393.4C60.9,405.9 60.9,426.2 73.4,438.7 85.9,451.2 106.2,451.2 118.7,438.7z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="搜索">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M416,208C416,253.9,401.1,296.3,376,330.7L502.6,457.4C515.1,469.9 515.1,490.2 502.6,502.7 490.1,515.2 469.8,515.2 457.3,502.7L330.7,376C296.3,401.2 253.9,416 208,416 93.1,416 0,322.9 0,208 0,93.1 93.1,0 208,0 322.9,0 416,93.1 416,208z M208,352A144,144,0,1,0,208,64A144,144,0,1,0,208,352z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="撤消">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M205,34.8C216.5,39.9,224,51.4,224,64L224,128 336,128C433.2,128 512,206.8 512,304 512,417.3 430.5,467.9 411.8,478.1 409.3,479.5 406.5,480 403.7,480 392.8,480 384,471.1 384,460.3 384,452.8 388.3,445.9 393.8,440.8 403.2,432 416,414.4 416,384.1 416,331.1 373,288.1 320,288.1L224,288.1 224,352.1C224,364.7 216.6,376.2 205,381.3 193.4,386.4 180,384.3 170.6,375.9L10.6,231.9C3.9,225.7 0,217.1 0,208 0,198.9 3.9,190.3 10.6,184.2L170.6,40.2C180,31.7,193.5,29.6,205,34.8z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="向上">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M233.4,105.4C245.9,92.9,266.2,92.9,278.7,105.4L470.7,297.4C483.2,309.9 483.2,330.2 470.7,342.7 458.2,355.2 437.9,355.2 425.4,342.7L256,173.3 86.6,342.6C74.1,355.1 53.8,355.1 41.3,342.6 28.8,330.1 28.8,309.8 41.3,297.3L233.3,105.3z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="向下">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M233.4,406.6C245.9,419.1,266.2,419.1,278.7,406.6L470.7,214.6C483.2,202.1 483.2,181.8 470.7,169.3 458.2,156.8 437.9,156.8 425.4,169.3L256,338.7 86.6,169.4C74.1,156.9 53.8,156.9 41.3,169.4 28.8,181.9 28.8,202.2 41.3,214.7L233.3,406.7z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="导出">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H576 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M576,512z M0,0z M32,96L544,96C561.7,96 576,81.7 576,64 576,46.3 561.7,32 544,32L32,32C14.3,32 0,46.3 0,64 0,81.7 14.3,96 32,96z M9.4,233.4C-3.1,245.9 -3.1,266.2 9.4,278.7 21.9,291.2 42.2,291.2 54.7,278.7L96,237.3 96,448C96,465.7 110.3,480 128,480 145.7,480 160,465.7 160,448L160,237.3 201.4,278.7C213.9,291.2 234.2,291.2 246.7,278.7 259.2,266.2 259.2,245.9 246.7,233.4L150.7,137.4C138.2,124.9,117.9,124.9,105.4,137.4L9.39999999999999,233.4z M329.4,278.7C341.9,291.2,362.2,291.2,374.7,278.7L416,237.3 416,448C416,465.7 430.3,480 448,480 465.7,480 480,465.7 480,448L480,237.3 521.4,278.7C533.9,291.2 554.2,291.2 566.7,278.7 579.2,266.2 579.2,245.9 566.7,233.4L470.7,137.4C458.2,124.9,437.9,124.9,425.4,137.4L329.4,233.4C316.9,245.9,316.9,266.2,329.4,278.7z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="导入">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H576 V0 H0 Z">
-          <DrawingGroup.Transform>
-            <TranslateTransform X="0.074999988079071045" Y="0" />
-          </DrawingGroup.Transform>
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M576,512z M0,0z M544,416L32,416C14.3,416 0,430.3 0,448 0,465.7 14.3,480 32,480L544,480C561.7,480 576,465.7 576,448 576,430.3 561.7,416 544,416z M566.6,278.6C579.1,266.1 579.1,245.8 566.6,233.3 554.1,220.8 533.8,220.8 521.3,233.3L480,274.7 480,64C480,46.3 465.7,32 448,32 430.3,32 416,46.3 416,64L416,274.7 374.6,233.3C362.1,220.8 341.8,220.8 329.3,233.3 316.8,245.8 316.8,266.1 329.3,278.6L425.3,374.6C437.8,387.1,458.1,387.1,470.6,374.6L566.6,278.6z M246.6,233.3C234.1,220.8,213.8,220.8,201.3,233.3L160,274.7 160,64C160,46.3 145.7,32 128,32 110.3,32 96,46.3 96,64L96,274.7 54.6,233.4C42.1,220.9 21.8,220.9 9.3,233.4 -3.2,245.9 -3.2,266.2 9.3,278.7L105.3,374.7C117.8,387.2,138.1,387.2,150.6,374.7L246.6,278.7C259.1,266.2,259.1,245.9,246.6,233.4z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="三点">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M448,512z M0,0z M8,256A56,56,0,1,1,120,256A56,56,0,1,1,8,256z M168,256A56,56,0,1,1,280,256A56,56,0,1,1,168,256z M384,200A56,56,0,1,1,384,312A56,56,0,1,1,384,200z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="清除">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H384 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M384,512z M0,0z M342.6,150.6C355.1,138.1 355.1,117.8 342.6,105.3 330.1,92.8 309.8,92.8 297.3,105.3L192,210.7 86.6,105.4C74.1,92.9 53.8,92.9 41.3,105.4 28.8,117.9 28.8,138.2 41.3,150.7L146.7,256 41.4,361.4C28.9,373.9 28.9,394.2 41.4,406.7 53.9,419.2 74.2,419.2 86.7,406.7L192,301.3 297.4,406.6C309.9,419.1 330.2,419.1 342.7,406.6 355.2,394.1 355.2,373.8 342.7,361.3L237.3,256 342.6,150.6z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-    <DrawingImage x:Key="删除">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
-          <GeometryDrawing Brush="#ffff" Geometry="F1 M448,512z M0,0z M135.2,17.7C140.6,6.8,151.7,0,163.8,0L284.2,0C296.3,0,307.4,6.8,312.8,17.7L320,32 416,32C433.7,32 448,46.3 448,64 448,81.7 433.7,96 416,96L32,96C14.3,96 0,81.7 0,64 0,46.3 14.3,32 32,32L128,32 135.2,17.7z M32,128L416,128 416,448C416,483.3,387.3,512,352,512L96,512C60.7,512,32,483.3,32,448L32,128z M128,192C119.2,192,112,199.2,112,208L112,432C112,440.8 119.2,448 128,448 136.8,448 144,440.8 144,432L144,208C144,199.2,136.8,192,128,192z M224,192C215.2,192,208,199.2,208,208L208,432C208,440.8 215.2,448 224,448 232.8,448 240,440.8 240,432L240,208C240,199.2,232.8,192,224,192z M320,192C311.2,192,304,199.2,304,208L304,432C304,440.8 311.2,448 320,448 328.8,448 336,440.8 336,432L336,208C336,199.2,328.8,192,320,192z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-    <DrawingImage x:Key="删除表">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
-          <GeometryDrawing Brush="#F000" Geometry="F1 M448,512z M0,0z M135.2,17.7C140.6,6.8,151.7,0,163.8,0L284.2,0C296.3,0,307.4,6.8,312.8,17.7L320,32 416,32C433.7,32 448,46.3 448,64 448,81.7 433.7,96 416,96L32,96C14.3,96 0,81.7 0,64 0,46.3 14.3,32 32,32L128,32 135.2,17.7z M32,128L416,128 416,448C416,483.3,387.3,512,352,512L96,512C60.7,512,32,483.3,32,448L32,128z M128,192C119.2,192,112,199.2,112,208L112,432C112,440.8 119.2,448 128,448 136.8,448 144,440.8 144,432L144,208C144,199.2,136.8,192,128,192z M224,192C215.2,192,208,199.2,208,208L208,432C208,440.8 215.2,448 224,448 232.8,448 240,440.8 240,432L240,208C240,199.2,232.8,192,224,192z M320,192C311.2,192,304,199.2,304,208L304,432C304,440.8 311.2,448 320,448 328.8,448 336,440.8 336,432L336,208C336,199.2,328.8,192,320,192z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-    <DrawingImage x:Key="复制">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V1024 H1024 V0 H0 Z">
-          <GeometryDrawing Brush="#FF000000" Geometry="F1 M1024,1024z M0,0z M768,384L640,384 640,241.92A114.346667,114.346667,0,0,0,526.08,128L241.92,128A114.346667,114.346667,0,0,0,128,241.92L128,526.08A114.346667,114.346667,0,0,0,241.92,640L384,640 384,768A128,128,0,0,0,512,896L768,896A128,128,0,0,0,896,768L896,512A128,128,0,0,0,768,384z M384,512L384,554.666667 241.92,554.666667A28.586667,28.586667,0,0,1,213.333333,526.08L213.333333,241.92A28.586667,28.586667,0,0,1,241.92,213.333333L526.08,213.333333A28.586667,28.586667,0,0,1,554.666667,241.92L554.666667,384 512,384A128,128,0,0,0,384,512z" />
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-    <DrawingImage x:Key="加">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V38.53 H38.53 V0 H0 Z">
-          <DrawingGroup Opacity="1">
-            <GeometryDrawing Brush="#ffff">
-              <GeometryDrawing.Geometry>
-                <RectangleGeometry
-                  RadiusX="4.75"
-                  RadiusY="5.89"
-                  Rect="0,13.37,38.53,11.78" />
-              </GeometryDrawing.Geometry>
-            </GeometryDrawing>
-            <DrawingGroup Transform="2.13718E-14,-0.806666,1,2.64788E-14,13.3743,38.531">
-              <GeometryDrawing Brush="#ffff">
-                <GeometryDrawing.Geometry>
-                  <RectangleGeometry
-                    RadiusX="5.89"
-                    RadiusY="5.89"
-                    Rect="0,0,47.77,11.78" />
-                </GeometryDrawing.Geometry>
-              </GeometryDrawing>
-            </DrawingGroup>
-          </DrawingGroup>
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="减">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V10.01 H32.73 V0 H0 Z">
-          <DrawingGroup Opacity="1">
-            <GeometryDrawing Brush="#ffff">
-              <GeometryDrawing.Geometry>
-                <RectangleGeometry
-                  RadiusX="4.04"
-                  RadiusY="5"
-                  Rect="0,0,32.73,10.01" />
-              </GeometryDrawing.Geometry>
-            </GeometryDrawing>
-          </DrawingGroup>
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-    <DrawingImage x:Key="删">
-      <DrawingImage.Drawing>
-        <DrawingGroup ClipGeometry="M0,0 V22.34 H22.34 V0 H0 Z">
-          <DrawingGroup Opacity="1">
-            <DrawingGroup Transform="0.570399,-0.570399,0.707107,0.707107,-1.78141,18.0518">
-              <GeometryDrawing Brush="#ffff">
-                <GeometryDrawing.Geometry>
-                  <RectangleGeometry
-                    RadiusX="4.29"
-                    RadiusY="4.29"
-                    Rect="0,0,34.77,8.58" />
-                </GeometryDrawing.Geometry>
-              </GeometryDrawing>
-            </DrawingGroup>
-            <DrawingGroup Transform="-0.570399,-0.570399,0.707107,-0.707107,18.0516,24.1165">
-              <GeometryDrawing Brush="#ffff">
-                <GeometryDrawing.Geometry>
-                  <RectangleGeometry
-                    RadiusX="4.29"
-                    RadiusY="4.29"
-                    Rect="0,0,34.77,8.58" />
-                </GeometryDrawing.Geometry>
-              </GeometryDrawing>
-            </DrawingGroup>
-          </DrawingGroup>
-        </DrawingGroup>
-      </DrawingImage.Drawing>
-    </DrawingImage>
-
-
-
-
-
-
-
-    <ToolTip x:Key="InforTip1">
-      <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-          <TextBlock Text="{Binding Path=Name}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-          <TextBlock Text="{Binding Path=Value}" />
-        </StackPanel>
-      </StackPanel>
-    </ToolTip>
-    <Style x:Key="InforTipStyle" TargetType="{x:Type ListViewItem}">
-      <Setter Property="ToolTip" Value="{Binding Source={StaticResource InforTip1}}" />
-    </Style>
-    <Style x:Key="HiddenGridViewHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-      <Setter Property="Visibility" Value="Collapsed" />
-    </Style>
-
-    <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type ListView}">
-            <ScrollViewer Padding="{TemplateBinding Padding}">
-              <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-            </ScrollViewer>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-      <Setter Property="Background" Value="#FFF2F2F2" />
-      <Setter Property="Foreground" Value="Black" />
-    </Style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--  滚动条样式  -->
-    <Style x:Key="FancyScrollBar" TargetType="{x:Type ScrollBar}">
-      <Setter Property="Width" Value="8" />
-      <Setter Property="Background" Value="Gray" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type ScrollBar}">
-            <Track Name="PART_Track">
-              <Track.Thumb>
-                <Thumb Background="DarkGray" BorderThickness="0" />
-              </Track.Thumb>
-            </Track>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <!--  ListView样式  -->
-    <Style x:Key="ListViewStyle2" TargetType="{x:Type ListView}">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type ListView}">
-            <Border Background="{TemplateBinding Background}">
-              <ScrollViewer
-                Padding="{TemplateBinding Padding}"
-                HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Auto">
-                <ScrollViewer.Template>
-                  <ControlTemplate TargetType="ScrollViewer">
-                    <Grid>
-                      <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                      </Grid.RowDefinitions>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                      </Grid.ColumnDefinitions>
-                      <ScrollContentPresenter Grid.Row="0" Grid.Column="0" />
-                      <ScrollBar
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Maximum="{TemplateBinding ScrollableHeight}"
-                        Orientation="Vertical"
-                        Style="{StaticResource FancyScrollBar}"
-                        ViewportSize="{TemplateBinding ViewportHeight}"
-                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                        Value="{TemplateBinding VerticalOffset}" />
-                      <ScrollBar
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Maximum="{TemplateBinding ScrollableWidth}"
-                        Orientation="Horizontal"
-                        Style="{StaticResource FancyScrollBar}"
-                        ViewportSize="{TemplateBinding ViewportWidth}"
-                        Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                        Value="{TemplateBinding HorizontalOffset}" />
-                    </Grid>
-                  </ControlTemplate>
-                </ScrollViewer.Template>
-                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-              </ScrollViewer>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <Style x:Key="RoundButton" TargetType="{x:Type Button}">
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type Button}">
-            <Grid Width="24" Height="24">
-              <Border
-                x:Name="border"
-                Background="DarkGray"
-                CornerRadius="7" />
-              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                  <VisualState x:Name="Normal">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="DarkGray"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="MouseOver">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Red"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Black"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RoundButton2" TargetType="{x:Type Button}">
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type Button}">
-            <Grid>
-              <Border
-                x:Name="border"
-                Background="DarkGray"
-                CornerRadius="4" />
-              <ContentPresenter
-                Margin="5,0,5,0"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                  <VisualState x:Name="Normal">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="DarkGray"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="MouseOver">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="#90EE90"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="#FFFF00"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RoundButton3" TargetType="{x:Type Button}">
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type Button}">
-            <Grid>
-              <Border
-                x:Name="border"
-                Background="DarkGray"
-                CornerRadius="4" />
-              <TextBlock
-                x:Name="textBlock"
-                Margin="4,0,4,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="14"
-                Text="{TemplateBinding Content}">
-                <TextBlock.Foreground>
-                  <SolidColorBrush Color="Black" />
-                </TextBlock.Foreground>
-              </TextBlock>
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                  <VisualState x:Name="Normal">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Transparent"
-                        Duration="0" />
-                      <ColorAnimation
-                        Storyboard.TargetName="textBlock"
-                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                        To="DarkGray"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="MouseOver">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Transparent"
-                        Duration="0" />
-                      <ColorAnimation
-                        Storyboard.TargetName="textBlock"
-                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                        To="Green"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <Storyboard>
-                      <ColorAnimation
-                        Storyboard.TargetName="border"
-                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                        To="Transparent"
-                        Duration="0" />
-                      <ColorAnimation
-                        Storyboard.TargetName="textBlock"
-                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                        To="Black"
-                        Duration="0" />
-                    </Storyboard>
-                  </VisualState>
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RoundedToggleButton" TargetType="ToggleButton">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Padding" Value="10,5" />
-      <Setter Property="Margin" Value="5" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="ToggleButton">
-            <Border
-              Background="{TemplateBinding Background}"
-              BorderBrush="Gray"
-              BorderThickness="0"
-              CornerRadius="11">
-              <ContentPresenter
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{TemplateBinding Content}" />
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RoundedLabel" TargetType="Label">
-      <Setter Property="BorderThickness" Value="2" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Label">
-            <Border
-              Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="6">
-
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <!--<Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
+    StartupUri="MainWindow.xaml"
+    x:Class="小科狗配置.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+
+        <DrawingImage x:Key="刷新">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M105.1,202.6C112.8,180.8 125.3,160.3 142.9,142.8 205.4,80.3 306.7,80.3 369.2,142.8L386.3,160 352,160C334.3,160 320,174.3 320,192 320,209.7 334.3,224 352,224L463.5,224C463.5,224,463.5,224,463.5,224L463.9,224C481.6,224,495.9,209.7,495.9,192L495.9,80C495.9,62.3 481.6,48 463.9,48 446.2,48 431.9,62.3 431.9,80L431.9,115.2 414.4,97.6C326.9,10.1 185.1,10.1 97.6,97.6 73.2,122 55.6,150.7 44.8,181.4 38.9,198.1 47.7,216.3 64.3,222.2 80.9,228.1 99.2,219.3 105.1,202.7z M39,289.3C34,290.8 29.2,293.5 25.3,297.5 21.3,301.5 18.6,306.3 17.2,311.5 16.9,312.7 16.6,314 16.4,315.3 16.1,317 16,318.7 16,320.4L16,432C16,449.7 30.3,464 48,464 65.7,464 80,449.7 80,432L80,396.9 97.6,414.4 97.6,414.4C185.1,501.8 326.9,501.8 414.3,414.4 438.7,390 456.4,361.3 467.2,330.7 473.1,314 464.3,295.8 447.7,289.9 431.1,284 412.8,292.8 406.9,309.4 399.2,331.2 386.7,351.7 369.1,369.2 306.6,431.7 205.3,431.7 142.8,369.2L142.7,369.1 125.6,352 160,352C177.7,352 192,337.7 192,320 192,302.3 177.7,288 160,288L48.4,288C46.8,288 45.2,288.1 43.6,288.3 42,288.5 40.5,288.8 39,289.3z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="上一页">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H320 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M320,512z M0,0z M41.4,233.4C28.9,245.9,28.9,266.2,41.4,278.7L201.4,438.7C213.9,451.2 234.2,451.2 246.7,438.7 259.2,426.2 259.2,405.9 246.7,393.4L109.3,256 246.6,118.6C259.1,106.1 259.1,85.8 246.6,73.3 234.1,60.8 213.8,60.8 201.3,73.3L41.3,233.3z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="下一页">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H320 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M320,512z M0,0z M278.6,233.4C291.1,245.9,291.1,266.2,278.6,278.7L118.6,438.7C106.1,451.2 85.8,451.2 73.3,438.7 60.8,426.2 60.8,405.9 73.3,393.4L210.7,256 73.4,118.6C60.9,106.1 60.9,85.8 73.4,73.3 85.9,60.8 106.2,60.8 118.7,73.3L278.7,233.3z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="第一页">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M41.4,233.4C28.9,245.9,28.9,266.2,41.4,278.7L201.4,438.7C213.9,451.2 234.2,451.2 246.7,438.7 259.2,426.2 259.2,405.9 246.7,393.4L109.3,256 246.6,118.6C259.1,106.1 259.1,85.8 246.6,73.3 234.1,60.8 213.8,60.8 201.3,73.3L41.3,233.3z M393.4,73.4L233.4,233.4C220.9,245.9,220.9,266.2,233.4,278.7L393.4,438.7C405.9,451.2 426.2,451.2 438.7,438.7 451.2,426.2 451.2,405.9 438.7,393.4L301.3,256 438.6,118.6C451.1,106.1 451.1,85.8 438.6,73.3 426.1,60.8 405.8,60.8 393.3,73.3z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="最后一页">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M470.6,278.6C483.1,266.1,483.1,245.8,470.6,233.3L310.6,73.3C298.1,60.8 277.8,60.8 265.3,73.3 252.8,85.8 252.8,106.1 265.3,118.6L402.7,256 265.4,393.4C252.9,405.9 252.9,426.2 265.4,438.7 277.9,451.2 298.2,451.2 310.7,438.7L470.7,278.7z M118.6,438.6L278.6,278.6C291.1,266.1,291.1,245.8,278.6,233.3L118.6,73.3C106.1,60.8 85.8,60.8 73.3,73.3 60.8,85.8 60.8,106.1 73.3,118.6L210.7,256 73.4,393.4C60.9,405.9 60.9,426.2 73.4,438.7 85.9,451.2 106.2,451.2 118.7,438.7z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="搜索">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M416,208C416,253.9,401.1,296.3,376,330.7L502.6,457.4C515.1,469.9 515.1,490.2 502.6,502.7 490.1,515.2 469.8,515.2 457.3,502.7L330.7,376C296.3,401.2 253.9,416 208,416 93.1,416 0,322.9 0,208 0,93.1 93.1,0 208,0 322.9,0 416,93.1 416,208z M208,352A144,144,0,1,0,208,64A144,144,0,1,0,208,352z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="撤消">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M205,34.8C216.5,39.9,224,51.4,224,64L224,128 336,128C433.2,128 512,206.8 512,304 512,417.3 430.5,467.9 411.8,478.1 409.3,479.5 406.5,480 403.7,480 392.8,480 384,471.1 384,460.3 384,452.8 388.3,445.9 393.8,440.8 403.2,432 416,414.4 416,384.1 416,331.1 373,288.1 320,288.1L224,288.1 224,352.1C224,364.7 216.6,376.2 205,381.3 193.4,386.4 180,384.3 170.6,375.9L10.6,231.9C3.9,225.7 0,217.1 0,208 0,198.9 3.9,190.3 10.6,184.2L170.6,40.2C180,31.7,193.5,29.6,205,34.8z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="向上">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M233.4,105.4C245.9,92.9,266.2,92.9,278.7,105.4L470.7,297.4C483.2,309.9 483.2,330.2 470.7,342.7 458.2,355.2 437.9,355.2 425.4,342.7L256,173.3 86.6,342.6C74.1,355.1 53.8,355.1 41.3,342.6 28.8,330.1 28.8,309.8 41.3,297.3L233.3,105.3z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="向下">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M233.4,406.6C245.9,419.1,266.2,419.1,278.7,406.6L470.7,214.6C483.2,202.1 483.2,181.8 470.7,169.3 458.2,156.8 437.9,156.8 425.4,169.3L256,338.7 86.6,169.4C74.1,156.9 53.8,156.9 41.3,169.4 28.8,181.9 28.8,202.2 41.3,214.7L233.3,406.7z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="导出">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H576 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M576,512z M0,0z M32,96L544,96C561.7,96 576,81.7 576,64 576,46.3 561.7,32 544,32L32,32C14.3,32 0,46.3 0,64 0,81.7 14.3,96 32,96z M9.4,233.4C-3.1,245.9 -3.1,266.2 9.4,278.7 21.9,291.2 42.2,291.2 54.7,278.7L96,237.3 96,448C96,465.7 110.3,480 128,480 145.7,480 160,465.7 160,448L160,237.3 201.4,278.7C213.9,291.2 234.2,291.2 246.7,278.7 259.2,266.2 259.2,245.9 246.7,233.4L150.7,137.4C138.2,124.9,117.9,124.9,105.4,137.4L9.39999999999999,233.4z M329.4,278.7C341.9,291.2,362.2,291.2,374.7,278.7L416,237.3 416,448C416,465.7 430.3,480 448,480 465.7,480 480,465.7 480,448L480,237.3 521.4,278.7C533.9,291.2 554.2,291.2 566.7,278.7 579.2,266.2 579.2,245.9 566.7,233.4L470.7,137.4C458.2,124.9,437.9,124.9,425.4,137.4L329.4,233.4C316.9,245.9,316.9,266.2,329.4,278.7z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="导入">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H576 V0 H0 Z">
+                    <DrawingGroup.Transform>
+                        <TranslateTransform X="0.074999988079071045" Y="0" />
+                    </DrawingGroup.Transform>
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M576,512z M0,0z M544,416L32,416C14.3,416 0,430.3 0,448 0,465.7 14.3,480 32,480L544,480C561.7,480 576,465.7 576,448 576,430.3 561.7,416 544,416z M566.6,278.6C579.1,266.1 579.1,245.8 566.6,233.3 554.1,220.8 533.8,220.8 521.3,233.3L480,274.7 480,64C480,46.3 465.7,32 448,32 430.3,32 416,46.3 416,64L416,274.7 374.6,233.3C362.1,220.8 341.8,220.8 329.3,233.3 316.8,245.8 316.8,266.1 329.3,278.6L425.3,374.6C437.8,387.1,458.1,387.1,470.6,374.6L566.6,278.6z M246.6,233.3C234.1,220.8,213.8,220.8,201.3,233.3L160,274.7 160,64C160,46.3 145.7,32 128,32 110.3,32 96,46.3 96,64L96,274.7 54.6,233.4C42.1,220.9 21.8,220.9 9.3,233.4 -3.2,245.9 -3.2,266.2 9.3,278.7L105.3,374.7C117.8,387.2,138.1,387.2,150.6,374.7L246.6,278.7C259.1,266.2,259.1,245.9,246.6,233.4z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="三点">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M448,512z M0,0z M8,256A56,56,0,1,1,120,256A56,56,0,1,1,8,256z M168,256A56,56,0,1,1,280,256A56,56,0,1,1,168,256z M384,200A56,56,0,1,1,384,312A56,56,0,1,1,384,200z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="清除">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H384 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M384,512z M0,0z M342.6,150.6C355.1,138.1 355.1,117.8 342.6,105.3 330.1,92.8 309.8,92.8 297.3,105.3L192,210.7 86.6,105.4C74.1,92.9 53.8,92.9 41.3,105.4 28.8,117.9 28.8,138.2 41.3,150.7L146.7,256 41.4,361.4C28.9,373.9 28.9,394.2 41.4,406.7 53.9,419.2 74.2,419.2 86.7,406.7L192,301.3 297.4,406.6C309.9,419.1 330.2,419.1 342.7,406.6 355.2,394.1 355.2,373.8 342.7,361.3L237.3,256 342.6,150.6z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="删除">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                    <GeometryDrawing Brush="#ffff" Geometry="F1 M448,512z M0,0z M135.2,17.7C140.6,6.8,151.7,0,163.8,0L284.2,0C296.3,0,307.4,6.8,312.8,17.7L320,32 416,32C433.7,32 448,46.3 448,64 448,81.7 433.7,96 416,96L32,96C14.3,96 0,81.7 0,64 0,46.3 14.3,32 32,32L128,32 135.2,17.7z M32,128L416,128 416,448C416,483.3,387.3,512,352,512L96,512C60.7,512,32,483.3,32,448L32,128z M128,192C119.2,192,112,199.2,112,208L112,432C112,440.8 119.2,448 128,448 136.8,448 144,440.8 144,432L144,208C144,199.2,136.8,192,128,192z M224,192C215.2,192,208,199.2,208,208L208,432C208,440.8 215.2,448 224,448 232.8,448 240,440.8 240,432L240,208C240,199.2,232.8,192,224,192z M320,192C311.2,192,304,199.2,304,208L304,432C304,440.8 311.2,448 320,448 328.8,448 336,440.8 336,432L336,208C336,199.2,328.8,192,320,192z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="删除表">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                    <GeometryDrawing Brush="#F000" Geometry="F1 M448,512z M0,0z M135.2,17.7C140.6,6.8,151.7,0,163.8,0L284.2,0C296.3,0,307.4,6.8,312.8,17.7L320,32 416,32C433.7,32 448,46.3 448,64 448,81.7 433.7,96 416,96L32,96C14.3,96 0,81.7 0,64 0,46.3 14.3,32 32,32L128,32 135.2,17.7z M32,128L416,128 416,448C416,483.3,387.3,512,352,512L96,512C60.7,512,32,483.3,32,448L32,128z M128,192C119.2,192,112,199.2,112,208L112,432C112,440.8 119.2,448 128,448 136.8,448 144,440.8 144,432L144,208C144,199.2,136.8,192,128,192z M224,192C215.2,192,208,199.2,208,208L208,432C208,440.8 215.2,448 224,448 232.8,448 240,440.8 240,432L240,208C240,199.2,232.8,192,224,192z M320,192C311.2,192,304,199.2,304,208L304,432C304,440.8 311.2,448 320,448 328.8,448 336,440.8 336,432L336,208C336,199.2,328.8,192,320,192z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="复制">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V1024 H1024 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M1024,1024z M0,0z M768,384L640,384 640,241.92A114.346667,114.346667,0,0,0,526.08,128L241.92,128A114.346667,114.346667,0,0,0,128,241.92L128,526.08A114.346667,114.346667,0,0,0,241.92,640L384,640 384,768A128,128,0,0,0,512,896L768,896A128,128,0,0,0,896,768L896,512A128,128,0,0,0,768,384z M384,512L384,554.666667 241.92,554.666667A28.586667,28.586667,0,0,1,213.333333,526.08L213.333333,241.92A28.586667,28.586667,0,0,1,241.92,213.333333L526.08,213.333333A28.586667,28.586667,0,0,1,554.666667,241.92L554.666667,384 512,384A128,128,0,0,0,384,512z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="加">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V38.53 H38.53 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#ffff">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry
+                                    RadiusX="4.75"
+                                    RadiusY="5.89"
+                                    Rect="0,13.37,38.53,11.78" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <DrawingGroup Transform="2.13718E-14,-0.806666,1,2.64788E-14,13.3743,38.531">
+                            <GeometryDrawing Brush="#ffff">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry
+                                        RadiusX="5.89"
+                                        RadiusY="5.89"
+                                        Rect="0,0,47.77,11.78" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="减">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V10.01 H32.73 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#ffff">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry
+                                    RadiusX="4.04"
+                                    RadiusY="5"
+                                    Rect="0,0,32.73,10.01" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="删">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V22.34 H22.34 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup Transform="0.570399,-0.570399,0.707107,0.707107,-1.78141,18.0518">
+                            <GeometryDrawing Brush="#ffff">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry
+                                        RadiusX="4.29"
+                                        RadiusY="4.29"
+                                        Rect="0,0,34.77,8.58" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                        <DrawingGroup Transform="-0.570399,-0.570399,0.707107,-0.707107,18.0516,24.1165">
+                            <GeometryDrawing Brush="#ffff">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry
+                                        RadiusX="4.29"
+                                        RadiusY="4.29"
+                                        Rect="0,0,34.77,8.58" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+
+
+
+
+
+
+        <ToolTip x:Key="InforTip1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Name}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Value}" />
+                </StackPanel>
+            </StackPanel>
+        </ToolTip>
+        <Style TargetType="{x:Type ListViewItem}" x:Key="InforTipStyle">
+            <Setter Property="ToolTip" Value="{Binding Source={StaticResource InforTip1}}" />
+        </Style>
+        <Style TargetType="{x:Type GridViewColumnHeader}" x:Key="HiddenGridViewHeaderStyle">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+
+        <Style TargetType="{x:Type ListView}" x:Key="ListViewStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <ScrollViewer Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#FFF2F2F2" />
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--  滚动条样式  -->
+        <Style TargetType="{x:Type ScrollBar}" x:Key="FancyScrollBar">
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Background" Value="Gray" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Track Name="PART_Track">
+                            <Track.Thumb>
+                                <Thumb Background="DarkGray" BorderThickness="0" />
+                            </Track.Thumb>
+                        </Track>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  ListView样式  -->
+        <Style TargetType="{x:Type ListView}" x:Key="ListViewStyle2">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ScrollViewer
+                                HorizontalScrollBarVisibility="Auto"
+                                Padding="{TemplateBinding Padding}"
+                                VerticalScrollBarVisibility="Auto">
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="ScrollViewer">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <ScrollContentPresenter Grid.Column="0" Grid.Row="0" />
+                                            <ScrollBar
+                                                Grid.Column="1"
+                                                Grid.Row="0"
+                                                Maximum="{TemplateBinding ScrollableHeight}"
+                                                Orientation="Vertical"
+                                                Style="{StaticResource FancyScrollBar}"
+                                                Value="{TemplateBinding VerticalOffset}"
+                                                ViewportSize="{TemplateBinding ViewportHeight}"
+                                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+                                            <ScrollBar
+                                                Grid.Column="0"
+                                                Grid.Row="1"
+                                                Maximum="{TemplateBinding ScrollableWidth}"
+                                                Orientation="Horizontal"
+                                                Style="{StaticResource FancyScrollBar}"
+                                                Value="{TemplateBinding HorizontalOffset}"
+                                                ViewportSize="{TemplateBinding ViewportWidth}"
+                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundButton">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Height="24" Width="24">
+                            <Border
+                                Background="DarkGray"
+                                CornerRadius="7"
+                                x:Name="border" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="DarkGray" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Red" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Black" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundButton2">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border
+                                Background="DarkGray"
+                                CornerRadius="4"
+                                x:Name="border" />
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="5,0,5,0"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="DarkGray" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#90EE90" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#FFFF00" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundButton3">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border
+                                Background="DarkGray"
+                                CornerRadius="4"
+                                x:Name="border" />
+                            <TextBlock
+                                FontSize="14"
+                                HorizontalAlignment="Center"
+                                Margin="4,0,4,0"
+                                Text="{TemplateBinding Content}"
+                                VerticalAlignment="Center"
+                                x:Name="textBlock">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="Black" />
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Transparent" />
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="textBlock"
+                                                Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                To="DarkGray" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Transparent" />
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="textBlock"
+                                                Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                To="Green" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="border"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Transparent" />
+                                            <ColorAnimation
+                                                Duration="0"
+                                                Storyboard.TargetName="textBlock"
+                                                Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                To="Black" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ToggleButton" x:Key="RoundedToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="Gray"
+                            BorderThickness="0"
+                            CornerRadius="11">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Label" x:Key="RoundedLabel">
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6">
+
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--<Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
       <Setter Property="Padding" Value="1" />
       <Setter Property="Template">
         <Setter.Value>
@@ -598,751 +598,752 @@
       </Setter>
     </Style>-->
 
-    <Style x:Key="RoundTextBox" TargetType="{x:Type TextBox}">
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type TextBox}">
-            <Grid>
-              <Border
-                Background="#00FFFFFF"
-                BorderBrush="DarkGray"
-                BorderThickness="2"
-                CornerRadius="6">
-                <ScrollViewer
-                  x:Name="PART_ContentHost"
-                  Margin="0"
-                  HorizontalScrollBarVisibility="Hidden"
-                  VerticalScrollBarVisibility="Auto" />
-              </Border>
-              <TextBlock
-                x:Name="PlaceholderTextBlock"
-                Margin="5,0,0,0"
-                Padding="0,2,0,0"
-                HorizontalAlignment="Left"
-                Foreground="Gray"
-                Text="{TemplateBinding Tag}"
-                Visibility="Collapsed" />
-            </Grid>
-            <ControlTemplate.Triggers>
-              <MultiTrigger>
-                <MultiTrigger.Conditions>
-                  <Condition Property="Text" Value="" />
-                </MultiTrigger.Conditions>
-                <Setter TargetName="PlaceholderTextBlock" Property="Visibility" Value="Visible" />
-              </MultiTrigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RoundTextBox2" TargetType="{x:Type TextBox}">
-      <Setter Property="Padding" Value="1" />
-      <Setter Property="AcceptsReturn" Value="True" />
-      <Setter Property="TextWrapping" Value="Wrap" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type TextBox}">
-            <Border
-              Background="#00FFFFFF"
-              BorderBrush="DarkGray"
-              BorderThickness="2"
-              CornerRadius="6">
-              <ScrollViewer
-                x:Name="PART_ContentHost"
-                Margin="0"
-                HorizontalScrollBarVisibility="Hidden"
-                VerticalScrollBarVisibility="Auto" />
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RoundedListBox" TargetType="ListBox">
-      <Setter Property="Background" Value="#00FFFFFF" />
-      <Setter Property="BorderBrush" Value="DarkGray" />
-      <Setter Property="BorderThickness" Value="2" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="ListBox">
-            <Border
-              Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="6">
-              <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-                <ItemsPresenter />
-              </ScrollViewer>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="HiddenBorderGroupBoxStyle" TargetType="{x:Type GroupBox}">
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type GroupBox}">
-            <Border Background="{TemplateBinding Background}" CornerRadius="4">
-              <StackPanel>
-                <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
-                <ContentPresenter Margin="{TemplateBinding Padding}" />
-              </StackPanel>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-      <Setter Property="Width" Value="730" />
-      <Setter Property="Height" Value="auto" />
-      <Setter Property="Margin" Value="10,10,10,10" />
-    </Style>
-
-    <Style x:Key="CustomBorderStyle" TargetType="{x:Type Border}">
-      <Setter Property="Width" Value="730" />
-      <Setter Property="HorizontalAlignment" Value="Left" />
-      <Setter Property="CornerRadius" Value="20,20,20,20" />
-      <Setter Property="Background" Value="#CCFFFFFF" />
-      <Setter Property="Margin" Value="0,5,0,0" />
-      <Setter Property="Effect">
-        <Setter.Value>
-          <DropShadowEffect
-            BlurRadius="10"
-            Opacity="0.5"
-            ShadowDepth="5"
-            Color="#FF808080" />
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-    <Style x:Key="RadioButtonStyle" TargetType="{x:Type RadioButton}">
-      <Setter Property="FocusVisualStyle">
-        <Setter.Value>
-          <Style>
-            <Setter Property="Control.Template">
-              <Setter.Value>
-                <ControlTemplate>
-                  <Rectangle
-                    Margin="2"
-                    SnapsToDevicePixels="True"
-                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                    StrokeDashArray="1 2"
-                    StrokeThickness="1" />
-                </ControlTemplate>
-              </Setter.Value>
+        <Style TargetType="{x:Type TextBox}" x:Key="RoundTextBox">
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border
+                                Background="#00FFFFFF"
+                                BorderBrush="DarkGray"
+                                BorderThickness="2"
+                                CornerRadius="6">
+                                <ScrollViewer
+                                    HorizontalScrollBarVisibility="Hidden"
+                                    Margin="0"
+                                    VerticalScrollBarVisibility="Auto"
+                                    x:Name="PART_ContentHost" />
+                            </Border>
+                            <TextBlock
+                                Foreground="Gray"
+                                HorizontalAlignment="Left"
+                                Margin="5,0,0,0"
+                                Padding="0,2,0,0"
+                                Text="{TemplateBinding Tag}"
+                                Visibility="Collapsed"
+                                x:Name="PlaceholderTextBlock" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value="" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Visibility" TargetName="PlaceholderTextBlock" Value="Visible" />
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
             </Setter>
-          </Style>
-        </Setter.Value>
-      </Setter>
-      <Setter Property="Margin" Value="0,0,0,0" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="HorizontalContentAlignment" Value="Left" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="Black" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type RadioButton}">
-            <Grid
-              x:Name="templateRoot"
-              Background="Transparent"
-              SnapsToDevicePixels="True">
-              <Border
-                x:Name="border"
-                BorderBrush="Red"
-                BorderThickness="0"
-                SnapsToDevicePixels="True" />
-              <Border x:Name="bd2" />
-              <ContentPresenter
-                x:Name="contentPresenter"
-                Margin="{TemplateBinding Padding}"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                Content="{TemplateBinding Content}"
-                ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                ContentTemplate="{TemplateBinding ContentTemplate}"
-                Focusable="False"
-                RecognizesAccessKey="True"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-            </Grid>
-            <ControlTemplate.Triggers>
-              <Trigger Property="HasContent" Value="True">
-                <Setter Property="FocusVisualStyle">
-                  <Setter.Value>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" x:Key="RoundTextBox2">
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border
+                            Background="#00FFFFFF"
+                            BorderBrush="DarkGray"
+                            BorderThickness="2"
+                            CornerRadius="6">
+                            <ScrollViewer
+                                HorizontalScrollBarVisibility="Hidden"
+                                Margin="0"
+                                VerticalScrollBarVisibility="Auto"
+                                x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ListBox" x:Key="RoundedListBox">
+            <Setter Property="Background" Value="#00FFFFFF" />
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="2" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6">
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type GroupBox}" x:Key="HiddenBorderGroupBoxStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <StackPanel>
+                                <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
+                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="730" />
+            <Setter Property="Height" Value="auto" />
+            <Setter Property="Margin" Value="10,10,10,10" />
+        </Style>
+
+        <Style TargetType="{x:Type Border}" x:Key="CustomBorderStyle">
+            <Setter Property="Width" Value="730" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="CornerRadius" Value="20,20,20,20" />
+            <Setter Property="Background" Value="#CCFFFFFF" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="10"
+                        Color="#FF808080"
+                        Opacity="0.5"
+                        ShadowDepth="5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type RadioButton}" x:Key="RadioButtonStyle">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
                     <Style>
-                      <Setter Property="Control.Template">
-                        <Setter.Value>
-                          <ControlTemplate>
-                            <Rectangle
-                              Margin="14,0,0,0"
-                              SnapsToDevicePixels="True"
-                              Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                              StrokeDashArray="1 2"
-                              StrokeThickness="1" />
-                          </ControlTemplate>
-                        </Setter.Value>
-                      </Setter>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle
+                                        Margin="2"
+                                        SnapsToDevicePixels="True"
+                                        Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                        StrokeDashArray="1 2"
+                                        StrokeThickness="1" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
-                  </Setter.Value>
-                </Setter>
-                <Setter Property="Padding" Value="4,-1,0,0" />
-                <Setter Property="Foreground" Value="Black" />
-              </Trigger>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="border" Property="Background" Value="Green" />
-              </Trigger>
-              <Trigger Property="IsChecked" Value="true">
-                <Setter Property="Foreground" Value="Green" />
-                <Setter TargetName="bd2" Property="BorderThickness" Value="4,0,0,0" />
-                <Setter TargetName="bd2" Property="BorderBrush" Value="Green" />
-                <Setter TargetName="border" Property="Background" Value="Green" />
-                <Setter TargetName="border" Property="Opacity" Value="0.05" />
-              </Trigger>
-              <Trigger Property="IsChecked" Value="{x:Null}" />
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-      <Setter Property="MinHeight" Value="30" />
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
-    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid
+                            Background="Transparent"
+                            SnapsToDevicePixels="True"
+                            x:Name="templateRoot">
+                            <Border
+                                BorderBrush="Red"
+                                BorderThickness="0"
+                                SnapsToDevicePixels="True"
+                                x:Name="border" />
+                            <Border x:Name="bd2" />
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Focusable="False"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                x:Name="contentPresenter" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="True">
+                                <Setter Property="FocusVisualStyle">
+                                    <Setter.Value>
+                                        <Style>
+                                            <Setter Property="Control.Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate>
+                                                        <Rectangle
+                                                            Margin="14,0,0,0"
+                                                            SnapsToDevicePixels="True"
+                                                            Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                                            StrokeDashArray="1 2"
+                                                            StrokeThickness="1" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="4,-1,0,0" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="Green" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Foreground" Value="Green" />
+                                <Setter Property="BorderThickness" TargetName="bd2" Value="4,0,0,0" />
+                                <Setter Property="BorderBrush" TargetName="bd2" Value="Green" />
+                                <Setter Property="Background" TargetName="border" Value="Green" />
+                                <Setter Property="Opacity" TargetName="border" Value="0.05" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
 
-    <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
-      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type CheckBox}">
-            <ControlTemplate.Resources>
-              <Storyboard x:Key="OnChecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="16" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-              <Storyboard x:Key="OnUnchecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-            </ControlTemplate.Resources>
-            <DockPanel x:Name="dockPanel">
-              <ContentPresenter
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{TemplateBinding Content}"
-                ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                ContentTemplate="{TemplateBinding ContentTemplate}"
-                RecognizesAccessKey="True"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-              <Grid Width="32" Margin="0,2,0,2">
-                <Border x:Name="Border">
-                  <Rectangle
-                    x:Name="rectangle"
-                    Fill="DodgerBlue"
-                    RadiusX="8"
-                    RadiusY="8" />
-                </Border>
-                <TextBlock
-                  Margin="2,3,1,0"
-                  HorizontalAlignment="Left"
-                  FontSize="11"
-                  Foreground="White"
-                  Text=""
-                  TextWrapping="Wrap" />
-                <TextBlock
-                  Margin="1,3,2,0"
-                  HorizontalAlignment="Right"
-                  FontSize="11"
-                  Foreground="White"
-                  Text=""
-                  TextWrapping="Wrap" />
-                <Border
-                  x:Name="slider"
-                  Width="12"
-                  Height="12"
-                  Margin="2,0,0,0"
-                  HorizontalAlignment="Left"
-                  Background="White"
-                  CornerRadius="6,6,6,6">
-                  <Border.RenderTransform>
-                    <TransformGroup>
-                      <ScaleTransform ScaleX="1" ScaleY="1" />
-                      <SkewTransform AngleX="0" AngleY="0" />
-                      <RotateTransform Angle="0" />
-                      <TranslateTransform X="0" Y="0" />
-                    </TransformGroup>
-                  </Border.RenderTransform>
-                </Border>
-              </Grid>
-            </DockPanel>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsChecked" Value="True">
-                <Trigger.ExitActions>
-                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
-                </Trigger.ExitActions>
-                <Trigger.EnterActions>
-                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
-                </Trigger.EnterActions>
-              </Trigger>
-              <Trigger Property="IsChecked" Value="False">
-                <Setter TargetName="rectangle" Property="Fill" Value="#FFABADB3" />
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#FFABADB3" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+        <Style TargetType="{x:Type CheckBox}" x:Key="CheckBoxStyle">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="OnChecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="16" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OnUnchecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <DockPanel x:Name="dockPanel">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                HorizontalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center" />
+                            <Grid Margin="0,2,0,2" Width="32">
+                                <Border x:Name="Border">
+                                    <Rectangle
+                                        Fill="DodgerBlue"
+                                        RadiusX="8"
+                                        RadiusY="8"
+                                        x:Name="rectangle" />
+                                </Border>
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,3,1,0"
+                                    Text=""
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="White"
+                                    HorizontalAlignment="Right"
+                                    Margin="1,3,2,0"
+                                    Text=""
+                                    TextWrapping="Wrap" />
+                                <Border
+                                    Background="White"
+                                    CornerRadius="6,6,6,6"
+                                    Height="12"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,0,0,0"
+                                    Width="12"
+                                    x:Name="slider">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <SkewTransform AngleX="0" AngleY="0" />
+                                            <RotateTransform Angle="0" />
+                                            <TranslateTransform X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FFABADB3" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FFABADB3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Style x:Key="AddOrModCheckBoxStyle" TargetType="{x:Type CheckBox}">
-      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type CheckBox}">
-            <ControlTemplate.Resources>
-              <Storyboard x:Key="OnChecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-              <Storyboard x:Key="OnUnchecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
-                </DoubleAnimationUsingKeyFrames>
+        <Style TargetType="{x:Type CheckBox}" x:Key="AddOrModCheckBoxStyle">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="OnChecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OnUnchecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
 
-              </Storyboard>
-            </ControlTemplate.Resources>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
 
-            <DockPanel x:Name="dockPanel">
-              <ContentPresenter
-                VerticalAlignment="Center"
-                Content="{TemplateBinding Content}"
-                ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                ContentTemplate="{TemplateBinding ContentTemplate}"
-                RecognizesAccessKey="True"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-              <Grid Width="66">
-                <Border
-                  x:Name="Border"
-                  BorderBrush="DarkGray"
-                  BorderThickness="2"
-                  CornerRadius="6">
-                  <Rectangle
-                    x:Name="rectangle"
-                    Fill="#90EE90"
-                    RadiusX="5"
-                    RadiusY="5" />
-                </Border>
-                <TextBlock
-                  Margin="2,2,1,0"
-                  HorizontalAlignment="Left"
-                  FontSize="14"
-                  Foreground="Black"
-                  Text="添加"
-                  TextWrapping="Wrap" />
-                <TextBlock
-                  Margin="1,2,2,0"
-                  HorizontalAlignment="Right"
-                  FontSize="14"
-                  Foreground="Black"
-                  Text="修改"
-                  TextWrapping="Wrap" />
-                <Border
-                  x:Name="slider"
-                  Width="32"
-                  Margin="2,2,2,2"
-                  HorizontalAlignment="Left"
-                  Background="#FFABADB3"
-                  BorderBrush="White"
-                  BorderThickness="1,1,1,1"
-                  CornerRadius="4,4,4,4"
-                  RenderTransformOrigin="0.5,0.5">
-                  <Border.RenderTransform>
-                    <TransformGroup>
-                      <ScaleTransform ScaleX="1" ScaleY="1" />
-                      <SkewTransform AngleX="0" AngleY="0" />
-                      <RotateTransform Angle="0" />
-                      <TranslateTransform X="0" Y="0" />
-                    </TransformGroup>
-                  </Border.RenderTransform>
-                </Border>
-              </Grid>
-            </DockPanel>
+                        <DockPanel x:Name="dockPanel">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center" />
+                            <Grid Width="66">
+                                <Border
+                                    BorderBrush="DarkGray"
+                                    BorderThickness="2"
+                                    CornerRadius="6"
+                                    x:Name="Border">
+                                    <Rectangle
+                                        Fill="#90EE90"
+                                        RadiusX="5"
+                                        RadiusY="5"
+                                        x:Name="rectangle" />
+                                </Border>
+                                <TextBlock
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,2,1,0"
+                                    Text="添加"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    HorizontalAlignment="Right"
+                                    Margin="1,2,2,0"
+                                    Text="修改"
+                                    TextWrapping="Wrap" />
+                                <Border
+                                    Background="#FFABADB3"
+                                    BorderBrush="White"
+                                    BorderThickness="1,1,1,1"
+                                    CornerRadius="4,4,4,4"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,2,2,2"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Width="32"
+                                    x:Name="slider">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <SkewTransform AngleX="0" AngleY="0" />
+                                            <RotateTransform Angle="0" />
+                                            <TranslateTransform X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </DockPanel>
 
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsChecked" Value="True">
-                <Trigger.ExitActions>
-                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
-                </Trigger.ExitActions>
-                <Trigger.EnterActions>
-                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
-                </Trigger.EnterActions>
-              </Trigger>
-              <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="rectangle" Property="Fill" Value="#90EE90" />
-              </Trigger>
-              <Trigger Property="IsChecked" Value="False">
-                <Setter TargetName="rectangle" Property="Fill" Value="#FFFF00" />
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#FFABADB3" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#90EE90" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FFFF00" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FFABADB3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Style x:Key="KeyOrValueCheckBox" TargetType="{x:Type CheckBox}">
-      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type CheckBox}">
-            <ControlTemplate.Resources>
-              <Storyboard x:Key="OnChecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-              <Storyboard x:Key="OnUnchecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
-                </DoubleAnimationUsingKeyFrames>
+        <Style TargetType="{x:Type CheckBox}" x:Key="KeyOrValueCheckBox">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="OnChecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OnUnchecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
 
-              </Storyboard>
-            </ControlTemplate.Resources>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
 
-            <DockPanel x:Name="dockPanel">
-              <ContentPresenter
-                VerticalAlignment="Center"
-                Content="{TemplateBinding Content}"
-                ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                ContentTemplate="{TemplateBinding ContentTemplate}"
-                RecognizesAccessKey="True"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-              <Grid Width="66">
-                <Border
-                  x:Name="Border"
-                  BorderBrush="DarkGray"
-                  BorderThickness="2"
-                  CornerRadius="6">
-                  <Rectangle
-                    x:Name="rectangle"
-                    Fill="#90EE90"
-                    RadiusX="5"
-                    RadiusY="5" />
-                </Border>
-                <TextBlock
-                  Margin="2,2,1,0"
-                  HorizontalAlignment="Left"
-                  FontSize="14"
-                  Foreground="Black"
-                  Text="词条"
-                  TextWrapping="Wrap" />
-                <TextBlock
-                  Margin="1,2,2,0"
-                  HorizontalAlignment="Right"
-                  FontSize="14"
-                  Foreground="Black"
-                  Text="编码"
-                  TextWrapping="Wrap" />
-                <Border
-                  x:Name="slider"
-                  Width="32"
-                  Margin="2,2,2,2"
-                  HorizontalAlignment="Left"
-                  Background="#FFABADB3"
-                  BorderBrush="White"
-                  BorderThickness="1,1,1,1"
-                  CornerRadius="4,4,4,4"
-                  RenderTransformOrigin="0.5,0.5">
-                  <Border.RenderTransform>
-                    <TransformGroup>
-                      <ScaleTransform ScaleX="1" ScaleY="1" />
-                      <SkewTransform AngleX="0" AngleY="0" />
-                      <RotateTransform Angle="0" />
-                      <TranslateTransform X="0" Y="0" />
-                    </TransformGroup>
-                  </Border.RenderTransform>
-                </Border>
-              </Grid>
-            </DockPanel>
+                        <DockPanel x:Name="dockPanel">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center" />
+                            <Grid Width="66">
+                                <Border
+                                    BorderBrush="DarkGray"
+                                    BorderThickness="2"
+                                    CornerRadius="6"
+                                    x:Name="Border">
+                                    <Rectangle
+                                        Fill="#90EE90"
+                                        RadiusX="5"
+                                        RadiusY="5"
+                                        x:Name="rectangle" />
+                                </Border>
+                                <TextBlock
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,2,1,0"
+                                    Text="词条"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    HorizontalAlignment="Right"
+                                    Margin="1,2,2,0"
+                                    Text="编码"
+                                    TextWrapping="Wrap" />
+                                <Border
+                                    Background="#FFABADB3"
+                                    BorderBrush="White"
+                                    BorderThickness="1,1,1,1"
+                                    CornerRadius="4,4,4,4"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,2,2,2"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Width="32"
+                                    x:Name="slider">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <SkewTransform AngleX="0" AngleY="0" />
+                                            <RotateTransform Angle="0" />
+                                            <TranslateTransform X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </DockPanel>
 
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsChecked" Value="True">
-                <Trigger.ExitActions>
-                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
-                </Trigger.ExitActions>
-                <Trigger.EnterActions>
-                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
-                </Trigger.EnterActions>
-              </Trigger>
-              <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="rectangle" Property="Fill" Value="#90EE90" />
-              </Trigger>
-              <Trigger Property="IsChecked" Value="False">
-                <Setter TargetName="rectangle" Property="Fill" Value="#FFFF00" />
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#FFABADB3" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-
-
-    <Style x:Key="DbCheckBox" TargetType="{x:Type CheckBox}">
-      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type CheckBox}">
-            <ControlTemplate.Resources>
-              <Storyboard x:Key="OnChecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-              <Storyboard x:Key="OnUnchecking">
-                <DoubleAnimationUsingKeyFrames
-                  BeginTime="00:00:00"
-                  Storyboard.TargetName="slider"
-                  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
-                </DoubleAnimationUsingKeyFrames>
-
-              </Storyboard>
-            </ControlTemplate.Resources>
-
-            <DockPanel x:Name="dockPanel">
-              <ContentPresenter
-                VerticalAlignment="Center"
-                Content="{TemplateBinding Content}"
-                ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                ContentTemplate="{TemplateBinding ContentTemplate}"
-                RecognizesAccessKey="True"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-              <Grid Width="66">
-                <Border
-                  x:Name="Border"
-                  BorderBrush="DarkGray"
-                  BorderThickness="2"
-                  CornerRadius="6">
-                  <Rectangle
-                    x:Name="rectangle"
-                    Fill="#90EE90"
-                    RadiusX="5"
-                    RadiusY="5" />
-                </Border>
-                <TextBlock
-                  Margin="2,2,1,0"
-                  HorizontalAlignment="Left"
-                  FontSize="14"
-                  Foreground="Black"
-                  Text="其它"
-                  TextWrapping="Wrap" />
-                <TextBlock
-                  Margin="1,2,2,0"
-                  HorizontalAlignment="Right"
-                  FontSize="14"
-                  Foreground="Black"
-                  Text="主库"
-                  TextWrapping="Wrap" />
-                <Border
-                  x:Name="slider"
-                  Width="32"
-                  Margin="2,2,2,2"
-                  HorizontalAlignment="Left"
-                  Background="#FFABADB3"
-                  BorderBrush="White"
-                  BorderThickness="1,1,1,1"
-                  CornerRadius="4,4,4,4"
-                  RenderTransformOrigin="0.5,0.5">
-                  <Border.RenderTransform>
-                    <TransformGroup>
-                      <ScaleTransform ScaleX="1" ScaleY="1" />
-                      <SkewTransform AngleX="0" AngleY="0" />
-                      <RotateTransform Angle="0" />
-                      <TranslateTransform X="0" Y="0" />
-                    </TransformGroup>
-                  </Border.RenderTransform>
-                </Border>
-              </Grid>
-            </DockPanel>
-
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsChecked" Value="True">
-                <Trigger.ExitActions>
-                  <BeginStoryboard x:Name="OnUnchecking_BeginStoryboard" Storyboard="{StaticResource OnUnchecking}" />
-                </Trigger.ExitActions>
-                <Trigger.EnterActions>
-                  <BeginStoryboard x:Name="OnChecking_BeginStoryboard" Storyboard="{StaticResource OnChecking}" />
-                </Trigger.EnterActions>
-              </Trigger>
-              <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="rectangle" Property="Fill" Value="#90EE90" />
-              </Trigger>
-              <Trigger Property="IsChecked" Value="False">
-                <Setter TargetName="rectangle" Property="Fill" Value="#FFFF00" />
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#FFABADB3" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#90EE90" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FFFF00" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FFABADB3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
+        <Style TargetType="{x:Type CheckBox}" x:Key="DbCheckBox">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="OnChecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="30" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OnUnchecking">
+                                <DoubleAnimationUsingKeyFrames
+                                    BeginTime="00:00:00"
+                                    Storyboard.TargetName="slider"
+                                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
 
+                            </Storyboard>
+                        </ControlTemplate.Resources>
 
-    <Style x:Key="VerticalSliderStyle" TargetType="{x:Type Slider}">
-      <Setter Property="Orientation" Value="Vertical" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type Slider}">
-            <Grid>
-              <Border
-                x:Name="TrackBackground"
-                Width="20"
-                HorizontalAlignment="Center"
-                BorderBrush="Gray"
-                BorderThickness="1">
-                <Border.Background>
-                  <ImageBrush ImageSource="hue.png" />
-                </Border.Background>
-              </Border>
-              <Track x:Name="PART_Track">
-                <Track.Thumb>
-                  <Thumb>
-                    <Thumb.Template>
-                      <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Ellipse
-                          Width="12"
-                          Height="6"
-                          Fill="DarkGray" />
-                      </ControlTemplate>
-                    </Thumb.Template>
-                  </Thumb>
-                </Track.Thumb>
-              </Track>
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+                        <DockPanel x:Name="dockPanel">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center" />
+                            <Grid Width="66">
+                                <Border
+                                    BorderBrush="DarkGray"
+                                    BorderThickness="2"
+                                    CornerRadius="6"
+                                    x:Name="Border">
+                                    <Rectangle
+                                        Fill="#90EE90"
+                                        RadiusX="5"
+                                        RadiusY="5"
+                                        x:Name="rectangle" />
+                                </Border>
+                                <TextBlock
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,2,1,0"
+                                    Text="其它"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontSize="14"
+                                    Foreground="Black"
+                                    HorizontalAlignment="Right"
+                                    Margin="1,2,2,0"
+                                    Text="主库"
+                                    TextWrapping="Wrap" />
+                                <Border
+                                    Background="#FFABADB3"
+                                    BorderBrush="White"
+                                    BorderThickness="1,1,1,1"
+                                    CornerRadius="4,4,4,4"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,2,2,2"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Width="32"
+                                    x:Name="slider">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <SkewTransform AngleX="0" AngleY="0" />
+                                            <RotateTransform Angle="0" />
+                                            <TranslateTransform X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                        </DockPanel>
 
-    <Style x:Key="RoundComboBox" TargetType="{x:Type ComboBox}">
-      <Setter Property="Background" Value="#00FFFFFF" />
-      <Setter Property="BorderBrush" Value="DarkGray" />
-      <Setter Property="BorderThickness" Value="2" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-      <Setter Property="Padding" Value="2" />
-      <Setter Property="Height" Value="30" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type ComboBox}">
-            <Border
-              Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="6">
-              <Grid>
-                <ToggleButton
-                  Name="ToggleButton"
-                  Height="24"
-                  Margin="0,0,0,-4"
-                  Padding="0,0,0,0"
-                  HorizontalContentAlignment="Right"
-                  ClickMode="Press"
-                  Focusable="false"
-                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                  Style="{StaticResource RoundedToggleButton}" />
-                <ContentPresenter
-                  Name="ContentSite"
-                  Margin="3,1,3,3"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Content="{TemplateBinding SelectionBoxItem}"
-                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                  IsHitTestVisible="False" />
-
-                <TextBox
-                  x:Name="PART_EditableTextBox"
-                  Margin="8,0,16,0"
-                  VerticalAlignment="Bottom"
-                  Background="Transparent"
-                  Focusable="True"
-                  IsReadOnly="{TemplateBinding IsReadOnly}"
-                  Visibility="Hidden" />
-
-                <Popup
-                  Name="Popup"
-                  AllowsTransparency="True"
-                  Focusable="False"
-                  IsOpen="{TemplateBinding IsDropDownOpen}"
-                  Placement="Bottom"
-                  PopupAnimation="Slide">
-                  <Grid
-                    Name="DropDown"
-                    MinWidth="{TemplateBinding ActualWidth}"
-                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                    SnapsToDevicePixels="True">
-                    <Border
-                      x:Name="DropDownBorder"
-                      Background="White"
-                      BorderBrush="DarkGray"
-                      BorderThickness="2"
-                      CornerRadius="6" />
-                    <ScrollViewer Margin="6,6,6,6" SnapsToDevicePixels="True">
-                      <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                    </ScrollViewer>
-                  </Grid>
-                </Popup>
-
-              </Grid>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#90EE90" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FFFF00" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FFABADB3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
 
 
+        <Style TargetType="{x:Type Slider}" x:Key="VerticalSliderStyle">
+            <Setter Property="Orientation" Value="Vertical" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Grid>
+                            <Border
+                                BorderBrush="Gray"
+                                BorderThickness="1"
+                                HorizontalAlignment="Center"
+                                Width="20"
+                                x:Name="TrackBackground">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="hue.png" />
+                                </Border.Background>
+                            </Border>
+                            <Track x:Name="PART_Track">
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Ellipse
+                                                    Fill="DarkGray"
+                                                    Height="6"
+                                                    Width="12" />
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <system:String x:Key="TextBoxText1" xml:space="preserve">小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。
+        <Style TargetType="{x:Type ComboBox}" x:Key="RoundComboBox">
+            <Setter Property="Background" Value="#00FFFFFF" />
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6">
+                            <Grid>
+                                <ToggleButton
+                                    ClickMode="Press"
+                                    Focusable="false"
+                                    Height="24"
+                                    HorizontalContentAlignment="Right"
+                                    IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Margin="0,0,0,-4"
+                                    Name="ToggleButton"
+                                    Padding="0,0,0,0"
+                                    Style="{StaticResource RoundedToggleButton}" />
+                                <ContentPresenter
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    HorizontalAlignment="Left"
+                                    IsHitTestVisible="False"
+                                    Margin="3,1,3,3"
+                                    Name="ContentSite"
+                                    VerticalAlignment="Center" />
+
+                                <TextBox
+                                    Background="Transparent"
+                                    Focusable="True"
+                                    IsReadOnly="{TemplateBinding IsReadOnly}"
+                                    Margin="8,0,16,0"
+                                    VerticalAlignment="Bottom"
+                                    Visibility="Hidden"
+                                    x:Name="PART_EditableTextBox" />
+
+                                <Popup
+                                    AllowsTransparency="True"
+                                    Focusable="False"
+                                    IsOpen="{TemplateBinding IsDropDownOpen}"
+                                    Name="Popup"
+                                    Placement="Bottom"
+                                    PopupAnimation="Slide">
+                                    <Grid
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        Name="DropDown"
+                                        SnapsToDevicePixels="True">
+                                        <Border
+                                            Background="White"
+                                            BorderBrush="DarkGray"
+                                            BorderThickness="2"
+                                            CornerRadius="6"
+                                            x:Name="DropDownBorder" />
+                                        <ScrollViewer Margin="6,6,6,6" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
+
+        <system:String x:Key="TextBoxText1" xml:space="preserve">小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。
 
 请按ctrl+F7改变跨进程通讯方式：命名管道和消息共享内存两种模式切换
 ctrl+F8:小科狗模式
@@ -1351,7 +1352,7 @@ ctrl+F10:小狼狗模式
 若不喜欢F7、F8、F9和F10设置方式请安装小科狗马上删除C:\Windows\TSF\SiKegInput\KegKeySet.txt文件中的对应键。
 
 内部变量说明:
-[s]为选中项  
+[s]为选中项
 [bs]为编码
 [us]为选中项的Unicode编码
 [xz]为剪切板
@@ -1361,7 +1362,7 @@ ctrl+F10:小狼狗模式
 {[s]}为前次上屏的内容
 
 全自定义快键设置,暂时不能包括Alt键
-快键名为大写的前三位,如回车=ENT,翻页的PageUp=PU PageDown=PD   
+快键名为大写的前三位,如回车=ENT,翻页的PageUp=PU PageDown=PD
 左Shift=LSH   左Ctrl=LCT,向下箭头=UP,向下箭头=DOW 左箭头=LEF,右箭头=RIG,以此类推
 快键组合不能单独使用Shift和Ctrl组合,如 打开文字配置界面快键=&lt;1=LSH&gt;&lt;2=LCT&gt;&lt;3=&gt;&lt;4=&gt;
 小键盘的前面加个x
@@ -1374,11 +1375,11 @@ F1-F12可以使用单键
 
 进入英文长句态，以S或Q开头，后面跟数字，进入数字或金额大写转化</system:String>
 
-    <system:String x:Key="TextBoxText2" xml:space="preserve">1、本工具用于小科狗输入平台配置输入方案，另一个用于将打字数据以图表的方式显示出来，主要是因太闲了打发时间才写了这个；
+        <system:String x:Key="TextBoxText2" xml:space="preserve">1、本工具用于小科狗输入平台配置输入方案，另一个用于将打字数据以图表的方式显示出来，主要是因太闲了打发时间才写了这个；
 2、小科狗配置开源地址：“https://github.com/hejie13250/KegConfigTools”；
 3、本人QQ：411718848，工具发布于 QQ 群：641858743。</system:String>
 
 
 
-  </Application.Resources>
+    </Application.Resources>
 </Application>

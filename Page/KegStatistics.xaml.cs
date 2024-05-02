@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,23 +28,6 @@ namespace 小科狗配置.Page
 
     #endregion
 
-    #region 消息接口
-    // [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-    // static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-    // [DllImport("user32.dll", SetLastError = true)]
-    // static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-    const uint Abortifhung = 0x0002;
-    readonly uint _flags = Abortifhung;
-    readonly uint _timeout = 500;
-    const int WmUser = 0x0400;               // 根据Windows API定义
-    const uint KwmGetallzstj = (uint)WmUser + 214;  //把字数与速度的所有统计数据吐到剪切板 格式见字数统计界面的样子,具体见剪切板
-    #endregion
-
 
     #region 定义和初始化
     public class 打字统计数据
@@ -56,25 +37,24 @@ namespace 小科狗配置.Page
       public double[] 击键 { get; set; }
       public double[] 上屏 { get; set; }
       public double[] 时长 { get; set; }
-      public double[] 累计 { get; set; }
       public double[] 速度 { get; set; }
       public double[] 码长 { get; set; }
     }
 
-    打字统计数据 _数据统计 = new();
-    string[] _日期;
-    double[] _字数;
-    double[] _击键;
-    double[] _上屏;
-    double[] _时长;
-    double[] _累计;
-    double[] _速度;
-    double[] _码长;
+    private 打字统计数据 _数据统计 = new();
+    private string[] _日期;
+    private double[] _字数;
+    private double[] _击键;
+    private double[] _上屏;
+    private double[] _时长;
+    // private double[] _累计;
+    private double[] _速度;
+    private double[] _码长;
 
-    ViewModel _viewModel = new();
-    MatchCollection _matches;
+    private ViewModel       _viewModel = new();
+    private MatchCollection _matches;
 
-    int _ts;
+    private int _ts;
 
     [Obsolete]
     public KegStatistics()
@@ -121,14 +101,9 @@ namespace 小科狗配置.Page
     [Obsolete]
     private void GetClipboardData()
     {
-      string str;
       try
       {
-        // var hWnd = FindWindow("CKegServer_0", null);
-        // SendMessageTimeout(hWnd, KwmGetallzstj, IntPtr.Zero, IntPtr.Zero, _flags, _timeout, out _);
-        PostMessage(Base.hWnd, KwmGetallzstj, IntPtr.Zero, IntPtr.Zero);
-        Thread.Sleep(200);
-        str = Clipboard.GetText();
+        Base.SendMessageTimeout(Base.KwmGetallzstj);
       }
       catch
       {
@@ -136,7 +111,8 @@ namespace 小科狗配置.Page
         return;
       }
 
-      var pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
+      var          str     = Clipboard.GetText();
+      const string pattern = @"(\d+).*\t(.*)字.*\t(.*)击.*\t(.*)次.*\t(.*)秒.*\t累计(.*)字";
       _matches = Regex.Matches(str, pattern);
     }
 
@@ -150,7 +126,7 @@ namespace 小科狗配置.Page
       _击键 = new double[count];
       _上屏 = new double[count];
       _时长 = new double[count];
-      _累计 = new double[count];
+      // _累计 = new double[count];
       _速度 = new double[count];
       _码长 = new double[count];
 
@@ -174,14 +150,13 @@ namespace 小科狗配置.Page
 
       }
 
-      _数据统计 = new()
+      _数据统计 = new 打字统计数据
       {
         日期 = _日期,
         字数 = _字数,
         击键 = _击键,
         上屏 = _上屏,
         时长 = _时长,
-        累计 = _累计,
         速度 = _速度,
         码长 = _码长,
       };
@@ -199,8 +174,8 @@ namespace 小科狗配置.Page
       _击键[n] = double.Parse(match.Groups[3].Value);
       _上屏[n] = double.Parse(match.Groups[4].Value);
       _时长[n] = double.Parse(match.Groups[5].Value);
-      _累计[n] = double.Parse(match.Groups[6].Value);
-      _速度[n] = _字数[n] / (_时长[n]   / 60 + nud.Value * _上屏[n] * (_时长[n] / 60 / _击键[n]));
+      // _累计[n] = double.Parse(match.Groups[6].Value);
+      _速度[n] = _字数[n] / (_时长[n] / 60 + nud.Value * _上屏[n] * (_时长[n] / 60 / _击键[n]));
       _码长[n] = Math.Round(_击键[n] / _字数[n], 1);
     }
 
@@ -235,7 +210,7 @@ namespace 小科狗配置.Page
         数据片段.码长 = 全部数据.码长.Skip(startIndex).Take(count).ToArray();
       }
 
-      _viewModel = new()
+      _viewModel = new ViewModel
       {
         Series = new ISeries[]
         {
@@ -354,19 +329,19 @@ namespace 小科狗配置.Page
       var ljsd = ljzs / (ljsc    / 60 + nud.Value * ljsp * (ljsc / 60 / ljjj)); //累计速度
       var ljmc = Math.Round(ljjj / ljzs, 1);                                    //累计码长
 
-      zsTextBlock.Text = String.Format("{0:#,###0}", zs); //字数
-      jjTextBlock.Text = String.Format("{0:#,###0}", jj); //击键
-      spTextBlock.Text = String.Format("{0:#,###0}", sp); //上屏
-      scTextBlock.Text = $"{sc / 60:0.00}" + " 分"; //时长
-      sdTextBlock.Text = $"{sd:0.00}" + " 字/分";  //速度
-      mcTextBlock.Text = $"{mc:0.00}";  //码长
+      zsTextBlock.Text = $"{zs:#,###0}";             //字数
+      jjTextBlock.Text = $"{jj:#,###0}";             //击键
+      spTextBlock.Text = $"{sp:#,###0}";             //上屏
+      scTextBlock.Text = $"{sc / 60:0.00}" + " 分";   //时长
+      sdTextBlock.Text = $"{sd:0.00}"      + " 字/分"; //速度
+      mcTextBlock.Text = $"{mc:0.00}";               //码长
 
-      ljzsTextBlock.Text = String.Format("{0:#,###0}", ljzs); //累计字数
-      ljjjTextBlock.Text = String.Format("{0:#,###0}", ljjj); //累计击键
-      ljspTextBlock.Text = String.Format("{0:#,###0}", ljsp); //累计上屏
-      ljscTextBlock.Text = $"{ljsc / 3600:0.00}" + " 时"; //累计时长
-      ljsdTextBlock.Text = $"{ljsd:0.00}" + " 字/分"; //累计速度
-      ljmcTextBlock.Text = $"{ljmc:0.00}"; //累计码长
+      ljzsTextBlock.Text = $"{ljzs:#,###0}";               //累计字数
+      ljjjTextBlock.Text = $"{ljjj:#,###0}";               //累计击键
+      ljspTextBlock.Text = $"{ljsp:#,###0}";               //累计上屏
+      ljscTextBlock.Text = $"{ljsc / 3600:0.00}" + " 时";   //累计时长
+      ljsdTextBlock.Text = $"{ljsd:0.00}"        + " 字/分"; //累计速度
+      ljmcTextBlock.Text = $"{ljmc:0.00}";                 //累计码长
 
     }
 

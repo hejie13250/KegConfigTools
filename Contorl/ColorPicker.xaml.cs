@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 
-namespace 小科狗配置.Control
+namespace 小科狗配置.Contorl
 {
   // 定义事件参数类
   public class ColorChangedEventArgs : EventArgs
@@ -217,13 +217,11 @@ namespace 小科狗配置.Control
 
     private void Hue_slider_MouseUp(object sender, MouseButtonEventArgs e)
     {
-      if (sender is Slider slider)
-      {
-        var point = e.GetPosition(slider);
-        // 计算点击位置相对于Slider的比例
-        var newValue = (point.Y / slider.ActualHeight) * slider.Maximum;
-        slider.Value = slider.Maximum - newValue;  // 反转值，因为Slider垂直方向是从上到下
-      }
+      if (sender is not Slider slider) return;
+      var point = e.GetPosition(slider);
+      // 计算点击位置相对于Slider的比例
+      var newValue = (point.Y / slider.ActualHeight) * slider.Maximum;
+      slider.Value = slider.Maximum - newValue;  // 反转值，因为Slider垂直方向是从上到下
     }
 
     // Hue_slider 值改变事件
@@ -237,12 +235,17 @@ namespace 小科狗配置.Control
     private void Hue_slider_MouseWheel(object sender, MouseWheelEventArgs e)
     {
       var step = 5;
-      if (Keyboard.Modifiers == ModifierKeys.Control) step *= -10;
+      if (Keyboard.Modifiers == ModifierKeys.Control) step *= 10;
 
-      if (e.Delta > 0 && hue_Slider.Value + step <= hue_Slider.Maximum)
-        hue_Slider.Value += step;
-      else if (e.Delta < 0 && hue_Slider.Value - step >= hue_Slider.Minimum)
-        hue_Slider.Value -= step;
+      switch (e.Delta)
+      {
+        case > 0 when hue_Slider.Value + step <= hue_Slider.Maximum:
+          hue_Slider.Value += step;
+          break;
+        case < 0 when hue_Slider.Value - step >= hue_Slider.Minimum:
+          hue_Slider.Value -= step;
+          break;
+      }
       // 阻止滚轮事件继续向上冒泡
       e.Handled = true;
     }

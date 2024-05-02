@@ -537,7 +537,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Height="170" />
+                        <!-- <StackPanel Height="170" /> -->
                     </StackPanel>
                 </ScrollViewer>
             </StackPanel>

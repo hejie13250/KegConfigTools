@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +15,7 @@ using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WpfAnimatedGif;
 using 小科狗配置.Class;
-using 小科狗配置.Control;
+using 小科狗配置.Contorl;
 using Button = System.Windows.Controls.Button;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
@@ -47,36 +46,6 @@ namespace 小科狗配置.Page
     }
 
     #endregion
-
-    #region 消息接口定义
-
-    // [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    // static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-    // [DllImport("user32.dll", SetLastError = true)]
-    // static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr pdwResult);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-    private const         uint Abortifhung = 0x0002;
-    private const uint Flags       = Abortifhung;
-    private const uint Timeout     = 500;
-
-   private const int WmUser = 0x0400;                   // 根据Windows API定义
-   private const uint KwmUpqjset = (uint)WmUser + 211; //读取说明文本更新全局设置
-   private const uint KwmUppfset = (uint)WmUser + 212; //从剪切板取皮肤png或gif文件的全路径设置,更新状态之肤 格式:文件全路径放到剪切板
-
-    #endregion
-
-  private readonly string _appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-  private readonly string _globalSettingFilePath; //全局设置.json
-  private readonly string _kegBakPath;            //Keg_bak.txt
-  private          string _zhEn = "中c：";
-  private readonly string _kegPath;             // 小科狗主程序目录
-  private readonly string _kegFilePath;         // Keg.txt 文件路径
-  private          int    _selectColorLabelNum; // 用于记录当前选中的 
-
 
     #region 全局设置界面列表项定义
 
@@ -170,7 +139,14 @@ namespace 小科狗配置.Page
 
     #endregion
 
+    private readonly string _appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
+    private readonly string _globalSettingFilePath; // 全局设置.json
+    private readonly string _kegBakPath;            // Keg_bak.txt
+    private readonly string _kegPath;               // 小科狗主程序目录
+    private readonly string _kegFilePath;           // Keg.txt 文件路径
+    private          int    _selectColorLabelNum;   // 用于记录当前选中的
+    private          string _zhEn = "中c：";
 
     public GlobalSetting()
     {
@@ -193,11 +169,9 @@ namespace 小科狗配置.Page
 
     private void ColorPicker_ColorChanged(object sender, ColorChangedEventArgs e)
     {
-      if (colorPicker.RgbColor != null)
-      {
-        rgbTextBox.RGBText = colorPicker.RgbText;
-        SetColorLableColor(colorPicker.RgbColor);
-      }
+      if (colorPicker.RgbColor == null) return;
+      rgbTextBox.RGBText = colorPicker.RgbText;
+      SetColorLableColor(colorPicker.RgbColor);
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -224,7 +198,6 @@ namespace 小科狗配置.Page
     // 显示颜色的 label 鼠标进入事件
     private void Color_label_MouseEnter(object sender, MouseEventArgs e)
     {
-
       SolidColorBrush color1 = new((Color)ColorConverter.ConvertFromString("#FF000000")!); // 黑色
       SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000")!); // 红色
 
@@ -271,14 +244,11 @@ namespace 小科狗配置.Page
     private static string SelectFontName()
     {
       using var fontDialog = new FontDialog();
+
       // 设置初始字体选项（可选）
       // fontDialog.Font = new Font("Arial", 12);
-
       // 显示字体对话框并获取用户的选择结果
-      if (fontDialog.ShowDialog() == DialogResult.OK)
-        return fontDialog.Font.Name; // 返回用户选择的字体名称
-
-      return null;
+      return fontDialog.ShowDialog() == DialogResult.OK ? fontDialog.Font.Name : null;  // 返回用户选择的字体名称
     }
 
 
@@ -442,9 +412,7 @@ namespace 小科狗配置.Page
 
       try
       {
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmUpqjset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmUpqjset, IntPtr.Zero, IntPtr.Zero);
+        Base.SendMessageTimeout(Base.KwmUpqjset);
       }
       catch (Exception ex)
       {
@@ -1073,10 +1041,8 @@ namespace 小科狗配置.Page
       try
       {
         Clipboard.SetText(selectedSkin);
-        // KWM_UPPFSET 更新皮肤文件路径
-        // var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmUppfset, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(Base.hWnd, KwmUppfset, IntPtr.Zero, IntPtr.Zero);
+        // 更新皮肤文件路径
+        Base.SendMessageTimeout(Base.KwmUppfset);
         Base.SetValue("skin", "path", selectedSkin);
       }
       catch (Exception ex)
