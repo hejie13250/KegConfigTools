@@ -17,12 +17,6 @@
     <Window.Background>
         <ImageBrush ImageSource="/skin01.jpg" />
     </Window.Background>
-
-
-
-
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -51,13 +45,6 @@
                     Height="30"
                     HorizontalAlignment="Right"
                     Width="45" />
-                <!--<Button
-            Width="45"
-            Height="30"
-            Background="Transparent"
-            BorderThickness="0"
-            Content="☐"
-            Foreground="White" />-->
                 <Button
                     Background="Transparent"
                     BorderThickness="0"
@@ -66,19 +53,8 @@
                     Height="30"
                     HorizontalAlignment="Right"
                     Width="45" />
-                <!--<Button
-            x:Name="button"
-            Width="53"
-            Height="20"
-            Margin="703,8,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Content="确认" />-->
             </StackPanel>
         </Grid>
-
-
-
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160" />
@@ -87,7 +63,6 @@
             <StackPanel Margin="5,0,0,10">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
-
                         <RadioButton
                             Click="LeftRadioButton1_Click"
                             IsChecked="True"

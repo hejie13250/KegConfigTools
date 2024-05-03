@@ -11,14 +11,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid x:Name="grid1">
-
-
-
-        <ScrollViewer
-            HorizontalAlignment="Left"
-            VerticalScrollBarVisibility="Hidden"
-            x:Name="scrollViewer1">
+    <Grid>
+        <ScrollViewer HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
             <StackPanel Orientation="Vertical" x:Name="groupBoxStackPanel">
 
                 <GroupBox
@@ -74,8 +68,7 @@
                                         Margin="5,0,0,0"
                                         Style="{DynamicResource RoundButton2}"
                                         ToolTip="复制表"
-                                        Width="24"
-                                        x:Name="newName_Button">
+                                        Width="24">
                                         <Image
                                             Height="18"
                                             HorizontalAlignment="Center"
@@ -90,8 +83,7 @@
                                         HorizontalAlignment="Left"
                                         Margin="5,0,0,0"
                                         Style="{DynamicResource RoundButton2}"
-                                        ToolTip="删除表"
-                                        x:Name="reName_Button">
+                                        ToolTip="删除表">
                                         <Image
                                             Height="14"
                                             HorizontalAlignment="Center"
@@ -475,13 +467,9 @@
                                             Content="标记删除"
                                             Height="24"
                                             Style="{DynamicResource RoundButton2}"
-                                            ToolTip="将选中项标计为删除"
-                                            x:Name="del_Button" />
-
+                                            ToolTip="将选中项标计为删除" />
                                     </StackPanel>
                                 </StackPanel>
-
-
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -843,7 +831,6 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-
                                         </ListView.ItemContainerStyle>
                                         <ListView.View>
                                             <GridView AllowsColumnReorder="True">
@@ -945,22 +932,12 @@
                                             Style="{DynamicResource RoundButton2}"
                                             ToolTip="将选中项标计为删除"
                                             x:Name="del_Button2" />
-
                                     </StackPanel>
                                 </StackPanel>
-
-
                             </StackPanel>
                         </Grid>
                     </Border>
                 </GroupBox>
-
-
-
-
-
-
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -13,7 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid x:Name="grid1">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="*" />
@@ -28,8 +28,7 @@
                 Content="获取列表"
                 Height="24"
                 Style="{DynamicResource RoundButton2}"
-                ToolTip="从服务端获取方案列表"
-                x:Name="getList_Button" />
+                ToolTip="从服务端获取方案列表" />
             <ComboBox
                 Height="24"
                 Margin="5,0,0,0"
@@ -57,15 +56,6 @@
                 Style="{DynamicResource RoundButton2}"
                 ToolTip="从服务端读取默认的配置模板"
                 x:Name="loading_Templates_Button" />
-            <!--<Button
-                x:Name="res_button"
-                Height="24"
-                Margin="5,0,0,0"
-                Click="Res_button_Click"
-                Content="清空配置"
-                IsEnabled="False"
-                Style="{DynamicResource RoundButton2}"
-                ToolTip="删除Keg.db内所有方案的配置" />-->
             <Button
                 Click="Set_as_default_Click"
                 Content="设为默认"
@@ -104,16 +94,13 @@
         <ScrollViewer
             Grid.Row="1"
             HorizontalAlignment="Left"
-            VerticalScrollBarVisibility="Hidden"
-            x:Name="scrollViewer1">
+            VerticalScrollBarVisibility="Hidden">
             <StackPanel Orientation="Vertical" x:Name="groupBoxStackPanel">
                 <GroupBox
                     Header="候选框配色"
                     Margin="10,0,10,10"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    TabIndex="3100"
-                    x:Name="groupBox_01">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
 
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid>
@@ -148,33 +135,28 @@
                                     <Label
                                         Content="显示背景图："
                                         HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        x:Name="label123_Copy9" />
+                                        VerticalAlignment="Center" />
                                     <Label
                                         Content="候选窗圆角："
                                         Grid.Row="1"
                                         HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        x:Name="label223_Copy9" />
+                                        VerticalAlignment="Center" />
                                     <Label
                                         Content="候选窗边框线宽度："
                                         Grid.Row="3"
                                         HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        x:Name="labe1L23_Copy9" />
+                                        VerticalAlignment="Center" />
                                     <Label
                                         Content="选中项背景圆角："
                                         Grid.Row="2"
                                         HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        x:Name="label23_Copy9" />
+                                        VerticalAlignment="Center" />
 
                                     <CheckBox
                                         Grid.Column="1"
                                         Height="21"
                                         HorizontalAlignment="Center"
                                         Style="{DynamicResource CheckBoxStyle}"
-                                        TabIndex="3101"
                                         VerticalAlignment="Center"
                                         Width="32"
                                         x:Name="checkBox_Copy42"
@@ -187,7 +169,6 @@
                                         HorizontalAlignment="Center"
                                         IsChecked="True"
                                         Style="{DynamicResource CheckBoxStyle}"
-                                        TabIndex="3102"
                                         Unchecked="Hxc_checkBox_Unchecked"
                                         VerticalAlignment="Center"
                                         Width="32"
@@ -201,7 +182,6 @@
                                         HorizontalAlignment="Center"
                                         IsChecked="True"
                                         Style="{DynamicResource CheckBoxStyle}"
-                                        TabIndex="3104"
                                         Unchecked="Hxcbj_checkBox_Unchecked"
                                         VerticalAlignment="Center"
                                         Width="32"
@@ -215,7 +195,6 @@
                                         IsEnabled="{Binding IsChecked, ElementName=hxc_CheckBox}"
                                         MaxValue="50"
                                         MinValue="1"
-                                        TabIndex="3103"
                                         Value="15"
                                         ValueChanged="Nud11_ValueChanged"
                                         VerticalAlignment="Center"
@@ -229,7 +208,6 @@
                                         IsEnabled="{Binding IsChecked, ElementName=hxcbj_CheckBox}"
                                         MaxValue="50"
                                         MinValue="1"
-                                        TabIndex="3105"
                                         Value="10"
                                         ValueChanged="Nud11_ValueChanged"
                                         VerticalAlignment="Center"
@@ -242,7 +220,6 @@
                                         HorizontalAlignment="Left"
                                         MaxValue="10"
                                         MinValue="1"
-                                        TabIndex="3106"
                                         Value="2"
                                         ValueChanged="Nud11_ValueChanged"
                                         VerticalAlignment="Center"
@@ -274,7 +251,6 @@
                                         Height="21"
                                         HorizontalAlignment="Center"
                                         Style="{DynamicResource CheckBoxStyle}"
-                                        TabIndex="3104"
                                         ToolTip="选中后使用对话框背景色"
                                         Unchecked="Hxcds_checkBox_Unchecked"
                                         VerticalAlignment="Center"
@@ -315,7 +291,6 @@
                                         Content="候选字体色："
                                         Grid.Row="12"
                                         HorizontalAlignment="Left"
-                                        TabIndex="3115"
                                         VerticalAlignment="Center"
                                         x:Name="color_Label_009"
                                         x:Uid="String1" />
@@ -331,7 +306,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3107"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -347,7 +321,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3105"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -363,7 +336,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3109"
                                         VerticalAlignment="Center"
                                         Width="50"
                                         x:Name="color_Label_3" />
@@ -378,7 +350,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3104"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -394,7 +365,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3111"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -410,7 +380,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3112"
                                         VerticalAlignment="Center"
                                         Width="50"
                                         x:Name="color_Label_6" />
@@ -425,7 +394,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3113"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -442,7 +410,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3114"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -458,7 +425,6 @@
                                         MouseEnter="color_label_MouseEnter"
                                         MouseLeave="color_label_MouseLeave"
                                         Style="{StaticResource RoundedLabel}"
-                                        TabIndex="3116"
                                         Tag=""
                                         VerticalAlignment="Center"
                                         Width="50"
@@ -471,9 +437,9 @@
                                         BorderBrush="#FFABADB3"
                                         BorderThickness="1,1,1,1"
                                         Grid.Column="3"
-                                        Grid.Row="4"
+                                        Grid.Row="2"
                                         Grid.RowSpan="12"
-                                        Height="240"
+                                        Height="260"
                                         HorizontalAlignment="Left"
                                         Margin="20,0,0,0"
                                         VerticalAlignment="Bottom"
@@ -487,8 +453,7 @@
                                                     HorizontalAlignment="Left"
                                                     Text="小科狗"
                                                     VerticalAlignment="Center"
-                                                    Width="NaN"
-                                                    x:Name="label4_Copy" />
+                                                    Width="NaN" />
                                                 <Label
                                                     BorderBrush="{Binding ElementName=color_Label_2, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                                                     BorderThickness="2"
@@ -517,7 +482,7 @@
                                                 HorizontalAlignment="Left"
                                                 Margin="30,4,0,0"
                                                 Padding="0,0,0,5"
-                                                Width="120"
+                                                Width="130"
                                                 x:Name="hxk_Border">
                                                 <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
@@ -534,7 +499,7 @@
                                                         BorderBrush="{Binding ElementName=color_Label_3, Path=Background, UpdateSourceTrigger=PropertyChanged}"
                                                         BorderThickness="0,1,0,0"
                                                         Height="1"
-                                                        Margin="5,0,5,3"
+                                                        Margin="2,0,2,3"
                                                         VerticalAlignment="Center"
                                                         x:Name="hxz_Label_Fgx" />
 
@@ -624,7 +589,7 @@
                                             d:ItemsSource="{d:SampleData ItemCount=5}"
                                             x:Name="colorSchemeListBox">
                                             <ListBox.ContextMenu>
-                                                <ContextMenu x:Name="listBoxContextMenu">
+                                                <ContextMenu>
                                                     <MenuItem Click="MenuItem_Click_1" Header="新建" />
                                                     <MenuItem Click="MenuItem_Click_2" Header="修改" />
                                                     <MenuItem Click="MenuItem_Click_3" Header="删除" />
@@ -682,8 +647,7 @@
                 <GroupBox
                     Header="候选框样式"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_02">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
                             <Grid.RowDefinitions>
@@ -711,15 +675,13 @@
                             <Label
                                 Content="候选字个数："
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label3" />
+                                VerticalAlignment="Center" />
 
                             <local:NumericUpDown
                                 Grid.Column="1"
                                 HorizontalAlignment="Left"
                                 MaxValue="26"
                                 MinValue="1"
-                                TabIndex="3105"
                                 Value="5"
                                 VerticalAlignment="Center"
                                 Width="62"
@@ -728,10 +690,7 @@
                                 Content="候选的横向偏离："
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label23_Copy5" />
-
-
+                                VerticalAlignment="Center" />
                             <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="4"
@@ -776,8 +735,7 @@
                                 Content="码表标签左对齐："
                                 Grid.Row="13"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label23_Copy7" />
+                                VerticalAlignment="Center" />
                             <local:NumericUpDown
                                 Grid.Column="1"
                                 Grid.Row="1"
@@ -785,7 +743,6 @@
                                 Margin="1,1,0,0"
                                 MaxValue="10000"
                                 MinValue="0"
-                                TabIndex="3105"
                                 Value="0"
                                 VerticalAlignment="Center"
                                 Width="62"
@@ -794,75 +751,63 @@
                                 Content="候选的高度间距："
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label23_Copy10" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="候选的宽度间距："
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label230" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="候选窗口候选排列方向模式："
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label231" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="竖向候选窗口选中背景色要等宽："
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label232" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="高度宽度自动调整："
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label233" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="候选窗口候选从上到下排列要锁定："
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label234" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="从上到下排列锁定时使编码区离光标最近："
                                 Grid.Row="8"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label235" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="使用嵌入模式："
                                 Grid.Row="9"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label236" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="编码或候选嵌入模式："
                                 Grid.Row="10"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label237" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="隐藏候选窗口："
                                 Grid.Row="11"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label238" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="候选窗口为非单行时隐藏编码串行："
                                 Grid.Row="12"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label239" />
+                                VerticalAlignment="Center" />
                             <local:NumericUpDown
                                 Grid.Column="1"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
                                 MaxValue="10000"
                                 MinValue="0"
-                                TabIndex="3105"
                                 Value="0"
                                 VerticalAlignment="Center"
                                 Width="62"
@@ -873,7 +818,6 @@
                                 HorizontalAlignment="Left"
                                 MaxValue="10000"
                                 MinValue="0"
-                                TabIndex="3105"
                                 Value="0"
                                 VerticalAlignment="Center"
                                 Width="62"
@@ -1005,12 +949,9 @@
                 <GroupBox
                     Header="字体和渲染"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_03">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
-
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -1022,13 +963,11 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="300" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
                             <Label
                                 Content="候选框字体名称："
                                 Grid.Row="8"
@@ -1111,7 +1050,6 @@
                                 IsEnabled="{Binding IsChecked, ElementName=radioButton9}"
                                 MaxValue="10"
                                 MinValue="1"
-                                TabIndex="3105"
                                 Value="0"
                                 VerticalAlignment="Center"
                                 Width="62"
@@ -1176,7 +1114,6 @@
                                 IsEnabled="{Binding IsChecked, ElementName=radioButton10}"
                                 MaxValue="1000"
                                 MinValue="0"
-                                TabIndex="3105"
                                 Value="100"
                                 VerticalAlignment="Center"
                                 Width="62"
@@ -1185,8 +1122,7 @@
                                 Content="GDI字体使用斜体："
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label23_Copy3" />
+                                VerticalAlignment="Center" />
                             <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="5"
@@ -1258,14 +1194,12 @@
                                 Content="GDI+字体下划线："
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label23_Copy13" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="GDI+字体删除线："
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label23_Copy213" />
+                                VerticalAlignment="Center" />
                             <Button
                                 Click="Button3_Copy_Click"
                                 Grid.Column="1"
@@ -1276,8 +1210,7 @@
                                 Padding="1,-5,1,1"
                                 Style="{DynamicResource RoundButton2}"
                                 VerticalAlignment="Top"
-                                Width="30"
-                                x:Name="button3_Copy">
+                                Width="30">
                                 <Image
                                     Height="14"
                                     Margin="2,2,2,2"
@@ -1291,8 +1224,7 @@
                 <GroupBox
                     Header="码元设置"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_04">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -1328,8 +1260,7 @@
                                 Content="小键盘码元："
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label122_Copy" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="1"
@@ -1345,8 +1276,7 @@
                                 Content="大小键盘万能码元："
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label122_Copy1" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="2"
@@ -1362,8 +1292,7 @@
                                 Content="非编码串首位的大键盘码元："
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label122_Copy2" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="3"
@@ -1379,8 +1308,7 @@
                                 Content="非编码串首位的小键盘码元："
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label122_Copy3" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="4"
@@ -1396,8 +1324,7 @@
                                 Content="最大码长："
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label122_Copy4" />
+                                VerticalAlignment="Center" />
                             <local:NumericUpDown
                                 Grid.Column="1"
                                 Grid.Row="5"
@@ -1414,14 +1341,12 @@
                                 Content="是键首字根码表："
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label1212_Copy4" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="键首字根："
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label1221_Copy4" />
+                                VerticalAlignment="Top" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="7"
@@ -1446,8 +1371,7 @@
                 <GroupBox
                     Header="标点设置"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_05">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -1473,20 +1397,17 @@
                                 Content="关联中文标点："
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label78" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="大键盘中文标点串："
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label8" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="大键盘按下Shift的中文标点串："
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label82" />
+                                VerticalAlignment="Top" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="1"
@@ -1514,8 +1435,7 @@
                 <GroupBox
                     Header="动作设置"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_06">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -1662,117 +1582,98 @@
                                 Content="显示键首字根："
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy41" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="上屏后候选窗口立即消失："
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy47" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="超过码长时立即清屏："
                                 Grid.Column="0"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy48" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="无候选时立即清屏："
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy49" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用最大码长无候选时清屏："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy50" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="无候选敲空格上屏编码串："
                                 Grid.Column="0"
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy51" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="Shift 键上屏编码串："
                                 Grid.Column="0"
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy52" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="Shift 键 + 字母键进入临时英文长句态："
                                 Grid.Column="0"
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy53" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="Space 键上屏临时英文编码串："
                                 Grid.Column="0"
                                 Grid.Row="8"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy54" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="Enter 键上屏编码串："
                                 Grid.Column="0"
                                 Grid.Row="9"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy55" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="Enter 键上屏时首个字母大写："
                                 Grid.Column="0"
                                 Grid.Row="10"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label_Copy1" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="Backspace 键一次性删除前次上屏的内容："
                                 Grid.Column="0"
                                 Grid.Row="11"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy56" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="前次上屏的是数字再上屏句号*要转成点号*："
                                 Grid.Column="0"
                                 Grid.Row="12"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label_Copy114" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="过渡态按 1 要上屏 1："
                                 Grid.Column="0"
                                 Grid.Row="13"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy546" />
+                                VerticalAlignment="Center" />
                         </Grid>
                     </Border>
                 </GroupBox>
                 <GroupBox
                     Header="顶功设置"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_07">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
-
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-
-
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="300" />
@@ -1783,8 +1684,7 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label1" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="0"
@@ -1817,8 +1717,7 @@
                                 Content="顶功规则："
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label1_Copy" />
+                                VerticalAlignment="Top" />
                         </Grid>
                     </Border>
 
@@ -1827,11 +1726,9 @@
                 <GroupBox
                     Header="上屏设置"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_08">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -1842,7 +1739,6 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="300" />
@@ -1851,8 +1747,7 @@
                             <Label
                                 Content="候选快键字符串："
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label6" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Height="24"
@@ -2058,54 +1953,46 @@
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy42" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用数字顶屏："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy43" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用标点顶屏："
                                 Grid.Column="0"
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy44" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="标点或数字顶屏时，若是引导键也要引导："
                                 Grid.Column="0"
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy45" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用唯一上屏："
                                 Grid.Column="0"
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy46" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="唯一上屏最小码长："
                                 Grid.Column="0"
                                 Grid.Row="8"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy416" />
+                                VerticalAlignment="Center" />
                         </Grid>
                     </Border>
                 </GroupBox>
                 <GroupBox
                     Header="中英切换"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_09">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -2114,7 +2001,6 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="300" />
@@ -2176,58 +2062,50 @@
                                 Content="中英切换显示提示窗口："
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy31" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="从中文切换到英文时上屏编码串："
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy32" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用左 Shift 键："
                                 Grid.Column="0"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy33" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用右 Shift 键："
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy37" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用左 Ctrl 键："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy38" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用右 Ctrl 键："
                                 Grid.Column="0"
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy39" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用 Ctrl + Space 键："
                                 Grid.Column="0"
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy40" />
+                                VerticalAlignment="Center" />
                         </Grid>
                     </Border>
                 </GroupBox>
                 <GroupBox
                     Header="翻页按键"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_10">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2246,8 +2124,7 @@
                                 Content="上翻页大键盘符号："
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label12" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Height="24"
@@ -2263,8 +2140,7 @@
                                 Grid.Row="1"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label12_Copy" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="1"
@@ -2281,8 +2157,7 @@
                                 Grid.Row="2"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label12_Copy1" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="2"
@@ -2299,8 +2174,7 @@
                                 Grid.Row="3"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label12_Copy2" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="3"
@@ -2320,8 +2194,7 @@
                 <GroupBox
                     Header="词语联想"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_11">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2458,64 +2331,55 @@
                                 Grid.Row="0"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label_Copy" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="词语联想检索范围："
                                 Grid.Column="0"
                                 Grid.Row="8"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy26" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="词语联想要显示词语全部："
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy27" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="词语联想只是匹配首位："
                                 Grid.Column="0"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy28" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="词语联想时标点顶屏要起作用："
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy29" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="上屏词条精准匹配key=1*的值进行词语联想："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy30" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="精准匹配key=1*的值时要词语模糊联想："
                                 Grid.Column="0"
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy34" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="开启Ctrl键清除联想："
                                 Grid.Column="0"
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy35" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="词语联想上屏字符串长度："
                                 Grid.Column="0"
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy36" />
+                                VerticalAlignment="Top" />
                         </Grid>
                     </Border>
                 </GroupBox>
@@ -2523,8 +2387,7 @@
                 <GroupBox
                     Header="码表调频与检索"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_14">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2675,78 +2538,67 @@
                                 Content="逐码提示检索："
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy14" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="显示逐码提示："
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy15" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="显示反查提示："
                                 Grid.Column="0"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy16" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用单字模式："
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy17" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="启用上屏自动增加调频权重："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy18" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="双检索时编码要完全匹配："
                                 Grid.Column="0"
                                 Grid.Row="10"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy20" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="候选词条要按码长短优先排序："
                                 Grid.Column="0"
                                 Grid.Row="8"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy21" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="启用双检索模式："
                                 Grid.Column="0"
                                 Grid.Row="9"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy22" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="调频权重最小码长："
                                 Grid.Column="0"
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy23" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="调频权重一次到顶："
                                 Grid.Column="0"
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy24" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="候选词条要按调频权重检索排序："
                                 Grid.Column="0"
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy25" />
+                                VerticalAlignment="Center" />
 
                         </Grid>
                     </Border>
@@ -2756,8 +2608,7 @@
                 <GroupBox
                     Header="重复上屏"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_15">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2774,8 +2625,7 @@
                                 Grid.Row="0"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label2" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="0"
@@ -2794,8 +2644,7 @@
                 <GroupBox
                     Header="自动造词"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_16">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2811,8 +2660,7 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy19" />
+                                VerticalAlignment="Center" />
                             <CheckBox
                                 Grid.Column="1"
                                 Grid.Row="0"
@@ -2832,8 +2680,7 @@
                 <GroupBox
                     Header="临时码表检索"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_17">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2854,15 +2701,13 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy9" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="码表临时快键编码名："
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy10" />
+                                VerticalAlignment="Center" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="0"
@@ -2921,22 +2766,19 @@
                                 Grid.Column="0"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy11" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="副码表标识："
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy12" />
+                                VerticalAlignment="Center" />
                             <Label
                                 Content="无临时快键时也要显示主码表标识："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label4_Copy13" />
+                                VerticalAlignment="Center" />
                             <CheckBox
                                 Grid.Column="1"
                                 Grid.Row="4"
@@ -2951,8 +2793,7 @@
                 <GroupBox
                     Header="引导码表检索"
                     MouseEnter="GroupBox_MouseEnter"
-                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
-                    x:Name="groupBox_18">
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
                     <Border Margin="0,5,0,25" Style="{StaticResource CustomBorderStyle}">
                         <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
@@ -2977,22 +2818,19 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="码表引导快键 0 编码名 0 ："
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy1" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="码表引导快键 0 编码名 1 ："
                                 Grid.Column="0"
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy2" />
+                                VerticalAlignment="Top" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="0"
@@ -3036,22 +2874,19 @@
                                 Grid.Column="0"
                                 Grid.Row="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy3" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="码表引导快键 1 编码名 0 ："
                                 Grid.Column="0"
                                 Grid.Row="4"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy4" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="码表引导快键 1 编码名 1 ："
                                 Grid.Column="0"
                                 Grid.Row="5"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy5" />
+                                VerticalAlignment="Top" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="3"
@@ -3096,22 +2931,19 @@
                                 Grid.Column="0"
                                 Grid.Row="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy6" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="码表引导快键 2 编码名 0 ："
                                 Grid.Column="0"
                                 Grid.Row="7"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy7" />
+                                VerticalAlignment="Top" />
                             <Label
                                 Content="码表引导快键 2 编码名 1 ："
                                 Grid.Column="0"
                                 Grid.Row="8"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                x:Name="label4_Copy8" />
+                                VerticalAlignment="Top" />
                             <TextBox
                                 Grid.Column="1"
                                 Grid.Row="6"
@@ -3151,17 +2983,9 @@
                                 VerticalAlignment="Center"
                                 Width="400"
                                 x:Name="textBox_Copy18" />
-
                         </Grid>
                     </Border>
                 </GroupBox>
-
-
-
-
-
-
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

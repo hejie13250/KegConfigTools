@@ -49,8 +49,7 @@
                 Content="确定"
                 Height="24"
                 HorizontalAlignment="Left"
-                Style="{DynamicResource RoundButton2}"
-                x:Name="okButton" />
+                Style="{DynamicResource RoundButton2}" />
         </StackPanel>
     </Grid>
 </Window>

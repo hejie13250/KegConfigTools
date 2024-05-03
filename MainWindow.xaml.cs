@@ -283,7 +283,7 @@ namespace 小科狗配置
     }
     private void Frame5_Navigated(object sender, NavigationEventArgs e)
     {
-      if (e.Content is KegStatistics page)
+      if (e.Content is ModifyTable page)
         page.NameOfSelectedGroupBoxChanged += Frame_NameOfSelectedGroupBoxChanged;
     }
 
@@ -292,14 +292,12 @@ namespace 小科狗配置
     {
       foreach (var child in _leftStackPanel.Children)
       {
-        if (child is RadioButton radioButton)
-        {
-          var textBlock = FindChildTextBlock(radioButton);
-          if (textBlock != null && textBlock.Text.Equals(e, StringComparison.OrdinalIgnoreCase))
-            radioButton.IsChecked = true;
-          else
-            radioButton.IsChecked = false;
-        }
+        if (child is not RadioButton radioButton) continue;
+        var textBlock = FindChildTextBlock(radioButton);
+        if (textBlock != null && textBlock.Text.Equals(e, StringComparison.OrdinalIgnoreCase))
+          radioButton.IsChecked = true;
+        else
+          radioButton.IsChecked = false;
       }
     }
 
@@ -310,15 +308,10 @@ namespace 小科狗配置
       for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
       {
         var child = VisualTreeHelper.GetChild(parent, i);
-        if (child is TextBlock textBlock)
-        {
-          return textBlock;
-        }
-        else
-        {
-          var result = FindChildTextBlock(child);
-          if (result != null) return result;
-        }
+        if (child is TextBlock textBlock) return textBlock;
+
+        var result = FindChildTextBlock(child);
+        if (result != null) return result;
       }
       return null;
     }

@@ -460,7 +460,6 @@
                                 <local:DoubleNumericUpDown
                                     Grid.Column="10"
                                     Grid.Row="2"
-                                    Height="20"
                                     HorizontalAlignment="Left"
                                     Margin="0,0,-5,0"
                                     MaxValue="10"

@@ -52,12 +52,10 @@ namespace 小科狗配置
       var oldValue = (double)e.OldValue;
       var newValue = (double)e.NewValue;
 
-      if (numericUpDown.ValueChanged != null)
-      {
-        // 创建事件参数并调用事件
-        var args = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue);
-        numericUpDown.ValueChanged(numericUpDown, args);
-      }
+      if (numericUpDown.ValueChanged == null) return;
+      // 创建事件参数并调用事件
+      var args = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue);
+      numericUpDown.ValueChanged(numericUpDown, args);
     }
 
     protected virtual void OnValueChanged(RoutedPropertyChangedEventArgs<double> args)
@@ -78,20 +76,24 @@ namespace 小科狗配置
     private void UserControl_MouseWheel(object sender, MouseWheelEventArgs e)
     {
       var step = 0.1; // 设置滚动步长，默认每次滚动增加或减少0.1
-      if (Keyboard.Modifiers == ModifierKeys.Control) step *= 0.1; // 如果按住Ctrl键，则步长 0.01
+      if (Keyboard.Modifiers == ModifierKeys.Control) step = 0.01; // 如果按住Ctrl键，则步长 0.01
 
-      if (e.Delta > 0) // 滚动向上
+      switch (e.Delta)
       {
-        if (Value + step <= MaxValue)
+        // 滚动向上
+        case > 0:
         {
-          Value += step;
+          if (Value + step <= MaxValue)
+            Value += step;
+          break;
         }
-
-      }
-      else if (e.Delta < 0) // 滚动向下
-      {
-        if (Value - step >= MinValue)
-          Value -= step;
+        // 滚动向下
+        case < 0:
+        {
+          if (Value - step >= MinValue)
+            Value -= step;
+          break;
+        }
       }
 
       Value = Math.Round(Value, 4);

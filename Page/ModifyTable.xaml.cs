@@ -57,11 +57,12 @@ namespace 小科狗配置.Page
       {
         return new ListViewDataItem
         {
-          Key    = this.Key,
-          Value  = this.Value,
-          Weight = this.Weight,
-          Fc     = this.Fc,
-          IsMod  = this.IsMod
+          RowNumber = RowNumber,
+          Key       = Key,
+          Value     = Value,
+          Weight    = Weight,
+          Fc        = Fc,
+          IsMod     = IsMod
         };
       }
       
@@ -470,32 +471,39 @@ namespace 小科狗配置.Page
         MessageBox.Show("没有选中任何标记项");
         return;
       }
+      // 撤消添加项
+      var itemsToRemove = listView.SelectedItems.Cast<ListViewDataItem>().Where(item => item.IsAdd).Cast<object>().ToList();
+      foreach (ListViewDataItem item in itemsToRemove)
+        ListViewData.Remove(item);
+
+      // 撤消删除项
+      foreach (ListViewDataItem item in listView.SelectedItems)
+      {
+        if (!item.IsDel) continue;
+        要删除项.Remove(item);
+        item.IsDel = false;
+      }
 
       foreach (ListViewDataItem item in listView.SelectedItems)
       {
-        if (item.IsDel)
+        if (!item.IsMod) continue;
+        修改项值.Remove(item);
+        foreach (var item2 in 要修改项)
         {
-          要删除项.Remove(item);
-          item.IsDel = false;
+          if (item.RowNumber != item2.RowNumber) continue;
+          item.IsMod  = item2.IsMod;
+          item.Key    = item2.Key;
+          item.Value  = item2.Value;
+          item.Weight = item2.Weight;
+          item.Fc     = item2.Fc;
+          itemsToRemove.Add(item2);
         }
-        if (item.IsAdd)
-        {
-          要添加项.Remove(item);
-          item.IsAdd = false;
-        }
-        if (item.IsMod)
-        {
-          foreach (var item2 in 要修改项)
-          {
-            if (item.RowNumber != item2.RowNumber) continue;
-            要修改项.Remove(item2);
-            修改项值.Remove(item);
-            item.IsMod = false;
-          }
-        }
-        if(要删除项.Count ==0 && 要添加项.Count == 0 && 要修改项.Count == 0)
-          切换编缉状态(false);
       }
+      foreach (ListViewDataItem item in itemsToRemove)
+        要修改项.Remove(item);
+
+      if(要删除项.Count ==0 && 要添加项.Count == 0 && 要修改项.Count == 0)
+        切换编缉状态(false);
     }
 
 
@@ -1222,7 +1230,7 @@ namespace 小科狗配置.Page
       if(keyTextBox.Text == "" || valueTextBox.Text == "") return;
 
       ListViewDataItem lastItem = new();
-      if (listView.Items.Count - 1 >= 0)
+      if (ListViewData.Count - 1 >= 0)
         lastItem = ListViewData[listView.Items.Count - 1];
 
       ListViewDataItem newItem = new()
@@ -1237,7 +1245,7 @@ namespace 小科狗配置.Page
 
       ListViewData.Add(newItem);
       要添加项.Add(newItem);
-      listView.ScrollIntoView(lastItem);
+      listView.ScrollIntoView(newItem);
     }
 
     private void 修改选中行数据()

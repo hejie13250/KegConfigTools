@@ -1,4 +1,5 @@
 ﻿<UserControl
+    MouseWheel="UserControl_MouseWheel"
     Width="63"
     d:DesignHeight="24"
     mc:Ignorable="d"
@@ -112,6 +113,7 @@
     <Grid>
         <TextBox
             Background="#00FFFFFF"
+            IsReadOnly="True"
             Margin="12,0,12,0"
             Padding="0,1,0,0"
             Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
