@@ -862,12 +862,10 @@ namespace 小科狗配置.Page
       if (button == null) return;
 
       var dataItem = GetDataItem(sender);
-      if (dataItem is 列表项 listitem)
+      if (dataItem is not 列表项 listitem) return;
+      if (int.TryParse(button.Tag.ToString(), out var listViewNum))
       {
-        if (int.TryParse(button.Tag.ToString(), out var listViewNum))
-        {
-          删除列表项(listViewNum, listitem);
-        }
+        删除列表项(listViewNum, listitem);
       }
     }
 
@@ -875,17 +873,15 @@ namespace 小科狗配置.Page
     private void 删除列表项(int listViewNum, 列表项 listViewItem)
     {
       var result = MessageBox.Show("您确定要删除吗？", "删除操作", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-      if (result == MessageBoxResult.OK)
+      if (result != MessageBoxResult.OK) return;
+      switch (listViewNum)
       {
-        switch (listViewNum)
-        {
-          case 3: 查找列表.Remove(listViewItem); break;
-          case 4: 快键命令.Remove(listViewItem); break;
-          case 5: 快键.Remove(listViewItem); break;
-          case 6: 自启.Remove(listViewItem); break;
-          case 7: 自动关机.Remove(listViewItem); break;
-          case 8: 外部工具.Remove(listViewItem); break;
-        }
+        case 3: 查找列表.Remove(listViewItem); break;
+        case 4: 快键命令.Remove(listViewItem); break;
+        case 5: 快键.Remove(listViewItem); break;
+        case 6: 自启.Remove(listViewItem); break;
+        case 7: 自动关机.Remove(listViewItem); break;
+        case 8: 外部工具.Remove(listViewItem); break;
       }
     }
 

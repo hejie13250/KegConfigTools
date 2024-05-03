@@ -1,5 +1,4 @@
 ﻿<class:BasePage
-    FontFamily="小科狗字体"
     FontSize="14"
     TextOptions.TextRenderingMode="ClearType"
     Title="GlobalSetting"

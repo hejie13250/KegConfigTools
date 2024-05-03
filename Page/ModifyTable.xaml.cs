@@ -309,7 +309,7 @@ namespace 小科狗配置.Page
 
     private void 事件_导入表按钮_Click(object sender, RoutedEventArgs e)
     {
-      if(comboBox.SelectedIndex == -1) return;
+      // if(comboBox.SelectedIndex == -1) return;
       var dialog = new ReNameDialogBox("导入 CSV 文件到新表", "");
       dialog.ShowDialog();
       var newTableName = dialog.Name;

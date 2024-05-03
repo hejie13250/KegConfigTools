@@ -118,7 +118,7 @@
             Visibility="Hidden"
             Width="auto"
             x:Name="delBtn">
-            <Image Height="10" Source="{StaticResource 删}" />
+            <Image Height="10" Source="{StaticResource 清除}" />
         </Button>
     </Grid>
 </UserControl>

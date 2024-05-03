@@ -367,7 +367,7 @@ namespace 小科狗配置.Page
     private void LoadHxFile()
     {
       var file = $"{_appPath}\\configs\\候选序号.txt";
-      const string numStr = @"<1=🥑¹sp><2=🍑²sp><3=🍋³sp><4=🍍⁴sp><5=🍈⁵sp><6=🍐⁶sp><7=🍊⁷sp ><8=⁸sp🍑 ><9=⁹sp🍉><10=¹⁰sp🍊>
+      const string numStr = @"<1=🥑¹sp><2=🍑²sp><3=🍋³sp><4=🍍⁴sp><5=🍈⁵sp><6=🍐⁶sp><7=🍊⁷sp><8=🍑⁸sp><9=🍉⁹sp><10=🍊¹⁰sp>
 <1=¹sp><2=²sp><3=³sp><4=⁴sp><5=⁵sp><6=⁶sp><7=⁷sp ><8=⁸sp ><9=⁹sp><10=¹⁰sp>
 <1=①sp><2=②sp><3=③sp><4=④sp><5=⑤sp><6=⑥sp><7=⑦sp><8=⑧sp><9=⑨sp><10=⑩sp>
 <1=❶sp><2=❷sp><3=❸sp><4=❹sp><5=❺sp><6=❻sp><7=❼sp><8=❽sp><9=❾sp><10=❿sp>
@@ -410,124 +410,124 @@ namespace 小科狗配置.Page
         var value = match.Groups[2].Value;
         switch (match.Groups[1].Value)
         {
-          case "背景底色": 背景底色(value); break;
-          case "顶功规则": 顶功规则(value); break;
-          case "D2D字体样式": D2D字体样式(value); break;
-          case "GDI+字体样式": Gdip字体样式(value); break;
-          case "候选字体色串": SetLabelColor(value); break;
-          case "词语联想检索范围": 词语联想检索范围(value); break;
-          case "候选窗口绘制模式": 候选窗口绘制模式(value); break;
-          case "编码或候选嵌入模式": 编码或候选嵌入模式(value); break;
-          case "词语联想上屏字符串长度": 词语联想上屏字符串长度(value); break;
-          case "候选窗口候选排列方向模式": 候选窗口候选排列方向模式(value); break;
-          case "大键盘码元": textBox_Copy677.Text = value; break;
-          case "小键盘码元": textBox_Copy5.Text = value; break;
-          case "键首字根": textBox125.Text = value; break;
-          case "字体名称": textBox_Copy145.Text = value; break;
-          case "码表标签": textBox_Copy15.Text = value; break;
-          case "主码表标识": textBox_Copy22.Text = value; break;
-          case "副码表标识": textBox_Copy23.Text = value; break;
-          case "候选序号": textBox_Copy67.Text = value; break;
-          case "顶功小集码元": textBox_Copy675.Text = value; break;
-          case "码表临时快键": textBox_Copy19.Text = value; break;
-          case "D2D回退字体集": textBox_Copy10.Text = value; break;
-          case "码表引导快键0": textBox_Copy.Text = value; break;
-          case "码表引导快键1": textBox_Copy12.Text = value; break;
-          case "码表引导快键2": textBox_Copy16.Text = value; break;
-          case "候选快键字符串": textBox_Copy66.Text = value; break;
-          case "大小键盘万能码元": textBox_Copy6.Text = value; break;
-          case "大键盘中文标点串": textBox_Copy68.Text = value; break;
-          case "重复上屏码元字符串": textBox_Copy1.Text = value; break;
-          case "码表临时快键编码名": textBox_Copy20.Text = value; break;
-          case "码表引导快键0编码名0": textBox_Copy9.Text = value; break;
-          case "码表引导快键0编码名1": textBox_Copy11.Text = value; break;
-          case "码表引导快键1编码名0": textBox_Copy13.Text = value; break;
-          case "码表引导快键1编码名1": textBox_Copy14.Text = value; break;
-          case "码表引导快键2编码名0": textBox_Copy17.Text = value; break;
-          case "码表引导快键2编码名1": textBox_Copy18.Text = value; break;
-          case "非编码串首位的大键盘码元": textBox_Copy7.Text = value; break;
-          case "非编码串首位的小键盘码元": textBox_Copy8.Text = value; break;
-          case "大键盘按下Shift的中文标点串": textBox_Copy69.Text = value; break;
-          case "往上翻页大键盘英文符号编码串": textBox_Copy21.Text = value; break;
-          case "往下翻页大键盘英文符号编码串": textBox_Copy2.Text = value; break;
-          case "往上翻页小键盘英文符号编码串": textBox_Copy3.Text = value; break;
-          case "往下翻页小键盘英文符号编码串": textBox_Copy4.Text = value; break;
-          case "码表标签显示模式": comboBox1_Copy.SelectedIndex = int.Parse(value); break;
-          case "窗口四个角的圆角半径": nud11.Value = int.Parse(value); break;
-          case "选中项四个角的圆角半径": nud12.Value = int.Parse(value); break;
-          case "候选窗口边框线宽度": nud13.Value = int.Parse(value); break;
-          case "最大码长": nud1.Value = int.Parse(value); break;
-          case "D2D字体加粗权值": nud14.Value = int.Parse(value); break;
-          case "候选个数": nud15.Value = int.Parse(value); break;
-          case "1-26候选的横向偏离": nud16.Value = int.Parse(value); break;
-          case "候选的高度间距": nud17.Value = int.Parse(value); break;
-          case "候选的宽度间距": nud18.Value = int.Parse(value); break;
-          case "调频权重最小码长": nud2.Value = int.Parse(value); break;
-          case "双检索历史重数": nud3.Value = int.Parse(value); break;
-          case "唯一上屏最小码长": nud4.Value = int.Parse(value); break;
-          case "GDI字体加粗权值": nud14_Copy.Value = int.Parse(value); break;
-          case "光标色": color_Label_2.Background = RgbStringToColor(value); break;
-          case "分隔线色": color_Label_3.Background = RgbStringToColor(value); break;
-          case "候选选中色": color_Label_6.Background = RgbStringToColor(value); break;
-          case "要码长顶屏吗？": checkBox1_Copy111.IsChecked = IsTrueOrFalse(value); break;
-          case "要数字顶屏吗？": checkBox1_Copy7.IsChecked = IsTrueOrFalse(value); break;
-          case "要标点顶屏吗？": checkBox1_Copy6.IsChecked = IsTrueOrFalse(value); break;
-          case "要唯一上屏吗？": checkBox1_Copy5.IsChecked = IsTrueOrFalse(value); break;
-          case "嵌入下划线色": color_Label_1.Background = RgbStringToColor(value); break;
-          case "候选窗口边框色": color_Label_4.Background = RgbStringToColor(value); break;
-          case "候选选中字体色": color_Label_7.Background = RgbStringToColor(value); break;
-          case "要显示背景图吗？": checkBox_Copy42.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用双检索吗？": checkBox1_Copy3.IsChecked = IsTrueOrFalse(value); break;
-          case "关联中文标点吗？": checkBox_Copy31.IsChecked = IsTrueOrFalse(value); break;
-          case "无候选要清屏吗？": checkBox_Copy20.IsChecked = IsTrueOrFalse(value); break;
-          case "要使用嵌入模式吗？": checkBox_Copy44.IsChecked = IsTrueOrFalse(value); break;
-          case "要开启词语联想吗？": checkBox_Copy4.IsChecked = IsTrueOrFalse(value); break;
-          case "是键首字根码表吗？": checkBox1_Copy55.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示键首字根吗？": checkBox_Copy34.IsChecked = IsTrueOrFalse(value); break;
-          case "超过码长要清屏吗？": checkBox_Copy19.IsChecked = IsTrueOrFalse(value); break;
-          case "要逐码提示检索吗？": checkBox_Copy.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示逐码提示吗？": checkBox.IsChecked = IsTrueOrFalse(value); break;
-          case "要显示反查提示吗？": checkBox1.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用单字模式吗？": checkBox1_Copy.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI字体要倾斜吗？": checkBox_Copy314.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用右Ctrl键吗？": checkBox_Copy16.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用左Ctrl键吗？": checkBox_Copy15.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用左Shift键吗？": checkBox_Copy13.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用右Shift键吗？": checkBox_Copy14.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体要下划线吗？": checkBox19.IsChecked = IsTrueOrFalse(value); break;
-          case "GDI+字体要删除线吗？": checkBox20.IsChecked = IsTrueOrFalse(value); break;
-          case "窗口四个角要圆角吗？": hxc_CheckBox.IsChecked = IsTrueOrFalse(value); break;
-          case "码表标签要左对齐吗？": checkBox_Copy39.IsChecked = IsTrueOrFalse(value); break;
-          case "过渡态按1要上屏1吗？": checkBox_Copy30.IsChecked = IsTrueOrFalse(value); break;
-          case "Shift键上屏编码串吗？": checkBox_Copy23.IsChecked = IsTrueOrFalse(value); break;
-          case "Enter键上屏编码串吗？": checkBox_Copy26.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用Ctrl+Space键吗？": checkBox_Copy17.IsChecked = IsTrueOrFalse(value); break;
-          case "要开启Ctrl键清联想吗？": checkBox_Copy10.IsChecked = IsTrueOrFalse(value); break;
-          case "选中项四个角要圆角吗？": hxcbj_CheckBox.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用ESC键自动造词吗？": checkBox_Copy3.IsChecked = IsTrueOrFalse(value); break;
-          case "词语联想只是匹配首位吗？": checkBox_Copy6.IsChecked = IsTrueOrFalse(value); break;
-          case "高度宽度要完全自动调整吗？": checkBox_Copy40.IsChecked = IsTrueOrFalse(value); break;
-          case "中英切换要显示提示窗口吗？": checkBox_Copy11.IsChecked = IsTrueOrFalse(value); break;
-          case "双检索时编码要完全匹配吗？": checkBox1_Copy4.IsChecked = IsTrueOrFalse(value); break;
-          case "词语联想要显示词语全部吗？": checkBox_Copy5.IsChecked = IsTrueOrFalse(value); break;
-          case "上屏后候选窗口要立即消失吗？": checkBox_Copy18.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用最大码长无候选清屏吗？": checkBox_Copy21.IsChecked = IsTrueOrFalse(value); break;
-          case "无候选敲空格要上屏编码串吗？": checkBox_Copy22.IsChecked = IsTrueOrFalse(value); break;
-          case "词语联想时标点顶屏要起作用吗？": checkBox_Copy7.IsChecked = IsTrueOrFalse(value); break;
-          case "候选词条要按码长短优先排序吗？": checkBox_Copy2.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用上屏自动增加调频权重吗？": checkBox1_Copy1.IsChecked = IsTrueOrFalse(value); break;
-          case "Space键要上屏临时英文编码串吗？": checkBox_Copy25.IsChecked = IsTrueOrFalse(value); break;
-          case "Enter键上屏并使首个字母大写吗？": checkBox_Copy27.IsChecked = IsTrueOrFalse(value); break;
-          case "候选词条要按调频权重检索排序吗？": checkBox1_Copy2.IsChecked = IsTrueOrFalse(value); break;
-          case "竖向候选窗口选中背景色要等宽吗？": checkBox_Copy41.IsChecked = IsTrueOrFalse(value); break;
-          case "候选窗口候选从上到下排列要锁定吗？": checkBox_Copy45.IsChecked = IsTrueOrFalse(value); break;
-          case "无临时快键时,也要显示主码表标识吗？": checkBox_Copy32.IsChecked = IsTrueOrFalse(value); break;
-          case "从中文切换到英文时,要上屏编码串吗？": checkBox_Copy12.IsChecked = IsTrueOrFalse(value); break;
-          case "Shift键+字母键要进入临时英文长句态吗？": checkBox_Copy24.IsChecked = IsTrueOrFalse(value); break;
-          case "要启用上屏自动增加调频权重直接到顶吗？": checkBox_Copy1.IsChecked = IsTrueOrFalse(value); break;
-          case "Backspace键一次性删除前次上屏的内容吗？": checkBox_Copy28.IsChecked = IsTrueOrFalse(value); break;
-          case "标点或数字顶屏时,若是引导键,要继续引导吗？": checkBox1_Copy8.IsChecked = IsTrueOrFalse(value); break;
-          case "前次上屏的是数字再上屏句号*要转成点号*吗？": checkBox_Copy29.IsChecked = IsTrueOrFalse(value); break;
+          case "背景底色":                     背景底色(value); break;
+          case "顶功规则":                     顶功规则(value); break;
+          case "D2D字体样式":                  D2D字体样式(value); break;
+          case "GDI+字体样式":                 Gdip字体样式(value); break;
+          case "候选字体色串":                   SetLabelColor(value); break;
+          case "词语联想检索范围":                 词语联想检索范围(value); break;
+          case "候选窗口绘制模式":                 候选窗口绘制模式(value); break;
+          case "编码或候选嵌入模式":                编码或候选嵌入模式(value); break;
+          case "词语联想上屏字符串长度":              词语联想上屏字符串长度(value); break;
+          case "候选窗口候选排列方向模式":             候选窗口候选排列方向模式(value); break;
+          case "大键盘码元":                    textBox_Copy677.Text = value; break;
+          case "小键盘码元":                    textBox_Copy5.Text   = value; break;
+          case "键首字根":                     textBox125.Text      = value; break;
+          case "字体名称":                     textBox_Copy145.Text = value; break;
+          case "码表标签":                     textBox_Copy15.Text  = value; break;
+          case "主码表标识":                    textBox_Copy22.Text  = value; break;
+          case "副码表标识":                    textBox_Copy23.Text  = value; break;
+          case "候选序号":                     设置候选序号(value); break;
+          case "顶功小集码元":                   textBox_Copy675.Text         = value; break;
+          case "码表临时快键":                   textBox_Copy19.Text          = value; break;
+          case "D2D回退字体集":                 textBox_Copy10.Text          = value; break;
+          case "码表引导快键0":                  textBox_Copy.Text            = value; break;
+          case "码表引导快键1":                  textBox_Copy12.Text          = value; break;
+          case "码表引导快键2":                  textBox_Copy16.Text          = value; break;
+          case "候选快键字符串":                  textBox_Copy66.Text          = value; break;
+          case "大小键盘万能码元":                 textBox_Copy6.Text           = value; break;
+          case "大键盘中文标点串":                 textBox_Copy68.Text          = value; break;
+          case "重复上屏码元字符串":                textBox_Copy1.Text           = value; break;
+          case "码表临时快键编码名":                textBox_Copy20.Text          = value; break;
+          case "码表引导快键0编码名0":              textBox_Copy9.Text           = value; break;
+          case "码表引导快键0编码名1":              textBox_Copy11.Text          = value; break;
+          case "码表引导快键1编码名0":              textBox_Copy13.Text          = value; break;
+          case "码表引导快键1编码名1":              textBox_Copy14.Text          = value; break;
+          case "码表引导快键2编码名0":              textBox_Copy17.Text          = value; break;
+          case "码表引导快键2编码名1":              textBox_Copy18.Text          = value; break;
+          case "非编码串首位的大键盘码元":             textBox_Copy7.Text           = value; break;
+          case "非编码串首位的小键盘码元":             textBox_Copy8.Text           = value; break;
+          case "大键盘按下Shift的中文标点串":         textBox_Copy69.Text          = value; break;
+          case "往上翻页大键盘英文符号编码串":           textBox_Copy21.Text          = value; break;
+          case "往下翻页大键盘英文符号编码串":           textBox_Copy2.Text           = value; break;
+          case "往上翻页小键盘英文符号编码串":           textBox_Copy3.Text           = value; break;
+          case "往下翻页小键盘英文符号编码串":           textBox_Copy4.Text           = value; break;
+          case "码表标签显示模式":                 comboBox1_Copy.SelectedIndex = int.Parse(value); break;
+          case "窗口四个角的圆角半径":               nud11.Value                  = int.Parse(value); break;
+          case "选中项四个角的圆角半径":              nud12.Value                  = int.Parse(value); break;
+          case "候选窗口边框线宽度":                nud13.Value                  = int.Parse(value); break;
+          case "最大码长":                     nud1.Value                   = int.Parse(value); break;
+          case "D2D字体加粗权值":                nud14.Value                  = int.Parse(value); break;
+          case "候选个数":                     nud15.Value                  = int.Parse(value); break;
+          case "1-26候选的横向偏离":              nud16.Value                  = int.Parse(value); break;
+          case "候选的高度间距":                  nud17.Value                  = int.Parse(value); break;
+          case "候选的宽度间距":                  nud18.Value                  = int.Parse(value); break;
+          case "调频权重最小码长":                 nud2.Value                   = int.Parse(value); break;
+          case "双检索历史重数":                  nud3.Value                   = int.Parse(value); break;
+          case "唯一上屏最小码长":                 nud4.Value                   = int.Parse(value); break;
+          case "GDI字体加粗权值":                nud14_Copy.Value             = int.Parse(value); break;
+          case "光标色":                      color_Label_2.Background     = RgbStringToColor(value); break;
+          case "分隔线色":                     color_Label_3.Background     = RgbStringToColor(value); break;
+          case "候选选中色":                    color_Label_6.Background     = RgbStringToColor(value); break;
+          case "要码长顶屏吗？":                  checkBox1_Copy111.IsChecked  = IsTrueOrFalse(value); break;
+          case "要数字顶屏吗？":                  checkBox1_Copy7.IsChecked    = IsTrueOrFalse(value); break;
+          case "要标点顶屏吗？":                  checkBox1_Copy6.IsChecked    = IsTrueOrFalse(value); break;
+          case "要唯一上屏吗？":                  checkBox1_Copy5.IsChecked    = IsTrueOrFalse(value); break;
+          case "嵌入下划线色":                   color_Label_1.Background     = RgbStringToColor(value); break;
+          case "候选窗口边框色":                  color_Label_4.Background     = RgbStringToColor(value); break;
+          case "候选选中字体色":                  color_Label_7.Background     = RgbStringToColor(value); break;
+          case "要显示背景图吗？":                 checkBox_Copy42.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用双检索吗？":                 checkBox1_Copy3.IsChecked    = IsTrueOrFalse(value); break;
+          case "关联中文标点吗？":                 checkBox_Copy31.IsChecked    = IsTrueOrFalse(value); break;
+          case "无候选要清屏吗？":                 checkBox_Copy20.IsChecked    = IsTrueOrFalse(value); break;
+          case "要使用嵌入模式吗？":                checkBox_Copy44.IsChecked    = IsTrueOrFalse(value); break;
+          case "要开启词语联想吗？":                checkBox_Copy4.IsChecked     = IsTrueOrFalse(value); break;
+          case "是键首字根码表吗？":                checkBox1_Copy55.IsChecked   = IsTrueOrFalse(value); break;
+          case "要显示键首字根吗？":                checkBox_Copy34.IsChecked    = IsTrueOrFalse(value); break;
+          case "超过码长要清屏吗？":                checkBox_Copy19.IsChecked    = IsTrueOrFalse(value); break;
+          case "要逐码提示检索吗？":                checkBox_Copy.IsChecked      = IsTrueOrFalse(value); break;
+          case "要显示逐码提示吗？":                checkBox.IsChecked           = IsTrueOrFalse(value); break;
+          case "要显示反查提示吗？":                checkBox1.IsChecked          = IsTrueOrFalse(value); break;
+          case "要启用单字模式吗？":                checkBox1_Copy.IsChecked     = IsTrueOrFalse(value); break;
+          case "GDI字体要倾斜吗？":               checkBox_Copy314.IsChecked   = IsTrueOrFalse(value); break;
+          case "要启用右Ctrl键吗？":              checkBox_Copy16.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用左Ctrl键吗？":              checkBox_Copy15.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用左Shift键吗？":             checkBox_Copy13.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用右Shift键吗？":             checkBox_Copy14.IsChecked    = IsTrueOrFalse(value); break;
+          case "GDI+字体要下划线吗？":             checkBox19.IsChecked         = IsTrueOrFalse(value); break;
+          case "GDI+字体要删除线吗？":             checkBox20.IsChecked         = IsTrueOrFalse(value); break;
+          case "窗口四个角要圆角吗？":               hxc_CheckBox.IsChecked       = IsTrueOrFalse(value); break;
+          case "码表标签要左对齐吗？":               checkBox_Copy39.IsChecked    = IsTrueOrFalse(value); break;
+          case "过渡态按1要上屏1吗？":              checkBox_Copy30.IsChecked    = IsTrueOrFalse(value); break;
+          case "Shift键上屏编码串吗？":            checkBox_Copy23.IsChecked    = IsTrueOrFalse(value); break;
+          case "Enter键上屏编码串吗？":            checkBox_Copy26.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用Ctrl+Space键吗？":         checkBox_Copy17.IsChecked    = IsTrueOrFalse(value); break;
+          case "要开启Ctrl键清联想吗？":            checkBox_Copy10.IsChecked    = IsTrueOrFalse(value); break;
+          case "选中项四个角要圆角吗？":              hxcbj_CheckBox.IsChecked     = IsTrueOrFalse(value); break;
+          case "要启用ESC键自动造词吗？":            checkBox_Copy3.IsChecked     = IsTrueOrFalse(value); break;
+          case "词语联想只是匹配首位吗？":             checkBox_Copy6.IsChecked     = IsTrueOrFalse(value); break;
+          case "高度宽度要完全自动调整吗？":            checkBox_Copy40.IsChecked    = IsTrueOrFalse(value); break;
+          case "中英切换要显示提示窗口吗？":            checkBox_Copy11.IsChecked    = IsTrueOrFalse(value); break;
+          case "双检索时编码要完全匹配吗？":            checkBox1_Copy4.IsChecked    = IsTrueOrFalse(value); break;
+          case "词语联想要显示词语全部吗？":            checkBox_Copy5.IsChecked     = IsTrueOrFalse(value); break;
+          case "上屏后候选窗口要立即消失吗？":           checkBox_Copy18.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用最大码长无候选清屏吗？":           checkBox_Copy21.IsChecked    = IsTrueOrFalse(value); break;
+          case "无候选敲空格要上屏编码串吗？":           checkBox_Copy22.IsChecked    = IsTrueOrFalse(value); break;
+          case "词语联想时标点顶屏要起作用吗？":          checkBox_Copy7.IsChecked     = IsTrueOrFalse(value); break;
+          case "候选词条要按码长短优先排序吗？":          checkBox_Copy2.IsChecked     = IsTrueOrFalse(value); break;
+          case "要启用上屏自动增加调频权重吗？":          checkBox1_Copy1.IsChecked    = IsTrueOrFalse(value); break;
+          case "Space键要上屏临时英文编码串吗？":       checkBox_Copy25.IsChecked    = IsTrueOrFalse(value); break;
+          case "Enter键上屏并使首个字母大写吗？":       checkBox_Copy27.IsChecked    = IsTrueOrFalse(value); break;
+          case "候选词条要按调频权重检索排序吗？":         checkBox1_Copy2.IsChecked    = IsTrueOrFalse(value); break;
+          case "竖向候选窗口选中背景色要等宽吗？":         checkBox_Copy41.IsChecked    = IsTrueOrFalse(value); break;
+          case "候选窗口候选从上到下排列要锁定吗？":        checkBox_Copy45.IsChecked    = IsTrueOrFalse(value); break;
+          case "无临时快键时,也要显示主码表标识吗？":       checkBox_Copy32.IsChecked    = IsTrueOrFalse(value); break;
+          case "从中文切换到英文时,要上屏编码串吗？":       checkBox_Copy12.IsChecked    = IsTrueOrFalse(value); break;
+          case "Shift键+字母键要进入临时英文长句态吗？":   checkBox_Copy24.IsChecked    = IsTrueOrFalse(value); break;
+          case "要启用上屏自动增加调频权重直接到顶吗？":      checkBox_Copy1.IsChecked     = IsTrueOrFalse(value); break;
+          case "Backspace键一次性删除前次上屏的内容吗？": checkBox_Copy28.IsChecked    = IsTrueOrFalse(value); break;
+          case "标点或数字顶屏时,若是引导键,要继续引导吗？":   checkBox1_Copy8.IsChecked    = IsTrueOrFalse(value); break;
+          case "前次上屏的是数字再上屏句号*要转成点号*吗？":   checkBox_Copy29.IsChecked    = IsTrueOrFalse(value); break;
           case "候选窗口候选排列方向模式>1时要隐藏编码串行吗？"
                                                              :
             checkBox_Copy38.IsChecked = IsTrueOrFalse(value); break;
@@ -554,10 +554,31 @@ namespace 小科狗配置.Page
       }
     }
 
-    private bool IsTrueOrFalse(string value)
+    private string 获取候选序号()
     {
-      if (value == "不要" || value == "不是") return false;
-      return true;
+      var str = $"<1={hxxh1.Text}><2={hxxh2.Text}><3={hxxh3.Text}><4={hxxh4.Text}><5={hxxh5.Text}>";
+      str    += $"<6={hxxh6.Text}><7={hxxh7.Text}><8={hxxh8.Text}><9={hxxh9.Text}><10={hxxh0.Text}>";
+      return str;
+    }
+    private void 设置候选序号(string value)
+    {
+      const string pattern = "<1=(.*?)><2=(.*?)><3=(.*?)><4=(.*?)><5=(.*?)><6=(.*?)><7=(.*?)><8=(.*?)><9=(.*?)><10=(.*?)>";
+      var matches = Regex.Matches(value, pattern);
+      if (matches.Count <= 0) return;
+      hxxh1.Text = matches[0].Groups[1].Value;
+      hxxh2.Text = matches[0].Groups[2].Value;
+      hxxh3.Text = matches[0].Groups[3].Value;
+      hxxh4.Text = matches[0].Groups[4].Value;
+      hxxh5.Text = matches[0].Groups[5].Value;
+      hxxh6.Text = matches[0].Groups[6].Value;
+      hxxh7.Text = matches[0].Groups[7].Value;
+      hxxh8.Text = matches[0].Groups[8].Value;
+      hxxh9.Text = matches[0].Groups[9].Value;
+      hxxh0.Text = matches[0].Groups[10].Value;
+    }
+    private static bool IsTrueOrFalse(string value)
+    {
+      return value != "不要" && value != "不是";
     }
 
     private void 顶功规则(string value)
@@ -733,7 +754,7 @@ namespace 小科狗配置.Page
       ReplaceConfig("键首字根",             textBox125.Text);
       ReplaceConfig("D2D字体样式",          取d2D字体样式());
       ReplaceConfig("码表标签",             textBox_Copy15.Text);
-      ReplaceConfig("候选序号",             textBox_Copy67.Text);
+      ReplaceConfig("候选序号",             获取候选序号());
       ReplaceConfig("小键盘码元",            textBox_Copy5.Text);
       ReplaceConfig("字体名称",             textBox_Copy145.Text);
       ReplaceConfig("最大码长",             nud1.Value.ToString());
@@ -861,64 +882,50 @@ namespace 小科狗配置.Page
     }
     private string 取背景底色()
     {
-      if (hxcds_CheckBox.IsChecked == true)
-        return "";
-      return HexToRgb(color_Label_5.Background.ToString());
+      return hxcds_CheckBox.IsChecked == true ? "" : HexToRgb(color_Label_5.Background.ToString());
     }
     private string 取候选窗口绘制模式()
     {
       if (radioButton10.IsChecked == true) return "0";
-      if (radioButton11.IsChecked == true) return "1";
-      return "2";
+      return radioButton11.IsChecked == true ? "1" : "2";
     }
     private string 取d2D字体样式()
     {
-      //if (radioButton6.IsChecked == true) return "0";
-      if (radioButton7.IsChecked == true) return "1";
-      return "0";
+      return radioButton7.IsChecked == true ? "1" : "0";
     }
     private string 取gdIp字体样式()
     {
       if (radioButton14.IsChecked == true) return "0";
       if (radioButton15.IsChecked == true) return "1";
-      if (radioButton16.IsChecked == true) return "2";
-      return "3";
+      return radioButton16.IsChecked == true ? "2" : "3";
     }
     private string 取候选窗口候选排列方向模式()
     {
       if (radioButton8.IsChecked == true) return "1";
-      if (radioButton12.IsChecked == true) return "2";
-      //if (radioButton13.IsChecked == true) return "3";
-      return "3";
+      return radioButton12.IsChecked == true ? "2" : "3";
     }
     private string 取词语联想上屏字符串长度()
     {
       if (radioButton.IsChecked == true) return "1";
-      if (radioButton1.IsChecked == true) return "2";
-      //if (radioButton1.IsChecked == true) return "3";
-      return "3";
+      return radioButton1.IsChecked == true ? "2" : "3";
     }
     private string 取词语联想检索范围()
     {
       if (radioButton3.IsChecked == true) return "1";
-      if (radioButton4.IsChecked == true) return "2";
-      return "3";
+      return radioButton4.IsChecked == true ? "2" : "3";
     }
     private string 取顶功规则()
     {
       if (radioButton454.IsChecked == true) return "1";
-      if (radioButton455.IsChecked == true) return "2";
-      return "3";
+      return radioButton455.IsChecked == true ? "2" : "3";
     }
     private string 是或不是(bool b)
     {
-      if (b) return "是";
-      return "不是";
+      return b ? "是" : "不是";
     }
     private string 要或不要(bool b)
     {
-      if (b) return "要";
-      return "不要";
+      return b ? "要" : "不要";
     }
 
 
@@ -1294,8 +1301,62 @@ namespace 小科狗配置.Page
 
     private void ComboBox3_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      textBox_Copy67.Text = ((ComboBoxItem)comboBox3.SelectedItem).Content.ToString();
+      // var text = ((ComboBoxItem)comboBox3.SelectedItem).Content.ToString();
+      if(comboBox3.SelectedIndex == -1) return;
+      设置候选序号(comboBox3.SelectedValue.ToString());
     }
+
+    private void 删除当前预设_Click(object sender, RoutedEventArgs e)
+    {
+      var s = comboBox3.SelectedIndex;
+      if(s == -1) return;
+      comboBox3.SelectedIndex = -1;
+      comboBox3.Items.Remove(comboBox3.Items[s]);
+
+      var text     = string.Empty;
+      var filePath = $"{_appPath}\\configs\\候选序号.txt";
+      // text = comboBox3.Items.Cast<object>().Aggregate(text, (current, item) => current + $"\n{item}".Replace("System.Windows.Controls.ComboBoxItem: ",""));
+      text = comboBox3.Items.Cast<object>().Aggregate(text, (current, item) => current + $"\n{(item as ComboBoxItem)?.Content}");
+
+      text = text.Trim('\n');
+      File.WriteAllText(filePath, text);
+
+      // comboBox3.Items.Clear();
+      // using StreamReader sr = new(filePath);
+      // while (sr.ReadLine() is { } line)
+      // {
+      //   ComboBoxItem item = new() { Content = line };
+      //   comboBox3.Items.Add(item);
+      // }
+
+    }
+
+    private void 添加到预设_Click(object sender, RoutedEventArgs e)
+    {
+      var text     = 获取候选序号();
+      var filePath = $"{_appPath}\\configs\\候选序号.txt";
+
+      using var sw = File.AppendText(filePath);
+      sw.WriteLine(text);
+      comboBox3.Items.Add(text);
+      MessageBox.Show("添加新预设成功");
+    }
+
+    private void 清空自定义序号_Click(object sender, RoutedEventArgs e)
+    {
+      hxxh1.Text = string.Empty;
+      hxxh2.Text = string.Empty;
+      hxxh3.Text = string.Empty;
+      hxxh4.Text = string.Empty;
+      hxxh5.Text = string.Empty;
+      hxxh6.Text = string.Empty;
+      hxxh7.Text = string.Empty;
+      hxxh8.Text = string.Empty;
+      hxxh9.Text = string.Empty;
+      hxxh0.Text = string.Empty;
+    }
+
+
 
     private void Hxc_checkBox_Checked(object sender, RoutedEventArgs e)
     {

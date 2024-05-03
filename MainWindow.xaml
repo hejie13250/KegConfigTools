@@ -1,6 +1,5 @@
 ﻿<Window
     BorderThickness="2,2,2,2"
-    FontFamily="小科狗字体"
     FontSize="16"
     Height="1352"
     MouseDown="Window_MouseDown"

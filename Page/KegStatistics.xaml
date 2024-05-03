@@ -1,506 +1,504 @@
 ﻿<class:BasePage
-  x:Class="小科狗配置.Page.KegStatistics"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:小科狗配置"
-  xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:class="clr-namespace:小科狗配置.Class"
-  Title="KegStatistics"
-  FontFamily="小科狗字体"
-  FontSize="14"
-  TextOptions.TextRenderingMode="ClearType"
-  UseLayoutRounding="True"
-  mc:Ignorable="d">
+    FontSize="14"
+    TextOptions.TextRenderingMode="ClearType"
+    Title="KegStatistics"
+    UseLayoutRounding="True"
+    mc:Ignorable="d"
+    x:Class="小科狗配置.Page.KegStatistics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:class="clr-namespace:小科狗配置.Class"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:小科狗配置"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <Grid>
-    <ScrollViewer
-      HorizontalAlignment="Left"
-      VerticalScrollBarVisibility="Hidden">
+    <Grid>
+        <ScrollViewer HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
 
-      <StackPanel x:Name="groupBoxStackPanel" Orientation="Vertical">
-        <GroupBox
-          Header="曲线图"
-          MouseEnter="GroupBox_MouseEnter"
-          Style="{StaticResource HiddenBorderGroupBoxStyle}" Margin="10,0,10,10">
-          <Border Style="{StaticResource CustomBorderStyle}">
-            <Grid>
-              <StackPanel Orientation="Vertical">
-                <StackPanel.DataContext>
-                  <class:ViewModel />
-                </StackPanel.DataContext>
-                <lvc:CartesianChart
-                  x:Name="liveCharts"
-                  Height="470"
-                  Series="{Binding Series}"
-                  XAxes="{Binding XAxes}"
-                  YAxes="{Binding YAxes}"
-                  ZoomMode="X" />
+            <StackPanel Orientation="Vertical" x:Name="groupBoxStackPanel">
+                <GroupBox
+                    Header="曲线图"
+                    Margin="10,0,10,10"
+                    MouseEnter="GroupBox_MouseEnter"
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                    <Border Style="{StaticResource CustomBorderStyle}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel.DataContext>
+                                    <class:ViewModel />
+                                </StackPanel.DataContext>
+                                <lvc:CartesianChart
+                                    Height="470"
+                                    Series="{Binding Series}"
+                                    XAxes="{Binding XAxes}"
+                                    YAxes="{Binding YAxes}"
+                                    ZoomMode="X"
+                                    x:Name="liveCharts" />
 
-              </StackPanel>
-            </Grid>
+                            </StackPanel>
+                        </Grid>
 
-          </Border>
-        </GroupBox>
-        <GroupBox
-          x:Name="groupBox_25"
-          Header="今日和累计数据"
-          MouseEnter="GroupBox_MouseEnter"
-          Style="{StaticResource HiddenBorderGroupBoxStyle}">
-          <Border Style="{StaticResource CustomBorderStyle}">
-            <Grid>
-              <Grid Margin="20,10,10,10" HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="auto" />
-                  <ColumnDefinition Width="90" />
-                  <ColumnDefinition Width="50" />
-                  <ColumnDefinition Width="auto" />
-                  <ColumnDefinition Width="100" />
-                  <ColumnDefinition Width="50" />
-                  <ColumnDefinition Width="auto" />
-                  <ColumnDefinition Width="50" />
-                  <ColumnDefinition Width="50" />
-                  <ColumnDefinition Width="auto" />
-                  <ColumnDefinition Width="80" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                  Grid.ColumnSpan="2"
-                  Height="25"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Text="今日数据" />
-                <TextBlock
-                  Grid.Row="1"
-                  Height="20"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="击键：" />
-                <TextBlock
-                  Grid.Row="2"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="字数：" />
-                <TextBlock
-                  Grid.Row="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="上屏：" />
-                <TextBlock
-                  Grid.Row="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="时长：" />
-                <TextBlock
-                  Grid.Row="5"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="速度" />
-                <TextBlock
-                  Grid.Row="6"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="码长：" />
-                <TextBlock
-                  x:Name="jjTextBlock"
-                  Grid.Row="1"
-                  Grid.Column="1"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="681" />
-                <TextBlock
-                  x:Name="zsTextBlock"
-                  Grid.Row="2"
-                  Grid.Column="1"
-                  Height="20"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="315" />
+                    </Border>
+                </GroupBox>
+                <GroupBox
+                    Header="今日和累计数据"
+                    MouseEnter="GroupBox_MouseEnter"
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}"
+                    x:Name="groupBox_25">
+                    <Border Style="{StaticResource CustomBorderStyle}">
+                        <Grid>
+                            <Grid HorizontalAlignment="Left" Margin="20,10,10,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="80" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    FontSize="18"
+                                    Grid.ColumnSpan="2"
+                                    Height="25"
+                                    HorizontalAlignment="Left"
+                                    Text="今日数据"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Text="击键："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="字数："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="上屏："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="时长："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="速度"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="码长："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="681"
+                                    VerticalAlignment="Center"
+                                    x:Name="jjTextBlock" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Text="315"
+                                    VerticalAlignment="Center"
+                                    x:Name="zsTextBlock" />
 
-                <TextBlock
-                  x:Name="spTextBlock"
-                  Grid.Row="3"
-                  Grid.Column="1"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="268" />
-                <TextBlock
-                  x:Name="scTextBlock"
-                  Grid.Row="4"
-                  Grid.Column="1"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="356" />
-                <TextBlock
-                  x:Name="sdTextBlock"
-                  Grid.Row="5"
-                  Grid.Column="1"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="95.5" />
-                <TextBlock
-                  x:Name="mcTextBlock"
-                  Grid.Row="6"
-                  Grid.Column="1"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="3.1" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="268"
+                                    VerticalAlignment="Center"
+                                    x:Name="spTextBlock" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="4"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="356"
+                                    VerticalAlignment="Center"
+                                    x:Name="scTextBlock" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="5"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="95.5"
+                                    VerticalAlignment="Center"
+                                    x:Name="sdTextBlock" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="6"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="3.1"
+                                    VerticalAlignment="Center"
+                                    x:Name="mcTextBlock" />
 
-                <Border
-                  Grid.RowSpan="7"
-                  Grid.Column="2"
-                  Width="1"
-                  Margin="0,10,0,10"
-                  BorderBrush="#8F8F8F"
-                  BorderThickness="1,0,0,0" />
+                                <Border
+                                    BorderBrush="#8F8F8F"
+                                    BorderThickness="1,0,0,0"
+                                    Grid.Column="2"
+                                    Grid.RowSpan="7"
+                                    Margin="0,10,0,10"
+                                    Width="1" />
 
 
-                <TextBlock
-                  Grid.Column="3"
-                  Grid.ColumnSpan="2"
-                  Height="25"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Text="累计数据" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Grid.Column="3"
+                                    Grid.ColumnSpan="2"
+                                    Height="25"
+                                    HorizontalAlignment="Left"
+                                    Text="累计数据"
+                                    VerticalAlignment="Center" />
 
 
-                <TextBlock
-                  Grid.Row="1"
-                  Grid.Column="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="击键：" />
-                <TextBlock
-                  Grid.Row="2"
-                  Grid.Column="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="字数：" />
-                <TextBlock
-                  Grid.Row="3"
-                  Grid.Column="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="上屏：" />
-                <TextBlock
-                  Grid.Row="4"
-                  Grid.Column="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="时长：" />
-                <TextBlock
-                  Grid.Row="5"
-                  Grid.Column="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="速度" />
-                <TextBlock
-                  Grid.Row="6"
-                  Grid.Column="3"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="码长：" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Grid.Row="1"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="击键："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="字数："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Grid.Row="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="上屏："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Grid.Row="4"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="时长："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Grid.Row="5"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="速度"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Grid.Row="6"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="码长："
+                                    VerticalAlignment="Center" />
 
 
-                <TextBlock
-                  x:Name="ljjjTextBlock"
-                  Grid.Row="1"
-                  Grid.Column="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="356" />
-                <TextBlock
-                  x:Name="ljzsTextBlock"
-                  Grid.Row="2"
-                  Grid.Column="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="268" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Grid.Row="1"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="356"
+                                    VerticalAlignment="Center"
+                                    x:Name="ljjjTextBlock" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="268"
+                                    VerticalAlignment="Center"
+                                    x:Name="ljzsTextBlock" />
 
-                <TextBlock
-                  x:Name="ljspTextBlock"
-                  Grid.Row="3"
-                  Grid.Column="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="268" />
-                <TextBlock
-                  x:Name="ljscTextBlock"
-                  Grid.Row="4"
-                  Grid.Column="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="356" />
-                <TextBlock
-                  x:Name="ljsdTextBlock"
-                  Grid.Row="5"
-                  Grid.Column="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="95.5" />
-                <TextBlock
-                  x:Name="ljmcTextBlock"
-                  Grid.Row="6"
-                  Grid.Column="4"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="3.1" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Grid.Row="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="268"
+                                    VerticalAlignment="Center"
+                                    x:Name="ljspTextBlock" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Grid.Row="4"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="356"
+                                    VerticalAlignment="Center"
+                                    x:Name="ljscTextBlock" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Grid.Row="5"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="95.5"
+                                    VerticalAlignment="Center"
+                                    x:Name="ljsdTextBlock" />
+                                <TextBlock
+                                    Grid.Column="4"
+                                    Grid.Row="6"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="3.1"
+                                    VerticalAlignment="Center"
+                                    x:Name="ljmcTextBlock" />
 
-                <Border
-                  Grid.RowSpan="7"
-                  Grid.Column="5"
-                  Width="1"
-                  Margin="0,10,0,10"
-                  BorderBrush="#8F8F8F"
-                  BorderThickness="1,0,0,0" />
-
-
-                <TextBlock
-                  Grid.Column="6"
-                  Grid.ColumnSpan="2"
-                  Height="25"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Text="数据选择" />
+                                <Border
+                                    BorderBrush="#8F8F8F"
+                                    BorderThickness="1,0,0,0"
+                                    Grid.Column="5"
+                                    Grid.RowSpan="7"
+                                    Margin="0,10,0,10"
+                                    Width="1" />
 
 
-                <TextBlock
-                  Grid.Row="1"
-                  Grid.Column="6"
-                  Height="20"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="击键数：" />
-                <TextBlock
-                  Grid.Row="2"
-                  Grid.Column="6"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="打字数：" />
-                <TextBlock
-                  Grid.Row="3"
-                  Grid.Column="6"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="上屏数：" />
-                <TextBlock
-                  Grid.Row="4"
-                  Grid.Column="6"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="用时长：" />
-                <TextBlock
-                  Grid.Row="5"
-                  Grid.Column="6"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="平均速度" />
-                <TextBlock
-                  Grid.Row="6"
-                  Grid.Column="6"
-                  Height="20"
-                  Margin="0,1,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="平均码长：" />
-                <CheckBox
-                  x:Name="dZcheckBox"
-                  Grid.Row="1"
-                  Grid.Column="7"
-                  HorizontalAlignment="Left"
-                  IsChecked="False"
-                  Style="{DynamicResource CheckBoxStyle}" />
-                <CheckBox
-                  x:Name="jJcheckBox"
-                  Grid.Row="2"
-                  Grid.Column="7"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Style="{DynamicResource CheckBoxStyle}" />
-                <CheckBox
-                  x:Name="sPcheckBox"
-                  Grid.Row="3"
-                  Grid.Column="7"
-                  HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
-                <CheckBox
-                  x:Name="sCcheckBox"
-                  Grid.Row="4"
-                  Grid.Column="7"
-                  HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
-                <CheckBox
-                  x:Name="sDcheckBox"
-                  Grid.Row="5"
-                  Grid.Column="7"
-                  HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
-                <CheckBox
-                  x:Name="mCcheckBox"
-                  Grid.Row="6"
-                  Grid.Column="7"
-                  HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Grid.Column="6"
+                                    Grid.ColumnSpan="2"
+                                    Height="25"
+                                    HorizontalAlignment="Left"
+                                    Text="数据选择"
+                                    VerticalAlignment="Center" />
+
+
+                                <TextBlock
+                                    Grid.Column="6"
+                                    Grid.Row="1"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Text="击键数："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="6"
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="打字数："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="6"
+                                    Grid.Row="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="上屏数："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="6"
+                                    Grid.Row="4"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="用时长："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="6"
+                                    Grid.Row="5"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="平均速度"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="6"
+                                    Grid.Row="6"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,1,0,0"
+                                    Text="平均码长："
+                                    VerticalAlignment="Center" />
+                                <CheckBox
+                                    Grid.Column="7"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    IsChecked="False"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    x:Name="dZcheckBox" />
+                                <CheckBox
+                                    Grid.Column="7"
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    VerticalAlignment="Center"
+                                    x:Name="jJcheckBox" />
+                                <CheckBox
+                                    Grid.Column="7"
+                                    Grid.Row="3"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    x:Name="sPcheckBox" />
+                                <CheckBox
+                                    Grid.Column="7"
+                                    Grid.Row="4"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    x:Name="sCcheckBox" />
+                                <CheckBox
+                                    Grid.Column="7"
+                                    Grid.Row="5"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    x:Name="sDcheckBox" />
+                                <CheckBox
+                                    Grid.Column="7"
+                                    Grid.Row="6"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    x:Name="mCcheckBox" />
 
 
 
-                <Border
-                  Grid.RowSpan="7"
-                  Grid.Column="8"
-                  Width="1"
-                  Margin="0,10,0,10"
-                  BorderBrush="#8F8F8F"
-                  BorderThickness="1,0,0,0" />
+                                <Border
+                                    BorderBrush="#8F8F8F"
+                                    BorderThickness="1,0,0,0"
+                                    Grid.Column="8"
+                                    Grid.RowSpan="7"
+                                    Margin="0,10,0,10"
+                                    Width="1" />
 
-                <TextBlock
-                  Grid.Column="9"
-                  Grid.ColumnSpan="2"
-                  Height="25"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  FontSize="18"
-                  Text="数据调整" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Grid.Column="9"
+                                    Grid.ColumnSpan="2"
+                                    Height="25"
+                                    HorizontalAlignment="Left"
+                                    Text="数据调整"
+                                    VerticalAlignment="Center" />
 
 
 
 
 
-                <TextBlock
-                  Grid.Row="1"
-                  Grid.Column="9"
-                  Height="20"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="倒序：" />
+                                <TextBlock
+                                    Grid.Column="9"
+                                    Grid.Row="1"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Text="倒序："
+                                    VerticalAlignment="Center" />
 
-                <TextBlock
-                  Grid.Row="2"
-                  Grid.Column="9"
-                  Height="20"
-                  Margin="0,2,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="系数：" />
-                <TextBlock
-                  Grid.Row="3"
-                  Grid.Column="9"
-                  Height="20"
-                  Margin="0,3,0,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Text="范围：" />
-                <CheckBox
-                  x:Name="rQcheckBox"
-                  Grid.Row="1"
-                  Grid.Column="10"
-                  HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
-                <local:DoubleNumericUpDown
-                  x:Name="nud"
-                  Grid.Row="2"
-                  Grid.Column="10"
-                  Width="62"
-                  Height="20"
-                  Margin="0,0,-5,0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Panel.ZIndex="25"
-                  MaxValue="10"
-                  MinValue="1"
-                  ValueChanged="Nud_ValueChanged"
-                  Value="4.50" />
-                <ComboBox
-                  x:Name="comboBox"
-                  Grid.Row="3"
-                  Grid.RowSpan="2"
-                  Grid.Column="10"
-                  Width="70"
-                  Height="auto"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Style="{DynamicResource RoundComboBox}">
-                  <ComboBoxItem Content="15 天" />
-                  <ComboBoxItem Content="30 天" />
-                  <ComboBoxItem Content="60 天" />
-                  <ComboBoxItem Content="90 天" />
-                  <ComboBoxItem Content="120 天" />
-                  <ComboBoxItem Content="180 天" />
-                  <ComboBoxItem Content="一年" />
-                  <ComboBoxItem Content="两年" />
-                  <ComboBoxItem Content="全部" />
+                                <TextBlock
+                                    Grid.Column="9"
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,2,0,0"
+                                    Text="系数："
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    Grid.Column="9"
+                                    Grid.Row="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,3,0,0"
+                                    Text="范围："
+                                    VerticalAlignment="Center" />
+                                <CheckBox
+                                    Grid.Column="10"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource CheckBoxStyle}"
+                                    x:Name="rQcheckBox" />
+                                <local:DoubleNumericUpDown
+                                    Grid.Column="10"
+                                    Grid.Row="2"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,0,-5,0"
+                                    MaxValue="10"
+                                    MinValue="1"
+                                    Panel.ZIndex="25"
+                                    Value="4.50"
+                                    ValueChanged="Nud_ValueChanged"
+                                    VerticalAlignment="Center"
+                                    Width="62"
+                                    x:Name="nud" />
+                                <ComboBox
+                                    Grid.Column="10"
+                                    Grid.Row="3"
+                                    Grid.RowSpan="2"
+                                    Height="auto"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Top"
+                                    Width="70"
+                                    x:Name="comboBox">
+                                    <ComboBoxItem Content="15 天" />
+                                    <ComboBoxItem Content="30 天" />
+                                    <ComboBoxItem Content="60 天" />
+                                    <ComboBoxItem Content="90 天" />
+                                    <ComboBoxItem Content="120 天" />
+                                    <ComboBoxItem Content="180 天" />
+                                    <ComboBoxItem Content="一年" />
+                                    <ComboBoxItem Content="两年" />
+                                    <ComboBoxItem Content="全部" />
 
-                </ComboBox>
+                                </ComboBox>
 
-              </Grid>
-            </Grid>
+                            </Grid>
+                        </Grid>
 
-          </Border>
-        </GroupBox>
-      </StackPanel>
-    </ScrollViewer>
-  </Grid>
+                    </Border>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </class:BasePage>

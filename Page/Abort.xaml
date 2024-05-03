@@ -1,62 +1,54 @@
 ﻿<class:BasePage
-  x:Class="小科狗配置.Page.Abort"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:class="clr-namespace:小科狗配置.Class"
-  Title="Abort"
-  FontFamily="小科狗字体"
-  FontSize="14"
-  TextOptions.TextRenderingMode="ClearType"
-  UseLayoutRounding="True"
-  mc:Ignorable="d">
+    FontSize="14"
+    TextOptions.TextRenderingMode="ClearType"
+    Title="Abort"
+    UseLayoutRounding="True"
+    mc:Ignorable="d"
+    x:Class="小科狗配置.Page.Abort"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:class="clr-namespace:小科狗配置.Class"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <Grid x:Name="grid3">
-
-    <ScrollViewer
-      HorizontalAlignment="Left"
-      VerticalScrollBarVisibility="Hidden">
-      <StackPanel x:Name="groupBoxStackPanel" Orientation="Vertical">
-
-        <GroupBox
-          x:Name="groupBox_25"
-          Header="关于"
-          MouseEnter="GroupBox_MouseEnter"
-          Style="{StaticResource HiddenBorderGroupBoxStyle}" Margin="10,0,10,10">
-          <Border Style="{StaticResource CustomBorderStyle}">
-            <Grid>
-              <TextBox
-                x:Name="textBox"
-                MaxHeight="200"
-                Margin="10,10,10,10"
-                FontSize="16"
-                Style="{DynamicResource RoundTextBox2}"
-                Text="{DynamicResource TextBoxText2}" />
-            </Grid>
-
-          </Border>
-        </GroupBox>
-        <GroupBox
-          x:Name="groupBox_27"
-          Header="全局设置说明"
-          MouseEnter="GroupBox_MouseEnter"
-          Style="{StaticResource HiddenBorderGroupBoxStyle}">
-          <Border Margin="0,5,0,25" Style="{StaticResource CustomBorderStyle}">
-            <Grid>
-              <StackPanel Orientation="Vertical">
-                <TextBox
-                  Margin="10,10,10,10"
-                  FontSize="16"
-                  Style="{DynamicResource RoundTextBox2}"
-                  Text="{DynamicResource TextBoxText1}" />
-
-              </StackPanel>
-            </Grid>
-
-          </Border>
-        </GroupBox>
-      </StackPanel>
-    </ScrollViewer>
-  </Grid>
+    <Grid>
+        <ScrollViewer HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Orientation="Vertical" x:Name="groupBoxStackPanel">
+                <GroupBox
+                    Header="关于"
+                    Margin="10,0,10,10"
+                    MouseEnter="GroupBox_MouseEnter"
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                    <Border Style="{StaticResource CustomBorderStyle}">
+                        <Grid>
+                            <TextBox
+                                FontSize="16"
+                                IsReadOnly="True"
+                                Margin="10,10,10,10"
+                                MaxHeight="200"
+                                Style="{DynamicResource RoundTextBox2}"
+                                Text="{DynamicResource TextBoxText2}" />
+                        </Grid>
+                    </Border>
+                </GroupBox>
+                <GroupBox
+                    Header="全局设置说明"
+                    MouseEnter="GroupBox_MouseEnter"
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                    <Border Margin="0,5,0,25" Style="{StaticResource CustomBorderStyle}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <TextBox
+                                    FontSize="16"
+                                    IsReadOnly="True"
+                                    Margin="10,10,10,10"
+                                    Style="{DynamicResource RoundTextBox2}"
+                                    Text="{DynamicResource TextBoxText1}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </class:BasePage>

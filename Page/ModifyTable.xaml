@@ -1,5 +1,4 @@
 ﻿<class:BasePage
-    FontFamily="小科狗字体"
     FontSize="14"
     TextOptions.TextRenderingMode="ClearType"
     Title="ModifyTable"
@@ -97,7 +96,7 @@
                                             Height="14"
                                             HorizontalAlignment="Center"
                                             OpacityMask="Black"
-                                            Source="{StaticResource 删除表}"
+                                            Source="{StaticResource 删除}"
                                             VerticalAlignment="Center"
                                             Width="14" />
                                     </Button>
@@ -565,7 +564,7 @@
                                             Height="14"
                                             HorizontalAlignment="Center"
                                             OpacityMask="Black"
-                                            Source="{StaticResource 删除表}"
+                                            Source="{StaticResource 删除}"
                                             VerticalAlignment="Center"
                                             Width="14" />
                                     </Button>

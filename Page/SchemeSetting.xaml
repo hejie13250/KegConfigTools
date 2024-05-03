@@ -1,5 +1,4 @@
 ﻿<class:BasePage
-    FontFamily="小科狗字体"
     FontSize="14"
     TextOptions.TextRenderingMode="ClearType"
     Title="SchemeSetting"
@@ -1859,7 +1858,7 @@
                                 Height="24"
                                 HorizontalAlignment="Left"
                                 Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=sp&gt;&lt;2=;&gt;&lt;3='&gt;"
+                                Text="&lt;1=&gt;&lt;2=;&gt;&lt;3='&gt;"
                                 TextWrapping="NoWrap"
                                 ToolTip="左Shift用ls、右Shift用rs、左ctrl用lc、右ctrl用rc、空格键用sp、回车键用en、Tab键用ta以及CapsLock键用ca代替"
                                 VerticalAlignment="Center"
@@ -1874,32 +1873,138 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top" />
                             <Label
-                                Content="自定候选序号："
+                                Content="自定义候选序号："
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top" />
-                            <ComboBox
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                Height="24"
-                                HorizontalAlignment="Center"
-                                Margin="0,3,0,0"
-                                SelectionChanged="ComboBox3_SelectionChanged"
-                                Style="{DynamicResource RoundComboBox}"
-                                VerticalAlignment="Top"
-                                Width="400"
-                                x:Name="comboBox3" />
-                            <TextBox
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,3,0,0"
+                                    SelectionChanged="ComboBox3_SelectionChanged"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Top"
+                                    Width="370"
+                                    x:Name="comboBox3" />
+                                <Button
+                                    Click="删除当前预设_Click"
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Margin="5,0,0,0"
+                                    Style="{DynamicResource RoundButton2}"
+                                    ToolTip="删除当前预设">
+                                    <Image
+                                        Height="14"
+                                        HorizontalAlignment="Center"
+                                        OpacityMask="Black"
+                                        Source="{StaticResource 删除}"
+                                        VerticalAlignment="Center"
+                                        Width="14" />
+                                </Button>
+                            </StackPanel>
+
+
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="2"
-                                HorizontalAlignment="Center"
                                 Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox2}"
-                                Text="&lt;1=¹sp&gt;&lt;2=²sp&gt;&lt;3=³sp&gt;&lt;4=⁴sp&gt;&lt;5=⁵sp&gt;&lt;6=⁶sp&gt;&lt;7=⁷sp &gt;&lt;8=⁸sp &gt;&lt;9=⁹sp&gt;&lt;10=¹⁰sp&gt;"
-                                ToolTip="空格用sp代替,Tab用ta代替"
-                                VerticalAlignment="Top"
-                                Width="400"
-                                x:Name="textBox_Copy67" />
+                                Orientation="Vertical"
+                                ToolTip="空格用sp代替,Tab用ta代替">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🥑¹sp"
+                                        Width="70"
+                                        x:Name="hxxh1" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍑²sp"
+                                        Width="70"
+                                        x:Name="hxxh2" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍋³sp"
+                                        Width="70"
+                                        x:Name="hxxh3" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍍⁴sp"
+                                        Width="70"
+                                        x:Name="hxxh4" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍈⁵sp"
+                                        Width="70"
+                                        x:Name="hxxh5" />
+                                    <Button
+                                        Click="清空自定义序号_Click"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundButton2}"
+                                        ToolTip="清空">
+                                        <Image
+                                            Height="14"
+                                            HorizontalAlignment="Center"
+                                            Source="{StaticResource 清除}"
+                                            VerticalAlignment="Center"
+                                            Width="14" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                                    <TextBox
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍐⁶sp"
+                                        Width="70"
+                                        x:Name="hxxh6" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍊⁷sp"
+                                        Width="70"
+                                        x:Name="hxxh7" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍑⁸sp"
+                                        Width="70"
+                                        x:Name="hxxh8" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍉⁹sp"
+                                        Width="70"
+                                        x:Name="hxxh9" />
+                                    <TextBox
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        Text="🍊¹⁰sp"
+                                        Width="70"
+                                        x:Name="hxxh0" />
+                                    <Button
+                                        Click="添加到预设_Click"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource RoundButton2}"
+                                        ToolTip="添加到预设">
+                                        <Image
+                                            Height="14"
+                                            HorizontalAlignment="Center"
+                                            Source="{StaticResource 加}"
+                                            VerticalAlignment="Center"
+                                            Width="14" />
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
 
                             <CheckBox
                                 Grid.Column="1"
