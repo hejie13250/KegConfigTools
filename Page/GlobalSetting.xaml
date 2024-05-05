@@ -952,6 +952,7 @@
                 Style="{DynamicResource RoundComboBox}"
                 Width="120"
                 x:Name="comboBox4">
+                <ComboBoxItem Content="反查方案快键" />
                 <ComboBoxItem Content="换皮肤快键" />
                 <ComboBoxItem Content="在线查找快键" />
                 <ComboBoxItem Content="方案选择快键" />

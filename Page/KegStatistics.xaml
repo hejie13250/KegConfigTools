@@ -30,6 +30,7 @@
                                 </StackPanel.DataContext>
                                 <lvc:CartesianChart
                                     Height="470"
+                                    Margin="10,0,-35,0"
                                     Series="{Binding Series}"
                                     XAxes="{Binding XAxes}"
                                     YAxes="{Binding YAxes}"
@@ -371,38 +372,38 @@
                                     HorizontalAlignment="Left"
                                     IsChecked="False"
                                     Style="{DynamicResource CheckBoxStyle}"
-                                    x:Name="dZcheckBox" />
+                                    x:Name="dzCheckBox" />
                                 <CheckBox
                                     Grid.Column="7"
                                     Grid.Row="2"
                                     HorizontalAlignment="Left"
                                     Style="{DynamicResource CheckBoxStyle}"
                                     VerticalAlignment="Center"
-                                    x:Name="jJcheckBox" />
+                                    x:Name="jjCheckBox" />
                                 <CheckBox
                                     Grid.Column="7"
                                     Grid.Row="3"
                                     HorizontalAlignment="Left"
                                     Style="{DynamicResource CheckBoxStyle}"
-                                    x:Name="sPcheckBox" />
+                                    x:Name="spCheckBox" />
                                 <CheckBox
                                     Grid.Column="7"
                                     Grid.Row="4"
                                     HorizontalAlignment="Left"
                                     Style="{DynamicResource CheckBoxStyle}"
-                                    x:Name="sCcheckBox" />
+                                    x:Name="scCheckBox" />
                                 <CheckBox
                                     Grid.Column="7"
                                     Grid.Row="5"
                                     HorizontalAlignment="Left"
                                     Style="{DynamicResource CheckBoxStyle}"
-                                    x:Name="sDcheckBox" />
+                                    x:Name="sdCheckBox" />
                                 <CheckBox
                                     Grid.Column="7"
                                     Grid.Row="6"
                                     HorizontalAlignment="Left"
                                     Style="{DynamicResource CheckBoxStyle}"
-                                    x:Name="mCcheckBox" />
+                                    x:Name="mcCheckBox" />
 
 
 

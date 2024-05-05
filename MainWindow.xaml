@@ -254,6 +254,18 @@
                                     <TextBlock
                                         Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
                                         Margin="10,0,0,0"
+                                        Text="反查方案设置"
+                                        VerticalAlignment="Center" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Click="LeftRadioButton2_Click"
+                                Margin="10,0,0,0"
+                                Style="{DynamicResource RadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type RadioButton}}}"
+                                        Margin="10,0,0,0"
                                         Text="临时码表检索"
                                         VerticalAlignment="Center" />
                                 </StackPanel>
@@ -484,6 +496,7 @@
 
 
                         <StackPanel Orientation="Vertical" x:Name="leftStackPanel3">
+
                             <RadioButton
                                 Click="LeftRadioButton2_Click"
                                 Margin="10,0,0,0"

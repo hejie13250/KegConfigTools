@@ -6,12 +6,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using GroupBox = System.Windows.Controls.GroupBox;
-using Path = System.IO.Path;
-using RadioButton = System.Windows.Controls.RadioButton;
 using System.Windows.Navigation;
 using 小科狗配置.Class;
 using 小科狗配置.Page;
+using GroupBox = System.Windows.Controls.GroupBox;
+using Path = System.IO.Path;
+using RadioButton = System.Windows.Controls.RadioButton;
 
 namespace 小科狗配置
 {
@@ -24,11 +24,16 @@ namespace 小科狗配置
     private static readonly string AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     private StackPanel _leftStackPanel;
 
-    private readonly string[] _方案设置页面 = new string[] { "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置", "顶功设置", "上屏设置", "中英切换", "翻页按键", "词语联想", "码表调频与检索", "重复上屏", "自动造词", "临时码表检索", "引导码表检索" };
-    private readonly string[] _全局设置页面 = new string[] { "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项" };
-    private readonly string[] _帮助页面     = new string[] { "关于", "全局设置说明" };
-    private readonly string[] _打字统计     = new string[] { "曲线图", "今日和累计数据" };
-    private readonly string[] _码表设置     = new string[] { "SQLite码表修改" };
+    private readonly string[] _方案设置页面 = {
+      "候选框配色", "候选框样式", "字体和渲染", "码元设置", "标点设置", "动作设置"  , "顶功设置"  , "上屏设置"  , "中英切换", "翻页按键",
+      "词语联想", "码表调频与检索", "重复上屏", "自动造词", "反查方案设置", "临时码表检索", "引导码表检索"
+    };
+    private readonly string[] _全局设置页面 = {
+      "状态条", "在线查找", "外部工具", "快捷命令", "快捷键", "自启动应用", "定时关机", "其它选项"
+    };
+    private readonly string[] _帮助页面 = { "关于", "全局设置说明" };
+    private readonly string[] _打字统计 = { "曲线图", "今日和累计数据" };
+    private readonly string[] _码表设置 = { "SQLite码表修改" };
 
     #region 初始化
     public MainWindow()
@@ -330,13 +335,13 @@ namespace 小科狗配置
     // 窗口最小化
     private void Button_Click_1(object sender, RoutedEventArgs e)
     {
-      this.WindowState = WindowState.Minimized;
+      WindowState = WindowState.Minimized;
     }
 
     // 退出
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
 

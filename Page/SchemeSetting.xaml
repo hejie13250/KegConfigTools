@@ -2521,8 +2521,7 @@
                                 Grid.Row="11"
                                 Height="26"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="label" />
+                                VerticalAlignment="Center" />
                             <local:NumericUpDown
                                 Grid.Column="1"
                                 Grid.Row="11"
@@ -2674,7 +2673,61 @@
                 </GroupBox>
 
 
+                <GroupBox
+                    Header="反查方案设置"
+                    MouseEnter="GroupBox_MouseEnter"
+                    Style="{StaticResource HiddenBorderGroupBoxStyle}">
+                    <Border Style="{StaticResource CustomBorderStyle}">
+                        <Grid HorizontalAlignment="Left" Margin="10,10,10,10">
 
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Content="反查方案名称1："
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" />
+                            <Label
+                                Content="反查方案名称2："
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" />
+                            <ComboBox
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Height="24"
+                                HorizontalAlignment="Left"
+                                Margin="0,3,0,0"
+                                Style="{DynamicResource RoundComboBox}"
+                                VerticalAlignment="Center"
+                                Width="170"
+                                x:Name="fcfaComboBox1" />
+                            <ComboBox
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Height="24"
+                                HorizontalAlignment="Left"
+                                Margin="0,3,0,0"
+                                Style="{DynamicResource RoundComboBox}"
+                                VerticalAlignment="Center"
+                                Width="170"
+                                x:Name="fcfaComboBox2" />
+
+                        </Grid>
+                    </Border>
+                </GroupBox>
 
 
                 <GroupBox
@@ -2720,68 +2773,83 @@
                                 VerticalAlignment="Center"
                                 Width="60"
                                 x:Name="textBox_Copy19" />
-                            <TextBox
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=\&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy20" />
-                            <TextBox
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="lsmbComboBox" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="\"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="lssx" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="lscx" />
+                            </StackPanel>
+
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="2"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="👉"
-                                TextChanged="TextBox_Copy22_TextChanged"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy22" />
-                            <TextBox
-                                Grid.Column="1"
-                                Grid.Row="3"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="2."
-                                TextChanged="TextBox_Copy23_TextChanged"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy23" />
+                                Orientation="Horizontal">
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,3,0,0"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="👉"
+                                    TextChanged="TextBox_Copy22_TextChanged"
+                                    TextWrapping="NoWrap"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="textBox_Copy22" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Margin="5,3,0,0"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="2."
+                                    TextChanged="TextBox_Copy23_TextChanged"
+                                    TextWrapping="NoWrap"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="textBox_Copy23" />
+                            </StackPanel>
                             <Label
-                                Content="主码表标识："
+                                Content="主码表和副码表标识："
                                 Grid.Column="0"
                                 Grid.Row="2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center" />
-                            <Label
-                                Content="副码表标识："
-                                Grid.Column="0"
-                                Grid.Row="3"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center" />
                             <Label
                                 Content="无临时快键时也要显示主码表标识："
                                 Grid.Column="0"
-                                Grid.Row="4"
+                                Grid.Row="3"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center" />
                             <CheckBox
                                 Grid.Column="1"
-                                Grid.Row="4"
+                                Grid.Row="3"
                                 HorizontalAlignment="Left"
                                 IsChecked="True"
                                 Style="{DynamicResource CheckBoxStyle}"
@@ -2843,32 +2911,76 @@
                                 VerticalAlignment="Center"
                                 Width="60"
                                 x:Name="textBox_Copy" />
-                            <TextBox
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy9" />
-                            <TextBox
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="ydmb1ComboBox0" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="`"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="ydsx00" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="ydcx00" />
+
+
+                            </StackPanel>
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="2"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=`&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy11" />
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="ydmb2ComboBox0" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="`"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="ydsx01" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="ydcx01" />
+                            </StackPanel>
                             <Label
                                 Content="码表引导快键 1 ："
                                 Grid.Column="0"
@@ -2900,32 +3012,77 @@
                                 VerticalAlignment="Center"
                                 Width="60"
                                 x:Name="textBox_Copy12" />
-                            <TextBox
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="4"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy13" />
-                            <TextBox
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="ydmb0ComboBox1" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="["
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="ydsx10" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="ydcx10" />
+
+
+                            </StackPanel>
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="5"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=[&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy14" />
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="ydmb2ComboBox1" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="["
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="ydsx11" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="ydcx11" />
+                            </StackPanel>
+
                             <Label
                                 Content="码表引导快键 2 ："
                                 Grid.Column="0"
@@ -2957,32 +3114,76 @@
                                 VerticalAlignment="Center"
                                 Width="60"
                                 x:Name="textBox_Copy16" />
-                            <TextBox
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="7"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy17" />
-                            <TextBox
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="ydmb0ComboBox2" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="]"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="ydsx20" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="ydcx20" />
+
+
+                            </StackPanel>
+                            <StackPanel
                                 Grid.Column="1"
                                 Grid.Row="8"
-                                Height="24"
-                                HorizontalAlignment="Left"
-                                Margin="0,3,0,0"
-                                Style="{DynamicResource RoundTextBox}"
-                                Text="&lt;1=]&gt;&lt;2=[重复]{[s]}&gt;"
-                                TextWrapping="NoWrap"
-                                ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
-                                VerticalAlignment="Center"
-                                Width="400"
-                                x:Name="textBox_Copy18" />
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundComboBox}"
+                                    VerticalAlignment="Center"
+                                    Width="170"
+                                    x:Name="ydmb1ComboBox2" />
+                                <Label Content="首选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="]"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    x:Name="ydsx21" />
+                                <Label Content="次选：" />
+                                <TextBox
+                                    Height="24"
+                                    HorizontalAlignment="Left"
+                                    Style="{DynamicResource RoundTextBox}"
+                                    Text="[重复]{[s]}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="每一个英文字符代表一个键位，请设为非编码码元；若单个引导键与此键冲突，则再敲一下空格进入重复上屏或引导方案名为空直接进入重复上屏"
+                                    VerticalAlignment="Center"
+                                    Width="80"
+                                    x:Name="ydcx21" />
+                            </StackPanel>
                         </Grid>
                     </Border>
                 </GroupBox>

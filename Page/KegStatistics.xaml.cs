@@ -60,12 +60,12 @@ namespace 小科狗配置.Page
     public KegStatistics()
     {
       InitializeComponent();
-      dZcheckBox.Click += CheckBox_Click;
-      jJcheckBox.Click += CheckBox_Click;
-      sPcheckBox.Click += CheckBox_Click;
-      sCcheckBox.Click += CheckBox_Click;
-      sDcheckBox.Click += CheckBox_Click;
-      mCcheckBox.Click += CheckBox_Click;
+      dzCheckBox.Click += CheckBox_Click;
+      jjCheckBox.Click += CheckBox_Click;
+      spCheckBox.Click += CheckBox_Click;
+      scCheckBox.Click += CheckBox_Click;
+      sdCheckBox.Click += CheckBox_Click;
+      mcCheckBox.Click += CheckBox_Click;
       rQcheckBox.Click += CheckBox_Click2;
       comboBox.SelectionChanged += ComboBox_SelectionChanged;
 
@@ -80,12 +80,12 @@ namespace 小科狗配置.Page
     // 读配置项
     private void ReadConfig()
     {
-      dZcheckBox.IsChecked = Base.GetValue("dzsjtj", "dz") == "1";
-      jJcheckBox.IsChecked = Base.GetValue("dzsjtj", "jj") == "1";
-      sPcheckBox.IsChecked = Base.GetValue("dzsjtj", "sp") == "1";
-      sCcheckBox.IsChecked = Base.GetValue("dzsjtj", "sc") == "1";
-      sDcheckBox.IsChecked = Base.GetValue("dzsjtj", "sd") == "1";
-      mCcheckBox.IsChecked = Base.GetValue("dzsjtj", "mc") == "1";
+      dzCheckBox.IsChecked = Base.GetValue("dzsjtj", "dz") == "1";
+      jjCheckBox.IsChecked = Base.GetValue("dzsjtj", "jj") == "1";
+      spCheckBox.IsChecked = Base.GetValue("dzsjtj", "sp") == "1";
+      scCheckBox.IsChecked = Base.GetValue("dzsjtj", "sc") == "1";
+      sdCheckBox.IsChecked = Base.GetValue("dzsjtj", "sd") == "1";
+      mcCheckBox.IsChecked = Base.GetValue("dzsjtj", "mc") == "1";
       rQcheckBox.IsChecked = Base.GetValue("dzsjtj", "rq") == "1";
       var isNumberValid = double.TryParse(Base.GetValue("dzsjtj", "xs"), out var xs);
       nud.Value = isNumberValid ? xs : 4.5;
@@ -217,85 +217,89 @@ namespace 小科狗配置.Page
           new LineSeries<double> // 曲线图
           {
               Values = 数据片段.击键,
-              Name = "击键（次）",
+              Name   = "击键（次）",
+              // Stroke = new SolidColorPaint(SKColors.Red),
               //Fill = null,
               GeometrySize = 0, //圆点尺寸
               //LineSmoothness = 0, // 0为直线，1为圆弧
               //DataPadding = new LvcPoint(-200, 0),
-              IsVisible = dZcheckBox.IsChecked != null && (bool)dZcheckBox.IsChecked, // 显示/隐藏
+              IsVisible = dzCheckBox.IsChecked != null && (bool)dzCheckBox.IsChecked, // 显示/隐藏
           },
           new LineSeries<double>
           {
               Values = 数据片段.字数,
-              Name = "字数（个）",
+              Name   = "字数（个）",
+              // Stroke = new SolidColorPaint(SKColors.Red),
               //Fill = null,
               GeometrySize = 0,
-              IsVisible    = jJcheckBox.IsChecked != null && (bool)jJcheckBox.IsChecked
+              IsVisible    = jjCheckBox.IsChecked != null && (bool)jjCheckBox.IsChecked
 
           },
           new LineSeries<double>
           {
               Values = 数据片段.上屏,
-              Name = "上屏（个）",
+              Name   = "上屏（个）",
+              // Stroke = new SolidColorPaint(SKColors.Orange),
               //Fill = null,
               GeometrySize = 0,
-              IsVisible    = sPcheckBox.IsChecked != null && (bool)sPcheckBox.IsChecked
+              IsVisible    = spCheckBox.IsChecked != null && (bool)spCheckBox.IsChecked
           },
           new LineSeries<double>
           {
               Values = 数据片段.时长,
-              Name = "用时（秒）",
+              Name   = "用时（秒）",
+              // Stroke = new SolidColorPaint(SKColors.Yellow),
               //Fill = null,
               GeometrySize = 0,
-              IsVisible    = sCcheckBox.IsChecked != null && (bool)sCcheckBox.IsChecked
+              IsVisible    = scCheckBox.IsChecked != null && (bool)scCheckBox.IsChecked
           },
           new LineSeries<double>
           {
               Values = 数据片段.速度,
-              Name = "速度（字/分）",
-              //Fill = null,
-              GeometrySize = 0,
-              IsVisible    = sDcheckBox.IsChecked != null && (bool)sDcheckBox.IsChecked
+              Name   = "速度（字/分）",
+              // Stroke = new SolidColorPaint(SKColors.Green),
+              Fill = null,
+              GeometrySize = 7,
+              IsVisible    = sdCheckBox.IsChecked != null && (bool)sdCheckBox.IsChecked
           },
           new LineSeries<double>
           {
-              Values       = 数据片段.码长,
-              Name         = "码长（码）",
+              Values = 数据片段.码长,
+              Name   = "码长（码）",
+              // Stroke = new SolidColorPaint(SKColors.Blue),
               Fill         = null,
-              GeometrySize = 0,
-              IsVisible    = mCcheckBox.IsChecked != null && (bool)mCcheckBox.IsChecked
-          },
-
+              GeometrySize = 7,
+              IsVisible    = mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked
+          }
         },
         XAxes = new Axis[]
         {
           new()
           {
-              // 分隔字体颜色和大小
-              LabelsPaint = new SolidColorPaint(SKColors.Blue),
-              TextSize = 12,
-              Labels =  数据片段.日期,
-              LabelsRotation = -30,
-              // 颜色和线粗
-              SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) { StrokeThickness = 1 },
-
+            // 分隔字体颜色和大小
+            LabelsPaint    = new SolidColorPaint(SKColors.Black),
+            TextSize       = 12,
+            Labels         =  数据片段.日期,
+            LabelsRotation = -30,
+            // 颜色和线粗
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) { StrokeThickness = 1 },
           }
         },
         YAxes = new Axis[]
         {
           new ()
           {
-            LabelsPaint = new SolidColorPaint(SKColors.Green),
-            TextSize    = 20,
+            LabelsPaint = new SolidColorPaint(SKColors.Black),
+            TextSize    = 12,
             // MinLimit    = 0,    // 设置 Y 轴的最小值为 0
             // MaxLimit    = null, // 设置为 null，以便自动调节最大值
             SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-              {
-                StrokeThickness = 1,
-                PathEffect = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
-              }
+            {
+              StrokeThickness = 1,
+              PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
+            }
           }
-        },
+        }
       };
 
       liveCharts.Series = _viewModel.Series;
@@ -349,12 +353,12 @@ namespace 小科狗配置.Page
     [Obsolete]
     private void CheckBox_Click(object sender, RoutedEventArgs e)
     {
-      if (dZcheckBox.IsChecked != null && (bool)dZcheckBox.IsChecked) { Base.SetValue("dzsjtj", "dz", "1"); } else Base.SetValue("dzsjtj", "dz", "0");
-      if (jJcheckBox.IsChecked != null && (bool)jJcheckBox.IsChecked) { Base.SetValue("dzsjtj", "jj", "1"); } else Base.SetValue("dzsjtj", "jj", "0");
-      if (sPcheckBox.IsChecked != null && (bool)sPcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sp", "1"); } else Base.SetValue("dzsjtj", "sp", "0");
-      if (sCcheckBox.IsChecked != null && (bool)sCcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sc", "1"); } else Base.SetValue("dzsjtj", "sc", "0");
-      if (sDcheckBox.IsChecked != null && (bool)sDcheckBox.IsChecked) { Base.SetValue("dzsjtj", "sd", "1"); } else Base.SetValue("dzsjtj", "sd", "0");
-      if (mCcheckBox.IsChecked != null && (bool)mCcheckBox.IsChecked) { Base.SetValue("dzsjtj", "mc", "1"); } else Base.SetValue("dzsjtj", "mc", "0");
+      if (dzCheckBox.IsChecked != null && (bool)dzCheckBox.IsChecked) { Base.SetValue("dzsjtj", "dz", "1"); } else Base.SetValue("dzsjtj", "dz", "0");
+      if (jjCheckBox.IsChecked != null && (bool)jjCheckBox.IsChecked) { Base.SetValue("dzsjtj", "jj", "1"); } else Base.SetValue("dzsjtj", "jj", "0");
+      if (spCheckBox.IsChecked != null && (bool)spCheckBox.IsChecked) { Base.SetValue("dzsjtj", "sp", "1"); } else Base.SetValue("dzsjtj", "sp", "0");
+      if (scCheckBox.IsChecked != null && (bool)scCheckBox.IsChecked) { Base.SetValue("dzsjtj", "sc", "1"); } else Base.SetValue("dzsjtj", "sc", "0");
+      if (sdCheckBox.IsChecked != null && (bool)sdCheckBox.IsChecked) { Base.SetValue("dzsjtj", "sd", "1"); } else Base.SetValue("dzsjtj", "sd", "0");
+      if (mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked) { Base.SetValue("dzsjtj", "mc", "1"); } else Base.SetValue("dzsjtj", "mc", "0");
 
       UpViewModelData(_数据统计);
     }

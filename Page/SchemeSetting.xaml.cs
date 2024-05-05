@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -38,7 +39,6 @@ namespace 小科狗配置.Page
     }
 
     #endregion
-
 
     #region 配色方案相关定义
 
@@ -103,7 +103,6 @@ namespace 小科狗配置.Page
 
 
     #endregion
-    
 
     #region 初始化
 
@@ -129,11 +128,9 @@ namespace 小科狗配置.Page
 
     private void ColorPicker_ColorChanged(object sender, ColorChangedEventArgs e)
     {
-      if (colorPicker.RgbColor != null)
-      {
-        rgbTextBox.RGBText = colorPicker.RgbText;
-        SetColorLableColor(colorPicker.RgbColor);
-      }
+      if (colorPicker.RgbColor == null) return;
+      rgbTextBox.RGBText = colorPicker.RgbText;
+      SetColorLableColor(colorPicker.RgbColor);
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -155,21 +152,19 @@ namespace 小科狗配置.Page
     }
     #endregion
 
-
-
     #region 顶部控件事件
     // 载入码表方案名称
     private void GetList_button_Click(object sender, RoutedEventArgs e)
     {
       LoadTableNames();
 
-      restor_Default_Button.Visibility = Visibility.Visible;
+      restor_Default_Button.Visibility    = Visibility.Visible;
       loading_Templates_Button.Visibility = Visibility.Visible;
-      set_As_Default_Button.Visibility = Visibility.Visible;
-      apply_Button.Visibility = Visibility.Visible;
-      apply_Save_Button.Visibility = Visibility.Visible;
-      apply_All_Button.Visibility = Visibility.Visible;
-      comboBox.Visibility = Visibility.Visible;
+      set_As_Default_Button.Visibility    = Visibility.Visible;
+      apply_Button.Visibility             = Visibility.Visible;
+      apply_Save_Button.Visibility        = Visibility.Visible;
+      apply_All_Button.Visibility         = Visibility.Visible;
+      comboBox.Visibility                 = Visibility.Visible;
     }
 
     private void LoadTableNames()
@@ -191,8 +186,38 @@ namespace 小科狗配置.Page
 
       // 将每行作为一个项添加到ComboBox中
       comboBox.Items.Clear();
+      fcfaComboBox1.Items.Clear();
+      fcfaComboBox2.Items.Clear();
+      lsmbComboBox  .Items.Clear();
+      ydmb1ComboBox0.Items.Clear();
+      ydmb2ComboBox0.Items.Clear();
+      ydmb0ComboBox1.Items.Clear();
+      ydmb2ComboBox1.Items.Clear();
+      ydmb0ComboBox2.Items.Clear();
+      ydmb1ComboBox2.Items.Clear();
+
+      fcfaComboBox1.Items. Add("");
+      fcfaComboBox2.Items. Add("");
+      lsmbComboBox  .Items.Add("");
+      ydmb1ComboBox0.Items.Add("");
+      ydmb2ComboBox0.Items.Add("");
+      ydmb0ComboBox1.Items.Add("");
+      ydmb2ComboBox1.Items.Add("");
+      ydmb0ComboBox2.Items.Add("");
+      ydmb1ComboBox2.Items.Add("");
       foreach (var line in lines)
+      {
         comboBox.Items.Add(line);
+        fcfaComboBox1.Items.Add(line);
+        fcfaComboBox2.Items.Add(line);
+        lsmbComboBox  .Items.Add(line);
+        ydmb1ComboBox0.Items.Add(line);
+        ydmb2ComboBox0.Items.Add(line);
+        ydmb0ComboBox1.Items.Add(line);
+        ydmb2ComboBox1.Items.Add(line);
+        ydmb0ComboBox2.Items.Add(line);
+        ydmb1ComboBox2.Items.Add(line);
+      }
       // comboBox.SelectedIndex = 0;
     }
     private static string GetConfig(string labelName)
@@ -428,23 +453,25 @@ namespace 小科狗配置.Page
           case "主码表标识":                    textBox_Copy22.Text  = value; break;
           case "副码表标识":                    textBox_Copy23.Text  = value; break;
           case "候选序号":                     设置候选序号(value); break;
-          case "顶功小集码元":                   textBox_Copy675.Text         = value; break;
-          case "码表临时快键":                   textBox_Copy19.Text          = value; break;
-          case "D2D回退字体集":                 textBox_Copy10.Text          = value; break;
-          case "码表引导快键0":                  textBox_Copy.Text            = value; break;
-          case "码表引导快键1":                  textBox_Copy12.Text          = value; break;
-          case "码表引导快键2":                  textBox_Copy16.Text          = value; break;
-          case "候选快键字符串":                  textBox_Copy66.Text          = value; break;
-          case "大小键盘万能码元":                 textBox_Copy6.Text           = value; break;
-          case "大键盘中文标点串":                 textBox_Copy68.Text          = value; break;
-          case "重复上屏码元字符串":                textBox_Copy1.Text           = value; break;
-          case "码表临时快键编码名":                textBox_Copy20.Text          = value; break;
-          case "码表引导快键0编码名0":              textBox_Copy9.Text           = value; break;
-          case "码表引导快键0编码名1":              textBox_Copy11.Text          = value; break;
-          case "码表引导快键1编码名0":              textBox_Copy13.Text          = value; break;
-          case "码表引导快键1编码名1":              textBox_Copy14.Text          = value; break;
-          case "码表引导快键2编码名0":              textBox_Copy17.Text          = value; break;
-          case "码表引导快键2编码名1":              textBox_Copy18.Text          = value; break;
+          case "顶功小集码元":                   textBox_Copy675.Text = value; break;
+          case "码表临时快键":                   textBox_Copy19.Text  = value; break;
+          case "D2D回退字体集":                 textBox_Copy10.Text  = value; break;
+          case "码表引导快键0":                  textBox_Copy.Text    = value; break;
+          case "码表引导快键1":                  textBox_Copy12.Text  = value; break;
+          case "码表引导快键2":                  textBox_Copy16.Text  = value; break;
+          case "候选快键字符串":                  textBox_Copy66.Text  = value; break;
+          case "大小键盘万能码元":                 textBox_Copy6.Text   = value; break;
+          case "大键盘中文标点串":                 textBox_Copy68.Text  = value; break;
+          case "重复上屏码元字符串":                textBox_Copy1.Text   = value; break;
+          case "反查方案名称1":                  设置组合框当前值(fcfaComboBox1, value); break;
+          case "反查方案名称2":                  设置组合框当前值(fcfaComboBox2, value); break;
+          case "码表临时快键编码名":                设置引导码表设置("码表临时快键编码名"  , value); break;
+          case "码表引导快键0编码名0":              设置引导码表设置("码表引导快键0编码名0", value); break;
+          case "码表引导快键0编码名1":              设置引导码表设置("码表引导快键0编码名1", value); break;
+          case "码表引导快键1编码名0":              设置引导码表设置("码表引导快键1编码名0", value); break;
+          case "码表引导快键1编码名1":              设置引导码表设置("码表引导快键1编码名1", value); break;
+          case "码表引导快键2编码名0":              设置引导码表设置("码表引导快键2编码名0", value); break;
+          case "码表引导快键2编码名1":              设置引导码表设置("码表引导快键2编码名1", value); break;
           case "非编码串首位的大键盘码元":             textBox_Copy7.Text           = value; break;
           case "非编码串首位的小键盘码元":             textBox_Copy8.Text           = value; break;
           case "大键盘按下Shift的中文标点串":         textBox_Copy69.Text          = value; break;
@@ -553,6 +580,79 @@ namespace 小科狗配置.Page
         _bkColor = RgbStringToColor(value);
       }
     }
+
+    private string 获取引导码表设置(System.Windows.Controls.ComboBox cb)
+    {
+      return cb.Name switch
+      {
+        "lsmbComboBox"   => $"{cb.SelectedValue}<1={lssx.Text}><2={lscx.Text}>",
+        "ydmb1ComboBox0" => $"{cb.SelectedValue}<1={ydsx00.Text}><2={ydcx00.Text}>",
+        "ydmb2ComboBox0" => $"{cb.SelectedValue}<1={ydsx01.Text}><2={ydcx01.Text}>",
+        "ydmb0ComboBox1" => $"{cb.SelectedValue}<1={ydsx10.Text}><2={ydcx10.Text}>",
+        "ydmb2ComboBox1" => $"{cb.SelectedValue}<1={ydsx11.Text}><2={ydcx11.Text}>",
+        "ydmb0ComboBox2" => $"{cb.SelectedValue}<1={ydsx20.Text}><2={ydcx20.Text}>",
+        "ydmb1ComboBox2" => $"{cb.SelectedValue}<1={ydsx21.Text}><2={ydcx21.Text}>",
+        _                => null
+      };
+    }
+
+    private void 设置引导码表设置(string cbName, string value)
+    {
+      const string pattern = "(.*)<1=(.*?)><2=(.*?)>";
+      var matches = Regex.Matches(value, pattern);
+      if (matches.Count <= 0) return;
+
+      switch (cbName)
+      {
+        case "码表临时快键编码名":
+          设置组合框当前值(lsmbComboBox, matches[0].Groups[1].Value);
+          lssx.Text   = matches[0].Groups[2].Value;
+          lscx.Text   = matches[0].Groups[3].Value;
+          break;
+        case "码表引导快键0编码名0":
+          设置组合框当前值(ydmb1ComboBox0, matches[0].Groups[1].Value);
+          ydsx00.Text = matches[0].Groups[2].Value;
+          ydcx00.Text = matches[0].Groups[3].Value;
+          break;
+        case "码表引导快键0编码名1":
+          设置组合框当前值(ydmb2ComboBox0, matches[0].Groups[1].Value);
+          ydsx01.Text = matches[0].Groups[2].Value;
+          ydcx01.Text = matches[0].Groups[3].Value;
+          break;
+        case "码表引导快键1编码名0":
+          设置组合框当前值(ydmb0ComboBox1, matches[0].Groups[1].Value);
+          ydsx10.Text = matches[0].Groups[2].Value;
+          ydcx10.Text = matches[0].Groups[3].Value;
+          break;
+        case "码表引导快键1编码名1":
+          设置组合框当前值(ydmb2ComboBox1, matches[0].Groups[1].Value);
+          ydsx11.Text = matches[0].Groups[2].Value;
+          ydcx11.Text = matches[0].Groups[3].Value;
+          break;
+        case "码表引导快键2编码名0":
+          设置组合框当前值(ydmb0ComboBox2, matches[0].Groups[1].Value);
+          ydsx20.Text = matches[0].Groups[2].Value;
+          ydcx20.Text = matches[0].Groups[3].Value;
+          break;
+        case "码表引导快键2编码名1":
+          设置组合框当前值(ydmb1ComboBox2, matches[0].Groups[1].Value);
+          ydsx21.Text = matches[0].Groups[2].Value;
+          ydcx21.Text = matches[0].Groups[3].Value;
+          break;
+      }
+    }
+
+    private static void 设置组合框当前值(Selector cb, string cbName)
+    {
+      for (var i = 0; i < cb.Items.Count; i++)
+      {
+        if (cb.Items[i].ToString() != cbName) continue;
+        cb.SelectedIndex = i;
+        return;
+      }
+      cb.SelectedIndex = -1;
+    }
+
 
     private string 获取候选序号()
     {
@@ -762,6 +862,8 @@ namespace 小科狗配置.Page
       ReplaceConfig("副码表标识",            textBox_Copy23.Text);
       ReplaceConfig("候选个数",             nud15.Value.ToString());
       ReplaceConfig("大键盘码元",            textBox_Copy677.Text);
+      ReplaceConfig("反查方案名称1",          fcfaComboBox1.SelectedIndex != -1 ? fcfaComboBox1.SelectedValue.ToString() : "");
+      ReplaceConfig("反查方案名称2",          fcfaComboBox2.SelectedIndex != -1 ? fcfaComboBox2.SelectedValue.ToString() : "");
       ReplaceConfig("码表引导快键0",          textBox_Copy.Text);
       ReplaceConfig("码表临时快键",           textBox_Copy19.Text);
       ReplaceConfig("码表引导快键1",          textBox_Copy12.Text);
@@ -780,13 +882,13 @@ namespace 小科狗配置.Page
       ReplaceConfig("D2D字体加粗权值",        nud14.Value.ToString());
       ReplaceConfig("调频权重最小码长",         nud2.Value.ToString());
       ReplaceConfig("唯一上屏最小码长",         nud4.Value.ToString());
-      ReplaceConfig("码表临时快键编码名",        textBox_Copy20.Text);
-      ReplaceConfig("码表引导快键0编码名0",      textBox_Copy9.Text);
-      ReplaceConfig("码表引导快键0编码名1",      textBox_Copy11.Text);
-      ReplaceConfig("码表引导快键1编码名0",      textBox_Copy13.Text);
-      ReplaceConfig("码表引导快键1编码名1",      textBox_Copy14.Text);
-      ReplaceConfig("码表引导快键2编码名0",      textBox_Copy17.Text);
-      ReplaceConfig("码表引导快键2编码名1",      textBox_Copy18.Text);
+      ReplaceConfig("码表临时快键编码名",        获取引导码表设置(lsmbComboBox));
+      ReplaceConfig("码表引导快键0编码名0",      获取引导码表设置(ydmb1ComboBox0));
+      ReplaceConfig("码表引导快键0编码名1",      获取引导码表设置(ydmb2ComboBox0));
+      ReplaceConfig("码表引导快键1编码名0",      获取引导码表设置(ydmb0ComboBox1));
+      ReplaceConfig("码表引导快键1编码名1",      获取引导码表设置(ydmb2ComboBox1));
+      ReplaceConfig("码表引导快键2编码名0",      获取引导码表设置(ydmb0ComboBox2));
+      ReplaceConfig("码表引导快键2编码名1",      获取引导码表设置(ydmb1ComboBox2));
       ReplaceConfig("1-26候选的横向偏离",      nud16.Value.ToString());
       ReplaceConfig("编码或候选嵌入模式",        取编码或候选嵌入模式());
       ReplaceConfig("候选窗口边框线宽度",        nud13.Value.ToString());
@@ -931,8 +1033,6 @@ namespace 小科狗配置.Page
 
 
     #endregion
-
-
 
     #region 配色相关
     // 更新对应标签的背景颜色
@@ -1090,7 +1190,7 @@ namespace 小科狗配置.Page
     // 显示颜色的 label 鼠标离开事件
     private void color_label_MouseLeave(object sender, MouseEventArgs e)
     {
-      if (sender is Label) label.BorderThickness = new Thickness(2);
+      if (sender is Label label) label.BorderThickness = new Thickness(2);
     }
 
     // 候选框圆角、选中项背景圆角 和 候选框边框调节
@@ -1105,49 +1205,45 @@ namespace 小科狗配置.Page
     // 配色列表双击事件
     private void ColorSchemeListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      if (e.ChangedButton == MouseButton.Left && colorSchemeListBox.SelectedItem != null)
-      {
-        var schemeColor = _配色方案[colorSchemeListBox.SelectedIndex];
-        checkBox_Copy42.IsChecked = schemeColor.显示背景图;
-        hxc_CheckBox.IsChecked    = schemeColor.显示候选窗圆角;
-        hxcbj_CheckBox.IsChecked  = schemeColor.显示选中项背景圆角;
-        nud11.Value               = schemeColor.候选窗圆角;
-        nud12.Value               = schemeColor.选中项圆角;
-        nud13.Value               = schemeColor.边框线宽;
-        color_Label_1.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.下划线色)!);
-        color_Label_2.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.光标色)!);
-        color_Label_3.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.分隔线色)!);
-        color_Label_4.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗口边框色)!);
+      if (e.ChangedButton != MouseButton.Left || colorSchemeListBox.SelectedItem == null) return;
+      var schemeColor = _配色方案[colorSchemeListBox.SelectedIndex];
+      checkBox_Copy42.IsChecked = schemeColor.显示背景图;
+      hxc_CheckBox.IsChecked    = schemeColor.显示候选窗圆角;
+      hxcbj_CheckBox.IsChecked  = schemeColor.显示选中项背景圆角;
+      nud11.Value               = schemeColor.候选窗圆角;
+      nud12.Value               = schemeColor.选中项圆角;
+      nud13.Value               = schemeColor.边框线宽;
+      color_Label_1.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.下划线色)!);
+      color_Label_2.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.光标色)!);
+      color_Label_3.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.分隔线色)!);
+      color_Label_4.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗口边框色)!);
 
-        if (schemeColor.窗背景底色 == "")
-        {
-          color_Label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
-          _bkColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
-          hxcds_CheckBox.IsChecked = true;
-        }
-        else
-        {
-          color_Label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
-          _bkColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
-          hxcds_CheckBox.IsChecked = false;
-        }
-        color_Label_6.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.选中背景色)!);
-        color_Label_7.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.选中字体色)!);
-        color_Label_8.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.编码字体色)!);
-        color_Label_9.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.候选字色)!);
+      if (schemeColor.窗背景底色 == "")
+      {
+        color_Label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
+        _bkColor                 = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
+        hxcds_CheckBox.IsChecked = true;
       }
+      else
+      {
+        color_Label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
+        _bkColor                 = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
+        hxcds_CheckBox.IsChecked = false;
+      }
+      color_Label_6.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.选中背景色)!);
+      color_Label_7.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.选中字体色)!);
+      color_Label_8.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.编码字体色)!);
+      color_Label_9.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.候选字色)!);
     }
 
     // 配色列表选中项改变事件
     private void ColorSchemeListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (colorSchemeListBox.SelectedItem != null)
-      {
-        if (saveButton.Content.ToString() == "保存配色")
-          color_Scheme_Name_TextBox.Text = "";
-        if (saveButton.Content.ToString() == "修改配色")
-          color_Scheme_Name_TextBox.Text = colorSchemeListBox.SelectedItem.ToString();
-      }
+      if (colorSchemeListBox.SelectedItem == null) return;
+      if (saveButton.Content.ToString() == "保存配色")
+        color_Scheme_Name_TextBox.Text = "";
+      if (saveButton.Content.ToString() == "修改配色")
+        color_Scheme_Name_TextBox.Text = colorSchemeListBox.SelectedItem.ToString();
     }
 
     // 新建配色方案
@@ -1396,7 +1492,6 @@ namespace 小科狗配置.Page
     }
 
     #endregion
-
 
   }
 }

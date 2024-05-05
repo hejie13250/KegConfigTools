@@ -20,6 +20,9 @@ namespace 小科狗配置.Class
     public static           string SQLiteDB_Path;
     public static           string LevelDB_Path;
     public static           IntPtr hWnd;
+
+
+
     #region 读写配置项
     // 读写配置项 API
     [DllImport("kernel32", CharSet = CharSet.Unicode)]// 读配置文件方法的6个参数：所在的分区、   键值、      初始缺省值、         StringBuilder、      参数长度上限 、配置文件路径
@@ -133,23 +136,20 @@ namespace 小科狗配置.Class
     }
 
 
-    private static string GetProcessPath()
-    {
-      var processes = Process.GetProcessesByName("KegServer");
-      var str       =  processes.Length > 0 ? processes[0].MainModule!.FileName : string.Empty;
-      var path =  str.Replace("KegServer.exe", "");
-      SetValue("window", "keg_path", path);
-      return path;
-    }
+    // private static string GetProcessPath()
+    // {
+    //   var processes = Process.GetProcessesByName("KegServer");
+    //   var str       =  processes.Length > 0 ? processes[0].MainModule!.FileName : string.Empty;
+    //   var path =  str.Replace("KegServer.exe", "");
+    //   SetValue("window", "keg_path", path);
+    //   return path;
+    // }
 
     private static void GetProcessPathFormServer()
     {
       try
       {
-        var hWnd = FindWindow("CKegServer_0", null); //窗口句柄
-        // SendMessageTimeout(hWnd, KwmGetpath, IntPtr.Zero, IntPtr.Zero, Flags, Timeout, out _);
-        PostMessage(hWnd, KwmGetpath, IntPtr.Zero, IntPtr.Zero);
-
+        SendMessageTimeout(KwmGetpath);
         Thread.Sleep(200);
         KegPath = Clipboard.GetText();
         SetValue("window", "keg_path", KegPath);
