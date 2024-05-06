@@ -160,7 +160,7 @@ namespace 小科狗配置.Page
 
       // 获取小科狗主程序目录
       _kegPath = Base.KegPath;
-      _kegFilePath = _kegPath + "Keg.txt";
+      _kegFilePath = Base.KegTextPath;
 
       Loaded += MainWindow_Loaded;
       colorPicker.ColorChanged += ColorPicker_ColorChanged;
@@ -328,11 +328,11 @@ namespace 小科狗配置.Page
       if(checkBox3_Copy3.IsChecked != null && (bool)checkBox3_Copy3.IsChecked)
       {
         Base.SetValue("dbPath", "SQLiteDB_Path", Base.KegPath + "Keg.db");
-        Base.SetValue("dbPath", "LevelDB_Path", Base.KegPath + @"zj\\");
+        Base.SetValue("dbPath", "LevelDB_Path", Base.KegPath + @"zj\");
       }
       else
       {
-        Base.SetValue("dbPath", "SQLiteDbPath", @"C:\SiKegInput\Keg.db");
+        Base.SetValue("dbPath", "SQLiteDB_Path", @"C:\SiKegInput\Keg.db");
         Base.SetValue("dbPath", "LevelDB_Path", @"C:\SiKegInput\zj\");
       }
       SaveGlobalSettingJson();

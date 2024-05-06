@@ -29,7 +29,7 @@
                                     <class:ViewModel />
                                 </StackPanel.DataContext>
                                 <lvc:CartesianChart
-                                    Height="470"
+                                    Height="520"
                                     Series="{Binding Series}"
                                     XAxes="{Binding XAxes}"
                                     YAxes="{Binding YAxes}"

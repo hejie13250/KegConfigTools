@@ -304,27 +304,33 @@ namespace 小科狗配置.Page
           },
           new ()
           {
+            //Name = "速度",
+            //NameTextSize = 14,
+            //NamePaint = new SolidColorPaint(SKColors.Red),
             Position    = AxisPosition.End,
             LabelsPaint = new SolidColorPaint(SKColors.Red),
             TextSize    = 12,
             IsVisible   = sdCheckBox.IsChecked != null && (bool)sdCheckBox.IsChecked,
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-            {
-              StrokeThickness = 1,
-              // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
-            }
+            //SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+            //{
+            //  StrokeThickness = 1,
+            //  // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
+            //}
           },
           new ()
           {
+            //Name = "码长",
+            //NameTextSize = 14,
+            //NamePaint = new SolidColorPaint(SKColors.Blue),
             Position    = AxisPosition.End,
             LabelsPaint = new SolidColorPaint(SKColors.Blue),
             TextSize    = 12,
             IsVisible   = mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked,
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-            {
-              StrokeThickness = 1,
-              // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
-            }
+            //SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+            //{
+            //  StrokeThickness = 1,
+            //  // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
+            //}
           },
         }
       };

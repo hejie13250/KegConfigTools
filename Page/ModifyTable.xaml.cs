@@ -227,15 +227,15 @@ namespace 小科狗配置.Page
       if (sender is not ComboBox cb || cb.SelectedIndex == -1) return;
       _tableName = cb.SelectedValue as string;
       searchTextBox.Text = "";
-      if (dbCheckBox.IsChecked != null && (bool)dbCheckBox.IsChecked) 
+      if (dbCheckBox.IsChecked != null && (bool)dbCheckBox.IsChecked)
         _tableName2 = _tableName;
       else
         _tableName1 = _tableName;
-      删除表内所有空行并改空权重为零();         // 先删除空行
+      if(!删除表内所有空行并改空权重为零()) return;// 若有权限就删除空行
       获取数据();
-      stackPanel_2.IsEnabled    = true;
+      stackPanel_2.IsEnabled = true;
       fontComboBox.IsEnabled = true; //读取词条后才可以改字体
-      stackPanel_3.IsEnabled   = true; //读取词条后才可以翻页和搜索
+      stackPanel_3.IsEnabled = true; //读取词条后才可以翻页和搜索
     }
 
     // 改 ListView 的字体
@@ -640,7 +640,7 @@ namespace 小科狗配置.Page
     /// <summary>
     /// 删除表内所有 key 为 null 和 "" 的行
     /// </summary>
-    private void 删除表内所有空行并改空权重为零()
+    private bool 删除表内所有空行并改空权重为零()
     {
       using var connection = new SQLiteConnection($"Data Source={_dbPath}");
       connection.Open();
@@ -661,12 +661,10 @@ namespace 小科狗配置.Page
       }
       catch (Exception ex)
       {
-        MessageBox.Show($"操作出错: {ex.Message}");
+        MessageBox.Show($"没有权限访问 {_dbPath} ，请使用管理员身份运行");
+        return false;
       }
-      finally
-      {
-        connection.Close();
-      }
+      return true;
     }
     
     /// <summary>

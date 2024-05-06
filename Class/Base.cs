@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 
 namespace 小科狗配置.Class
 {
@@ -17,6 +19,7 @@ namespace 小科狗配置.Class
   {
     private static readonly string AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static           string KegPath;                        // 小科狗主程序目录
+    public static           string KegTextPath;
     public static           string SQLiteDB_Path;
     public static           string LevelDB_Path;
     public static           IntPtr hWnd;
@@ -132,7 +135,9 @@ namespace 小科狗配置.Class
             LevelDB_Path = @"C:\SiKegInput\zj\";
             break;
         }
-
+      if (KegPath.Contains("Program Files"))
+        KegTextPath = "C:\\SiKegInput\\Keg.txt";
+      else KegTextPath = KegPath + "Keg.txt";
     }
 
 

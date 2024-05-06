@@ -45,7 +45,7 @@ namespace 小科狗配置
       Base.GetKegPath();                                      // 获取小科狗主程序目录
 
       Width    = 930;
-      Height   = 800;
+      Height   = 850;
       frame1.Height = Height - 50;
       frame2.Height = Height - 50;
       frame3.Height = Height - 50;
