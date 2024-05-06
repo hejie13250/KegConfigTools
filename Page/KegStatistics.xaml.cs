@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LiveChartsCore;
+using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.Painting.Effects;
@@ -218,7 +219,7 @@ namespace 小科狗配置.Page
           {
               Values = 数据片段.击键,
               Name   = "击键（次）",
-              // Stroke = new SolidColorPaint(SKColors.Red),
+              Stroke = new SolidColorPaint(SKColors.Chartreuse),
               //Fill = null,
               GeometrySize = 0, //圆点尺寸
               //LineSmoothness = 0, // 0为直线，1为圆弧
@@ -229,7 +230,7 @@ namespace 小科狗配置.Page
           {
               Values = 数据片段.字数,
               Name   = "字数（个）",
-              // Stroke = new SolidColorPaint(SKColors.Red),
+              Stroke = new SolidColorPaint(SKColors.Orange),
               //Fill = null,
               GeometrySize = 0,
               IsVisible    = jjCheckBox.IsChecked != null && (bool)jjCheckBox.IsChecked
@@ -239,37 +240,39 @@ namespace 小科狗配置.Page
           {
               Values = 数据片段.上屏,
               Name   = "上屏（个）",
-              // Stroke = new SolidColorPaint(SKColors.Orange),
+              Stroke = new SolidColorPaint(SKColors.Yellow),
               //Fill = null,
               GeometrySize = 0,
               IsVisible    = spCheckBox.IsChecked != null && (bool)spCheckBox.IsChecked
           },
           new LineSeries<double>
           {
-              Values = 数据片段.时长,
-              Name   = "用时（秒）",
-              // Stroke = new SolidColorPaint(SKColors.Yellow),
-              //Fill = null,
-              GeometrySize = 0,
-              IsVisible    = scCheckBox.IsChecked != null && (bool)scCheckBox.IsChecked
+            Values = 数据片段.时长,
+            Name   = "用时（秒）",
+            Stroke = new SolidColorPaint(SKColors.Green),
+            //Fill = null,
+            GeometrySize = 0,
+            IsVisible    = scCheckBox.IsChecked != null && (bool)scCheckBox.IsChecked
           },
           new LineSeries<double>
           {
-              Values = 数据片段.速度,
-              Name   = "速度（字/分）",
-              // Stroke = new SolidColorPaint(SKColors.Green),
-              Fill = null,
-              GeometrySize = 7,
+              ScalesYAt    = 1,
+              Values       = 数据片段.速度,
+              Name         = "速度（字/分）",
+              Stroke       = new SolidColorPaint(SKColors.Red),
+              Fill         = null,
+              GeometrySize = 0,
               IsVisible    = sdCheckBox.IsChecked != null && (bool)sdCheckBox.IsChecked
           },
           new LineSeries<double>
           {
-              Values = 数据片段.码长,
-              Name   = "码长（码）",
-              // Stroke = new SolidColorPaint(SKColors.Blue),
-              Fill         = null,
-              GeometrySize = 7,
-              IsVisible    = mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked
+            ScalesYAt    = 2,
+            Values       = 数据片段.码长,
+            Name         = "码长（码）",
+            Stroke       = new SolidColorPaint(SKColors.Blue),
+            Fill         = null,
+            GeometrySize = 0,
+            IsVisible    = mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked
           }
         },
         XAxes = new Axis[]
@@ -298,10 +301,34 @@ namespace 小科狗配置.Page
               StrokeThickness = 1,
               PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
             }
-          }
+          },
+          new ()
+          {
+            Position    = AxisPosition.End,
+            LabelsPaint = new SolidColorPaint(SKColors.Red),
+            TextSize    = 12,
+            IsVisible   = sdCheckBox.IsChecked != null && (bool)sdCheckBox.IsChecked,
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+            {
+              StrokeThickness = 1,
+              // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
+            }
+          },
+          new ()
+          {
+            Position    = AxisPosition.End,
+            LabelsPaint = new SolidColorPaint(SKColors.Blue),
+            TextSize    = 12,
+            IsVisible   = mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked,
+            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+            {
+              StrokeThickness = 1,
+              // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
+            }
+          },
         }
       };
-
+      
       liveCharts.Series = _viewModel.Series;
       liveCharts.XAxes = _viewModel.XAxes;
       liveCharts.YAxes = _viewModel.YAxes;

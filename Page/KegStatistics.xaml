@@ -30,7 +30,6 @@
                                 </StackPanel.DataContext>
                                 <lvc:CartesianChart
                                     Height="470"
-                                    Margin="10,0,-35,0"
                                     Series="{Binding Series}"
                                     XAxes="{Binding XAxes}"
                                     YAxes="{Binding YAxes}"
