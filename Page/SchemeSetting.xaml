@@ -107,7 +107,6 @@
             <Grid>
               <StackPanel Orientation="Horizontal">
                 <Grid Margin="10,10,10,10" HorizontalAlignment="Left">
-
                   <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

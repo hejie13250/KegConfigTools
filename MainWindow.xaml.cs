@@ -44,7 +44,7 @@ namespace 小科狗配置
       title.Text = $"{title.Text} v {GetAssemblyVersion()}";  // 标题加上版本号
       Base.GetKegPath();                                      // 获取小科狗主程序目录
 
-      Width    = 930;
+      Width    = 950;
       Height   = 850;
       frame1.Height = Height - 50;
       frame2.Height = Height - 50;
