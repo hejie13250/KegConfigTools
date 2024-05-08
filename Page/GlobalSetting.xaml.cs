@@ -198,7 +198,7 @@ namespace 小科狗配置.Page
     // 显示颜色的 label 鼠标进入事件
     private void Color_label_MouseEnter(object sender, MouseEventArgs e)
     {
-      SolidColorBrush color1 = new((Color)ColorConverter.ConvertFromString("#FF000000")!); // 黑色
+      SolidColorBrush color1 = (SolidColorBrush)ddLabel.Foreground; //默认色
       SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000")!); // 红色
 
       color_Label_01.Foreground = color1;
@@ -238,7 +238,7 @@ namespace 小科狗配置.Page
     {
       var selectedFontName = SelectFontName();
       if (selectedFontName == null) return;
-      if (sender is Button { Name: "button3_Copy1" }) textBox_Copy24.Text = selectedFontName;
+      if (sender is Button) textBox_Copy24.Text = selectedFontName;
     }
 
     private static string SelectFontName()

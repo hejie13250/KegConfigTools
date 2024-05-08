@@ -285,7 +285,8 @@ namespace 小科狗配置.Page
             Labels         =  数据片段.日期,
             LabelsRotation = -30,
             // 颜色和线粗
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) { StrokeThickness = 1 },
+            SeparatorsPaint = null,
+            //SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) { StrokeThickness = 1 },
           }
         },
         YAxes = new Axis[]
@@ -296,11 +297,12 @@ namespace 小科狗配置.Page
             TextSize    = 12,
             // MinLimit    = 0,    // 设置 Y 轴的最小值为 0
             // MaxLimit    = null, // 设置为 null，以便自动调节最大值
-            SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-            {
-              StrokeThickness = 1,
-              PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
-            }
+            SeparatorsPaint = null,
+            //SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+            //{
+            //  StrokeThickness = 1,
+            //  PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
+            //}
           },
           new ()
           {
@@ -311,9 +313,10 @@ namespace 小科狗配置.Page
             LabelsPaint = new SolidColorPaint(SKColors.Red),
             TextSize    = 12,
             IsVisible   = sdCheckBox.IsChecked != null && (bool)sdCheckBox.IsChecked,
+            SeparatorsPaint = null,
             //SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
             //{
-            //  StrokeThickness = 1,
+            //  StrokeThickness = 0,
             //  // PathEffect      = new DashEffect(new float[] { 3, 8 }) //设为虚线，3和8为实线和留空大小
             //}
           },
@@ -326,6 +329,7 @@ namespace 小科狗配置.Page
             LabelsPaint = new SolidColorPaint(SKColors.Blue),
             TextSize    = 12,
             IsVisible   = mcCheckBox.IsChecked != null && (bool)mcCheckBox.IsChecked,
+            SeparatorsPaint = null,
             //SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
             //{
             //  StrokeThickness = 1,

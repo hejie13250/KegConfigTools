@@ -659,7 +659,7 @@ namespace 小科狗配置.Page
         if (deletedRows != 0) MessageBox.Show($"已删除 {deletedRows} 行空数据");
         if (updatedRows != 0) MessageBox.Show($"已将 {updatedRows} 行权重为空的数据改权重为 0");
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         MessageBox.Show($"没有权限访问 {_dbPath} ，请使用管理员身份运行");
         return false;

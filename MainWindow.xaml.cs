@@ -349,7 +349,25 @@ namespace 小科狗配置
 
     #endregion
 
+    private void ThemeToggle_Checked(object sender, RoutedEventArgs e)
+    {
+      SwitchTheme(true);
+    }
 
+    private void ThemeToggle_Unchecked(object sender, RoutedEventArgs e)
+    {
+      SwitchTheme(false);
+    }
+
+    public void SwitchTheme(bool isDark)
+    {
+      var res = Application.Current.Resources.MergedDictionaries;
+      var dictionary = new ResourceDictionary
+      {
+        Source = new Uri(isDark ? "./Resource/Dark.xaml" : "./Resource/Light.xaml", UriKind.Relative)
+      };
+      res[0] = dictionary;
+    }
 
   }
 }
