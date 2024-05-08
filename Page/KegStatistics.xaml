@@ -516,6 +516,7 @@
                   Height="auto"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
+                  Foreground="{DynamicResource TextForeground}"
                   Style="{DynamicResource RoundComboBox}">
                   <ComboBoxItem Content="15 天" />
                   <ComboBoxItem Content="30 天" />
