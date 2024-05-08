@@ -656,12 +656,6 @@
                   </Style.Triggers>
                 </Style>
               </ToggleButton.Style>
-              <Image
-                Width="28"
-                Height="28"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Source="{DynamicResource theme_light_dark}" />
             </ToggleButton>
           </StackPanel>
 
