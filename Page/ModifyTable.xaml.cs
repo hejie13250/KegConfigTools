@@ -22,6 +22,7 @@ using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using System.IO;
 using System.Text;
+using System.Globalization;
 
 namespace 小科狗配置.Page
 {
@@ -336,11 +337,19 @@ namespace 小科狗配置.Page
         ExportTableToCsv(_dbPath, _tableName, csvFilePath);
     }
 
-    #endregion
+    private void 事件_导出GB18030字集按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if(comboBox.SelectedIndex == -1) return;
+      var csvFilePath = GetCsvFilePathToExport();// 弹出文件对话框获取将要导出的 CSV 文件路径
 
-    #region 翻页控件事件
-    // 第一页
-    private void 事件_第一页按钮_Click(object sender, RoutedEventArgs e)
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ExportGB18030ToCsv(_dbPath, _tableName, csvFilePath);
+  }
+  #endregion
+
+  #region 翻页控件事件
+  // 第一页
+  private void 事件_第一页按钮_Click(object sender, RoutedEventArgs e)
     {
       if (_currentPage == 0 || searchTextBox.Text != "") return;
       if (_onlyReading)
@@ -1182,6 +1191,73 @@ namespace 小科狗配置.Page
 
       MessageBox.Show("导出表成功");
     }
+
+
+
+    private static void ExportGB18030ToCsv(string databasePath, string tableName, string csvFilePath)
+    {
+      var regex = new Regex(@"[\u4E00-\u9FFF]+"); // 正则表达式匹配任何中文字符
+      var connectionString = $"Data Source={databasePath};Version=3;";
+
+      // 使用SQLite连接器连接到数据库
+      using var connection = new SQLiteConnection(connectionString);
+      connection.Open();
+
+      string query = $"SELECT * FROM '{tableName}'";
+      using var command = new SQLiteCommand(query, connection);
+      using var reader = command.ExecuteReader();
+      if (reader.HasRows)
+      {
+        // 创建一个StreamWriter来写入CSV文件
+        using var writer = new StreamWriter(csvFilePath, false, Encoding.UTF8);
+        // 写入CSV文件的标题行（列名）
+        var headerBuilder = new StringBuilder();
+        for (var i = 0; i < reader.FieldCount; i++)
+        {
+          headerBuilder.Append($"\"{reader.GetName(i)}\"");
+          if (i < reader.FieldCount - 1)
+            headerBuilder.Append(",");
+        }
+        writer.WriteLine(headerBuilder.ToString());
+
+        // 逐行写入数据到CSV文件
+        while (reader.Read())
+        {
+          // 检查第二列的值是否为一个汉字且位于 GB18030 字集内
+          var value = reader.IsDBNull(1) ? "" : reader.GetValue(1).ToString();
+          if (regex.IsMatch(value))
+          {
+            // 检查weight列的值是否为字符串 "0"
+            var weight = reader.IsDBNull(2) ? "" : reader.GetValue(2).ToString();
+            if (weight != "0")
+            {
+              var dataBuilder = new StringBuilder();
+              for (var i = 0; i < reader.FieldCount; i++)
+              {
+                // 处理字段值中的特殊字符（如逗号、引号等）
+                value = reader.IsDBNull(i) ? "" : reader.GetValue(i).ToString();
+                value = value.Replace("\"", "\"\"");
+                value = $"\"{value}\"";
+                dataBuilder.Append(value);
+                if (i < reader.FieldCount - 1)
+                  dataBuilder.Append(",");
+              }
+              writer.WriteLine(dataBuilder.ToString());
+            }
+          }
+        }
+
+      }
+      else
+      {
+        MessageBox.Show("没有找到 GB18030 字集内的字");
+        return;
+      }
+
+      MessageBox.Show("导出表成功");
+
+    }
+
 
     #endregion
 

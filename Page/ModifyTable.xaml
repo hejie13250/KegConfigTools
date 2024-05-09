@@ -126,8 +126,20 @@
                       Source="{DynamicResource 导出}" />
                   </Button>
 
-
-
+                  <Button Width="24"
+                          Height="24"
+                          Margin="5,0,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          Click="事件_导出GB18030字集按钮_Click"
+                          Style="{DynamicResource RoundButton2}"
+                          ToolTip="导出当前表内位于 GB18030 字集且权重不为 0 的字到 CSV 文件">
+                    <Image Width="14"
+                           Height="14"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="{DynamicResource 导出}" />
+                  </Button>
 
 
 
