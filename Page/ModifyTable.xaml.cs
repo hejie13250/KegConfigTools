@@ -23,6 +23,7 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using System.Windows.Shapes;
 
 namespace 小科狗配置.Page
 {
@@ -160,9 +161,7 @@ namespace 小科狗配置.Page
       修改项值 = new ObservableCollection<ListViewDataItem>();
     }
     #endregion
-
-    #region SQLite码表修改
-
+    
     #region 控件事件
 
     #region 库切换控件事件
@@ -326,6 +325,7 @@ namespace 小科狗配置.Page
       // 导入CSV文件数据到新表
       if (!string.IsNullOrEmpty(csvFilePath))
         ImportCsvToTable(_dbPath, newTableName, csvFilePath);
+      comboBox.Items.Add(newTableName);
     }
 
     private void 事件_导出表按钮_Click(object sender, RoutedEventArgs e)
@@ -340,16 +340,45 @@ namespace 小科狗配置.Page
     private void 事件_导出GB18030字集按钮_Click(object sender, RoutedEventArgs e)
     {
       if(comboBox.SelectedIndex == -1) return;
-      var csvFilePath = GetCsvFilePathToExport();// 弹出文件对话框获取将要导出的 CSV 文件路径
+      var csvFilePath = GetCsvFilePathToExport();
 
       if (!string.IsNullOrEmpty(csvFilePath))
-        ExportGB18030ToCsv(_dbPath, _tableName, csvFilePath);
-  }
-  #endregion
+        ExportGb18030ToCsv(_dbPath, _tableName, csvFilePath);
+    }
 
-  #region 翻页控件事件
-  // 第一页
-  private void 事件_第一页按钮_Click(object sender, RoutedEventArgs e)
+    private void 事件_导出选中行按钮_Click(object sender, RoutedEventArgs e)
+    {
+      if (comboBox.SelectedIndex == -1) return;
+      var csvFilePath = GetCsvFilePathToExport();
+
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ExporSelectowsToCsv(csvFilePath);
+    }
+
+    private void 事件_导入到当前表按钮_Click(object sender, RoutedEventArgs e)
+    {
+       if(comboBox.SelectedIndex == -1) return;
+
+      // 使用文件对话框获取要导入的CSV文件路径
+      var csvFilePath = GetCsvFilePathToImport();
+
+      // 导入CSV文件数据到新表
+      if (!string.IsNullOrEmpty(csvFilePath))
+        ImportCsvToTable(_dbPath, _tableName, csvFilePath);
+
+      var count = 获取表数据总行数(_tableName);
+      _pageCount = count / _pageLen;
+      countTextBox.Text = $"词条数：{count}";
+      pageTextBox.Text = $"{_currentPage}/{_pageCount}";
+
+      var dataTable = 从表内指定行开始获取指定行数的数据(_currentPage * _pageLen, _pageLen);
+      数据填充到列表(dataTable);
+    }
+    #endregion
+
+    #region 翻页控件事件
+    // 第一页
+    private void 事件_第一页按钮_Click(object sender, RoutedEventArgs e)
     {
       if (_currentPage == 0 || searchTextBox.Text != "") return;
       if (_onlyReading)
@@ -1108,7 +1137,6 @@ namespace 小科狗配置.Page
         }
         transaction.Commit();  // 提交剩余的数据行
         MessageBox.Show("数据导入成功");
-        comboBox.Items.Add(tableName);
       }
       catch (Exception ex)
       {
@@ -1194,7 +1222,7 @@ namespace 小科狗配置.Page
 
 
 
-    private static void ExportGB18030ToCsv(string databasePath, string tableName, string csvFilePath)
+    private static void ExportGb18030ToCsv(string databasePath, string tableName, string csvFilePath)
     {
       var regex = new Regex(@"[\u4E00-\u9FFF]+"); // 正则表达式匹配任何中文字符
       var connectionString = $"Data Source={databasePath};Version=3;";
@@ -1256,6 +1284,30 @@ namespace 小科狗配置.Page
 
       MessageBox.Show("导出表成功");
 
+    }
+
+    private void ExporSelectowsToCsv(string csvFilePath)
+    {
+
+      if (listView.SelectedItems.Count == 0) return;
+
+      var csvContent = new StringBuilder();
+
+      // 获取表头
+      string headers = "key,value,weight,fc";
+      csvContent.AppendLine(headers);
+
+      // 遍历选中的项
+      foreach (ListViewDataItem item in listView.SelectedItems)
+      {
+        var line = $"{item.Key},{item.Value},{item.Weight},{item.Fc}";
+        csvContent.AppendLine(line);
+      }
+
+      // 将生成的CSV内容写入文件
+      File.WriteAllText(csvFilePath, csvContent.ToString(), Encoding.UTF8);
+
+      MessageBox.Show("导出表成功");
     }
 
 
@@ -1338,20 +1390,6 @@ namespace 小科狗配置.Page
 
 
     #endregion
-
-    #endregion
-
-
-
-
-
-
-
-
-
-
-
-
 
   }
 }

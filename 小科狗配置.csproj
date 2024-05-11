@@ -108,6 +108,9 @@
     <Reference Include="HarfBuzzSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>packages\HarfBuzzSharp.7.3.0\lib\net462\HarfBuzzSharp.dll</HintPath>
     </Reference>
+    <Reference Include="LevelDB.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+      <HintPath>packages\LevelDB.Net.1.2.1\lib\net40\LevelDB.Net.dll</HintPath>
+    </Reference>
     <Reference Include="LiveChartsCore, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc92a3e13d40c573, processorArchitecture=MSIL">
       <HintPath>packages\LiveChartsCore.2.0.0-rc2\lib\netstandard2.0\LiveChartsCore.dll</HintPath>
     </Reference>
@@ -315,6 +318,7 @@
     <Compile Include="Contorl\DoubleNumericUpDown.xaml.cs">
       <DependentUpon>DoubleNumericUpDown.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomCheckBox.cs" />
     <Compile Include="DialogBox\ReNameDialogBox.xaml.cs">
       <DependentUpon>ReNameDialogBox.xaml</DependentUpon>
     </Compile>

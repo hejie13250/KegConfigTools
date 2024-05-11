@@ -33,7 +33,7 @@ namespace 小科狗配置
     };
     private readonly string[] _帮助页面 = { "关于", "全局设置说明" };
     private readonly string[] _打字统计 = { "曲线图", "今日和累计数据" };
-    private readonly string[] _码表设置 = { "SQLite码表修改" };
+    private readonly string[] _码表设置 = { "码表修改" };
 
     #region 初始化
     public MainWindow()
@@ -66,8 +66,8 @@ namespace 小科狗配置
     private string GetAssemblyVersion()
     {
       var assembly = Assembly.GetExecutingAssembly();
-      var  version  = assembly.GetName().Version;
-      return   version.ToString().Substring(0, 5);
+      var  version  = assembly.GetName().Version.ToString();
+      return   version.Substring(0, version.Length - 2);
     }
     #endregion
 

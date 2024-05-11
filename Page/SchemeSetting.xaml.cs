@@ -165,8 +165,18 @@ namespace 小科狗配置.Page
       apply_Save_Button.Visibility        = Visibility.Visible;
       apply_All_Button.Visibility         = Visibility.Visible;
       comboBox.Visibility                 = Visibility.Visible;
+      stackPanel4.IsEnabled               = true;
     }
 
+    private void 事件_导入选中方案配置_按钮_Click(object sender, RoutedEventArgs e)
+    { 
+      if(comboBox.SelectedIndex == -1) return;
+      var tempLabelName = comboBox4.SelectedValue as string;
+      var tempConfig = GetConfig(tempLabelName);
+      _modifiedConfig = Regex.Replace(tempConfig, $"方案：<{tempLabelName}>", $"方案：<.*?>");
+      SetControlsValue(_modifiedConfig);
+    }
+    
     private void LoadTableNames()
     {
       try
@@ -186,6 +196,7 @@ namespace 小科狗配置.Page
 
       // 将每行作为一个项添加到ComboBox中
       comboBox.Items.Clear();
+      comboBox4.Items.Clear();
       fcfaComboBox1.Items.Clear();
       fcfaComboBox2.Items.Clear();
       lsmbComboBox  .Items.Clear();
@@ -208,6 +219,7 @@ namespace 小科狗配置.Page
       foreach (var line in lines)
       {
         comboBox.Items.Add(line);
+        comboBox4.Items.Add(line);
         fcfaComboBox1.Items.Add(line);
         fcfaComboBox2.Items.Add(line);
         lsmbComboBox  .Items.Add(line);
@@ -264,17 +276,15 @@ namespace 小科狗配置.Page
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       _labelName = comboBox.SelectedValue as string;
-
-
       _currentConfig = GetConfig(_labelName);
-      SetControlsValue();
+      SetControlsValue(_currentConfig);
     }
 
     // 加载默认设置
     private void Restor_default_button_Click(object sender, RoutedEventArgs e)
     {
       _currentConfig = GetConfig(_labelName);
-      SetControlsValue();
+      SetControlsValue(_currentConfig);
     }
 
     // 加载默认模板
@@ -294,7 +304,7 @@ namespace 小科狗配置.Page
         Base.SendMessageTimeout(Base.KwmGetdef);
         var str = Clipboard.GetText();
         _currentConfig = Regex.Replace(str, "方案：<>配置", $"方案：<{_labelName}>配置");
-        SetControlsValue();
+        SetControlsValue(_currentConfig);
 
         _modifiedConfig = _currentConfig;
         checkBox_Copy25.IsChecked = true;
@@ -414,10 +424,10 @@ namespace 小科狗配置.Page
     }
 
     // 读取配置值到控件
-    private void SetControlsValue()
+    private void SetControlsValue(string config)
     {
       var pattern = "《(.*=?.*)=(.*)》";
-      var matches = Regex.Matches(_currentConfig, pattern);
+      var matches = Regex.Matches(config, pattern);
       foreach (Match match in matches)
       {
         var value = match.Groups[2].Value;
@@ -429,7 +439,7 @@ namespace 小科狗配置.Page
       }
 
       pattern = "《(.*?)=(.*)》";
-      matches = Regex.Matches(_currentConfig, pattern);
+      matches = Regex.Matches(config, pattern);
       foreach (Match match in matches)
       {
         var value = match.Groups[2].Value;
