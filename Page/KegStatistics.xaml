@@ -404,38 +404,38 @@
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   IsChecked="False"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                  Style="{DynamicResource CheckBoxStyle}" Height="20" />
                 <CheckBox
                   x:Name="jjCheckBox"
                   Grid.Row="2"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                  Style="{DynamicResource CheckBoxStyle}" Height="20" />
                 <CheckBox
                   x:Name="spCheckBox"
                   Grid.Row="3"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                  Style="{DynamicResource CheckBoxStyle}" Height="20" />
                 <CheckBox
                   x:Name="scCheckBox"
                   Grid.Row="4"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                  Style="{DynamicResource CheckBoxStyle}" Height="20" />
                 <CheckBox
                   x:Name="sdCheckBox"
                   Grid.Row="5"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                  Style="{DynamicResource CheckBoxStyle}" Height="20" />
                 <CheckBox
                   x:Name="mcCheckBox"
                   Grid.Row="6"
                   Grid.Column="7"
                   HorizontalAlignment="Left"
-                  Style="{DynamicResource CheckBoxStyle}" />
+                  Style="{DynamicResource CheckBoxStyle}" Height="20" />
 
 
 
@@ -499,7 +499,6 @@
                   Grid.Row="2"
                   Grid.Column="10"
                   Width="62"
-                  Margin="0,0,-5,0"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Panel.ZIndex="25"
@@ -513,11 +512,11 @@
                   Grid.RowSpan="2"
                   Grid.Column="10"
                   Width="70"
-                  Height="auto"
+                  Height="NaN"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Foreground="{DynamicResource TextForeground}"
-                  Style="{DynamicResource RoundComboBox}">
+                  Style="{DynamicResource RoundComboBox}" Margin="0,2,0,0">
                   <ComboBoxItem Content="15 天" />
                   <ComboBoxItem Content="30 天" />
                   <ComboBoxItem Content="60 天" />

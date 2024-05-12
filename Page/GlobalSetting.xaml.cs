@@ -96,6 +96,9 @@ namespace 小科狗配置.Page
       public int 提示文本字体大小 { get; set; }
       public string 提示文本字体名称 { get; set; }
       public bool 要启用深夜锁屏吗 { get; set; }
+      public int 深夜锁屏起始点 { get; set; }
+      public int 深夜锁屏结束点 { get; set; }
+      public string 深夜锁屏解锁密码前缀 { get; set; }
       public bool 提示文本要显示中英以及大小写状态吗 { get; set; }
       public bool 快键只在候选窗口显示情况下才起作用吗 { get; set; }
       public bool 打字字数统计等数据是要保存在主程文件夹下吗 { get; set; }
@@ -198,22 +201,19 @@ namespace 小科狗配置.Page
     // 显示颜色的 label 鼠标进入事件
     private void Color_label_MouseEnter(object sender, MouseEventArgs e)
     {
-      SolidColorBrush color1 = (SolidColorBrush)ddLabel.Foreground; //默认色
-      SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000")!); // 红色
-
-      color_Label_01.Foreground = color1;
-      color_Label_02.Foreground = color1;
+      color_Label_01.Visibility = Visibility.Hidden;
+      color_Label_02.Visibility = Visibility.Hidden;
 
       if (sender is not Label label) return;
       switch (label.Name)
       {
         case "color_Label_1":
           _selectColorLabelNum    = 1;
-          color_Label_01.Foreground = color2;
+          color_Label_01.Visibility = Visibility.Visible;
           break;
         case "color_Label_2":
           _selectColorLabelNum    = 2;
-          color_Label_02.Foreground = color2;
+          color_Label_02.Visibility = Visibility.Visible;
           break;
       }
 
@@ -377,6 +377,9 @@ namespace 小科狗配置.Page
       kegText += $"《打字字数统计等数据是要保存在主程文件夹下吗？={是或不是(checkBox3_Copy3.IsChecked != null && (bool)checkBox3_Copy3.IsChecked)}》\n";
       kegText += $"《快键只在候选窗口显示情况下才起作用吗？={是或不是(checkBox3_Copy2.IsChecked != null && (bool)checkBox3_Copy2.IsChecked)}》\n";
       kegText += $"《要启用深夜锁屏吗？={要或不要(checkBox3_Copy4.IsChecked != null && (bool)checkBox3_Copy4.IsChecked)}》\n";
+      kegText += $"《深夜锁屏起始点={nud1.Value}》\n";
+      kegText += $"《深夜锁屏结束点={nud2.Value}》\n";
+      kegText += $"《深夜锁屏解锁密码前缀={mmTextBox.Text}》\n";
 
       kegText += "\n在线查找\n";
       kegText =  查找列表.Where(item => item.Enable).Aggregate(kegText, (current, item)
@@ -483,7 +486,7 @@ namespace 小科狗配置.Page
     {
       var    kegText = File.ReadAllText(kegFilePath);
 
-      var pattern =  "《(提示文本.*?)|(打字字数统.*?)|(快键只在候.*?)|(要启用深夜.*?)=(.*)》";
+      var pattern = "《(提示文本.*?)|(打字字数统.*?)|(快键只在候.*?)|(要启用深夜.*?)=(.*)|(深夜锁屏.*?)=(.*)》";
       var    matches = Regex.Matches(kegText, pattern);
       foreach (Match match in matches)
       {
@@ -500,6 +503,9 @@ namespace 小科狗配置.Page
           case "打字字数统计等数据是要保存在主程文件夹下吗？": checkBox3_Copy3.IsChecked = IsTrueOrFalse(value); break;
           case "快键只在候选窗口显示情况下才起作用吗？": checkBox3_Copy2.IsChecked = IsTrueOrFalse(value); break;
           case "要启用深夜锁屏吗？": checkBox3_Copy4.IsChecked = IsTrueOrFalse(value); break;
+          case "深夜锁屏起始点": nud1.Value = int.Parse(value); break;
+          case "深夜锁屏结束点": nud2.Value = int.Parse(value); break;
+          case "深夜锁屏解锁密码前缀": mmTextBox.Text = value; break;
         }
       }
 
@@ -510,7 +516,7 @@ namespace 小科狗配置.Page
         var item = new 列表项
         {
           Enable = true,
-          Name = match.Groups[1].Value,
+          Name  = match.Groups[1].Value,
           Value = match.Groups[2].Value,
           Cmd = "",
         };
@@ -642,14 +648,17 @@ namespace 小科狗配置.Page
       {
         提示文本字体大小              = nud23.Value,
         提示文本字体名称              = textBox_Copy24.Text,
-        提示文本的位置               = 取提示文本的位置(),
+        提示文本的位置                = 取提示文本的位置(),
         提示文本要隐藏吗              = checkBox3_Copy.IsChecked  != null && (bool)checkBox3_Copy.IsChecked,
         提示文本要显示中英以及大小写状态吗     = checkBox3_Copy1.IsChecked != null && (bool)checkBox3_Copy1.IsChecked,
         打字字数统计等数据是要保存在主程文件夹下吗 = checkBox3_Copy3.IsChecked != null && (bool)checkBox3_Copy3.IsChecked,
         快键只在候选窗口显示情况下才起作用吗    = checkBox3_Copy2.IsChecked != null && (bool)checkBox3_Copy2.IsChecked,
         要启用深夜锁屏吗              = checkBox3_Copy4.IsChecked != null && (bool)checkBox3_Copy4.IsChecked,
-        提示文本中文字体色             = RemoveChars(color_Label_1.Background.ToString(), 2),
-        提示文本英文字体色             = RemoveChars(color_Label_2.Background.ToString(), 2),
+        深夜锁屏起始点                = nud1.Value,
+        深夜锁屏结束点                = nud1.Value,
+        深夜锁屏解锁密码前缀          = mmTextBox.Text,
+        提示文本中文字体色            = RemoveChars(color_Label_1.Background.ToString(), 2),
+        提示文本英文字体色            = RemoveChars(color_Label_2.Background.ToString(), 2),
       };
 
       _全局设置 = new()
@@ -703,6 +712,9 @@ namespace 小科狗配置.Page
         checkBox3_Copy1.IsChecked = 设置项.提示文本要显示中英以及大小写状态吗;
         checkBox3_Copy2.IsChecked = 设置项.快键只在候选窗口显示情况下才起作用吗;
         checkBox3_Copy3.IsChecked = 设置项.打字字数统计等数据是要保存在主程文件夹下吗;
+        nud1.Value                = 设置项.深夜锁屏起始点;
+        nud2.Value                = 设置项.深夜锁屏结束点;
+        mmTextBox.Text            = 设置项.深夜锁屏解锁密码前缀;
         color_Label_1.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本中文字体色)!);
         color_Label_2.Background  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(设置项.提示文本英文字体色)!);
       }
@@ -762,10 +774,9 @@ namespace 小科狗配置.Page
 
     private void HotKeyControl_HotKeyPressed(object sender, RoutedEventArgs e)
     {
-      var hotKeyControl = sender as HotKeyControl;
       var dataItem = GetDataItem(sender);
       if (dataItem is not 列表项 listitem) return;
-      if (hotKeyControl != null)
+      if (sender is HotKeyControl hotKeyControl)
         listitem.Value = hotKeyControl.HotKey;
     }
     private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)
@@ -858,8 +869,7 @@ namespace 小科狗配置.Page
     // 列表项删除按钮通过 Tag 来判定
     private void DelButton_Click(object sender, RoutedEventArgs e)
     {
-      var button = sender as Button;
-      if (button == null) return;
+      if (sender is not Button button) return;
 
       var dataItem = GetDataItem(sender);
       if (dataItem is not 列表项 listitem) return;

@@ -9,7 +9,7 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="./Resource/Light.xaml" />
-
+        <ResourceDictionary Source="./Resource/Default.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <system:String x:Key="TextBoxText1" xml:space="preserve">小科狗是纯TSF架构的输入法平台，专为win系统打造，融合了小狼毫、影子和大科狗等的特点。在此特别感谢小狼毫与影子平台的开发者。

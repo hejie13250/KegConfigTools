@@ -511,7 +511,7 @@ namespace 小科狗配置.Page
       }
       // 撤消添加项
       var itemsToRemove = listView.SelectedItems.Cast<ListViewDataItem>().Where(item => item.IsAdd).Cast<object>().ToList();
-      foreach (ListViewDataItem item in itemsToRemove)
+      foreach (ListViewDataItem item in itemsToRemove.Cast<ListViewDataItem>())
         ListViewData.Remove(item);
 
       // 撤消删除项
@@ -537,7 +537,7 @@ namespace 小科狗配置.Page
           itemsToRemove.Add(item2);
         }
       }
-      foreach (ListViewDataItem item in itemsToRemove)
+      foreach (ListViewDataItem item in itemsToRemove.Cast<ListViewDataItem>())
         要修改项.Remove(item);
 
       if(要删除项.Count ==0 && 要添加项.Count == 0 && 要修改项.Count == 0)
@@ -898,40 +898,40 @@ namespace 小科狗配置.Page
 
     private void 删除数据行(SQLiteConnection con, string key, string value)
     {
-      var command = new SQLiteCommand(con);
-      command.CommandText = $"DELETE FROM '{_tableName}' WHERE key = @key AND value = @value";
+      var command = new SQLiteCommand(con)
+      {
+        CommandText = $"DELETE FROM '{_tableName}' WHERE key = @key AND value = @value"
+      };
       command.Parameters.AddWithValue("@key",   key);
       command.Parameters.AddWithValue("@value", value);
-
-      // command.Prepare();
       command.ExecuteNonQuery();
     }
 
     private void 添加数据行(SQLiteConnection con, string key, string value, int weight, string fc)
     {
-      var command = new SQLiteCommand(con);
-      command.CommandText     = $"INSERT INTO '{_tableName}'(key, value, weight, fc) VALUES(@key,@value,@weight,@fc)";
+      var command = new SQLiteCommand(con)
+      {
+        CommandText = $"INSERT INTO '{_tableName}'(key, value, weight, fc) VALUES(@key,@value,@weight,@fc)"
+      };
       command.Parameters.AddWithValue("@key",    key);
       command.Parameters.AddWithValue("@value",  value);
       command.Parameters.AddWithValue("@weight", weight);
       command.Parameters.AddWithValue("@fc",     fc);
-
-      // command.Prepare();
       command.ExecuteNonQuery();
     }
 
     private void 修改数据行(SQLiteConnection con, string key, string value, int weight, string fc, string oldKey, string oldValue)
     {
-      var command = new SQLiteCommand(con);
-      command.CommandText = $"UPDATE '{_tableName}' SET key=@key, value=@value, weight=@weight, fc=@fc WHERE key=@oldKey AND value=@oldValue";
+      var command = new SQLiteCommand(con)
+      {
+        CommandText = $"UPDATE '{_tableName}' SET key=@key, value=@value, weight=@weight, fc=@fc WHERE key=@oldKey AND value=@oldValue"
+      };
       command.Parameters.AddWithValue("@key",      key);
       command.Parameters.AddWithValue("@value",    value);
       command.Parameters.AddWithValue("@weight",   weight);
       command.Parameters.AddWithValue("@fc",       fc);
       command.Parameters.AddWithValue("@oldKey",   oldKey);
       command.Parameters.AddWithValue("@oldValue", oldValue);
-
-      // command.Prepare();
       command.ExecuteNonQuery();
     }
 

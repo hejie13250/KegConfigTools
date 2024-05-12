@@ -119,7 +119,24 @@ namespace 小科狗配置.Class
     {
       hWnd = FindWindow("CKegServer_0", null); //窗口句柄
 
-      GetProcessPathFormServer();
+      try
+      {
+        SendMessageTimeout(KwmGetpath);
+        Thread.Sleep(200);
+        KegPath = Clipboard.GetText();
+        SetValue("window", "keg_path", KegPath);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show($"操作失败，请重试！");
+        Console.WriteLine(ex.Message);
+        ((App)Application.Current).Exit();
+      }
+
+      if (KegPath.StartsWith("c:") || KegPath.StartsWith("C:"))
+        KegTextPath = "C:\\SiKegInput\\Keg.txt";
+      else KegTextPath = KegPath + "Keg.txt";
+
       var kegText = File.ReadAllText(KegPath + "Keg.txt");
       const string pattern = "《打字字数统.*?=(.*)》";
       var          matches = Regex.Matches(kegText, pattern);
@@ -135,9 +152,6 @@ namespace 小科狗配置.Class
             LevelDB_Path = @"C:\SiKegInput\zj\";
             break;
         }
-      if (KegPath.Contains("Program Files"))
-        KegTextPath = "C:\\SiKegInput\\Keg.txt";
-      else KegTextPath = KegPath + "Keg.txt";
     }
 
 
@@ -149,29 +163,6 @@ namespace 小科狗配置.Class
     //   SetValue("window", "keg_path", path);
     //   return path;
     // }
-
-    private static void GetProcessPathFormServer()
-    {
-      try
-      {
-        SendMessageTimeout(KwmGetpath);
-        Thread.Sleep(200);
-        KegPath = Clipboard.GetText();
-        SetValue("window", "keg_path", KegPath);
-      }
-      catch (Exception ex)
-      {
-        MessageBox.Show($"操作失败，请重试！");
-        Console.WriteLine(ex.Message);
-        ((App)Application.Current).Exit();
-      }
-    }
-
-
-
-
-
-
 
   }
 }

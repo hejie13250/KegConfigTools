@@ -127,51 +127,73 @@
                   Content="显示中英以及大小写状态："
                   Foreground="{DynamicResource TextForeground}" />
                 <Label
-                  x:Name="color_Label_01"
                   Grid.Row="4"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="提示文本中文字体色："
                   Foreground="{DynamicResource TextForeground}" />
                 <Label
-                  x:Name="color_Label_02"
                   Grid.Row="5"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="提示文本英文字体色："
                   Foreground="{DynamicResource TextForeground}" />
-                <Label
-                  x:Name="color_Label_1"
+                <StackPanel
                   Grid.Row="4"
                   Grid.Column="1"
-                  Width="50"
-                  Height="22"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Background="Black"
-                  BorderBrush="Black"
-                  BorderThickness="1,1,1,1"
-                  Foreground="{DynamicResource TextForeground}"
-                  MouseEnter="Color_label_MouseEnter"
-                  MouseLeave="Color_label_MouseLeave"
-                  Style="{DynamicResource RoundedLabel}"
-                  Tag="" />
-                <Label
-                  x:Name="color_Label_2"
+                  Orientation="Horizontal">
+                  <Label
+                    x:Name="color_Label_1"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="Black"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    Foreground="{DynamicResource TextForeground}"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{DynamicResource RoundedLabel}" />
+                  <Label
+                    x:Name="color_Label_01"
+                    Width="10"
+                    Height="10"
+                    Margin="1,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FFFF0000"
+                    Style="{DynamicResource RoundedLabel}"
+                    Visibility="Hidden" />
+                </StackPanel>
+                <StackPanel
                   Grid.Row="5"
                   Grid.Column="1"
-                  Width="50"
-                  Height="22"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Background="#FFFF0000"
-                  BorderBrush="Black"
-                  BorderThickness="1,1,1,1"
-                  Foreground="{DynamicResource TextForeground}"
-                  MouseEnter="Color_label_MouseEnter"
-                  MouseLeave="Color_label_MouseLeave"
-                  Style="{DynamicResource RoundedLabel}"
-                  Tag="" />
+                  Orientation="Horizontal">
+                  <Label
+                    x:Name="color_Label_2"
+                    Width="50"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FFFF0000"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,1,1"
+                    Foreground="{DynamicResource TextForeground}"
+                    MouseEnter="Color_label_MouseEnter"
+                    MouseLeave="Color_label_MouseLeave"
+                    Style="{DynamicResource RoundedLabel}" />
+                  <Label
+                    x:Name="color_Label_02"
+                    Width="10"
+                    Height="10"
+                    Margin="1,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#FFFF0000"
+                    Style="{DynamicResource RoundedLabel}"
+                    Visibility="Hidden" />
+                </StackPanel>
                 <Label
                   Grid.Row="6"
                   HorizontalAlignment="Left"
@@ -1017,13 +1039,52 @@
                 VerticalAlignment="Center"
                 IsChecked="True"
                 Style="{DynamicResource CheckBoxStyle}" />
-              <Label
-                x:Name="label23_Copy160"
-                Grid.Row="2"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="启用深夜锁屏（22点-次日8点之间锁屏）："
-                Foreground="{DynamicResource TextForeground}" />
+              <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Label
+                  x:Name="label23_Copy160"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Content="自动锁屏时间段和密码前缀："
+                  Foreground="{DynamicResource TextForeground}" />
+                <StackPanel Orientation="Horizontal">
+                  <local:NumericUpDown
+                    x:Name="nud1"
+                    Width="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    MaxValue="23"
+                    MinValue="13"
+                    ToolTip="自动锁屏开始时间 - 小时"
+                    Value="20" />
+                  <Label
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content=" - "
+                    Foreground="{DynamicResource TextForeground}" />
+                  <local:NumericUpDown
+                    x:Name="nud2"
+                    Width="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    MaxValue="12"
+                    MinValue="0"
+                    ToolTip="自动锁屏结束时间 - 小时"
+                    Value="7" />
+                  <TextBox
+                    x:Name="mmTextBox"
+                    Width="100"
+                    Height="24"
+                    Margin="10,0,0,0"
+                    Padding="0,0,0,0"
+                    Foreground="{DynamicResource TextForeground}"
+                    Style="{DynamicResource RoundTextBox}"
+                    Tag="密码前缀"
+                    TextWrapping="Wrap"
+                    ToolTip="解锁密码为：前缀+时间后缀，默认前缀是wjh，也可自定义。例如早上7:25分解锁，后缀即为0725，密码则是：wjh0725" />
+                </StackPanel>
+
+              </StackPanel>
+
               <CheckBox
                 x:Name="checkBox3_Copy4"
                 Grid.Row="2"

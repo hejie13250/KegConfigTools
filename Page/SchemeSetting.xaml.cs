@@ -91,7 +91,7 @@ namespace 小科狗配置.Page
     #endregion
 
     #region 全局变量定义
-    SolidColorBrush _bkColor = new((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);  // 候选框无背景色时的值
+    //SolidColorBrush _bkColor = new((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);  // 候选框无背景色时的值
 
     private  readonly  string _appPath        = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     private   readonly string _schemeFilePath;  // 配色方案.json"
@@ -581,13 +581,13 @@ namespace 小科狗配置.Page
       {
         hxcds_CheckBox.IsChecked = true;
         color_Label_5.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
-        _bkColor = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+        //_bkColor = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
       }
       else
       {
         hxcds_CheckBox.IsChecked = false;
         color_Label_5.Background = RgbStringToColor(value);
-        _bkColor = RgbStringToColor(value);
+        //_bkColor = RgbStringToColor(value);
       }
     }
 
@@ -1132,58 +1132,56 @@ namespace 小科狗配置.Page
     }
 
     // 显示颜色的 label 鼠标进入事件
-    private void color_label_MouseEnter(object sender, MouseEventArgs e)
+    private void Color_label_MouseEnter(object sender, MouseEventArgs e)
     {
-      SolidColorBrush color1 = (SolidColorBrush)ddLabel.Foreground; //默认色
-      SolidColorBrush color2 = new((Color)ColorConverter.ConvertFromString("#FFFF0000")!); // 红色
-      color_Label_001.Foreground = color1;
-      color_Label_002.Foreground = color1;
-      color_Label_003.Foreground = color1;
-      color_Label_004.Foreground = color1;
-      color_Label_005.Foreground = color1;
-      color_Label_006.Foreground = color1;
-      color_Label_007.Foreground = color1;
-      color_Label_008.Foreground = color1;
-      color_Label_009.Foreground = color1;
+      color_Label_001.Visibility = Visibility.Hidden;
+      color_Label_002.Visibility = Visibility.Hidden;
+      color_Label_003.Visibility = Visibility.Hidden;
+      color_Label_004.Visibility = Visibility.Hidden;
+      color_Label_005.Visibility = Visibility.Hidden;
+      color_Label_006.Visibility = Visibility.Hidden;
+      color_Label_007.Visibility = Visibility.Hidden;
+      color_Label_008.Visibility = Visibility.Hidden;
+      color_Label_009.Visibility = Visibility.Hidden;
 
       if (sender is not Label lb) return;
       switch (lb.Name)
       {
         case "color_Label_1":
           _selectColorLabelNum       = 1;
-          color_Label_001.Foreground = color2;
+          color_Label_001.Visibility = Visibility.Visible;
           break;
         case "color_Label_2":
           _selectColorLabelNum       = 2;
-          color_Label_002.Foreground = color2;
+          color_Label_002.Visibility = Visibility.Visible;
           break;
         case "color_Label_3":
           _selectColorLabelNum       = 3;
-          color_Label_003.Foreground = color2;
+          color_Label_003.Visibility = Visibility.Visible;
           break;
         case "color_Label_4":
           _selectColorLabelNum       = 4;
-          color_Label_004.Foreground = color2;
+          color_Label_004.Visibility = Visibility.Visible;
           break;
         case "color_Label_5":
           _selectColorLabelNum       = 5;
-          color_Label_005.Foreground = color2;
+          color_Label_005.Visibility = Visibility.Visible;
           break;
         case "color_Label_6":
           _selectColorLabelNum       = 6;
-          color_Label_006.Foreground = color2;
+          color_Label_006.Visibility = Visibility.Visible;
           break;
         case "color_Label_7":
           _selectColorLabelNum       = 7;
-          color_Label_007.Foreground = color2;
+          color_Label_007.Visibility = Visibility.Visible;
           break;
         case "color_Label_8":
           _selectColorLabelNum       = 8;
-          color_Label_008.Foreground = color2;
+          color_Label_008.Visibility = Visibility.Visible;
           break;
         case "color_Label_9":
           _selectColorLabelNum       = 9;
-          color_Label_009.Foreground = color2;
+          color_Label_009.Visibility = Visibility.Visible;
           break;
       }
 
@@ -1198,7 +1196,7 @@ namespace 小科狗配置.Page
     }
 
     // 显示颜色的 label 鼠标离开事件
-    private void color_label_MouseLeave(object sender, MouseEventArgs e)
+    private void Color_label_MouseLeave(object sender, MouseEventArgs e)
     {
       if (sender is Label label) label.BorderThickness = new Thickness(2);
     }
@@ -1231,13 +1229,13 @@ namespace 小科狗配置.Page
       if (schemeColor.窗背景底色 == "")
       {
         color_Label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
-        _bkColor                 = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
+        //_bkColor                 = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFFFF")!);
         hxcds_CheckBox.IsChecked = true;
       }
       else
       {
         color_Label_5.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
-        _bkColor                 = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
+        //_bkColor                 = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.窗背景底色)!);
         hxcds_CheckBox.IsChecked = false;
       }
       color_Label_6.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(schemeColor.选中背景色)!);
@@ -1490,15 +1488,15 @@ namespace 小科狗配置.Page
     private void Hxcds_checkBox_Checked(object sender, RoutedEventArgs e)
     {
       color_Label_5.Visibility = Visibility.Hidden;
-      _bkColor = (SolidColorBrush)color_Label_5.Background;
-      color_Label_005.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000")!);  // 黑色
-      _selectColorLabelNum = 0;
+      //_bkColor = (SolidColorBrush)color_Label_5.Background;
+      color_Label_005.Visibility = Visibility.Hidden;
+      //_selectColorLabelNum = 0;
     }
 
     private void Hxcds_checkBox_Unchecked(object sender, RoutedEventArgs e)
     {
       color_Label_5.Visibility = Visibility.Visible;
-      color_Label_5.Background = _bkColor;
+      color_Label_005.Visibility = _selectColorLabelNum == 5 ? Visibility.Visible : Visibility.Hidden;
     }
 
     #endregion
