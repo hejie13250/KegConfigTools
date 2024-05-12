@@ -22,8 +22,8 @@ using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using System.IO;
 using System.Text;
-using System.Globalization;
-using System.Windows.Shapes;
+using Newtonsoft.Json;
+using LevelDB;
 
 namespace 小科狗配置.Page
 {
@@ -138,15 +138,26 @@ namespace 小科狗配置.Page
     private ObservableCollection<ListViewDataItem> 要修改项 { get; set; }
     private ObservableCollection<ListViewDataItem> 修改项值 { get; set; }
 
-    private string _dbPath;      // 当前库路径
-    private string _tableName;   // 当前表名称
-    private string _otherDbPath; // 其它库路径
-    private string _tableName1;  // 主库的表名称
-    private string _tableName2;  // 其它库的表名称
+    private string _dbPath;      // 当前SQLite库路径
+    private string _tableName;   // 当前SQLite表名称
+    private string _otherDbPath; // 其它SQLite库路径
+    private string _tableName1;  // 主库SQLite的表名称
+    private string _tableName2;  // 其它SQLite库的表名称
+    private string _leveldbPath; // leveldbPath
     private int    _pageCount;   // 总页码
     private int    _currentPage; // 当前页码
     private int    _pageLen;     // 每页数据行数
     private bool   _onlyReading; // 编缉状态
+
+    // 定义用于 leveldb 反序列化和序列化的类
+    private class Record
+    {
+      public string key { get; set; }
+      public string value { get; set; }
+      public string weight { get; set; }
+      public string fc { get; set; }
+    }
+
 
     public ModifyTable()
     {
@@ -161,10 +172,17 @@ namespace 小科狗配置.Page
       修改项值 = new ObservableCollection<ListViewDataItem>();
     }
     #endregion
-    
+
     #region 控件事件
 
     #region 库切换控件事件
+
+    private void 数据库选择_RadioButtonClick(object sender, RoutedEventArgs e)
+    {
+      comboBox.Items.Clear();
+      从数据库文件获取表名();
+    }
+
 
     private void 事件_切换库按钮_Click(object sender, RoutedEventArgs e)
     {
@@ -226,12 +244,21 @@ namespace 小科狗配置.Page
     {
       if (sender is not ComboBox cb || cb.SelectedIndex == -1) return;
       _tableName = cb.SelectedValue as string;
-      searchTextBox.Text = "";
-      if (dbCheckBox.IsChecked != null && (bool)dbCheckBox.IsChecked)
-        _tableName2 = _tableName;
+
+      if (radioButton1.IsChecked != null && (bool)radioButton1.IsChecked)
+      {
+        searchTextBox.Text = "";
+        if (dbCheckBox.IsChecked != null && (bool)dbCheckBox.IsChecked)
+          _tableName2 = _tableName;
+        else
+          _tableName1 = _tableName;
+      }
       else
-        _tableName1 = _tableName;
-      if(!删除表内所有空行并改空权重为零()) return;// 若有权限就删除空行
+      {
+        _leveldbPath = Base.LevelDB_Path + _tableName;
+      }
+
+      if (!删除表内所有空行并改空权重为零()) return;// 若有权限就删除空行
       获取数据();
       stackPanel_2.IsEnabled = true;
       fontComboBox.IsEnabled = true; //读取词条后才可以改字体
@@ -680,6 +707,32 @@ namespace 小科狗配置.Page
     /// </summary>
     private bool 删除表内所有空行并改空权重为零()
     {
+      if (radioButton1.IsChecked != null && (bool)radioButton1.IsChecked)  //SQLiteDB
+        return SQLite_删除表内所有空行并改空权重为零();
+      // return LevelDb_删除表内所有空行并改空权重为零();
+      return Test();
+    }
+
+    private static bool Test()
+    {
+      var       path = Base.LevelDB_Path + "abd";
+      using var db   = DB.Open(path, new Options { CreateIfMissing = true });
+      // 写入数据
+      db.Put(new WriteOptions(),"hello", "world");
+      // 读取数据
+      if (db.TryGet(new ReadOptions(),"hello", out var value))
+      {
+        Console.WriteLine(value); // 输出 "world"
+      }
+      // 删除数据
+      db.Delete(new WriteOptions() { Sync = true },"hello");
+      return true;
+    }
+
+
+
+    private bool SQLite_删除表内所有空行并改空权重为零()
+    {
       using var connection = new SQLiteConnection($"Data Source={_dbPath}");
       connection.Open();
       try
@@ -704,33 +757,99 @@ namespace 小科狗配置.Page
       }
       return true;
     }
-    
+
+    private bool LevelDb_删除表内所有空行并改空权重为零()
+    {
+      // 打开 LevelDB 数据库
+      var db = DB.Open(_leveldbPath, new Options { CreateIfMissing = true });
+      // 创建 WriteBatch 实例
+      var batch = new WriteBatch();
+
+      try
+      {
+        // 遍历数据库中的所有键值对
+        using var iterator = db.NewIterator(new ReadOptions());
+        for (iterator.SeekToFirst(); iterator.Valid(); iterator.Next())
+        {
+          // 获取键和值
+          var key = iterator.Key();
+          var value = iterator.Value();
+
+          // 将 Slice 转换为字符串
+          var keyString = Encoding.UTF8.GetString(key.ToArray());
+          var valueString = Encoding.UTF8.GetString(value.ToArray());
+
+          // 反序列化存储的值
+          var data = JsonConvert.DeserializeObject<Record>(valueString);
+
+          // 进行数据的修改逻辑
+          if (string.IsNullOrWhiteSpace(data.weight))
+          {
+            data.weight = "0"; // 将权重设置为0
+            var modifiedValue = JsonConvert.SerializeObject(data);
+            batch.Put(Encoding.UTF8.GetBytes(keyString), Encoding.UTF8.GetBytes(modifiedValue)); // 更新修改后的值
+          }
+        }
+        // 提交批处理操作
+        db.Write(new WriteOptions(), batch);
+      }
+      catch
+      {
+        MessageBox.Show($"没有权限访问 {_dbPath} ，请使用管理员身份运行");
+        return false;
+      }
+      return true;
+    }
+
     /// <summary>
     /// 从 db 读取表名到 ComboBox
     /// </summary>
     private void 从数据库文件获取表名()
     {
-      SQLiteConnection connection = new ($"Data Source={_dbPath}");
-      connection.Open();
-      try
+      if(radioButton1.IsChecked != null && (bool)radioButton1.IsChecked)  //SQLiteDB
       {
-        using var command = new SQLiteCommand("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'", connection);
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
+        SQLiteConnection connection = new($"Data Source={_dbPath}");
+        connection.Open();
+        try
         {
-          var labelName = reader.GetString(0);
-          comboBox.Items.Add(labelName);
+          using var command = new SQLiteCommand("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'", connection);
+          using var reader = command.ExecuteReader();
+          while (reader.Read())
+          {
+            var labelName = reader.GetString(0);
+            comboBox.Items.Add(labelName);
+          }
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show($"获取表名出错: {ex.Message}");
+        }
+        finally
+        {
+          connection.Close();
         }
       }
-      catch (Exception ex)
+      else
       {
-        MessageBox.Show($"Error loading table names: {ex.Message}");
-      }
-      finally
-      {
-        connection.Close();
+        try
+        {
+          var directoryPath = Base.LevelDB_Path;
+          var folders = Directory.GetDirectories(directoryPath);
+
+          // 将文件夹名称添加到 ComboBox 中
+          foreach (var folder in folders)
+            comboBox.Items.Add(Path.GetFileName(folder));
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show($"获取表名出错: {ex.Message}");
+        }
       }
     }
+
+
+
+
 
     /// <summary>
     /// 获取表内词条总数

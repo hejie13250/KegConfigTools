@@ -112,12 +112,11 @@
         <StackPanel
           Grid.Column="1"
           HorizontalAlignment="Right"
-          VerticalAlignment="Bottom"
+          VerticalAlignment="Top"
           Orientation="Horizontal">
           <Button
             Width="45"
             Height="30"
-            HorizontalAlignment="Right"
             Background="Transparent"
             BorderThickness="0"
             Click="Button_Click_1"
@@ -126,7 +125,6 @@
           <Button
             Width="45"
             Height="30"
-            HorizontalAlignment="Right"
             Background="Transparent"
             BorderThickness="0"
             Click="Button_Click"
